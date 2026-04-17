@@ -1,0 +1,217 @@
+# New Plan Submission Package
+
+## Part 1 – CCCS Document
+
+> Complete one submission package per plan.
+
+### Employer / Plan Information
+- **Date of Last Update:** (Unclear in source)
+- **Employer Name:** (Unclear in source)
+- **Plan Name:** (Unclear in source)
+
+**Plan Type Options**
+- 401(k)
+- 401(k) MEP
+- 401(k) PEP
+- 401(k) Taft-Hartley
+- 401(a) Profit Sharing
+- 401(a) Money Purchase
+- 401(a) Taft-Hartley
+- 403(b) Plan (Exclusive / Non‑exclusive)
+- 403(b) MEP
+- 457(b) Tax Exempt
+- 457(b) Governmental
+- 457(f)
+- Corporate NQDC
+
+- **MEP / PEP Role:** Sponsor / Adopting Employer
+- **Account Number:** (Unclear in source)
+- **Web Portal Address:** (Unclear in source)
+- **Market Segmentation:** Large / Mega
+- **Publicly Traded Company:** Yes / No
+- **Stock Symbol (if applicable):** (Unclear in source)
+- **SSO Enabled:** Yes / No
+- **Plan Status:** Active / Frozen
+- **Frozen Date (if applicable):** (Unclear in source)
+- **Document Type:** Volume Submitter / IDP
+
+> Note: All 457(f) plans are IDP. Transamerica does not draft these documents.
+
+---
+
+### Plan Set‑Up Information
+- **Plan Effective Date:** (Unclear in source)
+- **Limited Access Period:** Start Date / End Date
+
+**Services Included**
+- Enrollments
+- Deferrals
+- Allocations
+- Beneficiary Data
+- Other: (Unclear in source)
+
+- **System Effective Date:** (Unclear in source)
+
+> System effective date should generally be one month prior to the plan effective date.
+
+- **Other TRS Plans Maintained by Employer:** Yes / No
+- **Related for Loan Limit Tracking:** Yes / No
+- **Aggregate Loans Across Plans:** Yes / No
+
+- **TPA PSD Access Setup:** Client / TRS / TPA
+
+---
+
+### Plan Contacts
+
+#### Trustee Information
+- N/A – 403(b)
+- State Street Bank & Trust (SSBT Passive Trust)
+- Self‑Trust
+- Other (Trust agreement required)
+
+- **Trust Name:** (Unclear in source)
+- **Contact Name:** (Unclear in source)
+- **Address / Phone / EIN:** (Unclear in source)
+
+- **Other Investments Outside SSBT:** Yes / No
+
+#### Custodial Agreement (403(b))
+- ERISA
+- Non‑ERISA (Church/Governmental)
+- Voluntary Non‑ERISA
+
+---
+
+### Contacts
+
+**Executive Contact**
+- Name / Title / Address / Phone / Email (Unclear in source)
+
+**Administrator Contact**
+- Name / Title / Address / Phone / Email (Unclear in source)
+
+**TPA Contact**
+- Name / Company / Title / Address / Phone / Email (Unclear in source)
+
+---
+
+### Advisor / Consultant
+- **Ongoing or Search Only**
+- **3(38) Investment Manager:** Yes / No
+- **PSD User ID Exists:** Yes / No
+
+---
+
+### Automatic Enrollment & Deferrals
+- **Automatic Enrollment:** Being Added / Existing
+- **Auto‑Increase Enabled:** Yes
+  - Increase Date: 01‑01
+
+> Auto‑increase should not be offered for NQDC or 457 plans.
+
+---
+
+### Language & Communication Services
+- Communications / Statements
+- Spanish Participant Web
+- Translation Services (additional charge)
+
+---
+
+### Portfolio & Advice Services
+
+**PortfolioXpress (PX)**
+- Lifetime / Retirement
+- Risk Preference Overlay
+
+**Custom PortfolioXpress / Custom Model Portfolios**
+- Fee: 5 bps or Other
+- Quarterly Rebalance Required for CMP
+
+**Advice Services**
+- Managed Advice (MA)
+- Advisor Managed Advice (AMA)
+
+---
+
+### Loans & Withdrawals
+- Online Withdrawals: Termination / In‑Service Only
+- Hardships Not Allowed Online
+- Loan PoG Options
+- Takeover Loans: Payroll / Coupon / EFT
+
+---
+
+### QDIA Strategy
+- Internal QDIA Meeting Required (if mapping)
+- Default Fund: (Unclear in source)
+- PX Re‑Enrollment / PX No Opt‑Out Options
+
+---
+
+### Payroll Setup
+
+**Payroll Type**
+- In‑House / Vendor
+
+**Payroll Summary**
+- Frequency: Weekly / Bi‑Weekly / Semi‑Monthly / Monthly
+- Submission Method: PSD / FTP
+- Funding Method: ACH / Wire
+- File Format: Excel / CSV
+
+---
+
+### Information Sharing (403(b))
+- Info Sharing Required: Yes / No
+- Aggregator: Transamerica READYSM
+- Loan & Hardship Aggregation Rules
+
+---
+
+### Conversion Strategy Overview
+
+**Prior Vendor Information**
+- Vendor Name
+- Contacts
+- Takeover Assets
+- Blackout Dates
+
+**Asset Transfer Strategy**
+- Plan Level Conversion
+- Participant Directed
+- Hybrid Strategy
+
+---
+
+### Case Transition Worksheet
+
+**Administrative Review**
+- Loans
+- Automatic Enrollment
+- Outsourcing Services
+- Information Sharing
+
+**Funds & Pricing**
+- Fixed Fund Arrangements
+- Pricing Confirmation
+
+---
+
+### Ongoing Administrative Services
+
+#### 457(b) / 457(f)
+- Eligibility
+- Deferrals
+- Vesting
+- Distributions
+- Tax Reporting
+
+#### Corporate NQDC
+- Enrollment
+- Deferral Tracking
+- Vesting
+- Distributions
+- Taxation
+

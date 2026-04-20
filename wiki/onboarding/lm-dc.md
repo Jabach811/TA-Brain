@@ -3,7 +3,7 @@ title: "Onboarding Guide: Large Market Data Consultant"
 type: onboarding
 tags: [onboarding, lm-dc, data-consultant, large-market]
 created: 2026-04-14
-updated: 2026-04-14
+updated: 2026-04-20
 sources: 1
 ---
 
@@ -35,41 +35,45 @@ New hires or transfers into the Large Market Data Consultant role. Also useful f
 
 9. **[[eds]]** — How files get validated and processed. Always read the output after every run.
 
-10. **[[prd]]** — The Plan Review Document. Understand what sections DC focuses on: eligibility, vesting, sources, classes.
+10. **[[census-data]]** — Participant data loading: what's required, how to validate it in EDS, audit checks, and when to use vendor data instead of client data. This is one of the first things you'll work on.
 
-11. **[[subpack]]** — The internal TA execution plan. Supposed to be complete by COM at the start. Know how to work without it when it's missing.
+11. **[[prd]]** — The Plan Review Document. Understand what sections DC focuses on: eligibility, vesting, sources, classes.
 
-12. **[[toa]]** — Transfer of Assets. Triggers the mapping phase. Know what column T means.
+12. **[[subpack]]** — The internal TA execution plan. Supposed to be complete by COM at the start. Know how to work without it when it's missing.
 
-13. **[[fund-mapping]]** — First mapping you build after TOA is signed. No test files needed.
+13. **[[toa]]** — Transfer of Assets. Triggers the mapping phase. Know what column T means.
 
-14. **[[source-mapping]]** — Second mapping. Requires test files. Needs AQT and EDS.
+14. **[[fund-mapping]]** — First mapping you build after TOA is signed. No test files needed.
 
-15. **[[prior-record-keeper]]** — How to work with the outgoing administrator: questionnaire, test files, wire coordination.
+15. **[[source-mapping]]** — Second mapping. Requires test files. Needs AQT and EDS.
 
-16. **[[wire-instructions]]** — Send early. Resend before liquidation. Know the default account.
+16. **[[prior-record-keeper]]** — How to work with the outgoing administrator: questionnaire, test files, wire coordination.
 
-17. **[[ftp-connection]]** — Payroll vendor file upload channel. Request this early — FTP team has a big queue.
+17. **[[wire-instructions]]** — Send early. Resend before liquidation. Know the default account.
 
-18. **[[fund-management-calendar]]** — Must be updated before 1 PM Pacific on any day trades go out. Missing this is a serious process failure. Know it before your first liquidation day.
+18. **[[ftp-connection]]** — Payroll vendor file upload channel. Request this early — FTP team has a big queue.
 
-19. **[[liquidation-day]]** — The main event. Read this multiple times. Understand the sequence for each conversion type.
+19. **[[fund-management-calendar]]** — Must be updated before 1 PM Pacific on any day trades go out. Missing this is a serious process failure. Know it before your first liquidation day.
 
-20. **[[dummy-participant]]** — Required for mapping conversions. Must exist before Day of Wire. SSN 999-00-0000.
+20. **[[liquidation-day]]** — The main event. Read this multiple times. Understand the sequence for each conversion type.
 
-21. **[[informatica]]** — Day of Wire and Participant Balance workflows. Day of Wire cannot be tested — understand why.
+21. **[[dummy-participant]]** — Required for mapping conversions. Must exist before Day of Wire. SSN 999-00-0000.
 
-22. **[[conv-file]]** — The input file for the Day of Wire workflow. Know its structure and how to build it before you're under liquidation-day pressure.
+22. **[[informatica]]** — Day of Wire and Participant Balance workflows. Day of Wire cannot be tested — understand why.
 
-23. **[[final-files-processing]]** — After liquidation: balances, YTD data, deferrals, eligibility. Order matters.
+23. **[[conv-file]]** — The input file for the Day of Wire workflow. Know its structure and how to build it before you're under liquidation-day pressure.
 
-24. **[[eligibility-and-deferrals]]** — Deferrals before eligibility. Always. No exceptions.
+24. **[[final-files-processing]]** — After liquidation: balances, YTD data, deferrals, eligibility. Order matters.
 
-25. **[[transfer-in-kind]]** — If you have a TIK plan, read this before you do anything with Matt O'Connell.
+25. **[[loading-basis-eds]]** — Basis loading procedure: EE basis fields, transaction rules, Roth considerations, and 457 plan restrictions. Loaded as part of final files.
 
-26. **[[audit-pack]]** — What you build at the end. Understand what goes in it and where it lives.
+26. **[[eligibility-and-deferrals]]** — Deferrals before eligibility. Always. No exceptions.
 
-27. **[[prod-support]]** — When standard tools can't fix the data, Prod Support can. Know how AWD tickets work.
+27. **[[transfer-in-kind]]** — If you have a TIK plan, read this before you do anything with Matt O'Connell.
+
+28. **[[audit-pack]]** — What you build at the end. Understand what goes in it and where it lives.
+
+29. **[[prod-support]]** — When standard tools can't fix the data, Prod Support can. Know how AWD tickets work.
 
 ## Key People to Meet
 

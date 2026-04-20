@@ -1,5 +1,5 @@
 # Wiki Index
-*Last updated: 2026-04-20 — 116 pages, 7 sources*
+*Last updated: 2026-04-20 — 114 pages, 7 sources*
 
 ---
 
@@ -40,7 +40,6 @@
 | [[processes/final-files-posting]] | Post-liquidation file loading sequence: balance → deferrals → eligibility → YTD; three P3 modes by conversion type | 2 |
 | [[processes/eligibility-loading]] | EDS eligibility subprocess: layout, data elements, processing types, CIT Eligibility job | 1 |
 | [[processes/reversal-submission]] | Post-03/06/26 reversal flow: Reversal Form → automated email → AWD ticket; approval tiers; retires Plan Correction Checklist | 1 |
-| [[processes/loan-setup]] | 14-step loan setup across P3 + Informatica: Phase I setup → Phase II validate + load → Phase III takeover & confirm | 1 |
 
 ---
 
@@ -120,6 +119,7 @@
 | [[concepts/source-mapping]] | Mapping prior source codes to TA source IDs via AQT; requires test files | 1 |
 | [[concepts/transfer-in-kind]] | TIK process: share transfers, Matt O'Connell timing, re-registration | 1 |
 | [[concepts/loan-setup-overview]] | Standing up prior-RK loans on P3 before balances post; 3-phase, Header=Source critical | 1 |
+| [[concepts/loan-setup]] | Loan Setup & Processing — 14-step workflow across P3 + Informatica; 3 phases (setup, validate+load, takeover); Header=Source critical gate | 1 |
 | [[concepts/prior-record-keeper]] | Outgoing administrator; questionnaire, test files, wire coordination | 1 |
 | [[concepts/wire-instructions]] | Banking instructions to prior RK; send early, resend 1 week before liquidation | 1 |
 | [[concepts/ftp-connection]] | Payroll vendor automated file upload channel; request setup early | 1 |

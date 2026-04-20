@@ -25,7 +25,7 @@ from pathlib import Path
 ROOT = Path(__file__).parent
 WIKI = ROOT / "wiki"
 THEMES_DIR = ROOT / "themes"
-OUTPUT = ROOT / "wiki.html"
+OUTPUT = ROOT / "current" / "wiki.html"
 
 # Password that unlocks the `sources/` folder. Pages in that folder are
 # encrypted at build time and cannot be read without this password.

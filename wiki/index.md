@@ -1,5 +1,5 @@
 # Wiki Index
-*Last updated: 2026-04-18 — 113 pages, 5 sources*
+*Last updated: 2026-04-20 — 116 pages, 7 sources*
 
 ---
 
@@ -11,6 +11,8 @@
 | [[sources/com-main-checklist]] | COM Main Checklist app — full 18-phase COM workflow from NSA through go-live | 2026-04-14 |
 | [[sources/lmdc-training-notebook]] | DC Team Training OneNote notebook — procedures through April 2026; most recent entries per topic | 2026-04-15 |
 | [[sources/subpack-cccs]] | New Plan Submission Package — CCCS template; full plan configuration intake form for new conversions | 2026-04-16 |
+| [[sources/census-data-doc]] | Census data loading procedure — data fields, EDS process, audit checks, vendor data rules | 2026-04-20 |
+| [[sources/loading-basis-doc]] | Basis loading procedure — EE basis fields, tables, Roth rules, transaction adjustments | 2026-04-20 |
 
 ---
 
@@ -160,7 +162,7 @@
 | Page | Summary | Sources |
 |------|---------|---------|
 | [[concepts/loading-eligibility-eds]] | Full procedure for loading eligibility data through EDS — layout, data elements, processing types, Run Eligibility job | 1 |
-| [[concepts/loading-basis-eds]] | Procedure for loading basis (cost basis) data through EDS — stub; content pending | 0 |
+| [[concepts/loading-basis-eds]] | Procedure for loading basis data through EDS — EE basis fields, tables, Roth rules, transaction adjustments | 1 |
 | [[concepts/loading-ytd-contributions-eds]] | Procedure for loading YTD contribution data through EDS — stub; content pending | 0 |
 | [[concepts/eds-load-beneficiary-requirements]] | Requirements and data elements for loading beneficiary designations through EDS — stub; content pending | 0 |
 
@@ -178,6 +180,7 @@
 | Page | Summary | Sources |
 |------|---------|---------|
 | [[concepts/cccs-submission-package]] | CCCS (Client Conversion Configuration Sheet) — master plan configuration intake form completed once per plan | 1 |
+| [[concepts/census-data]] | Census Data — participant data loading: fields, EDS process, audit checks, vendor data rules | 1 |
 | [[concepts/data-discovery-document]] | Data Discovery Document — intake form for identifying required participant data from prior RK — stub; content pending | 0 |
 | [[concepts/faa-dc-data-requirements]] | FAA DC Data Requirements — data fields and formats required for fund/allocation process — stub; content pending | 0 |
 | [[concepts/hours-procedure]] | Hours Procedure — loading or tracking participant hours for eligibility (1,000-hr threshold, LTPT) — stub; content pending | 0 |

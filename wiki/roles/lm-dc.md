@@ -115,4 +115,6 @@ Plans coded "common remitter" require "Verify Batch After Funding" instead of st
 - [[liquidation-day]] — execution day detail
 - [[final-files-processing]] — post-liquidation data posting
 - [[plan-conversion-handoffs]] — cross-team handoff map for plan conversions
+- [[census-data]] — participant data loading: fields, EDS process, audit checks
+- [[loading-basis-eds]] — basis loading: EE basis fields, Roth rules, tables
 - [[onboarding/lm-dc]] — reading list for new DCs

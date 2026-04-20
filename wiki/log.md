@@ -302,6 +302,20 @@
 - Pages updated: `index` — sources count 4→5; page count 87→102; four new concept subsections added
 - Notes: 12 of 14 source files are empty stubs (title only). Stub wiki pages created as placeholders so the index is complete and cross-links resolve. Fill in content as source documents are populated. CCCS acronym unconfirmed — likely "Client Conversion Configuration Sheet." FAA acronym also unconfirmed.
 
+## [2026-04-20] ingest | Census Data and Loading Basis — two procedure documents
+- Source files: `CENSUS_DATA.md.txt`, `LOADING_BASIS.md.txt` (provided from Downloads)
+- Pages created (3):
+  - `sources/census-data-doc` — census data loading procedure source summary
+  - `sources/loading-basis-doc` — basis loading procedure source summary
+  - `concepts/census-data` — new full concept page; participant data loading, EDS process, audit checks, vendor data rules
+- Pages updated (5):
+  - `concepts/loading-basis-eds` — upgraded from stub to full content; basis fields, tables, Roth rules, transaction adjustments, 457 restriction, mid-year conversion rules
+  - `roles/lm-dc` — added [[census-data]] and [[loading-basis-eds]] to See Also
+  - `onboarding/lm-dc` — added census-data as item 10 (after EDS) and loading-basis-eds as item 25 (after final-files-processing); total reading list expanded from 27 to 29 items
+  - `overview` — sources count updated to 7
+  - `index` — 2 new source rows, 1 new concept row, loading-basis-eds updated from stub; page count 107→110, sources 5→7
+- Notes: census-data complements the existing [[base-file]] concept (base-file = template DC sends to client; census-data = what comes back and gets loaded). TO Census.sql and TO_BASIS.sql referenced in both sources but paths not specified — flag for future documentation.
+
 ## [2026-04-14] edit | Wiki initialized
 - Schema written to `CLAUDE.md`
 - Folder structure created: `raw/`, `raw/assets/`, `wiki/entities/`, `wiki/concepts/`, `wiki/sources/`, `wiki/analyses/`

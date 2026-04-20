@@ -309,3 +309,23 @@
 - `wiki/log.md` created (this file)
 - `wiki/overview.md` pending — will be written after first ingest
 - Notes: Ready for first source ingest.
+
+## [2026-04-16] edit | Promote 4 procedural concepts to process pages
+- Pages created:
+  - `processes/tik-transfer` — TIK / re-registration process; 8 steps; timing formula; 5 handoff points
+  - `processes/final-files-posting` — balance → deferrals → eligibility → YTD sequence; 3 conversion-type branches for balance posting
+  - `processes/eligibility-loading` — EDS eligibility subprocess; 8 steps; data element reference
+  - `processes/reversal-submission` — post-03/06/26 Reversal Form → AWD flow; approval tiers; 6 steps
+- Pages updated:
+  - `index` — page count 107 → 111; 4 new entries under Processes
+- Notes: Source content existed in the corresponding concept pages (which stay as reference). Process pages follow CLAUDE.md process format (Overview / Trigger / Steps / Handoff Points / Timing / Failure Modes / See Also). DC Onboarding Workflow intentionally deferred — will be a larger aggregated process page later.
+
+## [2026-04-18] edit | Loan Setup & Processing — pages inflated, animation embedded
+- Pages created:
+  - `processes/loan-setup` — 14-step workflow across P3 + Informatica; 3 phases (P3 setup / validation+load / takeover+confirm); Header=Source as critical gate; full handoff table + failure modes
+  - `concepts/loan-setup` — definition, why it matters, three phases, the critical validation, the Deemed fields trap, RK name discipline, sequencing with balance posting
+- Pages updated:
+  - `concepts/informatica-loan-module` — inflated from stub: pre-run reqs, parameter file, NPER rounding (Apr 2015 rules), `CONV_LOAN`/`CONV_LOAN_PRIN` targets, post-run validation, common errors table, multi-vendor edge case
+  - `index` — page count 111 → 113; added `processes/loan-setup` and `concepts/loan-setup` rows; refreshed `concepts/informatica-loan-module` summary
+- Animation: registered `LoanSetupScene` in `wiki-v2.html` `PROCESS_ANIMS` for slug `loan-setup` (31s, 1280×720). Full 6-scene component embedded with LS_-prefixed primitives to avoid namespace collision with TIK/Cash/Census/FundMap scenes.
+- Notes: Source content drawn from `Data_Consultant_Website_v2_12.html` Loan Import Workflow (lines ~8700–9100). Loans subdomain now matches Census/FundMap/TIK depth.

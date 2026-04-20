@@ -28,7 +28,15 @@
       "Bash(python build-wiki.py)",
       "WebFetch(domain:github.com)",
       "WebFetch(domain:raw.githubusercontent.com)",
-      "Bash(python -c ' *)"
+      "Bash(python -c ' *)",
+      "Bash(gh --version)",
+      "Bash(gh auth *)",
+      "Bash(winget install *)",
+      "Bash(\"/c/Program Files/GitHub CLI/gh.exe\" auth status)",
+      "Bash(\"/c/Program Files/GitHub CLI/gh.exe\" repo create ta-brain --private --source=. --remote=origin --push)",
+      "Bash('/c/Program Files/GitHub CLI/gh.exe' auth token)",
+      "Bash('/c/Program Files/GitHub CLI/gh.exe' run list --repo Jabach811/TA-Brain --limit 3)",
+      "Bash(python)"
     ],
     "additionalDirectories": [
       "C:\\Users\\mabac\\.claude"

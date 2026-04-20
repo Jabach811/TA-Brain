@@ -1,5 +1,5 @@
 # Wiki Index
-*Last updated: 2026-04-16 — 107 pages, 5 sources*
+*Last updated: 2026-04-18 — 113 pages, 5 sources*
 
 ---
 
@@ -34,6 +34,11 @@
 | Page | Summary | Sources |
 |------|---------|---------|
 | [[processes/plan-conversion-handoffs]] | How work moves between all teams during a plan conversion — DC and COM perspective; 21 named handoffs | 3 |
+| [[processes/tik-transfer]] | TIK (re-registration): moving fund shares directly from prior custodian to Fidelity pooled accounts; DC + Matt O'Connell coordination | 2 |
+| [[processes/final-files-posting]] | Post-liquidation file loading sequence: balance → deferrals → eligibility → YTD; three P3 modes by conversion type | 2 |
+| [[processes/eligibility-loading]] | EDS eligibility subprocess: layout, data elements, processing types, CIT Eligibility job | 1 |
+| [[processes/reversal-submission]] | Post-03/06/26 reversal flow: Reversal Form → automated email → AWD ticket; approval tiers; retires Plan Correction Checklist | 1 |
+| [[processes/loan-setup]] | 14-step loan setup across P3 + Informatica: Phase I setup → Phase II validate + load → Phase III takeover & confirm | 1 |
 
 ---
 
@@ -112,6 +117,7 @@
 | [[concepts/fund-mapping]] | Mapping prior funds to TA funds; done immediately after TOA signing | 1 |
 | [[concepts/source-mapping]] | Mapping prior source codes to TA source IDs via AQT; requires test files | 1 |
 | [[concepts/transfer-in-kind]] | TIK process: share transfers, Matt O'Connell timing, re-registration | 1 |
+| [[concepts/loan-setup-overview]] | Standing up prior-RK loans on P3 before balances post; 3-phase, Header=Source critical | 1 |
 | [[concepts/prior-record-keeper]] | Outgoing administrator; questionnaire, test files, wire coordination | 1 |
 | [[concepts/wire-instructions]] | Banking instructions to prior RK; send early, resend 1 week before liquidation | 1 |
 | [[concepts/ftp-connection]] | Payroll vendor automated file upload channel; request setup early | 1 |
@@ -164,7 +170,7 @@
 | [[concepts/informatica-training-manual]] | Full Informatica training guide for DC use — stub; content pending | 0 |
 | [[concepts/informatica-allocation-module]] | Informatica Allocation Module functional documentation — stub; content pending | 0 |
 | [[concepts/informatica-balance-module]] | Informatica Balance Module functional documentation — stub; content pending | 0 |
-| [[concepts/informatica-loan-module]] | Informatica Loan Module functional documentation — stub; content pending | 0 |
+| [[concepts/informatica-loan-module]] | Informatica Loan Module: targets `CONV_LOAN` / `CONV_LOAN_PRIN`, NPER rounding, parameter file requirements, common error causes | 1 |
 | [[concepts/informatica-troubleshooting-guide]] | Common Informatica errors and resolutions — stub; content pending | 0 |
 | [[concepts/informatica-basis-module]] | Informatica Basis Module usage guide — stub; content pending | 0 |
 

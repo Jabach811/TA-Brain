@@ -493,13 +493,63 @@ article.page blockquote.callout-contradiction {
 article.page hr { border: 0; border-top: 1px solid var(--border); margin: 22px 0; }
 article.page ul, article.page ol { padding-left: 22px; }
 .cp-anim-wrap {
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  border-radius: 8px;
-  overflow: hidden;
-  border: 1px solid rgba(162, 119, 255, 0.2);
-  margin: 0 0 24px 0;
   position: relative;
+  width: calc(100% + 96px);
+  margin: 0 -48px 0;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: 6px;
+  border: 1px solid rgba(162, 119, 255, 0.2);
+  background: #08090C;
+  transition: height 0.25s ease, border-color 0.25s ease;
+}
+.cp-anim-wrap.cp-anim-minimized {
+  height: 0 !important;
+  aspect-ratio: unset !important;
+  min-height: 0 !important;
+  border-color: transparent !important;
+  margin-bottom: 0 !important;
+}
+/* Controls bar sits below the animation panel */
+.cp-anim-bar {
+  width: calc(100% + 96px);
+  margin: 0 -48px 20px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 6px;
+  padding: 5px 6px;
+  border: 1px solid rgba(162, 119, 255, 0.12);
+  border-top: none;
+  border-radius: 0 0 6px 6px;
+  background: rgba(10, 10, 20, 0.5);
+}
+.cp-anim-bar button {
+  background: transparent;
+  border: 1px solid rgba(162,119,255,0.3);
+  color: #a277ff;
+  border-radius: 4px;
+  padding: 3px 9px;
+  font-size: 11px;
+  cursor: pointer;
+  letter-spacing: 0.04em;
+  transition: background 0.15s;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+.cp-anim-bar button:hover { background: rgba(162,119,255,0.18); }
+/* Collapse right sidebar on animation pages to give more horizontal space */
+.app.has-anim { grid-template-columns: 280px 1fr; }
+.app.has-anim .sidebar.right { display: none; }
+.cp-anim-wrap:fullscreen,
+.cp-anim-wrap:-webkit-full-screen { border-radius: 0; border: none; }
+@media (max-width: 1100px) {
+  .cp-anim-wrap { width: calc(100% + 56px); margin: 0 -28px 0; }
+  .cp-anim-bar { width: calc(100% + 56px); margin: 0 -28px 20px; }
+  .app.has-anim { grid-template-columns: 240px 1fr; }
+}
+@media (max-width: 820px) {
+  .cp-anim-wrap { width: 100%; margin: 0 0 0; border-radius: 6px 6px 0 0; }
+  .cp-anim-bar { width: 100%; margin: 0 0 20px; }
 }
 
 /* Right panel */
@@ -1218,7 +1268,7 @@ function Sprite({ start=0, end=Infinity, children }) {
 }
 
 // ── stage — headless, cover-scaled, fires onComplete ─────────────────────────
-function Stage({ width=1280, height=720, duration=10, background='#08090C', autoplay=true, loop=false, onComplete, children }) {
+function Stage({ width=1280, height=720, duration=10, background='#08090C', autoplay=true, loop=false, fit='cover', onComplete, children }) {
   const [time, setTime] = React.useState(0);
   const [playing, setPlaying] = React.useState(autoplay);
   const [scale, setScale] = React.useState(1);
@@ -1231,7 +1281,11 @@ function Stage({ width=1280, height=720, duration=10, background='#08090C', auto
     if (!stageRef.current) return;
     const el = stageRef.current;
     const measure = () => {
-      setScale(Math.max(0.05, Math.max(el.clientWidth/width, el.clientHeight/height)));
+      const fitMode = (window.__animFit !== undefined) ? window.__animFit : fit;
+      const s = fitMode === 'contain'
+        ? Math.min(el.clientWidth/width, el.clientHeight/height)
+        : Math.max(el.clientWidth/width, el.clientHeight/height);
+      setScale(Math.max(0.05, s));
     };
     measure();
     const ro = new ResizeObserver(measure);
@@ -1478,7 +1532,7 @@ function ProgressDots() {
 function LoaderApp() {
   return (
     <Stage width={1280} height={720} duration={9.5} background="#08090C"
-           autoplay={true} onComplete={dismissLoader}>
+           autoplay={true} fit="contain" onComplete={dismissLoader}>
       <div style={{ position:'absolute', inset:0,
         backgroundImage:`linear-gradient(rgba(255,255,255,0.010) 1px, transparent 1px),
                          linear-gradient(90deg, rgba(255,255,255,0.010) 1px, transparent 1px)`,
@@ -7652,9 +7706,13 @@ function render() {
         }
 
         // Unmount any previous concept animation React root
+        document.querySelector('.app').classList.remove('has-anim');
+        window.__animFit = undefined;
         if (window.__wikiAnimRoot) { try { window.__wikiAnimRoot.unmount(); } catch(e) {} window.__wikiAnimRoot = null; }
         const existingInlineAnim = document.getElementById('cp-anim-panel');
         if (existingInlineAnim) existingInlineAnim.remove();
+        const existingBar = document.getElementById('cp-anim-bar');
+        if (existingBar) existingBar.remove();
 
         const animCfg = CONCEPT_ANIMS[p.slug];
         if (animCfg) {
@@ -7663,11 +7721,33 @@ function render() {
             const panel = document.createElement('div');
             panel.id = 'cp-anim-panel';
             panel.className = 'cp-anim-wrap';
+            // React mounts directly into panel — no siblings to interfere with sizing
             const firstH2 = content.querySelector('h2, h3');
             if (firstH2) content.insertBefore(panel, firstH2);
             else content.appendChild(panel);
+            // Controls bar sits below the panel, outside it
+            const bar = document.createElement('div');
+            bar.id = 'cp-anim-bar';
+            bar.className = 'cp-anim-bar';
+            const minBtn = document.createElement('button');
+            minBtn.textContent = '▾ hide';
+            minBtn.addEventListener('click', () => {
+              const minimized = panel.classList.toggle('cp-anim-minimized');
+              minBtn.textContent = minimized ? '▴ show animation' : '▾ hide';
+            });
+            const fsBtn = document.createElement('button');
+            fsBtn.textContent = '⤢ fullscreen';
+            fsBtn.addEventListener('click', () => {
+              if (panel.requestFullscreen) panel.requestFullscreen();
+              else if (panel.webkitRequestFullscreen) panel.webkitRequestFullscreen();
+            });
+            bar.appendChild(minBtn);
+            bar.appendChild(fsBtn);
+            panel.insertAdjacentElement('afterend', bar);
+            window.__animFit = 'contain';
             window.__wikiAnimRoot = ReactDOM.createRoot(panel);
             window.__wikiAnimRoot.render(React.createElement(AnimComp));
+            document.querySelector('.app').classList.add('has-anim');
           }
         }
   content.querySelectorAll('a.wikilink').forEach(a => a.addEventListener('click', e => { e.preventDefault(); navigate(a.dataset.slug); }));

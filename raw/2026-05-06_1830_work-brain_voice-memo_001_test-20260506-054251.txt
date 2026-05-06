@@ -1,0 +1,8 @@
+﻿SMOKE TEST ONLY - Work Brain automation intake test.
+
+Date: 2026-05-06
+Purpose: Confirm that the Codex Brain Dumps folder is visible to Codex and that a readable transcript file can be picked up by the daily automation.
+
+Work update: No real client plan updates. No real people updates. No reminders to create.
+
+Expected result: The automation should identify this as a readable transcript source. If running a full ingest, it should treat this as a test note and avoid creating fake operational tasks.

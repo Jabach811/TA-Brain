@@ -136,6 +136,14 @@ Naming inside `resources/`: lowercase, hyphens. Group by source (`apple/`, `line
 
 If a resource has its own README or LICENSE, leave it in place; don't strip metadata.
 
+### Hand-drawn art diagrams — `studio/resources/Hand Drawn Images/`
+
+When the task is to generate any **hand-drawn diagram, brief sheet, whiteboard poster, sketch-style explainer, or marker-and-highlighter visual** (as opposed to web UI), pull inspiration from `studio/resources/Hand Drawn Images/`. Joel uses that art form a lot — treat it as the canonical reference set for the look (linework, color discipline, composition, doodle vocabulary).
+
+- Use it as the visual source when generating new raster PNGs in that style.
+- Don't overlay text on or copy-and-relabel reference images — generate new art using them as the style anchor.
+- The web design system in `studio/DESIGN.md` (Cursor-inspired) governs UI rendering, not these diagrams. Different surface, different rules.
+
 ---
 
 ## Style rules for studio output

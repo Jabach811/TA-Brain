@@ -1093,6 +1093,32 @@ body {
   flex: 0 0 auto;
 }
 .folder > .head:hover .icon { transform: scale(1.08); }
+.app-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: currentColor;
+  line-height: 0;
+}
+.app-icon svg {
+  width: 1em;
+  height: 1em;
+  display: block;
+  overflow: visible;
+}
+.folder > .head .icon .app-icon { font-size: 15px; }
+.page-type-icon {
+  width: 17px;
+  height: 17px;
+  flex: 0 0 auto;
+  color: var(--type-color, var(--accent));
+  opacity: .9;
+}
+.chip .app-icon {
+  font-size: 13px;
+  margin-right: 5px;
+  vertical-align: -2px;
+}
 .folder > .head .chev {
   transition: transform .22s var(--ease);
   display: inline-block; margin-left: 4px;
@@ -1132,7 +1158,7 @@ body {
 }
 .folder > ul li {
   position: relative;
-  padding: 7px 12px 7px 30px;
+  padding: 7px 12px 7px 24px;
   margin: 1px 0;
   border-radius: 8px;
   cursor: pointer;
@@ -1172,7 +1198,7 @@ body {
 .folder > ul li.active {
   background: color-mix(in srgb, var(--type-color, var(--accent)) 18%, transparent);
   color: var(--fg);
-  padding-left: 34px;
+  padding-left: 28px;
   box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--type-color, var(--accent)) 28%, transparent);
 }
 .folder > ul li.active::before {
@@ -1981,6 +2007,34 @@ const THEMES = DATA.themes;
 const ENCRYPTED = DATA.encryptedSources;  // null if no locked content
 const UNLOCKED_SOURCES = { tree: null };   // populated after unlock
 function sourcesUnlocked() { return UNLOCKED_SOURCES.tree !== null; }
+function appIcon(name, className = '') {
+  const key = String(name || '').toLowerCase();
+  const icons = {
+    overview: '<path d="M5 13.5 12 5l7 8.5"/><path d="M7.5 12v7h9v-7"/><path d="M10 19v-4h4v4"/>',
+    roles: '<circle cx="12" cy="8" r="3.2"/><path d="M5.5 19c.9-3.6 3.2-5.4 6.5-5.4s5.6 1.8 6.5 5.4"/>',
+    role: '<circle cx="12" cy="8" r="3.2"/><path d="M5.5 19c.9-3.6 3.2-5.4 6.5-5.4s5.6 1.8 6.5 5.4"/>',
+    departments: '<path d="M4.5 19V7.5L12 4l7.5 3.5V19"/><path d="M8 19v-6h8v6"/><path d="M8 9.5h.01M12 9.5h.01M16 9.5h.01"/>',
+    department: '<path d="M4.5 19V7.5L12 4l7.5 3.5V19"/><path d="M8 19v-6h8v6"/><path d="M8 9.5h.01M12 9.5h.01M16 9.5h.01"/>',
+    processes: '<path d="M5 7h4l2 2h8"/><path d="M5 17h4l2-2h8"/><circle cx="5" cy="7" r="1.8"/><circle cx="19" cy="9" r="1.8"/><circle cx="5" cy="17" r="1.8"/><circle cx="19" cy="15" r="1.8"/>',
+    process: '<path d="M5 7h4l2 2h8"/><path d="M5 17h4l2-2h8"/><circle cx="5" cy="7" r="1.8"/><circle cx="19" cy="9" r="1.8"/><circle cx="5" cy="17" r="1.8"/><circle cx="19" cy="15" r="1.8"/>',
+    concepts: '<path d="M8 14.5c-1.2-1-2-2.5-2-4.1a6 6 0 1 1 12 0c0 1.6-.8 3.1-2 4.1"/><path d="M9 18h6"/><path d="M10 21h4"/><path d="M10 15h4"/>',
+    concept: '<path d="M8 14.5c-1.2-1-2-2.5-2-4.1a6 6 0 1 1 12 0c0 1.6-.8 3.1-2 4.1"/><path d="M9 18h6"/><path d="M10 21h4"/><path d="M10 15h4"/>',
+    entities: '<circle cx="7" cy="7" r="2.5"/><circle cx="17" cy="7" r="2.5"/><circle cx="12" cy="17" r="2.5"/><path d="m9 8.5 2 6"/><path d="m15 8.5-2 6"/><path d="M9.5 17h5"/>',
+    entity: '<circle cx="7" cy="7" r="2.5"/><circle cx="17" cy="7" r="2.5"/><circle cx="12" cy="17" r="2.5"/><path d="m9 8.5 2 6"/><path d="m15 8.5-2 6"/><path d="M9.5 17h5"/>',
+    onboarding: '<path d="M6 5h8.5L18 8.5V19H6z"/><path d="M14.5 5v4H18"/><path d="M8.5 13h5"/><path d="M8.5 16h7"/><path d="m5 11 2 2 4-5"/>',
+    glossary: '<path d="M5 5.5h10a3 3 0 0 1 3 3v10H8a3 3 0 0 1-3-3z"/><path d="M8 8.5h6"/><path d="M8 12h5"/><path d="M8 15.5h3"/>',
+    sources: '<path d="M6 4.5h8l4 4V20H6z"/><path d="M14 4.5v4h4"/><path d="M9 13h6"/><path d="M9 16h6"/>',
+    source: '<path d="M6 4.5h8l4 4V20H6z"/><path d="M14 4.5v4h4"/><path d="M9 13h6"/><path d="M9 16h6"/>',
+    analyses: '<path d="M5 19V5"/><path d="M5 19h14"/><path d="M8.5 15l3-3 2.5 2 4-6"/><circle cx="8.5" cy="15" r="1"/><circle cx="11.5" cy="12" r="1"/><circle cx="14" cy="14" r="1"/><circle cx="18" cy="8" r="1"/>',
+    analysis: '<path d="M5 19V5"/><path d="M5 19h14"/><path d="M8.5 15l3-3 2.5 2 4-6"/><circle cx="8.5" cy="15" r="1"/><circle cx="11.5" cy="12" r="1"/><circle cx="14" cy="14" r="1"/><circle cx="18" cy="8" r="1"/>',
+    index: '<path d="M5 6.5h14"/><path d="M5 12h14"/><path d="M5 17.5h14"/><path d="M8 4v16"/>',
+    log: '<path d="M7 4.5h8l3 3V20H7z"/><path d="M15 4.5V8h3.5"/><path d="M9.5 12h6"/><path d="M9.5 16h4"/>',
+    lock: '<rect x="6" y="10" width="12" height="9" rx="2"/><path d="M8.5 10V7.8a3.5 3.5 0 0 1 7 0V10"/>',
+    unlock: '<rect x="6" y="10" width="12" height="9" rx="2"/><path d="M9 10V7.8a3.5 3.5 0 0 1 6.1-2.3"/>'
+  };
+  const path = icons[key] || icons.concept;
+  return `<span class="app-icon${className ? ` ${className}` : ''}" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${path}</svg></span>`;
+}
 const typeColor = {
   role: '#ff9e64', department: '#7aa2f7', process: '#9ece6a',
   onboarding: '#e0af68', glossary: '#bb9af7', entity: '#f7768e',
@@ -2169,8 +2223,8 @@ const THEME_SIDEBAR = {
 };
 let FOLDER_ICONS = { ...FOLDER_ICON_SETS.default };
 function folderIcon(folder, unlocked) {
-  if (folder === 'sources' && unlocked) return '🔓';
-  return FOLDER_ICONS[folder] || '○';
+  if (folder === 'sources' && unlocked) return appIcon('unlock');
+  return appIcon(folder === '_root' ? 'overview' : folder);
 }
 
 function buildTree() {
@@ -2189,7 +2243,7 @@ function buildTree() {
           <span class="icon">${folderIcon(group.folder, false)}</span>
           ${escapeHtml(label)}
           <span class="count">${group.lockedCount}</span>
-          <span class="lock-ico" title="Locked">🔒</span>
+          <span class="lock-ico" title="Locked">${appIcon('lock')}</span>
         </div>
         <ul><li class="empty-locked" style="padding-left:14px;color:var(--fg-muted);font-size:12px;font-style:italic;cursor:default;">Click the folder header to unlock.</li></ul>
       `;
@@ -2208,7 +2262,7 @@ function buildTree() {
         <span class="chev">▾</span>
         <span class="count">${items.length}</span>
       </div>
-      <ul>${items.map(p => `<li data-slug="${p.slug}" data-type="${p.type}"><span class="dot"></span>${escapeHtml(p.title)}</li>`).join('')}</ul>
+      <ul>${items.map(p => `<li data-slug="${p.slug}" data-type="${p.type}">${appIcon(p.type, 'page-type-icon')}${escapeHtml(p.title)}</li>`).join('')}</ul>
     `;
     div.querySelector('.head').addEventListener('click', () => div.classList.toggle('collapsed'));
     div.querySelectorAll('li[data-slug]').forEach(li => li.addEventListener('click', () => navigate(li.dataset.slug)));
@@ -2244,7 +2298,7 @@ function render() {
   titleEl.classList.add('changing');
   scrambleText(titleEl, p.title);
 
-  const chips = [`<span class="chip type">${escapeHtml(p.type)}</span>`];
+  const chips = [`<span class="chip type">${appIcon(p.type)}${escapeHtml(p.type)}</span>`];
   if (p.sources) chips.push(`<span class="chip meta">sources: ${escapeHtml(String(p.sources))}</span>`);
   if (p.updated) chips.push(`<span class="chip meta">updated ${escapeHtml(p.updated)}</span>`);
   (p.tags || []).forEach(t => chips.push(`<span class="chip" data-tag="${escapeHtml(t)}">#${escapeHtml(t)}</span>`));
@@ -2846,7 +2900,7 @@ function renderLegend() {
   const typesPresent = Object.keys(typeColor).filter(t => counts[t]);
   legend.innerHTML = typesPresent.map(t => {
     const on = !graphActiveTypes || graphActiveTypes.has(t);
-    return `<div class="row${on?'':' off'}" data-type="${t}" title="Click to toggle, shift+click to isolate"><span class="swatch" style="background:${typeColor[t]}"></span>${t} (${counts[t]})</div>`;
+    return `<div class="row${on?'':' off'}" data-type="${t}" title="Click to toggle, shift+click to isolate"><span class="swatch" style="background:${typeColor[t]}"></span>${appIcon(t)}${t} (${counts[t]})</div>`;
   }).join('');
   legend.querySelectorAll('.row').forEach(row => {
     row.addEventListener('click', e => {

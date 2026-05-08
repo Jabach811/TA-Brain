@@ -1,0 +1,12 @@
+# Default Deferral Analysis – Description
+
+## Purpose
+- Identify participants in default for deferrals on auto-enroll plans.
+
+## Review Items
+- Deferral percentage
+- Transmit codes (A, T, S)
+- Hire dates vs conversion strategy
+
+## Remedy
+- Adjust default flags or transmit codes as needed.

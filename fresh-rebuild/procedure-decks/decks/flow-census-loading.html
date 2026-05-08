@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Census Loading - Excalidraw Flow Deck</title>
+  <link rel="stylesheet" href="../assets/deck-styles.css">
+  <style>:root { --procedure-accent: #2a6f73; }</style>
+</head>
+<body class="flow-page">
+  <header class="deck-nav">
+    <a href="../index.html">Procedure decks</a>
+    <span>Census Loading</span>
+    <span>Excalidraw</span>
+  </header>
+  <main class="deck flow" data-deck>
+    <section class="slide flow-title">
+      <div class="title-grid">
+        <div>
+          <div class="sketch-tag">Census / Elections / Excalidraw flow</div>
+          <h1>Census Loading</h1>
+          <p>Bring the plan population into EDS cleanly.</p>
+        </div>
+        <figure class="title-art sketch-art"><img src="../assets/icons/census-loading.png" alt=""></figure>
+      </div>
+      <div class="sketch-route"><div class="flow-node"><b>1</b><span>Confirm the source of census data: base file, limited access file, client file, or vendor file.</span></div><div class="flow-node"><b>2</b><span>Use AWD testing results to tailor the base and payroll templates for the plan.</span></div><div class="flow-node"><b>3</b><span>Meet with the client contact and walk through exactly how the file should be filled out.</span></div><div class="flow-node"><b>4</b><span>Validate returned data for mandatory fields, data types, term reason code needs, and column placement.</span></div><div class="flow-node"><b>5</b><span>Add forfeiture participants when balance files include them, preserving vendor naming and using standout DOB/DOH conventions.</span></div><div class="flow-node"><b>6</b><span>Load the census through EDS and read every warning and error output.</span></div><div class="flow-node"><b>7</b><span>Use AQT and EDS output files to verify who loaded, who failed, and what needs client follow-up.</span></div></div>
+    </section>
+<section class="slide image-slide sketch-image-slide">
+      <div class="sketch-tag">Generated whiteboard</div>
+      <h2>Multi-branch visual route</h2>
+      <figure class="image-frame sketch-frame"><img src="../assets/flow-census-elections-detail.png" alt=""></figure>
+    </section>
+<section class="slide branch-slide">
+      <div class="sketch-tag">Branch map</div>
+      <h2>Decisions that change the route</h2>
+      <div class="branch-board"><div class="diamond"><span>1</span><p>Is this a limited access or cash conversion plan?</p></div><div class="diamond"><span>2</span><p>Are elections being defaulted during the census load?</p></div><div class="diamond"><span>3</span><p>Are extra participants present on balance files but absent from census?</p></div><div class="diamond"><span>4</span><p>Do warning reports indicate fixable data issues or true rejects?</p></div></div>
+    </section>
+<section class="slide swimlane-slide">
+      <div class="sketch-tag">Swimlane</div>
+      <h2>Inputs -> action -> output</h2>
+      <div class="swimlane">
+        <div class="lane-head">Input</div><div class="lane-head">Action</div><div class="lane-head">Output</div>
+        <div><p>Completed PRD or onboarding package</p><p>Testing results from AWD</p><p>Plan-specific base file</p><p>Limited access file when open period applies</p></div>
+        <div><p>Confirm the source of census data: base file, limited access file, client file, or vendor file.</p><p>Use AWD testing results to tailor the base and payroll templates for the plan.</p><p>Meet with the client contact and walk through exactly how the file should be filled out.</p><p>Validate returned data for mandatory fields, data types, term reason code needs, and column placement.</p></div>
+        <div><p>Loaded participant census</p><p>Warning and error report notes</p><p>Client follow-up list</p><p>Verified population count</p></div>
+      </div>
+    </section>
+<section class="slide systems-slide">
+      <div class="sketch-tag">System boxes</div>
+      <h2>Where the work happens</h2>
+      <div class="systems-map"><div class="system-box">EDS</div><div class="system-box">AQT</div><div class="system-box">AWD</div><div class="system-box">Base file template</div><div class="system-box">Payroll template</div></div>
+    </section>
+<section class="slide sticky-slide">
+      <div class="sketch-tag">Sticky notes</div>
+      <h2>Do not miss these</h2>
+      <div class="sticky-grid"><article class="sticky-note">Most census files come from the base file, not the vendor.</article><article class="sticky-note">Do not ignore EDS output files; they are the import story.</article><article class="sticky-note">Extra participants from balance files should be reviewed with the client when possible.</article><article class="sticky-note">Forfeiture participants should stand out; use 12/25/1955 as date of birth and 12/25/1985 as date of hire.</article><article class="sticky-note">Favorite EDS output folders while imports are active so email reports surface quickly.</article></div>
+    </section>
+<section class="slide finish-slide">
+      <div class="sketch-tag">Done means done</div>
+      <h2>Closeout checklist</h2>
+      <div class="finish-list"><label><input type="checkbox"> Population count reconciled</label><label><input type="checkbox"> Warnings reviewed</label><label><input type="checkbox"> Errors cleared or documented</label><label><input type="checkbox"> Client follow-ups sent</label></div>
+    </section>
+  </main>
+  <div class="deck-controls">
+    <button type="button" data-prev>Prev</button>
+    <span data-progress>1 / 7</span>
+    <button type="button" data-next>Next</button>
+  </div>
+  <script src="../assets/deck-player.js"></script>
+</body>
+</html>

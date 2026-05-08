@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Elections - Ops Training Deck</title>
+  <link rel="stylesheet" href="../assets/deck-styles.css">
+  <style>:root { --procedure-accent: #3f7d5a; }</style>
+</head>
+<body class="ops-page">
+  <header class="deck-nav">
+    <a href="../index.html">Procedure decks</a>
+    <span>Elections</span>
+    <span>Ops</span>
+  </header>
+  <main class="deck ops" data-deck>
+    <section class="slide title-slide">
+      <div class="title-grid">
+        <div>
+          <div class="kicker">Census / Elections / Ops deck</div>
+          <h1>Elections</h1>
+          <p class="slide-lede">Election handling is either a defaulting path or a mapping path. The cleanest approach is to default elections during the census load when possible; second-pass EDS defaulting is available but should not be the preferred route.</p>
+          <div class="lifecycle-rail"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span></div>
+        </div>
+        <figure class="title-art"><img src="../assets/icons/elections.png" alt=""></figure>
+      </div>
+    </section>
+<section class="slide split-slide">
+      <div>
+        <div class="kicker">Inputs</div>
+        <h2>What has to be in hand</h2>
+        <ul class="check-list"><li>Census population</li><li>Limited access elections when applicable</li><li>Mapped election file</li><li>AQT query for missing-election population</li></ul>
+      </div>
+      <aside class="callout-panel">
+        <h3>Systems touched</h3>
+        <div class="pill-grid"><span class="pill">EDS</span><span class="pill">AQT</span><span class="pill">Election mapping layout</span></div>
+      </aside>
+    </section>
+<section class="slide">
+      <div class="kicker">Run path</div>
+      <h2>Procedure sequence</h2>
+      <div class="step-grid">
+    <article class="step-card">
+      <div class="step-num">01</div>
+      <p>Decide whether participants are being defaulted or mapped from existing elections.</p>
+    </article>
+  
+    <article class="step-card">
+      <div class="step-num">02</div>
+      <p>If defaulting during census, include the default instruction in the EDS census load.</p>
+    </article>
+  
+    <article class="step-card">
+      <div class="step-num">03</div>
+      <p>If defaulting later, use one row per participant with Fund Descriptor blank, Percentage blank, and default indicator D.</p>
+    </article>
+  
+    <article class="step-card">
+      <div class="step-num">04</div>
+      <p>If mapping elections, load the mapped election layout and verify coverage.</p>
+    </article>
+  
+    <article class="step-card">
+      <div class="step-num">05</div>
+      <p>Query the plan population for participants who have no elections.</p>
+    </article>
+  
+    <article class="step-card">
+      <div class="step-num">06</div>
+      <p>Document explicit counts: mapped, defaulted, missing, and intentionally ignored.</p>
+    </article>
+  </div>
+    </section>
+<section class="slide matrix-slide">
+      <div class="kicker">Decision points</div>
+      <h2>What decides the path</h2>
+      <div class="decision-grid"><div class="decision-card">Default everyone or map elections?</div><div class="decision-card">Are no-election participants termed or still action-worthy?</div><div class="decision-card">Does the client need to confirm deferral/election details through payroll?</div><div class="decision-card">Can missing election records be explained instead of assumed?</div></div>
+    </section>
+<section class="slide warning-slide">
+      <div class="kicker">Watchouts</div>
+      <h2>Where this can bite</h2>
+      <div class="warning-grid"><article><span>!</span><p>Do not rely on inference. If 150 participants are in the plan, account for all 150.</p></article><article><span>!</span><p>Second-pass defaulting works, but doing it during census is cleaner.</p></article><article><span>!</span><p>For default-only EDS rows, Fund Descriptor and Percentage are blank and the default indicator is D.</p></article></div>
+    </section>
+<section class="slide image-slide">
+      <div class="kicker">Visual map</div>
+      <h2>Use the flow when explaining the work</h2>
+      <figure class="image-frame"><img src="../assets/flow-census-elections-detail.png" alt=""></figure>
+    </section>
+<section class="slide closeout-slide">
+      <div class="kicker">Closeout</div>
+      <h2>Proof that it is done</h2>
+      <div class="closeout-grid">
+        <div><h3>Outputs</h3><ul><li>Defaulted election population</li><li>Mapped election population</li><li>No-election exception list</li><li>AQT verification evidence</li></ul></div>
+        <div><h3>Final checks</h3><ul><li>Mapped/defaulted counts match population</li><li>No-election population reviewed</li><li>AQT evidence retained</li><li>Client or payroll gaps noted</li></ul></div>
+      </div>
+    </section>
+  </main>
+  <div class="deck-controls">
+    <button type="button" data-prev>Prev</button>
+    <span data-progress>1 / 7</span>
+    <button type="button" data-next>Next</button>
+  </div>
+  <script src="../assets/deck-player.js"></script>
+</body>
+</html>

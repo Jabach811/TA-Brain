@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Loan Loading - Ops Training Deck</title>
+  <link rel="stylesheet" href="../assets/deck-styles.css">
+  <style>:root { --procedure-accent: #9a593f; }</style>
+</head>
+<body class="ops-page">
+  <header class="deck-nav">
+    <a href="../index.html">Procedure decks</a>
+    <span>Loan Loading</span>
+    <span>Ops</span>
+  </header>
+  <main class="deck ops" data-deck>
+    <section class="slide title-slide">
+      <div class="title-grid">
+        <div>
+          <div class="kicker">Loans / Ops deck</div>
+          <h1>Loan Loading</h1>
+          <p class="slide-lede">Loan loading starts in P3 with vendor/conversion setup, moves through Informatica test and production runs using loan header and loan source files, and ends with P3 takeover, HOLB handling, email confirmation, and query verification.</p>
+          <div class="lifecycle-rail"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span></div>
+        </div>
+        <figure class="title-art"><img src="../assets/icons/loan-loading.png" alt=""></figure>
+      </div>
+    </section>
+<section class="slide split-slide">
+      <div>
+        <div class="kicker">Inputs</div>
+        <h2>What has to be in hand</h2>
+        <ul class="check-list"><li>Vendor name</li><li>Case number</li><li>Effective date</li><li>Loan header file</li><li>Loan source file</li><li>Loan workflow parameter file</li><li>HOLB file if available</li></ul>
+      </div>
+      <aside class="callout-panel">
+        <h3>Systems touched</h3>
+        <div class="pill-grid"><span class="pill">P3</span><span class="pill">Informatica loans workflow</span><span class="pill">HOLB process</span><span class="pill">AQT verification queries</span><span class="pill">Audit pack</span></div>
+      </aside>
+    </section>
+<section class="slide">
+      <div class="kicker">Run path</div>
+      <h2>Procedure sequence</h2>
+      <div class="step-grid">
+    <article class="step-card">
+      <div class="step-num">01</div>
+      <p>In P3, open the plan, choose Conversions, add record keeper, enter vendor name, apply, and save.</p>
+    </article>
+  
+    <article class="step-card">
+      <div class="step-num">02</div>
+      <p>Create a new conversion with the case number, no affiliate, conversion date and assigned date three months before effective date, and effective date.</p>
+    </article>
+  
+    <article class="step-card">
+      <div class="step-num">03</div>
+      <p>Save and capture the generated conversion number.</p>
+    </article>
+  
+    <article class="step-card">
+      <div class="step-num">04</div>
+      <p>Validate loan header and loan source: outstanding balance in header must match source breakout.</p>
+    </article>
+  
+    <article class="step-card">
+      <div class="step-num">05</div>
+      <p>Run the Informatica loans workflow in test mode, then flip test to N and run production if clean.</p>
+    </article>
+  
+    <article class="step-card">
+      <div class="step-num">06</div>
+      <p>In P3, find the existing conversion, take over loans, handle HOLB upload/create, wait for email confirmation, and run verification queries.</p>
+    </article>
+  </div>
+    </section>
+<section class="slide matrix-slide">
+      <div class="kicker">Decision points</div>
+      <h2>What decides the path</h2>
+      <div class="decision-grid"><div class="decision-card">Did P3 generate the conversion number?</div><div class="decision-card">Do loan header and loan source balances match?</div><div class="decision-card">Did the test run clear without errors?</div><div class="decision-card">Is there an HOLB file or should P3 create one?</div></div>
+    </section>
+<section class="slide warning-slide">
+      <div class="kicker">Watchouts</div>
+      <h2>Where this can bite</h2>
+      <div class="warning-grid"><article><span>!</span><p>Conversion and assigned dates are largely irrelevant but required; use three months prior to effective date.</p></article><article><span>!</span><p>Header/source balance mismatch must be fixed before loading.</p></article><article><span>!</span><p>Do not skip the test run before production.</p></article><article><span>!</span><p>The audit pack needs loan evidence, often close to the loan header detail.</p></article></div>
+    </section>
+<section class="slide image-slide">
+      <div class="kicker">Visual map</div>
+      <h2>Use the flow when explaining the work</h2>
+      <figure class="image-frame"><img src="../assets/flow-loan-loading-detail.png" alt=""></figure>
+    </section>
+<section class="slide closeout-slide">
+      <div class="kicker">Closeout</div>
+      <h2>Proof that it is done</h2>
+      <div class="closeout-grid">
+        <div><h3>Outputs</h3><ul><li>P3 conversion number</li><li>Loaded loan records</li><li>HOLB upload/create confirmation</li><li>Email confirmation</li><li>Loan audit evidence</li></ul></div>
+        <div><h3>Final checks</h3><ul><li>Conversion number captured</li><li>Test and production clean</li><li>Loans taken over</li><li>HOLB handled</li><li>Queries verified</li></ul></div>
+      </div>
+    </section>
+  </main>
+  <div class="deck-controls">
+    <button type="button" data-prev>Prev</button>
+    <span data-progress>1 / 7</span>
+    <button type="button" data-next>Next</button>
+  </div>
+  <script src="../assets/deck-player.js"></script>
+</body>
+</html>

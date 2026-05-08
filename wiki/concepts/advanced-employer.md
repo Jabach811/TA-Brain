@@ -1,10 +1,10 @@
 ---
 title: "Advanced Employer Account"
-type: concept
+type: reference
 tags: [advanced-employer, cash-conversion, liquidation, balances, p3]
 created: 2026-04-14
-updated: 2026-04-14
-sources: 2
+updated: 2026-05-03
+sources: 3
 ---
 
 # Advanced Employer Account
@@ -22,11 +22,12 @@ In a cash conversion, assets arrive as undifferentiated cash with no per-fund or
 ## Lifecycle
 
 1. **Liquidation Day:** Wire received → DC verifies total matches vendor breakdown → DC moves money to AE account in [[p3]] (via [[p2]] ref number)
-2. **Notification:** DC emails all parties confirming wire received and posted to Advanced Employer
-3. **Waiting period:** DC waits for final files from the prior record keeper
+2. **Notification:** DC emails QA, COM, and PC confirming wire received and posted to Advanced Employer. Standard wording: *"Wire has been booked and transferred to the Advanced Employer account, where it will be liquidated when final records are available."*
+3. **Waiting period:** DC waits for final files from the prior record keeper. AE accrues a small interest while sitting.
 4. **Final Files Arrive:** DC emails [[stacey-fortune]] or [[nick-lister]] requesting AE liquidation
-5. **After liquidation:** DC runs CIT balance workflow in [[informatica]] → posts participant balances → P3 processes with Immediate + Batch mode (trades go out)
+5. **After liquidation:** DC creates the **AE liquidation ref number** and attaches it to the CIT balance workflow parameter file → runs CIT balance workflow in [[informatica]] → posts participant balances → P3 processes with Immediate + Batch mode (trades go out)
 6. **Reverse [[dummy-participant]]** via ROC tool in P3
+7. **Next business day:** DC distributes the accrued AE interest pro-rata to participants — see [[subsequent-cash-imports]]
 
 ## Requesting AE Liquidation
 
@@ -54,3 +55,4 @@ Setting up the AE account transfer reference number is done in [[p2]] — the sa
 - [[stacey-fortune]]
 - [[nick-lister]]
 - [[dummy-participant]]
+- [[subsequent-cash-imports]]

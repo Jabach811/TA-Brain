@@ -1,0 +1,11 @@
+# Duplicate SSN Process
+
+## Step 1: Identify Duplicates
+- Run Duplicate SSN report in AQT (ODSP).
+
+## Step 2: Disable Access
+- Disable DDOL/VRU for true duplicates.
+- Apply legal holds to converting plan only.
+
+## Step 3: Restore Access
+- Re-enable access once issue resolved and confirmed.

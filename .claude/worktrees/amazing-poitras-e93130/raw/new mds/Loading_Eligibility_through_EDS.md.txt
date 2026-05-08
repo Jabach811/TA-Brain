@@ -1,0 +1,91 @@
+# Loading Eligibility through EDS
+
+## Overview
+- The EDS data type for eligibility replaces the AQT process to insert data into `Part_Elig_src` for eligible participants and to process non-eligible participants through the nightly batch.
+- Sources do not need to be loaded at the same time; individual sources can be set up independently.
+- Participant enrollment data must be loaded before eligibility can be used.
+
+## EDS Layout
+- Eligibility is a **pre-defined / fixed layout**.
+- All data elements are automatically included when the data type is selected.
+- Data elements cannot be removed.
+- SSNs and dates can be formatted using standard EDS functionality.
+- Supported file types include flat file, comma-delimited, Excel, etc.
+
+## Loading Format
+- Data is always normalized.
+- One row per participant per source is required.
+
+## Required Data Elements
+
+### Social Security Number
+- May be provided with or without dashes.
+
+### Source I
+- Load individual SRC Is or use `0` for all sources when eligibility is the same.
+- A single file may contain both `0` and specific SRC Is, but **not mixed per participant**.
+- Mixing `0` and specific SRC Is for the same participant will error in EDS.
+
+### Eligibility Status
+Value | Description
+--- | ---
+0 | Eligibility status unknown; calculate based on plan rules
+1 | Not eligible; kit needs to be mailed
+2 | Not eligible; no kit needed or kit service not active
+3 | Eligible
+4 | Excluded
+
+### Eligibility Date
+- Date the participant was or will become eligible.
+- Valid with status codes 1, 2, and 3.
+- Records may include or exclude the date.
+
+### Plan Entry Date
+- Date the participant entered or will enter the plan.
+- Valid with status codes 1, 2, and 3.
+
+**Important:** If dates are used, **both Eligibility Date and Plan Entry Date must be provided**. Supplying only one will cause an error.
+
+### Kit Mail Date
+- Optional.
+- If provided, Eligibility Date and Plan Entry Date must also be provided.
+
+### Rehire Code
+- Indicates whether rehire logic should be used.
+- Values: `Y` or `N`.
+- Mix of values is allowed within a file.
+- Generally:
+  - Use `N` for non-rehires or eligible participants (status code 3).
+  - Use `Y` only when rehire logic is enabled, the participant is not eligible, and rehire events exist.
+
+*Note:* As of the September 2013 release, rehire logic is not available. (Future availability noted as 2014 in source.)
+
+## File Loading
+- Follows standard EDS loading functionality with exceptions.
+- The **Validate Only** option is replaced with **Eligibility Processing Type**.
+
+### Eligibility Processing Types
+- **Validate**: Validates data against plan rules without posting. Intended for test data.
+- **Validate/Commit**: Validates and posts data. Default for live data.
+- **Commit Only**: Posts data with limited validation. Intended for small populations that previously errored and were corrected.
+
+## Run Eligibility
+- A **Run Eligibility** checkbox is available.
+- Selecting it triggers the CIT Eligibility job immediately after the EDS load completes.
+- If not selected, the job can be run later from the Work Queue by selecting the file and enabling **Run Eligibility**.
+- EDS Eligibility and CIT Eligibility are functionally the same but are separate jobs.
+
+## Edits
+- Numerous edits and warnings exist; full details are in the Functional Requirements document.
+- Edits occur in EDS, CIT Eligibility, or both.
+- Standard EDS formatting edits for dates and SSNs apply.
+- EDS validates that eligibility is enabled and SRC Is exist on the plan.
+- CIT Eligibility edits vary by processing type.
+
+**Example:**
+- In Validate/Commit, if an eligible participant has a provided date that does not match plan rule calculations, a warning is issued.
+- In Commit Only, no warning is issued for the same condition.
+
+## Job Completion Email
+- An email is sent when the CIT Eligibility job completes.
+- The email includes load details and links to reports listing all errors and warnings.

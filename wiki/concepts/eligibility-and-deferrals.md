@@ -1,6 +1,6 @@
 ---
 title: "Eligibility and Deferrals"
-type: concept
+type: process
 tags: [eligibility, deferrals, p3, processing, auto-enrollment, sequence]
 created: 2026-04-14
 updated: 2026-04-14

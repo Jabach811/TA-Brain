@@ -1,0 +1,10 @@
+# Retiree Payment Load – Audit Process (Plus)
+
+## Purpose
+- Document how to access and apply saved comments within AWD work items during retiree payment processing.
+
+## Process
+- Create AWD work item.
+- Right-click the item and select **Add Comments**.
+- Use the folder icon to select saved comments.
+- Review and edit comments as needed before saving.

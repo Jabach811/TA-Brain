@@ -1,0 +1,9 @@
+# Initial Design Specs – Informatica Balances
+
+## Purpose
+- Define design for balance audit and FAA comparison process.
+
+## Coverage
+- Mapping and cash conversion strategies
+- Error and warning conditions
+- Control totals and reconciliation outputs

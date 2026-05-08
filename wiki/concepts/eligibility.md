@@ -1,6 +1,6 @@
 ---
 title: "Eligibility Processing"
-type: concept
+type: process
 tags: [eligibility, p3, processing, auto-enrollment, final-files, ltpt]
 created: 2026-04-14
 updated: 2026-04-15

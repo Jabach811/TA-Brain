@@ -1,6 +1,6 @@
 ---
 title: "NBI"
-type: entity
+type: system
 tags: [system, assignment, plan-tracking]
 created: 2026-04-14
 updated: 2026-04-14
@@ -52,4 +52,3 @@ The DC updates NBI continuously throughout the conversion — not just at the en
 - [[ellen-miller]]
 - [[p3]]
 - [[dc-onboarding-workflow]]
-- [[internal-teams]]

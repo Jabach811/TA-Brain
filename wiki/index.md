@@ -1,5 +1,5 @@
 # Wiki Index
-*Last updated: 2026-04-20 — 114 pages, 7 sources*
+*Last updated: 2026-05-05 — 122 pages, 9 sources*
 
 ---
 
@@ -37,7 +37,7 @@
 |------|---------|---------|
 | [[processes/plan-conversion-handoffs]] | How work moves between all teams during a plan conversion — DC and COM perspective; 21 named handoffs | 3 |
 | [[processes/tik-transfer]] | TIK (re-registration): moving fund shares directly from prior custodian to Fidelity pooled accounts; DC + Matt O'Connell coordination | 2 |
-| [[processes/final-files-posting]] | Post-liquidation file loading sequence: balance → deferrals → eligibility → YTD; three P3 modes by conversion type | 2 |
+| [[processes/final-files-processing]] | Post-liquidation file loading sequence: balance → deferrals → eligibility → YTD; three P3 modes by conversion type | 3 |
 | [[processes/eligibility-loading]] | EDS eligibility subprocess: layout, data elements, processing types, CIT Eligibility job | 1 |
 | [[processes/reversal-submission]] | Post-03/06/26 reversal flow: Reversal Form → automated email → AWD ticket; approval tiers; retires Plan Correction Checklist | 1 |
 
@@ -97,7 +97,6 @@
 ## Entities — Teams
 | Page | Summary | Sources |
 |------|---------|---------|
-| [[entities/internal-teams]] | All internal roles: DC, COM, Doc Ops, QA, TC, Cashiering, FTP, Payroll Support, Prod Support | 1 |
 | [[entities/prod-support]] | Makes direct DB table corrections via AWD tickets; engaged when data needs to be fixed | 1 |
 | [[entities/cashiering]] | Receives and books incoming wires; provides transfer reference number on liquidation day | 1 |
 | [[entities/ftp-team]] | Sets up FTP accounts for payroll vendor file uploads; led by Jen Curtin; key contact Eric Leytem | 2 |
@@ -111,15 +110,13 @@
 | [[concepts/dc-onboarding-workflow]] | Master end-to-end DC workflow checklist, Phase 1–7 | 1 |
 | [[concepts/conversion-types]] | Three asset transfer types: cash, mapping, transfer in kind | 1 |
 | [[concepts/liquidation-day]] | The high-stakes day money moves; sequenced by conversion type | 1 |
-| [[concepts/final-files-processing]] | Post-liquidation: balance posting, YTD data, deferrals, eligibility | 1 |
 | [[concepts/eligibility-and-deferrals]] | Hub page — sequence overview; links to full eligibility and deferrals pages | 3 |
 | [[concepts/eligibility]] | Eligibility processing — data sources, P3 rules, workflow, SME Scott Vrba | 3 |
 | [[concepts/deferrals]] | Deferral processing — auto-enrollment data, ADP limitation, escalation logic | 3 |
 | [[concepts/fund-mapping]] | Mapping prior funds to TA funds; done immediately after TOA signing | 1 |
 | [[concepts/source-mapping]] | Mapping prior source codes to TA source IDs via AQT; requires test files | 1 |
 | [[concepts/transfer-in-kind]] | TIK process: share transfers, Matt O'Connell timing, re-registration | 1 |
-| [[concepts/loan-setup-overview]] | Standing up prior-RK loans on P3 before balances post; 3-phase, Header=Source critical | 1 |
-| [[concepts/loan-setup]] | Loan Setup & Processing — 14-step workflow across P3 + Informatica; 3 phases (setup, validate+load, takeover); Header=Source critical gate | 1 |
+| [[concepts/loan-setup]] | Loan Setup & Processing — 14-step workflow across P3 + Informatica; includes generated diagram for setup, validation, Informatica, takeover, HOLB, and audit verification | 4 |
 | [[concepts/prior-record-keeper]] | Outgoing administrator; questionnaire, test files, wire coordination | 1 |
 | [[concepts/wire-instructions]] | Banking instructions to prior RK; send early, resend 1 week before liquidation | 1 |
 | [[concepts/ftp-connection]] | Payroll vendor automated file upload channel; request setup early | 1 |

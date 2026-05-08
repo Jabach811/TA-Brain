@@ -43,5 +43,4 @@ The TC operates more on the back-end/systematic side of a conversion, as distinc
 
 - [[lm-dc]]
 - [[qa]]
-- [[internal-teams]]
 - [[nbi]]

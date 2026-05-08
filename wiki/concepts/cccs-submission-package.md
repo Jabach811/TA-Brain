@@ -1,6 +1,6 @@
 ---
 title: "CCCS Submission Package"
-type: concept
+type: document
 tags: [subpack, cccs, plan-setup, conversion, document]
 created: 2026-04-16
 updated: 2026-04-16

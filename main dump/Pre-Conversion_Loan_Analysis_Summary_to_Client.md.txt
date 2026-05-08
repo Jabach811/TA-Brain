@@ -1,0 +1,12 @@
+# Pre-Conversion Loan Analysis Summary to Client
+
+## Purpose
+- Provide plan sponsor with analysis of outstanding loans prior to conversion.
+
+## Key Concepts
+- Next Repayment Due Date
+- IRS loan default timing rules
+
+## Client Action
+- Review loans past maturity or behind
+- Resolve issues with prior carrier before conversion

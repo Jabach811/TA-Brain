@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Census Loading - Ops Training Deck</title>
+  <link rel="stylesheet" href="../assets/deck-styles.css">
+  <style>:root { --procedure-accent: #2a6f73; }</style>
+</head>
+<body class="ops-page">
+  <header class="deck-nav">
+    <a href="../index.html">Procedure decks</a>
+    <span>Census Loading</span>
+    <span>Ops</span>
+  </header>
+  <main class="deck ops" data-deck>
+    <section class="slide title-slide">
+      <div class="title-grid">
+        <div>
+          <div class="kicker">Census / Elections / Ops deck</div>
+          <h1>Census Loading</h1>
+          <p class="slide-lede">Census data usually comes from the plan-specific base file, sometimes from a limited access file, the client, or the vendor. The load is successful only when mandatory fields, data types, default elections, warning reports, and missing participant exceptions are all accounted for.</p>
+          <div class="lifecycle-rail"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span></div>
+        </div>
+        <figure class="title-art"><img src="../assets/icons/census-loading.png" alt=""></figure>
+      </div>
+    </section>
+<section class="slide split-slide">
+      <div>
+        <div class="kicker">Inputs</div>
+        <h2>What has to be in hand</h2>
+        <ul class="check-list"><li>Completed PRD or onboarding package</li><li>Testing results from AWD</li><li>Plan-specific base file</li><li>Limited access file when open period applies</li><li>Client or vendor missing participant details</li><li>Forfeiture entries from balance files when present</li></ul>
+      </div>
+      <aside class="callout-panel">
+        <h3>Systems touched</h3>
+        <div class="pill-grid"><span class="pill">EDS</span><span class="pill">AQT</span><span class="pill">AWD</span><span class="pill">Base file template</span><span class="pill">Payroll template</span></div>
+      </aside>
+    </section>
+<section class="slide">
+      <div class="kicker">Run path</div>
+      <h2>Procedure sequence</h2>
+      <div class="step-grid">
+    <article class="step-card">
+      <div class="step-num">01</div>
+      <p>Confirm the source of census data: base file, limited access file, client file, or vendor file.</p>
+    </article>
+  
+    <article class="step-card">
+      <div class="step-num">02</div>
+      <p>Use AWD testing results to tailor the base and payroll templates for the plan.</p>
+    </article>
+  
+    <article class="step-card">
+      <div class="step-num">03</div>
+      <p>Meet with the client contact and walk through exactly how the file should be filled out.</p>
+    </article>
+  
+    <article class="step-card">
+      <div class="step-num">04</div>
+      <p>Validate returned data for mandatory fields, data types, term reason code needs, and column placement.</p>
+    </article>
+  
+    <article class="step-card">
+      <div class="step-num">05</div>
+      <p>Add forfeiture participants when balance files include them, preserving vendor naming and using standout DOB/DOH conventions.</p>
+    </article>
+  
+    <article class="step-card">
+      <div class="step-num">06</div>
+      <p>Load the census through EDS and read every warning and error output.</p>
+    </article>
+  
+    <article class="step-card">
+      <div class="step-num">07</div>
+      <p>Use AQT and EDS output files to verify who loaded, who failed, and what needs client follow-up.</p>
+    </article>
+  </div>
+    </section>
+<section class="slide matrix-slide">
+      <div class="kicker">Decision points</div>
+      <h2>What decides the path</h2>
+      <div class="decision-grid"><div class="decision-card">Is this a limited access or cash conversion plan?</div><div class="decision-card">Are elections being defaulted during the census load?</div><div class="decision-card">Are extra participants present on balance files but absent from census?</div><div class="decision-card">Do warning reports indicate fixable data issues or true rejects?</div></div>
+    </section>
+<section class="slide warning-slide">
+      <div class="kicker">Watchouts</div>
+      <h2>Where this can bite</h2>
+      <div class="warning-grid"><article><span>!</span><p>Most census files come from the base file, not the vendor.</p></article><article><span>!</span><p>Do not ignore EDS output files; they are the import story.</p></article><article><span>!</span><p>Extra participants from balance files should be reviewed with the client when possible.</p></article><article><span>!</span><p>Forfeiture participants should stand out; use 12/25/1955 as date of birth and 12/25/1985 as date of hire.</p></article><article><span>!</span><p>Favorite EDS output folders while imports are active so email reports surface quickly.</p></article></div>
+    </section>
+<section class="slide image-slide">
+      <div class="kicker">Visual map</div>
+      <h2>Use the flow when explaining the work</h2>
+      <figure class="image-frame"><img src="../assets/flow-census-elections-detail.png" alt=""></figure>
+    </section>
+<section class="slide closeout-slide">
+      <div class="kicker">Closeout</div>
+      <h2>Proof that it is done</h2>
+      <div class="closeout-grid">
+        <div><h3>Outputs</h3><ul><li>Loaded participant census</li><li>Warning and error report notes</li><li>Client follow-up list</li><li>Verified population count</li></ul></div>
+        <div><h3>Final checks</h3><ul><li>Population count reconciled</li><li>Warnings reviewed</li><li>Errors cleared or documented</li><li>Client follow-ups sent</li></ul></div>
+      </div>
+    </section>
+  </main>
+  <div class="deck-controls">
+    <button type="button" data-prev>Prev</button>
+    <span data-progress>1 / 7</span>
+    <button type="button" data-next>Next</button>
+  </div>
+  <script src="../assets/deck-player.js"></script>
+</body>
+</html>

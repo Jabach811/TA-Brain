@@ -1,6 +1,6 @@
 ---
 title: "Booking Assets"
-type: concept
+type: process
 tags: [booking, wire, aeda, remit, rebook, cashiering, liquidation]
 created: 2026-04-15
 updated: 2026-04-15

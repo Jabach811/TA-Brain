@@ -1,6 +1,6 @@
 ---
 title: Ellen Miller
-type: entity
+type: person
 tags:
   - person
   - assignment
@@ -43,4 +43,3 @@ When a new sale assignment comes out and gets loaded into NBI with empty DC spot
 
 - [[nbi]]
 - [[dc-onboarding-workflow]]
-- [[internal-teams]]

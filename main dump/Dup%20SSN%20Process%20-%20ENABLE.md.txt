@@ -1,0 +1,9 @@
+# Duplicate SSN Process – Enable Access
+
+## Purpose
+- Restore DDOL/VRU access and remove legal holds after resolution.
+
+## Process Summary
+- Run `ROC_DUPLICATE_SSN_ENABLE`.
+- Remove legal holds via `ROC_REMOVING_LEGAL_HOLD`.
+- Validate affected records and errors.

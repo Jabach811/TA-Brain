@@ -27,12 +27,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "wiki/concepts/base-file.md",
+                "file": "wiki/concepts/csr.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "base-file"
+              "title": "csr"
             }
           }
         ],
@@ -200,6 +200,10 @@
   },
   "active": "49bf18dcbf76d615",
   "lastOpenFiles": [
+    "wiki/concepts/advanced-employer.md",
+    "wiki/concepts/balance-import.md",
+    "wiki/concepts/balance-import-mapping.md",
+    "wiki/concepts/base-file.md",
     "wiki/roles/com.md.tmp.46388.1776365759652",
     "wiki/glossary/aaa.md",
     "wiki/glossary/pea.md",
@@ -229,12 +233,8 @@
     "raw/new mds/Using%20Informatica%20Basis%20Module.md.txt",
     "raw/new mds/Sub_Pack_Raw_CCCS.txt",
     "raw/new mds/Loading_Eligibility_through_EDS.md.txt",
-    "raw/new mds/Loading%20YTD%20Contributions%20through%20EDS.md.txt",
     "wiki/entities/cashiering.md",
     "wiki/sources/lmdc-training-notebook.md",
-    "wiki/glossary/tm.md",
-    "wiki/glossary/filespecrq.md",
-    "wiki/glossary/ssbt.md",
-    "wiki/glossary/ltpt.md"
+    "wiki/glossary/tm.md"
   ]
 }

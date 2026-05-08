@@ -1,6 +1,6 @@
 ---
 title: "Cashiering"
-type: entity
+type: department
 tags: [team, cashiering, wire, liquidation]
 created: 2026-04-14
 updated: 2026-04-15
@@ -17,7 +17,7 @@ Cashiering is the financial operations team that handles wire receipt on liquida
 
 ## Contact
 
-**Email:** `shtaopscashieringinc@transamerica.com`
+**TA Ops Cashiering — Incoming:** `SHTAOPSCASHIERINGINC@transamerica.com`
 
 ## Wire Pull Schedule
 
@@ -76,5 +76,4 @@ Cashiering maintains a daily wire schedule that likely already includes DC plan 
 - [[fund-management-calendar]]
 - [[informatica]]
 - [[p2]]
-- [[internal-teams]]
 - [[dc-onboarding-workflow]]

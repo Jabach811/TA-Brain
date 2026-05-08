@@ -1,10 +1,10 @@
 ---
 title: "Deferral Processing"
-type: concept
+type: process
 tags: [deferrals, auto-enrollment, p3, processing, final-files, adp]
 created: 2026-04-14
-updated: 2026-04-14
-sources: 3
+updated: 2026-05-03
+sources: 4
 ---
 
 # Deferral Processing
@@ -48,6 +48,28 @@ Many plans have **escalation logic** (also called auto-escalation or step-up):
 > Example: "Automatically increase the deferral rate by 1% each year, up to a cap of 10%."
 
 To apply escalation correctly, P3 needs to know when auto-enrollment began. Without the start date, the system can't calculate how many escalation steps have already occurred, and participants may end up at the wrong rate.
+
+The specific date the system uses is the **[[kit-mail-date]]** — the date the auto-enrollment welcome kit was mailed to the participant. That's what drives the escalation clock. Request it as part of the historical data pull.
+
+### Auto-Escalation Stops at TA
+
+This is a participant-experience gotcha worth knowing up front:
+
+> **TransAmerica does NOT auto-escalate.** Plans escalating at the prior record keeper will *not* continue escalating after conversion. If a participant wants their rate to keep going up, they have to opt back in themselves.
+
+A participant who was on a 1%-per-year step-up at the prior RK, expecting to land at 10% over time, will sit at their current rate forever post-conversion unless they manually change it.
+
+### Default-Participant SSN List to Client
+
+To get ahead of complaints, the DC pulls the list of participants who *look* like they're in auto-enroll default and sends it to the client so the client can warn those participants directly.
+
+The heuristic for "looks like they're in default":
+- Marked default in the deferral data, AND
+- Currently sitting at the **min rate** (likely never escalated) OR at **max minus one** (likely about to escalate one more time)
+
+That's the population most likely to expect an escalation that won't come. Send the list to the client — they communicate to participants who actually care. Most won't even realize the difference, but the few who do have a legitimate gripe if they aren't told.
+
+> *"There's a very, very low chance that any of them even will know what the hell you're talking about. And even lower chance that people who do know would even care... but if there's that one person who's expecting it and don't get it, well, then he's got a very good gripe. So we do it the right way. We always do it the right way."*
 
 ### The ADP Problem
 
@@ -96,6 +118,7 @@ This is a known limitation. Don't wait on ADP to provide it — go to the client
 
 - [[eligibility]] — must run after deferrals
 - [[eligibility-and-deferrals]] — overview of the relationship and sequence
+- [[kit-mail-date]] — the date that drives auto-escalation
 - [[final-files-processing]] — broader final files context
 - [[p3]] — where deferrals are posted
 - [[eds]] — how the deferral file is validated and loaded

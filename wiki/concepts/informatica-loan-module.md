@@ -1,6 +1,6 @@
 ---
 title: "Informatica Loan Module"
-type: concept
+type: process
 tags: [informatica, loans, system, conversion]
 created: 2026-04-16
 updated: 2026-04-18

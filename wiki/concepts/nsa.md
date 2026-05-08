@@ -1,6 +1,6 @@
 ---
 title: "NSA — New Sale Announcement"
-type: concept
+type: reference
 tags: [concept, document, trigger, com, sales]
 created: 2026-04-14
 updated: 2026-04-14

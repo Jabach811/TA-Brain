@@ -1,0 +1,23 @@
+# highest outstanding loan balance for internal conv
+
+## SQL
+```sql
+select soc_Sec_no, Yearmonth, min(due)
+from
+(SELECT A.SOC_SEC_NO,substr(eff_dt,1,6) as yearmonth ,min(PRNC_BAL_DUE_AMT) as due
+
+                                                                              
+FROM CORP.VLOAN_REPAYMENT A, CORP.EMPLOYEE B                                                  
+                                                                              
+WHERE A.CASE_NO= 'QK62132   00001'
+AND A.CASE_NO = B.CASE_NO
+AND A.SOC_sEC_NO = B.SOC_sEC_NO
+--AND B.EE_DIV_NO = 'COGS'                                                       
+AND EFF_DT BETWEEN '20080101' AND '20081231'  
+--and a.soc_Sec_no='014-48-4402'                            
+AND PRNC_BAL_DUE_AMT>0                                                        
+GROUP BY A.SOC_SEC_NO, eff_dt) as A
+
+group by a.soc_Sec_no, yearmonth
+ORDER BY A.SOC_SEC_NO
+```

@@ -1,0 +1,13 @@
+# Quality Assessment of Internal Team Members
+
+## Roles Reviewed
+- Data Consultant (DC)
+- Plan Services Consultant (PSC)
+- Transition Consultant (TC)
+- Transition Manager (TM)
+- Quality Control Consultant (QC)
+
+## Evaluation Areas
+- Audit completion timeliness
+- Documentation accuracy
+- Post go-live follow-ups

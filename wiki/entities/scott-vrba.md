@@ -1,6 +1,6 @@
 ---
 title: "Scott Vrba"
-type: entity
+type: person
 tags: [person, eligibility, sme]
 created: 2026-04-14
 updated: 2026-04-14

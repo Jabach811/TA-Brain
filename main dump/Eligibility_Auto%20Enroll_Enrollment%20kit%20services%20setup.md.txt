@@ -1,0 +1,10 @@
+# Eligibility, Auto Enroll, and Enrollment Kit Setup
+
+## Scenarios Covered
+- No Auto Enroll / Client mails kits
+- No Auto Enroll / TRS mails kits
+- Auto Enroll with TRS or Client mailing
+
+## Key Rules
+- 6-week lead time for kits
+- PoD initially set to On Hold

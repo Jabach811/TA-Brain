@@ -1,6 +1,6 @@
 ---
 title: "Informatica"
-type: entity
+type: system
 tags: [system, etl, workflows, processing]
 created: 2026-04-14
 updated: 2026-04-15

@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>TA Brain — Constellation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  html, body { margin: 0; padding: 0; height: 100%; background: #08090C; overflow: hidden; }
+  #root { position: fixed; inset: 0; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin></script>
+
+<script type="text/babel" src="animations.jsx"></script>
+<script type="text/babel" src="fm_shared.jsx"></script>
+<script type="text/babel" src="ta-brain-constellation_scenes.jsx"></script>
+
+<script type="text/babel" data-presets="react">
+const SCENES = [
+  { n: 1, s:  0.0, e:  5.0, label: 'Each mind, working alone' },
+  { n: 2, s:  5.0, e: 10.0, label: 'First connections form' },
+  { n: 3, s: 10.0, e: 15.0, label: 'The network takes shape' },
+  { n: 4, s: 15.0, e: 20.0, label: 'Stronger together' },
+  { n: 5, s: 20.0, e: 24.0, label: 'TA Brain — Collective Intelligence' },
+];
+const DURATION = 24.0;
+
+function ProgressDots() {
+  const t = useTime();
+  return (
+    <div style={{
+      position: 'absolute', right: 100, bottom: 66,
+      display: 'flex', gap: 5, alignItems: 'center',
+    }}>
+      {SCENES.map(s => {
+        const active = t >= s.s && t < s.e;
+        const done   = t >= s.e;
+        return (
+          <div key={s.n} style={{
+            height: 5, borderRadius: 3,
+            width: active ? 18 : 5,
+            background: active ? 'oklch(72% 0.14 248)'
+              : done ? 'rgba(232,234,240,0.42)' : 'rgba(232,234,240,0.13)',
+            boxShadow: active ? '0 0 10px oklch(72% 0.14 248 / 0.6)' : 'none',
+            transition: 'width 350ms cubic-bezier(0.4,0,0.2,1), background 250ms',
+          }} />
+        );
+      })}
+    </div>
+  );
+}
+
+function App() {
+  return (
+    <Stage
+      width={1280} height={720}
+      duration={DURATION}
+      background="#08090C"
+      persistKey="ta-brain-constellation"
+      loop={true}
+    >
+      {/* Grid overlay */}
+      <div style={{
+        position: 'absolute', inset: 0,
+        backgroundImage: `
+          linear-gradient(rgba(255,255,255,0.012) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255,255,255,0.012) 1px, transparent 1px)
+        `,
+        backgroundSize: '40px 40px',
+        maskImage: 'radial-gradient(ellipse at center, black 10%, transparent 72%)',
+        WebkitMaskImage: 'radial-gradient(ellipse at center, black 10%, transparent 72%)',
+        pointerEvents: 'none',
+      }} />
+      {/* Vignette */}
+      <div style={{
+        position: 'absolute', inset: 0,
+        background: 'radial-gradient(ellipse at center, transparent 30%, rgba(0,0,0,0.60) 100%)',
+        pointerEvents: 'none',
+      }} />
+
+      <Sprite start={ 0.0} end={ 5.0}><Scene1 /></Sprite>
+      <Sprite start={ 5.0} end={10.0}><Scene2 /></Sprite>
+      <Sprite start={10.0} end={15.0}><Scene3 /></Sprite>
+      <Sprite start={15.0} end={20.0}><Scene4 /></Sprite>
+      <Sprite start={20.0} end={24.0}><Scene5 /></Sprite>
+
+      <ProgressDots />
+    </Stage>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>

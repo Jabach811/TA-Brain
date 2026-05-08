@@ -1,0 +1,34 @@
+# Vesting Overrides for internal conversion
+
+## SQL
+```sql
+SELECT C.SOC_SEC_NO, C.LAST_NM, C.FST_MID_NM, A.EFF_D, A.SRC_S, A.VEST_P
+
+FROM PENSION.PART_VEST_OVRD A ,
+
+     PENSION.PART_ENRL B,
+
+     PENSION.PERSON_SEARCH C
+
+WHERE A.ENRL_PROV_GRP_I IN (SELECT ENRL_PROV_GRP_I 
+
+                           FROM PENSION.PLAN_PROV_GRP 
+
+                           WHERE ACCOUNT_NO ='QK61927   00001')
+
+AND A.PART_ENRL_I = B.PART_ENRL_I
+
+AND PERSON_I = PART_I
+
+AND A.ENRL_PROV_GRP_I = B.ENRL_PROV_GRP_I
+
+AND VEST_S = 0
+
+AND C.SOC_SEC_NO IN (SELECT SOC_SEC_NO
+
+                     FROM CORP.EE_BALANCE
+
+                     WHERE CASE_NO = 'QK61927   00001'
+
+                     AND EFF_DT = '20081130')
+```

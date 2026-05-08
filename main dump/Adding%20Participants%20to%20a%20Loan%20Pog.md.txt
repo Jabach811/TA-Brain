@@ -1,0 +1,9 @@
+# Adding Participants to a Loan PoG
+
+## Purpose
+- Add or remove participants from a restricted loan provision group (PoG).
+
+## Process
+- Identify `ENRL_PROV_GRP_I`.
+- Insert or delete participant enrollment rows.
+- Verify affected population.

@@ -1,0 +1,496 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>TA Brain · Silo Section Mockups</title>
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=switzer@400,500,600,700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..700,0..100,0..1&family=JetBrains+Mono:wght@400;500&display=swap">
+
+<style>
+:root{
+  --bg:#F5F1EB; --bg-2:#FAF8F3; --bg-3:#EBE5DA; --bg-card:#FBF8F2;
+  --ink:#1F1B16; --ink-2:#3A342C; --ink-dim:#6B6457; --ink-mute:#9A9385;
+  --line:rgba(31,27,22,.08); --line-2:rgba(31,27,22,.16); --line-3:rgba(31,27,22,.32);
+  --clay:#D97757; --clay-2:#BF5C3F; --clay-3:#F2C7B3;
+  --ochre:#C19A4D; --moss:#6F8160; --rust:#A24D2C;
+  --ease:cubic-bezier(.32,.72,0,1);
+  --serif:"Fraunces", ui-serif, Georgia, serif;
+  --sans:"Switzer", ui-sans-serif, system-ui, sans-serif;
+  --mono:"JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;letter-spacing:-.005em}
+::selection{background:rgba(217,119,87,.28)}
+
+.bg-field{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.bg-field::before{content:"";position:absolute;inset:-15%;
+  background:
+    radial-gradient(45% 35% at 12% 8%,rgba(217,119,87,.10),transparent 65%),
+    radial-gradient(40% 35% at 92% 28%,rgba(193,154,77,.08),transparent 70%),
+    radial-gradient(50% 40% at 50% 110%,rgba(111,129,96,.06),transparent 75%);
+}
+.bg-field::after{content:"";position:absolute;inset:0;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .12  0 0 0 0 .10  0 0 0 0 .08  0 0 0 .85 0'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='.45'/></svg>");
+  opacity:.07;mix-blend-mode:multiply;
+}
+
+main{position:relative;z-index:1;max-width:1320px;margin:0 auto;padding:64px clamp(20px,5vw,72px) 160px}
+
+h1,h2,h3{font-family:var(--serif);font-weight:400;letter-spacing:-.02em;line-height:1.05;color:var(--ink)}
+h2{font-size:clamp(40px,6vw,72px);font-variation-settings:"opsz" 96,"wght" 380,"SOFT" 50,"WONK" 1;line-height:.98}
+.italic{font-style:italic;font-variation-settings:"opsz" 144,"wght" 350,"SOFT" 100,"WONK" 1}
+.accent{color:var(--clay-2)}
+
+.mock-head{display:flex;align-items:baseline;gap:18px;margin-bottom:56px;padding-bottom:18px;border-bottom:1px solid var(--line-2)}
+.mock-head .label{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--clay-2);
+  padding:5px 11px;border:1px solid var(--clay-3);border-radius:999px;background:rgba(217,119,87,.06)}
+.mock-head .name{font-family:var(--serif);font-size:24px;font-variation-settings:"opsz" 36,"wght" 450}
+.mock-head .desc{margin-left:auto;font-size:13px;color:var(--ink-dim);max-width:48ch;line-height:1.5}
+
+.eyebrow{display:inline-flex;align-items:center;gap:10px;padding:5px 12px 5px 10px;border:1px solid var(--line-2);
+  border-radius:999px;font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--ink-dim);background:rgba(255,255,255,.55)}
+.eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--clay);box-shadow:0 0 10px rgba(217,119,87,.45)}
+
+.problem{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(32px,6vw,80px);align-items:center}
+@media (max-width:980px){.problem{grid-template-columns:1fr}}
+.problem h2{margin-top:24px}
+.problem .lead{font-size:clamp(17px,1.4vw,20px);line-height:1.55;color:var(--ink-2);max-width:48ch;margin-top:24px}
+.problem .body{font-size:14px;line-height:1.65;color:var(--ink-dim);margin-top:16px;max-width:50ch}
+
+.section-divider{height:1px;background:var(--line-2);margin:140px 0 80px;position:relative}
+.section-divider::before{content:"";position:absolute;left:0;right:0;top:-.5px;height:1px;
+  background:repeating-linear-gradient(90deg,var(--ink) 0 1px,transparent 1px 8px);opacity:.15}
+
+
+/* ============================================================
+   OPTION A — Severed network
+   Cards in a cluster connected by dashed lines.
+   Lines are visibly broken at the midpoint. Hover a card →
+   it lifts + brightens; siblings desaturate; broken edges
+   touching the hovered card pulse in clay to highlight the
+   missing connection.
+   ============================================================ */
+.netA{position:relative;aspect-ratio:1/1.05;width:100%;max-width:520px;margin-left:auto}
+.netA .wire{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1}
+.netA .wire path{fill:none;stroke:var(--ink);stroke-width:1;stroke-dasharray:3 5;opacity:.22;
+  transition:stroke .5s var(--ease),opacity .5s var(--ease),stroke-width .5s var(--ease)}
+.netA .wire .cut{stroke:var(--ink-mute);stroke-width:2;stroke-dasharray:none;opacity:.55}
+.netA:has(.nodeA[data-id="1"]:hover) .wire path[data-from*="1"],
+.netA:has(.nodeA[data-id="2"]:hover) .wire path[data-from*="2"],
+.netA:has(.nodeA[data-id="3"]:hover) .wire path[data-from*="3"],
+.netA:has(.nodeA[data-id="4"]:hover) .wire path[data-from*="4"],
+.netA:has(.nodeA[data-id="5"]:hover) .wire path[data-from*="5"],
+.netA:has(.nodeA[data-id="6"]:hover) .wire path[data-from*="6"]{
+  stroke:var(--clay);opacity:.85;stroke-width:1.5;animation:wire-pulse 1.6s ease-in-out infinite
+}
+@keyframes wire-pulse{0%,100%{opacity:.55}50%{opacity:.95}}
+
+.nodeA{position:absolute;width:30%;aspect-ratio:1/1;border-radius:14px;background:var(--bg-card);
+  border:1px solid var(--line-2);box-shadow:0 1px 0 rgba(255,255,255,.7) inset, 0 14px 26px rgba(31,27,22,.07);
+  padding:14px;display:flex;flex-direction:column;justify-content:space-between;z-index:2;
+  transition:transform .55s var(--ease),box-shadow .55s var(--ease),opacity .55s var(--ease),
+    border-color .55s var(--ease),filter .55s var(--ease);cursor:default}
+.nodeA .tag{font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-mute)}
+.nodeA .body{font-family:var(--serif);font-size:18px;line-height:1.1;letter-spacing:-.015em;color:var(--ink);
+  font-variation-settings:"opsz" 36,"wght" 420}
+.nodeA .body em{font-style:italic;color:var(--clay-2);font-variation-settings:"opsz" 36,"wght" 420,"SOFT" 100}
+.nodeA .meta{font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;color:var(--ink-mute);text-transform:uppercase}
+.nodeA[data-id="1"]{top:2%;left:6%;transform:rotate(-3deg)}
+.nodeA[data-id="2"]{top:0%;left:50%;transform:rotate(2deg)}
+.nodeA[data-id="3"]{top:32%;left:28%;transform:rotate(-1deg)}
+.nodeA[data-id="4"]{top:30%;left:68%;transform:rotate(1.5deg)}
+.nodeA[data-id="5"]{top:64%;left:8%;transform:rotate(-2deg)}
+.nodeA[data-id="6"]{top:66%;left:54%;transform:rotate(3deg)}
+.netA:hover .nodeA{opacity:.32;filter:saturate(.5)}
+.netA .nodeA:hover{opacity:1;filter:none;border-color:var(--clay);transform:translateY(-6px) scale(1.04) rotate(0deg);
+  box-shadow:0 1px 0 rgba(255,255,255,.7) inset, 0 30px 50px rgba(217,119,87,.18);z-index:3}
+
+/* X marks at midpoints of cuts */
+.netA .xmark{position:absolute;width:18px;height:18px;display:grid;place-items:center;z-index:1;
+  font-family:var(--mono);font-size:13px;color:var(--ink-mute);background:var(--bg);border-radius:50%;
+  border:1px dashed var(--line-3);transition:all .5s var(--ease)}
+.netA .nodeA:hover ~ .xmark{color:var(--clay-2);border-color:var(--clay)}
+
+
+/* ============================================================
+   OPTION B — Vault inventory drawers
+   Each department is a "drawer" with locked contents listed.
+   Inventory inside reveals where the knowledge is trapped.
+   Hover one → it slides forward + brightens; others recede,
+   desaturate, and a "→ can't reach" indicator appears on
+   neighbors to dramatize the isolation.
+   ============================================================ */
+.vaultB{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;perspective:1400px}
+@media (max-width:600px){.vaultB{grid-template-columns:repeat(2,1fr)}}
+.vaultB:hover .drawer{opacity:.42;filter:saturate(.55) blur(.3px);transform:translateZ(-30px)}
+.drawer{position:relative;background:var(--bg-card);border:1px solid var(--line-2);border-radius:14px;
+  padding:16px 16px 14px;min-height:200px;display:flex;flex-direction:column;gap:10px;
+  box-shadow:0 1px 0 rgba(255,255,255,.7) inset, 0 14px 26px rgba(31,27,22,.06);
+  transition:transform .6s var(--ease),box-shadow .6s var(--ease),opacity .6s var(--ease),
+    filter .6s var(--ease),border-color .6s var(--ease);transform-style:preserve-3d}
+.drawer::before{content:"";position:absolute;left:14px;right:14px;top:0;height:3px;border-radius:0 0 3px 3px;
+  background:linear-gradient(180deg,var(--ink-mute),transparent);opacity:.35}
+.drawer .head{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.drawer .dept{font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-mute)}
+.drawer .lock{display:inline-flex;align-items:center;gap:5px;font-family:var(--mono);font-size:10px;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--clay-2);
+  padding:2px 7px;border:1px solid var(--clay-3);border-radius:999px;background:rgba(217,119,87,.05)}
+.drawer .lock svg{width:9px;height:9px}
+.drawer .title{font-family:var(--serif);font-size:22px;line-height:1.05;letter-spacing:-.02em;color:var(--ink);
+  font-variation-settings:"opsz" 36,"wght" 420}
+.drawer ul{list-style:none;display:flex;flex-direction:column;gap:5px;margin-top:auto;padding-top:8px;
+  border-top:1px dashed var(--line-2)}
+.drawer li{font-size:12px;color:var(--ink-dim);display:flex;justify-content:space-between;gap:10px;line-height:1.3}
+.drawer li b{font-weight:500;color:var(--ink-2)}
+.drawer li .n{font-family:var(--mono);font-size:11px;color:var(--ink-mute)}
+.drawer .miss{font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--ink-mute);opacity:0;margin-top:4px;display:flex;align-items:center;gap:6px;
+  transition:opacity .5s var(--ease)}
+.drawer .miss::before{content:"";width:14px;height:1px;background:var(--ink-mute);
+  background-image:repeating-linear-gradient(90deg,currentColor 0 2px,transparent 2px 5px)}
+
+.vaultB:hover .drawer .miss{opacity:.7}
+.vaultB .drawer:hover{opacity:1;filter:none;transform:translateZ(40px) translateY(-4px);
+  border-color:var(--clay);box-shadow:0 1px 0 rgba(255,255,255,.7) inset, 0 32px 60px rgba(217,119,87,.18);z-index:2}
+.vaultB .drawer:hover .miss{opacity:0}
+
+
+/* ============================================================
+   OPTION C — Same question, six different answers
+   Shows a single query at top routed into 6 department brains.
+   Each returns a different (or absent) answer. Visualizes
+   "six different brains" literally. Hover one to focus its
+   answer — others fade and the divergent answers feel louder.
+   ============================================================ */
+.queryC{position:relative}
+.queryC .ask{display:flex;align-items:center;gap:14px;padding:14px 18px;border:1px solid var(--line-2);
+  border-radius:14px;background:rgba(255,255,255,.6);backdrop-filter:blur(6px);max-width:560px;margin:0 auto 28px}
+.queryC .ask .q-tag{font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--clay-2);padding:3px 8px;border:1px solid var(--clay-3);border-radius:999px;flex:none}
+.queryC .ask .q-text{font-family:var(--serif);font-size:18px;font-variation-settings:"opsz" 36,"wght" 420;
+  color:var(--ink);font-style:italic}
+.queryC .fanout{position:relative;height:32px;margin-bottom:10px}
+.queryC .fanout svg{position:absolute;inset:0;width:100%;height:100%}
+.queryC .fanout path{fill:none;stroke:var(--ink);stroke-width:1;stroke-dasharray:3 5;opacity:.18}
+
+.answersC{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media (max-width:780px){.answersC{grid-template-columns:repeat(2,1fr)}}
+.answersC:hover .ans{opacity:.32;filter:saturate(.5)}
+.ans{position:relative;background:var(--bg-card);border:1px solid var(--line-2);border-radius:14px;
+  padding:14px 16px 16px;display:flex;flex-direction:column;gap:8px;min-height:160px;
+  box-shadow:0 1px 0 rgba(255,255,255,.7) inset, 0 14px 26px rgba(31,27,22,.06);
+  transition:transform .55s var(--ease),box-shadow .55s var(--ease),opacity .55s var(--ease),
+    filter .55s var(--ease),border-color .55s var(--ease)}
+.ans::before{content:"";position:absolute;top:-7px;left:24px;width:14px;height:14px;background:var(--bg-card);
+  border-left:1px solid var(--line-2);border-top:1px solid var(--line-2);transform:rotate(45deg)}
+.ans .who{font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-mute);
+  display:flex;align-items:center;justify-content:space-between}
+.ans .who .src{font-style:normal;color:var(--ink-mute);opacity:.7}
+.ans .said{font-family:var(--serif);font-size:17px;line-height:1.3;letter-spacing:-.012em;color:var(--ink);
+  font-variation-settings:"opsz" 36,"wght" 400}
+.ans .said em{font-style:italic;color:var(--clay-2);font-variation-settings:"opsz" 36,"wght" 400,"SOFT" 100}
+.ans.empty .said{color:var(--ink-mute);font-style:italic}
+.ans .foot{margin-top:auto;font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ink-mute);display:flex;justify-content:space-between;gap:10px;padding-top:8px;border-top:1px dashed var(--line-2)}
+.ans .foot .conf{color:var(--clay-2)}
+.answersC .ans:hover{opacity:1;filter:none;border-color:var(--clay);transform:translateY(-4px);
+  box-shadow:0 1px 0 rgba(255,255,255,.7) inset, 0 28px 50px rgba(217,119,87,.16);z-index:2}
+
+/* nav at top */
+.toc{position:sticky;top:0;z-index:10;background:rgba(245,241,235,.85);backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--line-2);padding:12px clamp(20px,5vw,72px);display:flex;gap:18px;align-items:center;
+  font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-dim)}
+.toc a{padding:5px 10px;border:1px solid var(--line-2);border-radius:999px;transition:all .3s var(--ease)}
+.toc a:hover{color:var(--clay-2);border-color:var(--clay)}
+.toc .home{margin-left:auto;color:var(--ink-mute)}
+</style>
+</head>
+<body>
+<div class="bg-field"></div>
+
+<nav class="toc">
+  <span>Silo section · mockups</span>
+  <a href="#a">A · Severed network</a>
+  <a href="#b">B · Vault drawers</a>
+  <a href="#c">C · Six answers</a>
+  <span class="home">hover any card to see the interaction</span>
+</nav>
+
+<main>
+
+
+<!-- ============================================================
+     OPTION A
+     ============================================================ -->
+<section id="a">
+  <div class="mock-head">
+    <span class="label">Option A</span>
+    <span class="name">Severed network</span>
+    <span class="desc">Cards as nodes, dashed connectors visibly broken at the midpoint. Hover one card → others dim, broken connections to the hovered card pulse in clay. Best when you want to <em>show</em> the missing wiring.</span>
+  </div>
+
+  <div class="problem">
+    <div>
+      <div class="eyebrow"><span class="dot"></span> The current state</div>
+      <h2>Six departments.<br>One <em class="italic accent">unbridged</em> map.</h2>
+      <p class="lead">Each team is its own island. Knowledge moves person-to-person, not system-to-system — so the same question gets six different answers, and every report starts from scratch.</p>
+      <p class="body">Hover a department to see which connections it's missing.</p>
+    </div>
+
+    <div class="netA" aria-label="Disconnected department network">
+      <svg class="wire" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+        <!-- broken connectors. each path goes from edge of one card toward another, stopping short of midpoint -->
+        <path data-from="1-2" d="M30 14 L46 12"/>           <path data-from="1-2" d="M54 12 L67 11"/>
+        <path data-from="1-3" d="M27 22 L36 33"/>           <path data-from="1-3" d="M40 38 L46 44"/>
+        <path data-from="2-4" d="M76 18 L82 28"/>           <path data-from="2-4" d="M85 33 L88 41"/>
+        <path data-from="3-4" d="M58 50 L66 50"/>           <path data-from="3-4" d="M72 50 L80 50"/>
+        <path data-from="3-5" d="M40 56 L30 66"/>           <path data-from="3-5" d="M27 70 L22 76"/>
+        <path data-from="4-6" d="M76 60 L72 70"/>           <path data-from="4-6" d="M70 75 L66 80"/>
+        <path data-from="5-6" d="M37 80 L48 80"/>           <path data-from="5-6" d="M55 80 L66 80"/>
+        <path data-from="2-3" d="M58 22 L52 32"/>           <path data-from="2-3" d="M50 36 L46 44"/>
+      </svg>
+
+      <span class="xmark" style="top:11%;left:48%">×</span>
+      <span class="xmark" style="top:34%;left:38%">×</span>
+      <span class="xmark" style="top:46%;left:67%">×</span>
+      <span class="xmark" style="top:67%;left:24%">×</span>
+      <span class="xmark" style="top:69%;left:67%">×</span>
+      <span class="xmark" style="top:78%;left:50%">×</span>
+
+      <div class="nodeA" data-id="1">
+        <div class="tag">↯ Conversions</div>
+        <div class="body">Decks &amp; <em>DMs</em></div>
+        <div class="meta">2 owners</div>
+      </div>
+      <div class="nodeA" data-id="2">
+        <div class="tag">↯ Audit</div>
+        <div class="body">PDFs in <em>Drive</em></div>
+        <div class="meta">scattered</div>
+      </div>
+      <div class="nodeA" data-id="3">
+        <div class="tag">↯ Operations</div>
+        <div class="body">SOPs in <em>heads</em></div>
+        <div class="meta">tribal</div>
+      </div>
+      <div class="nodeA" data-id="4">
+        <div class="tag">↯ Client svc</div>
+        <div class="body">Email <em>threads</em></div>
+        <div class="meta">unsearchable</div>
+      </div>
+      <div class="nodeA" data-id="5">
+        <div class="tag">↯ Compliance</div>
+        <div class="body">Spreadsheets, <em>v17</em></div>
+        <div class="meta">stale</div>
+      </div>
+      <div class="nodeA" data-id="6">
+        <div class="tag">↯ Leadership</div>
+        <div class="body">Slack <em>backchannel</em></div>
+        <div class="meta">2 people</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<div class="section-divider"></div>
+
+
+<!-- ============================================================
+     OPTION B
+     ============================================================ -->
+<section id="b">
+  <div class="mock-head">
+    <span class="label">Option B</span>
+    <span class="name">Vault drawers</span>
+    <span class="desc">Each department is a locked drawer with its inventory listed — emails, decks, "lives in J. Smith's head." Hover one → it slides forward, others recede with a "→ can't reach" indicator. Best when you want to <em>show what's actually trapped</em> in each silo.</span>
+  </div>
+
+  <div class="problem">
+    <div>
+      <div class="eyebrow"><span class="dot"></span> The current state</div>
+      <h2>Six departments.<br>Six <em class="italic accent">locked</em> vaults.</h2>
+      <p class="lead">Inboxes, decks, DMs, and the heads of two senior people. The knowledge exists — it just can't talk to itself. Every report is a fresh excavation.</p>
+      <p class="body">Hover a vault to inspect what it's holding hostage.</p>
+    </div>
+
+    <div class="vaultB">
+      <article class="drawer">
+        <div class="head">
+          <span class="dept">Conversions</span>
+          <span class="lock"><svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="2" y="5" width="6" height="4" rx="1"/><path d="M3.5 5V3.5a1.5 1.5 0 013 0V5"/></svg> Locked</span>
+        </div>
+        <div class="title">Decks &amp; pitch decks</div>
+        <ul>
+          <li><b>Slides</b><span class="n">142</span></li>
+          <li><b>DM threads</b><span class="n">~8 / wk</span></li>
+          <li><b>In-head</b><span class="n">2 reps</span></li>
+        </ul>
+        <span class="miss">cannot reach Audit</span>
+      </article>
+
+      <article class="drawer">
+        <div class="head">
+          <span class="dept">Audit</span>
+          <span class="lock"><svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="2" y="5" width="6" height="4" rx="1"/><path d="M3.5 5V3.5a1.5 1.5 0 013 0V5"/></svg> Locked</span>
+        </div>
+        <div class="title">PDFs in shared Drive</div>
+        <ul>
+          <li><b>Reports</b><span class="n">317</span></li>
+          <li><b>Last indexed</b><span class="n">never</span></li>
+          <li><b>Owners</b><span class="n">3</span></li>
+        </ul>
+        <span class="miss">cannot reach Ops</span>
+      </article>
+
+      <article class="drawer">
+        <div class="head">
+          <span class="dept">Operations</span>
+          <span class="lock"><svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="2" y="5" width="6" height="4" rx="1"/><path d="M3.5 5V3.5a1.5 1.5 0 013 0V5"/></svg> Locked</span>
+        </div>
+        <div class="title">SOPs in <em style="font-style:italic;color:var(--clay-2)">heads</em></div>
+        <ul>
+          <li><b>Documented</b><span class="n">12%</span></li>
+          <li><b>Tribal</b><span class="n">88%</span></li>
+          <li><b>Bus factor</b><span class="n">1</span></li>
+        </ul>
+        <span class="miss">cannot reach Client svc</span>
+      </article>
+
+      <article class="drawer">
+        <div class="head">
+          <span class="dept">Client svc</span>
+          <span class="lock"><svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="2" y="5" width="6" height="4" rx="1"/><path d="M3.5 5V3.5a1.5 1.5 0 013 0V5"/></svg> Locked</span>
+        </div>
+        <div class="title">Email threads</div>
+        <ul>
+          <li><b>Inboxes</b><span class="n">11</span></li>
+          <li><b>Tickets</b><span class="n">2.4k</span></li>
+          <li><b>Searchable</b><span class="n">no</span></li>
+        </ul>
+        <span class="miss">cannot reach Compliance</span>
+      </article>
+
+      <article class="drawer">
+        <div class="head">
+          <span class="dept">Compliance</span>
+          <span class="lock"><svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="2" y="5" width="6" height="4" rx="1"/><path d="M3.5 5V3.5a1.5 1.5 0 013 0V5"/></svg> Locked</span>
+        </div>
+        <div class="title">Spreadsheets, v17</div>
+        <ul>
+          <li><b>Versions</b><span class="n">17</span></li>
+          <li><b>Source of truth</b><span class="n">unclear</span></li>
+          <li><b>Last review</b><span class="n">Q1</span></li>
+        </ul>
+        <span class="miss">cannot reach Leadership</span>
+      </article>
+
+      <article class="drawer">
+        <div class="head">
+          <span class="dept">Leadership</span>
+          <span class="lock"><svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="2" y="5" width="6" height="4" rx="1"/><path d="M3.5 5V3.5a1.5 1.5 0 013 0V5"/></svg> Locked</span>
+        </div>
+        <div class="title">Slack backchannel</div>
+        <ul>
+          <li><b>DMs</b><span class="n">private</span></li>
+          <li><b>Decisions</b><span class="n">undocumented</span></li>
+          <li><b>Audience</b><span class="n">2</span></li>
+        </ul>
+        <span class="miss">cannot reach Conversions</span>
+      </article>
+    </div>
+  </div>
+</section>
+
+
+<div class="section-divider"></div>
+
+
+<!-- ============================================================
+     OPTION C
+     ============================================================ -->
+<section id="c">
+  <div class="mock-head">
+    <span class="label">Option C</span>
+    <span class="name">Same question, six answers</span>
+    <span class="desc">A single question fans out to six departments — each returns a different (or no) answer. Best when you want to <em>dramatize the consequence</em> of silos rather than depict the structure. Most narrative-rich.</span>
+  </div>
+
+  <div>
+    <div class="eyebrow"><span class="dot"></span> The current state</div>
+    <h2 style="margin-top:24px;max-width:18ch">Ask one question.<br>Get <em class="italic accent">six</em> answers.</h2>
+    <p style="font-size:clamp(17px,1.4vw,20px);line-height:1.55;color:var(--ink-2);max-width:54ch;margin-top:24px">
+      Knowledge lives in inboxes, decks, DMs, and the heads of two senior people. So a simple ask — "why did Q3 conversions drop?" — produces six versions of the truth.
+    </p>
+
+    <div class="queryC" style="margin-top:48px">
+      <div class="ask">
+        <span class="q-tag">Q</span>
+        <span class="q-text">"Why did Q3 conversions drop?"</span>
+      </div>
+
+      <div class="fanout" aria-hidden="true">
+        <svg viewBox="0 0 100 100" preserveAspectRatio="none">
+          <path d="M50 0 C50 0, 16 50, 16 100"/>
+          <path d="M50 0 C50 0, 33 50, 33 100"/>
+          <path d="M50 0 C50 0, 50 50, 50 100"/>
+          <path d="M50 0 C50 0, 67 50, 66 100"/>
+          <path d="M50 0 C50 0, 84 50, 84 100"/>
+          <path d="M50 0 C50 0, 95 50, 95 100"/>
+        </svg>
+      </div>
+
+      <div class="answersC">
+        <article class="ans">
+          <div class="who">Conversions <span class="src">via deck</span></div>
+          <div class="said">"Pricing test in <em>August</em> tanked it."</div>
+          <div class="foot"><span>updated 3w ago</span><span class="conf">conf 60%</span></div>
+        </article>
+
+        <article class="ans">
+          <div class="who">Audit <span class="src">via PDF</span></div>
+          <div class="said">"Funnel <em>variance</em> is within tolerance."</div>
+          <div class="foot"><span>Q2 report</span><span class="conf">conf 40%</span></div>
+        </article>
+
+        <article class="ans">
+          <div class="who">Operations <span class="src">via memory</span></div>
+          <div class="said">"We changed <em>routing</em> in week 6."</div>
+          <div class="foot"><span>verbal · J. Smith</span><span class="conf">conf 80%</span></div>
+        </article>
+
+        <article class="ans">
+          <div class="who">Client svc <span class="src">via Zendesk</span></div>
+          <div class="said">"Onboarding <em>complaints</em> spiked in Aug."</div>
+          <div class="foot"><span>tickets ↑38%</span><span class="conf">conf 70%</span></div>
+        </article>
+
+        <article class="ans empty">
+          <div class="who">Compliance <span class="src">no answer</span></div>
+          <div class="said">— not in scope —</div>
+          <div class="foot"><span>last touched Q1</span><span class="conf">conf 0%</span></div>
+        </article>
+
+        <article class="ans">
+          <div class="who">Leadership <span class="src">via DM</span></div>
+          <div class="said">"<em>Macro</em> headwinds, mostly."</div>
+          <div class="foot"><span>off the record</span><span class="conf">conf 50%</span></div>
+        </article>
+      </div>
+    </div>
+
+    <p style="font-size:14px;line-height:1.65;color:var(--ink-dim);margin-top:32px;max-width:50ch">
+      What if every system, every process, every piece of tribal knowledge fed one shared cortex — and your team could query it like a colleague?
+    </p>
+  </div>
+</section>
+
+</main>
+
+</body>
+</html>

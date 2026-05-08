@@ -1,0 +1,14 @@
+# Eligibility, Auto Enroll, and Enrollment Kit Services Setup
+
+## Purpose
+- Configure eligibility, auto enrollment, and enrollment kit mailing.
+
+## Scenarios Covered
+- No Auto Enroll / Client mails kits
+- No Auto Enroll / TRS mails kits
+- Auto Enroll / TRS mails kits
+- Auto Enroll / Client mails kits
+
+## Key Rules
+- 6-week lead time for kits
+- PoD typically set to On Hold initially.

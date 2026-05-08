@@ -1,6 +1,6 @@
 ---
 title: "Project Plan (COM)"
-type: concept
+type: document
 tags: [concept, document, com, project-management, conversion]
 created: 2026-04-14
 updated: 2026-04-14

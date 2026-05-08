@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fund Mapping - Ops Training Deck</title>
+  <link rel="stylesheet" href="../assets/deck-styles.css">
+  <style>:root { --procedure-accent: #7b5b9f; }</style>
+</head>
+<body class="ops-page">
+  <header class="deck-nav">
+    <a href="../index.html">Procedure decks</a>
+    <span>Fund Mapping</span>
+    <span>Ops</span>
+  </header>
+  <main class="deck ops" data-deck>
+    <section class="slide title-slide">
+      <div class="title-grid">
+        <div>
+          <div class="kicker">Mapping / Ops deck</div>
+          <h1>Fund Mapping</h1>
+          <p class="slide-lede">Fund mapping is used for mapping conversions. The TOA provides old-to-new fund relationships, but the working fund mapping file adds prior fund codes, amounts, ref numbers, and split-fund indicators.</p>
+          <div class="lifecycle-rail"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span></div>
+        </div>
+        <figure class="title-art"><img src="../assets/icons/fund-mapping.png" alt=""></figure>
+      </div>
+    </section>
+<section class="slide split-slide">
+      <div>
+        <div class="kicker">Inputs</div>
+        <h2>What has to be in hand</h2>
+        <ul class="check-list"><li>Finalized TOA</li><li>Prior record keeper fund codes</li><li>Fund totals</li><li>Split-fund percentages</li><li>Ref numbers once processing begins</li></ul>
+      </div>
+      <aside class="callout-panel">
+        <h3>Systems touched</h3>
+        <div class="pill-grid"><span class="pill">TOA</span><span class="pill">Fund mapping workbook</span><span class="pill">P3 ref numbers</span><span class="pill">QA review</span></div>
+      </aside>
+    </section>
+<section class="slide">
+      <div class="kicker">Run path</div>
+      <h2>Procedure sequence</h2>
+      <div class="step-grid">
+    <article class="step-card">
+      <div class="step-num">01</div>
+      <p>Copy the fund mapping section from the finalized TOA.</p>
+    </article>
+  
+    <article class="step-card">
+      <div class="step-num">02</div>
+      <p>Add the DC working header: prior fund code, total amount, ref number, and split indicator.</p>
+    </article>
+  
+    <article class="step-card">
+      <div class="step-num">03</div>
+      <p>Fill Transamerica fund descriptor details from the TOA.</p>
+    </article>
+  
+    <article class="step-card">
+      <div class="step-num">04</div>
+      <p>Document split funds with the correct allocation percentages.</p>
+    </article>
+  
+    <article class="step-card">
+      <div class="step-num">05</div>
+      <p>Resolve mismatches where vendor fund codes do not line up cleanly with the TOA.</p>
+    </article>
+  
+    <article class="step-card">
+      <div class="step-num">06</div>
+      <p>Send fund mapping to QA and update ref numbers when processing begins.</p>
+    </article>
+  </div>
+    </section>
+<section class="slide matrix-slide">
+      <div class="kicker">Decision points</div>
+      <h2>What decides the path</h2>
+      <div class="decision-grid"><div class="decision-card">Does the vendor fund code match the TOA fund code?</div><div class="decision-card">Is any fund split across two TA funds?</div><div class="decision-card">Are ref numbers ready yet or pending processing?</div><div class="decision-card">Can QA follow the work from prior fund to TA fund?</div></div>
+    </section>
+<section class="slide warning-slide">
+      <div class="kicker">Watchouts</div>
+      <h2>Where this can bite</h2>
+      <div class="warning-grid"><article><span>!</span><p>Fund mapping is only for mapping conversions, not cash conversions.</p></article><article><span>!</span><p>Some vendor fund codes require two-step explanation; show the work.</p></article><article><span>!</span><p>The mapping cannot be fully complete until ref numbers exist.</p></article></div>
+    </section>
+<section class="slide image-slide">
+      <div class="kicker">Visual map</div>
+      <h2>Use the flow when explaining the work</h2>
+      <figure class="image-frame"><img src="../assets/flow-source-fund-mapping-detail.png" alt=""></figure>
+    </section>
+<section class="slide closeout-slide">
+      <div class="kicker">Closeout</div>
+      <h2>Proof that it is done</h2>
+      <div class="closeout-grid">
+        <div><h3>Outputs</h3><ul><li>QA-ready fund mapping file</li><li>Split-fund instructions</li><li>Ref-number-ready purchase file</li></ul></div>
+        <div><h3>Final checks</h3><ul><li>TOA mapping copied</li><li>Prior fund codes and totals filled</li><li>Split funds documented</li><li>QA review sent</li></ul></div>
+      </div>
+    </section>
+  </main>
+  <div class="deck-controls">
+    <button type="button" data-prev>Prev</button>
+    <span data-progress>1 / 7</span>
+    <button type="button" data-next>Next</button>
+  </div>
+  <script src="../assets/deck-player.js"></script>
+</body>
+</html>

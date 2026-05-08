@@ -1,0 +1,9 @@
+# Inserting Target Date Chart
+
+## Purpose
+- Load and validate Target Date Fund charts in P3.
+
+## Steps
+- Verify Plan Default setup.
+- Enter fund family and retirement years.
+- Validate via AQT Target Date query.

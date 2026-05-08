@@ -1,6 +1,6 @@
 ---
 title: "PRD — Plan Review Document"
-type: concept
+type: document
 tags: [document, prd, plan-provisions, discovery, client-signed]
 created: 2026-04-14
 updated: 2026-04-14

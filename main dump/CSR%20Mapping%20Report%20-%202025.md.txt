@@ -1,0 +1,10 @@
+# CSR Mapping Report – 2025
+
+## Purpose
+- Provide a detailed mapping-based Conversion Summary Report.
+
+## Contents
+- Asset and election mapping strategy
+- QDIA handling
+- Fund and source mapping tables
+- Post-mapping transfers and reconciliations

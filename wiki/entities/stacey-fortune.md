@@ -1,6 +1,6 @@
 ---
 title: Stacey Fortune
-type: entity
+type: person
 tags:
   - person
   - manager
@@ -44,4 +44,3 @@ Stacey and [[nick-lister]] are both contacts for AE liquidation. Stacey floats b
 - [[nick-lister]]
 - [[final-files-processing]]
 - [[conversion-types]]
-- [[internal-teams]]

@@ -19,7 +19,7 @@ A new Communications Coordinator joining the Large Market team at Transamerica. 
 
 1. **[[overview]]** — What TA's conversion business is, at the highest level. Read this first to understand the domain before any detail.
 2. **[[plan-conversion-handoffs]]** — The master map of how work moves between all teams. This is your operating context: everything you do lives inside this flow.
-3. **[[internal-teams]]** — Who all the internal players are. COM touches every team; know them all by name before your first kickoff.
+3. **** — Who all the internal players are. COM touches every team; know them all by name before your first kickoff.
 4. **[[conversion-types]]** — Cash vs. mapping vs. transfer in kind. Every conversion is one of these; know the difference early.
 
 ### Your Role

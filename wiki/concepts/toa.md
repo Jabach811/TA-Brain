@@ -1,6 +1,6 @@
 ---
 title: "TOA — Transfer of Assets"
-type: concept
+type: document
 tags: [document, toa, fund-mapping, transfer-in-kind, client-signed]
 created: 2026-04-14
 updated: 2026-04-14
@@ -31,6 +31,8 @@ The TOA is a spreadsheet/form containing one row per fund being transferred. Key
 | Current value (estimate) | Dollar value of fund (may be stale) |
 
 > Column T is the critical field. If any row = Y, [[transfer-in-kind]] process applies.
+
+![TOA spreadsheet — one row per fund, Column T flags re-registration (TIK).](SS/TOA.jpg)
 
 ## What the DC Does with the TOA
 

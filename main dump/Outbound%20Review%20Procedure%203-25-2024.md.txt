@@ -1,0 +1,10 @@
+# Outbound File Review Procedure
+
+## Purpose
+- Ensure outbound files (OBFs) are correctly released post go-live.
+
+## Key Steps
+- Run OBF Review SQL (ODSP).
+- Pivot and filter results.
+- Identify plans still marked as ‘Review’.
+- Notify TC and document findings.

@@ -1,0 +1,22 @@
+# new internal conversion deferral report
+
+## SQL
+```sql
+
+
+select case_no,  a.SOC_SEC_NO,  a.DEF_A,  a.DEF_P,  a.DEF_GRP_I,  a.EFF_D,  a.SRC_I
+, ee_term_dt,
+COALESCE(
+  (case 
+   when c.DEFAULT_STAT_C=0  and ENRL_SERV_TYP_C=1 then 'Not in Default'
+   when c.default_stat_c=1 and ENRL_SERV_TYP_C=1 then 'In Default'
+   else 'NULL' end), 'NULL') as default_ind
+from pension.part_Def_data a, TDA.vemployee b
+left outer join pension.part_ppa_default as c on c.account_no=case_no and b.soc_sec_no=c.soc_sec_no and ENRL_SERV_TYP_C=1
+where a.enrl_prov_grp_i in (select enrl_prov_grp_i from pension.plan_prov_grp where account_no='TT069215  00001')
+and a.stat_c='A'
+and case_no='TT069215  00001'
+and a.soc_Sec_no=b.soc_Sec_no
+
+--and (DEF_A>0 or DEF_P>0)
+```

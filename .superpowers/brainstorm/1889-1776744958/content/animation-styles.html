@@ -1,0 +1,223 @@
+<h2>What kind of animation are we adding?</h2>
+<p class="subtitle">Same concept page, four different animation styles below the description. Click whichever direction feels right — or pick "none of these" in chat.</p>
+
+<style>
+  .anim-demo {
+    background: #0d0f12;
+    border: 1px solid #2a2f36;
+    border-radius: 10px;
+    padding: 18px 20px 20px;
+    color: #e6e8eb;
+    font-family: -apple-system, system-ui, sans-serif;
+    margin-bottom: 12px;
+  }
+  .anim-demo .crumb { font-size: 11px; color: #7c828a; letter-spacing: .5px; text-transform: uppercase; margin-bottom: 8px; }
+  .anim-demo .ttl { font-size: 22px; font-weight: 700; margin: 0 0 8px; }
+  .anim-demo .chips-row { display: flex; gap: 6px; margin-bottom: 10px; flex-wrap: wrap; }
+  .anim-demo .pill { background: #1c2128; color: #9aa0a6; font-size: 10px; padding: 2px 8px; border-radius: 99px; border: 1px solid #2a2f36; }
+  .anim-demo .pill.tag { color: #6cb6ff; border-color: #234; }
+  .anim-demo .desc { font-size: 13px; color: #c9cdd3; line-height: 1.55; margin: 0 0 14px; }
+  .anim-demo .stage { background: #14171c; border: 1px solid #232830; border-radius: 8px; padding: 16px; min-height: 140px; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; }
+  .style-name { font-size: 12px; color: #9aa0a6; margin-top: 8px; font-style: italic; }
+
+  /* A — Explainer diagram (process flow with animated tokens) */
+  .ex-svg { width: 100%; max-width: 420px; height: 110px; }
+  .ex-node { fill: #1c2128; stroke: #6cb6ff; stroke-width: 1.5; }
+  .ex-label { fill: #c9cdd3; font-size: 10px; font-family: sans-serif; }
+  .ex-arrow { stroke: #4a5260; stroke-width: 1.5; fill: none; }
+  .ex-token { fill: #6cb6ff; }
+  .ex-token-1 { animation: tokenFlow 4s ease-in-out infinite; }
+  .ex-token-2 { animation: tokenFlow 4s ease-in-out infinite; animation-delay: 1.3s; }
+  @keyframes tokenFlow {
+    0%   { transform: translateX(0);    opacity: 0; }
+    10%  { opacity: 1; }
+    45%  { transform: translateX(160px); opacity: 1; }
+    55%  { transform: translateX(160px); opacity: 1; }
+    90%  { transform: translateX(320px); opacity: 1; }
+    100% { transform: translateX(320px); opacity: 0; }
+  }
+
+  /* B — Ambient banner (decorative gradient + particles) */
+  .ambient {
+    width: 100%; height: 110px; border-radius: 6px;
+    background: linear-gradient(120deg, #0a3d62 0%, #6cb6ff 50%, #c678dd 100%);
+    background-size: 300% 300%;
+    animation: gradientShift 8s ease infinite;
+    position: relative; overflow: hidden;
+  }
+  @keyframes gradientShift { 0%,100%{background-position:0% 50%} 50%{background-position:100% 50%} }
+  .ambient::before, .ambient::after {
+    content: ''; position: absolute; border-radius: 50%;
+    background: rgba(255,255,255,0.18); filter: blur(8px);
+  }
+  .ambient::before { width: 50px; height: 50px; top: 20%; left: 15%; animation: float 6s ease-in-out infinite; }
+  .ambient::after  { width: 80px; height: 80px; bottom: 10%; right: 15%; animation: float 7s ease-in-out infinite reverse; }
+  @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-15px)} }
+
+  /* C — Flowchart with traveling token */
+  .flow-svg { width: 100%; max-width: 460px; height: 120px; }
+  .flow-box { fill: #1c2128; stroke: #4a5260; stroke-width: 1; rx: 4; }
+  .flow-label { fill: #c9cdd3; font-size: 9px; font-family: sans-serif; text-anchor: middle; }
+  .flow-line { stroke: #4a5260; stroke-width: 1.5; fill: none; stroke-dasharray: 4 3; animation: dashFlow 1.2s linear infinite; }
+  @keyframes dashFlow { to { stroke-dashoffset: -14; } }
+  .flow-pulse { fill: #6cb6ff; }
+  .flow-pulse-1 { animation: pulseAt 5s ease-in-out infinite; }
+  .flow-pulse-2 { animation: pulseAt 5s ease-in-out infinite; animation-delay: 1.66s; }
+  .flow-pulse-3 { animation: pulseAt 5s ease-in-out infinite; animation-delay: 3.33s; }
+  @keyframes pulseAt {
+    0%,15%,100% { transform: translateX(0)   scale(1); opacity: 0; }
+    20%,30%     { transform: translateX(0)   scale(1.5); opacity: 1; }
+    50%,60%     { transform: translateX(140px) scale(1.5); opacity: 1; }
+    80%,90%     { transform: translateX(280px) scale(1.5); opacity: 1; }
+  }
+
+  /* D — Sequenced step icons (one per Key Characteristic, lights up in turn) */
+  .seq { display: flex; gap: 14px; align-items: center; }
+  .seq-step {
+    display: flex; flex-direction: column; align-items: center; gap: 6px;
+    opacity: 0.35;
+    animation: seqOn 6s ease-in-out infinite;
+  }
+  .seq-step:nth-child(1) { animation-delay: 0s; }
+  .seq-step:nth-child(2) { animation-delay: 0.7s; }
+  .seq-step:nth-child(3) { animation-delay: 1.4s; }
+  .seq-step:nth-child(4) { animation-delay: 2.1s; }
+  .seq-step:nth-child(5) { animation-delay: 2.8s; }
+  .seq-step:nth-child(6) { animation-delay: 3.5s; }
+  @keyframes seqOn { 0%,40%,100% { opacity: 0.35; transform: translateY(0); } 10%,20% { opacity: 1; transform: translateY(-3px); } }
+  .seq-icon { width: 36px; height: 36px; border-radius: 8px; background: #1c2128; border: 1px solid #6cb6ff; display: flex; align-items: center; justify-content: center; color: #6cb6ff; font-size: 16px; }
+  .seq-arrow { color: #4a5260; font-size: 14px; }
+  .seq-cap { font-size: 9px; color: #9aa0a6; max-width: 60px; text-align: center; line-height: 1.2; }
+</style>
+
+<div class="cards">
+
+  <div class="card" data-choice="explainer" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div class="anim-demo">
+        <div class="crumb">CONCEPTS › BALANCE IMPORT — MAPPING</div>
+        <div class="ttl">Balance Import — Mapping</div>
+        <div class="chips-row">
+          <span class="pill">concept</span>
+          <span class="pill tag">#balance</span>
+          <span class="pill tag">#mapping</span>
+        </div>
+        <p class="desc">Balance import method where prior-record-keeper funds map directly to corresponding TA funds. The wire is received and balances are applied the same day…</p>
+        <div class="stage">
+          <svg class="ex-svg" viewBox="0 0 420 110">
+            <rect class="ex-node" x="10"  y="35" width="90" height="40" rx="6"/>
+            <text class="ex-label" x="55"  y="58" text-anchor="middle">Prior RK Funds</text>
+            <rect class="ex-node" x="170" y="35" width="90" height="40" rx="6"/>
+            <text class="ex-label" x="215" y="58" text-anchor="middle">Mapping File</text>
+            <rect class="ex-node" x="330" y="35" width="80" height="40" rx="6"/>
+            <text class="ex-label" x="370" y="58" text-anchor="middle">TA Funds</text>
+            <line class="ex-arrow" x1="100" y1="55" x2="170" y2="55"/>
+            <line class="ex-arrow" x1="260" y1="55" x2="330" y2="55"/>
+            <circle class="ex-token ex-token-1" cx="105" cy="55" r="5"/>
+            <circle class="ex-token ex-token-2" cx="105" cy="55" r="5"/>
+          </svg>
+        </div>
+        <div class="style-name">A — Explainer diagram: shows the actual concept (funds flowing through mapping into TA)</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A — Explainer diagram</h3>
+      <p>Hand-crafted SVG that <em>visually teaches</em> the concept. Each concept gets its own diagram. Highest information density. Most authoring effort.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="ambient" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div class="anim-demo">
+        <div class="crumb">CONCEPTS › BALANCE IMPORT — MAPPING</div>
+        <div class="ttl">Balance Import — Mapping</div>
+        <div class="chips-row">
+          <span class="pill">concept</span>
+          <span class="pill tag">#balance</span>
+          <span class="pill tag">#mapping</span>
+        </div>
+        <p class="desc">Balance import method where prior-record-keeper funds map directly to corresponding TA funds. The wire is received and balances are applied the same day…</p>
+        <div class="stage" style="padding: 0;">
+          <div class="ambient"></div>
+        </div>
+        <div class="style-name">B — Ambient banner: decorative; same one (or themed by tag) on every page</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B — Ambient banner</h3>
+      <p>Decorative motion (gradient/particles) that adds polish but doesn't teach anything. Zero per-page authoring. Pure aesthetic.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="flowchart" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div class="anim-demo">
+        <div class="crumb">CONCEPTS › BALANCE IMPORT — MAPPING</div>
+        <div class="ttl">Balance Import — Mapping</div>
+        <div class="chips-row">
+          <span class="pill">concept</span>
+          <span class="pill tag">#balance</span>
+          <span class="pill tag">#mapping</span>
+        </div>
+        <p class="desc">Balance import method where prior-record-keeper funds map directly to corresponding TA funds. The wire is received and balances are applied the same day…</p>
+        <div class="stage">
+          <svg class="flow-svg" viewBox="0 0 460 120">
+            <rect class="flow-box" x="10"  y="40" width="100" height="40"/>
+            <text class="flow-label" x="60"  y="55">Wire Confirmed</text>
+            <text class="flow-label" x="60"  y="69">(Cashiering)</text>
+            <rect class="flow-box" x="180" y="40" width="100" height="40"/>
+            <text class="flow-label" x="230" y="55">Apply Mapping</text>
+            <text class="flow-label" x="230" y="69">(DC)</text>
+            <rect class="flow-box" x="350" y="40" width="100" height="40"/>
+            <text class="flow-label" x="400" y="55">Balances Live</text>
+            <text class="flow-label" x="400" y="69">(P3)</text>
+            <line class="flow-line" x1="110" y1="60" x2="180" y2="60"/>
+            <line class="flow-line" x1="280" y1="60" x2="350" y2="60"/>
+            <circle class="flow-pulse flow-pulse-1" cx="60"  cy="60" r="4"/>
+            <circle class="flow-pulse flow-pulse-2" cx="60"  cy="60" r="4"/>
+            <circle class="flow-pulse flow-pulse-3" cx="60"  cy="60" r="4"/>
+          </svg>
+        </div>
+        <div class="style-name">C — Flowchart: shows handoffs between teams (Cashiering → DC → P3) — fits the wiki's "lateral relationships" mission</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C — Handoff flowchart</h3>
+      <p>Animated process map showing which team owns each step. Reinforces the wiki's core mission (relationship map). Templated by process-shape.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="sequence" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div class="anim-demo">
+        <div class="crumb">CONCEPTS › BALANCE IMPORT — MAPPING</div>
+        <div class="ttl">Balance Import — Mapping</div>
+        <div class="chips-row">
+          <span class="pill">concept</span>
+          <span class="pill tag">#balance</span>
+          <span class="pill tag">#mapping</span>
+        </div>
+        <p class="desc">Balance import method where prior-record-keeper funds map directly to corresponding TA funds. The wire is received and balances are applied the same day…</p>
+        <div class="stage">
+          <div class="seq">
+            <div class="seq-step"><div class="seq-icon">⚡</div><div class="seq-cap">Wire triggers</div></div>
+            <span class="seq-arrow">→</span>
+            <div class="seq-step"><div class="seq-icon">📄</div><div class="seq-cap">Mapping file</div></div>
+            <span class="seq-arrow">→</span>
+            <div class="seq-step"><div class="seq-icon">N</div><div class="seq-cap">Re-Reg = N</div></div>
+            <span class="seq-arrow">→</span>
+            <div class="seq-step"><div class="seq-icon">⏱</div><div class="seq-cap">Day of Wire</div></div>
+            <span class="seq-arrow">→</span>
+            <div class="seq-step"><div class="seq-icon">✓</div><div class="seq-cap">Process Immediate</div></div>
+          </div>
+        </div>
+        <div class="style-name">D — Sequenced icons: one per Key Characteristic bullet, lights up in turn — like an animated TL;DR</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>D — Sequenced icon row</h3>
+      <p>Each Key Characteristic gets an icon; they pulse/light in sequence. Visual TL;DR of the bullet list right above. Easy to template.</p>
+    </div>
+  </div>
+
+</div>

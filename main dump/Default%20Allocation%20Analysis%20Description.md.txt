@@ -1,0 +1,12 @@
+# Default Allocation Analysis – Description
+
+## Purpose
+- Identify participants in default for investment allocations.
+
+## Key Checks
+- Default population aligns with conversion strategy.
+- Allocation is to correct default fund.
+- Percentages are appropriate (e.g., 100% to TDF).
+
+## Timing
+- Complete prior to first remittance and before DDOL/VRU access.

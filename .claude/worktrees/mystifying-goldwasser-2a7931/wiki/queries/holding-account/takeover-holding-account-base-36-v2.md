@@ -1,0 +1,420 @@
+---
+title: "Takeover Holding Account — Base 36 (TDA, v2 — Under Construction)"
+type: analysis
+tags: [query, sql, takeover, holding-account, base-36, tda, case-remit, fin-act-pend, bill-remit, p3, 1006]
+used-by-role: [lm-dc, cts]
+used-in-process: [takeover-holding-account, conversion-booking]
+aqt-parameters: []
+tables: [CONV_TT080496, TDA.CASE_REMIT, TDA.BILL_REMIT_DETAIL, TDA.EMPLOYEE, TDA.VCASE_REMIT, TDA.VCASE_FUND_DATA, TDA.CONTRACT_FUND_DATA, TDA.CONTRACT_DATA, TDA.PLAN_SRC_DETAIL, TDA.TRANSACT_DET_REM, PENSION.PLAN_PROV_GRP, PENSION.PLAN_PROVISION, PENSION.PLAN_FUND, PENSION.FIN_ACT_PEND, PENSION.FIN_ACT_ELEC, PENSION.PART_ENRL, PENSION.PERSON_SEARCH]
+systems: [p3, aqt, data-loader]
+created: 2026-04-17
+updated: 2026-04-17
+sources: 1
+---
+
+# Takeover Holding Account — Base 36 (TDA, v2 — Under Construction)
+
+TDA-flavor revision of [[takeover-holding-account-base-36]] with three behavior changes: `STAT_CD = '5'` on the CASE_REMIT insert, dynamic `current date` logic for EFF/CYC/BOOK dates instead of hardcoded strings, and an explicit CAPS-LOCK warning for `PKG_ID`.
+
+> [!warning]
+> **UNDER CONSTRUCTION** per the source filename — treat this as a work-in-progress variant. Do not use in production without CTS review. Preserved verbatim for reference.
+
+> [!warning]
+> **MAKE SURE YOUR CAPS LOCK IS ON.** `PKG_ID` must be all caps (`TDA`, not `tda`) or the insert will silently create a second package row with wrong casing. The script uses `upper('TDA')` defensively — but the inline comment calls this out specifically.
+
+## Purpose
+
+Same as [[takeover-holding-account-base-36]] but for TDA (retail / annuity) business line. Incoming takeover assets land on a dummy SSN (`999-00-0000`) in a holding account until participant-level data is loaded.
+
+## Differences From v1 (CORP)
+
+| Behavior | v1 (CORP) | v2 (TDA) |
+|---|---|---|
+| Schema prefix | `CORP.*` | `TDA.*` |
+| `CASE_REMIT.STAT_CD` | `'0'` | `'5'` (pre-process / awaiting trigger) |
+| Date fields in CASE_REMIT INSERT | Hardcoded `'20140101'` | `current date` formatted as YYYYMMDD |
+| FIN_ACT_PEND EFF_D / CYC_D | Hardcoded `'2014-01-02'` | `current date` |
+| PLAN_YR_DT in CASE_REMIT | Hardcoded `'2014'` | Hardcoded `'2016'` (the v2 example) |
+| DELETE vs SELECT in step 4 | Live DELETE | `select * --DELETE` — review-only |
+| Fund-active check (step 12) | SUBSTR 1,7 for CORP | SUBSTR 1,7 for TDA (comment says TDA but code actually still uses 1,7 — likely a bug in the "under construction" version; NFP uses 1,8) |
+| Participant sub-query (step 6) | Hardcoded `ACCOUNT_NO = 'QK62881...'` | `ACCOUNT_NO in (select distinct case_no from conv_TT080496)` — loops through whichever cases are in the conv table |
+| Date-string note | `DATE STRING -> 20140101` | `NOTE: if the ref_no's are for re-booked cash, the effective date and cycle date must be the current day, NOT the plan effective date! This will affect cash conversions or cash to TDF` |
+
+## When to Run
+
+Day of conversion for TDA plans. Pull the DATE-STRING note seriously: for rebooked cash, use current date — for brand-new conversion dollars, use the plan effective date.
+
+## Parameters (change list)
+
+| Field | Default in script | Swap |
+|---|---|---|
+| Table suffix | `CONV_TT080496` | `CONV_<casefull>` |
+| Case full | `TT080496  00001` | Your new case |
+| Case stem | `TT080496` | 8-char stem |
+| Region | `TDA` | `TDA` |
+| EFF / CYC date | `2016-01-04` (example) | Current date or plan effective date per note |
+| User ID | `UYC019` | Your RACF ID |
+| PKG_ID | `TDA` (ALL CAPS) | `TDA` / `CORP` as applicable — must be uppercase |
+
+## Notes
+
+- Uses `current date` formatting `substr(char(current date),1,4)||substr(char(current date),6,2)||substr(char(current_date),9,2)` to produce YYYYMMDD without string concatenation of hardcoded values — more portable for rebooked-cash scenarios.
+- Step 4 uses `select *` with `--DELETE` commented out — forces a manual review before delete (safer).
+- Joins `TDA.contract_data` on the CASE_REMIT insert to pull `SERVICER_CD` from the contract header.
+- Step 6 uses `ACCOUNT_NO in (select distinct case_no from conv_<>)` pattern which tolerates multi-case conv tables.
+
+## Tables Used
+
+Same as v1 but swap CORP → TDA for business-line tables. PENSION tables are schema-neutral. Adds `TDA.CONTRACT_DATA` for SERVICER_CD lookup in step 5.
+
+## Steps
+
+Same 15-step structure as v1 — refer to [[takeover-holding-account-base-36]] for narrative walkthrough. Diffs captured in the comparison table above.
+
+## SQL
+
+```sql
+--STEP 1 - USE P3 "TRANS REF NUMBER GENERATOR" IN TRANSACTIONS MENU TO OBTAIN TRANSREF NUMBER FOR EACH FUND
+
+--STEP 2 - UPDATE LOAD TEMPLATE WITH TRANSREF NUMBERS OBTAINED IN STEP 1
+
+--STEP 3 - CREATE CONVERSION TABLE
+
+
+
+--- ******  MAKE SURE YOUR CAPS LOCK IS ON!!!!  PKG_ID MUST BE ALL CAPS!!!!  ******
+
+
+
+
+DROP TABLE CONV_TT080496;
+
+CREATE TABLE CONV_TT080496
+(CASE_NO CHAR(20),
+PRIOR_FUND_DESC CHAR(50),
+PRIOR_FUND_NAME CHAR(80),
+DIA_FUND_DESC CHAR(4),
+DIA_FUND_NM CHAR(80),
+ASSETS DEC(13,2),
+DUMMY_TR_REF_NO CHAR(14),
+SRC_I DEC(17),
+FD_PROV_I DEC(17))
+
+--STEP 4 - INSERT TRANSREF NUMBERS (USING DATA LOADER) INTO YOUR LOAD TEMPLATE AND UPLOAD TO CONVERSION TABLE CREATED IN STEP 1 - UNCHECK FD_PROV_I ON MAPPING TAB
+
+---REMOVES NULL RECORDS FROM TABLE
+select * 
+--DELETE
+FROM CONV_TT080496
+WHERE CASE_NO IS NULL
+
+--STEP 5 - INSERT INTO CASE REMIT TABLE
+
+--CHANGE LIST---
+--ID->  UYC019
+--CASE FULL->    TT080496  00001
+--CASE->  TT080496
+--REG-> TDA
+
+--EFF AND CYC DATE -> 2016-01-04  		*** NOTE: if the ref_no's are for re-booked cash, the effective date and cycle date must be the 									current day, NOT the plan effective date!! This will affect cash conversions or cash to TDF  **
+
+--USER ID ->  UYC019
+--DATE STRING -> 20160104
+
+
+-------------------------------------
+ INSERT INTO TDA.CASE_REMIT 
+ (PKG_ID, CASE_NO, TR_REF_NO, REMIT_AMT, PD_ADD_EXP_AMT, DED_EXP_AMT, APPLD_FF_CR_AMT,
+  APPLD_AER_DEP_AMT, APPLD_XS415_AMT, PROC_AMT, OVER_UNDER_AMT, DISAB_PREM_AMT, DEP_BOOK_DT,
+   CYC_DT, PAYROLL_DT, DEP_EFF_DT, P_L_DT, DEP_ALLOC_DT, DRCT_ELEC_CD, ELEC_OVRD_CD,
+    ORIG_TR_REF_NO, SERVICER_CD, TR_NO, STAT_CD, COMM_CHECK_CD, JRNL_ENTRY_CD, PROFIT_LOSS_CD,
+     F_E_LOAD_CD, REM_TAX_YR_CD, CONF_CD, REM_TYP_CD, TR_REF_CD, COMM_PYBL_CD,
+      UNREM_OVRD_STAT_CD, PLAN_YR_DT, F_E_LOAD_PRCSS_CD, CASH_PERIOD_END_DT, 
+      OUTSIDE_FD_AMT, OUTSDE_FD_PROC_AMT, OUTFD_SUS_AMT, OUTFD_SUS_PROC_AMT, OUTFD_UNAL_AMT,
+       OUTFD_UNAL_REF_AMT, CASH_PER_BEGIN_DT, SHORTFALL_Q_AMT, SHORTFALL_NQ_AMT, ACCT_PROC_CD, 
+       CATCH_UP_CD, PRCSS_C, PRE_PRCSS_STAT_C, PORTF_FIN_ACT_I)
+       
+       
+        SELECT upper('TDA'), CASE_NO, DUMMY_TR_REF_NO,
+               ASSETS, 0, 0, 0, 0, 0, 0, 0, 0, 
+
+   substr(char(current date),1,4)||substr(char(current date),6,2)||substr(char(current_date),9,2) AS DEP_BOOK_DT, 
+substr(char(current date),1,4)||substr(char(current date),6,2)||substr(char(current_date),9,2) AS CYC_DT, 
+               '' AS PAYROLL_DT, substr(char(current date),1,4)||substr(char(current date),6,2)||substr(char(current_date),9,2) AS DEP_EFF_DT, '', '',
+               '2', '0', '', SERVICER_CD, '1006' AS TR_NO, '5' AS STAT_CD, '', '0', '1', 
+               '1', '0', '9', '2', '0', '1', '0', '2016' AS PLAN_YR_DT, 'X', '', 0, 0, 0, 
+                0, 0, 0, '', 0, 0, '4', '', '', '', 0
+ 
+       FROM CONV_TT080496,TDA.contract_data
+	   WHERE CASE_NO = 'TT080496  00001'
+       and cont_no='TT080496'
+--------------------------------------
+
+--CHECK EMPLOYEE TABLE
+--------------------------------------
+SELECT *                                       
+FROM TDA.employee                            
+WHERE                            
+CASE_NO='TT080496  00001' 
+AND SOC_SEC_NO ='999-00-0000'
+
+------------------------------
+
+--STEP 6 -- UPDATE THE FD_PROV_I IN THE CONVERSION_ASSETS TABLE. 
+ 
+UPDATE CONV_TT080496
+SET 
+ FD_PROV_I = (SELECT FD_PROV_I
+                FROM PENSION.PLAN_PROV_GRP A,
+                     PENSION.PLAN_PROVISION B,
+                     PENSION.PLAN_FUND C
+               WHERE (ACCOUNT_NO in (select distinct case_no from conv_TT080496)
+                 AND A.RELATED_GRP_TYP_C = 361 
+                  OR (RELATED_GRP_I = (SELECT ENRL_PROV_GRP_I 
+                                         FROM PENSION.PLAN_PROV_GRP  
+                                        WHERE ACCOUNT_NO in (select distinct case_no from conv_TT080496)
+                                          AND RELATED_GRP_TYP_C = 361) 
+                      AND A.RELATED_GRP_TYP_C = 362))
+                 AND A.ENRL_PROV_GRP_I = B.ENRL_PROV_GRP_I
+                 AND PROVISION_I = FD_PROV_I
+                 AND PROV_TYP_C = 15
+                 AND DIA_FUND_DESC = C.FD_DESC_CD)
+WHERE CASE_NO in (select distinct case_no from conv_TT080496);
+
+--CHECKS FOR "NULL" VALUES FOR FD_PROV_I
+ 
+SELECT *
+FROM CONV_TT080496
+WHERE FD_PROV_I IS  NULL
+
+------------------------------
+SELECT DISTINCT A.SRC_I,  A.SRC_S, A.REPORT_1_NM, A.REPORT_2_NM, DOC_NM
+FROM TDA.PLAN_SRC_DETAIL A, PENSION.PLAN_PROVISION B, PENSION.PLAN_PROV_GRP C
+WHERE A.SRC_I  = B.RELATED_I AND B.PROV_TYP_C = 1019 AND B.ENRL_PROV_GRP_I=C.ENRL_PROV_GRP_I
+AND ACCOUNT_NO in (select distinct case_no from conv_TT080496)
+
+------------------------------
+--UPDATE USING THE APPROPRIATE SRC_I FROM PLAN
+UPDATE CONV_TT080496
+SET SRC_I = 30939420452324400
+            
+ ---------------------------------------------------------------------------------------------------------  
+-- STEP 7 - CHECKS TO MAKE SURE ALL TR_REF_NO'S ON THE CONVERSION_ASSET TABLE EXIST IN CASE_REMIT
+ 
+SELECT *
+FROM CONV_TT080496  
+WHERE CASE_NO in (select distinct case_no from conv_TT080496)
+AND DUMMY_TR_REF_NO  NOT IN (SELECT TR_REF_NO
+                            FROM TDA.VCASE_REMIT
+                            WHERE CASE_NO in (select distinct case_no from conv_TT080496))  
+   
+ ----------------------------------------------------------------------------------------------  
+--STEP 8 -INSERT ROWS INTO FIN_ACT_PEND   
+ 
+INSERT INTO PENSION.FIN_ACT_PEND
+(FIN_ACT_I, FIN_ACT_TYP_C, EFF_D, CYC_D, TR_REF_NO,
+ TR_TYPE_CD , FIN_ACT_STAT_C, CONFIRM_C , 
+ CONFIRM_TYP_C ,LE_I, LE_ROLE_C, ENRL_I, ENRL_TYP_C,
+  ENRL_PROV_GRP_I,PROV_I, PROV_TYP_C,
+   USER_I, FIN_ACT_GRP_C)
+ 
+SELECT 
+ 
+PENSION.FUUID(),  --FIN_ACT_I
+1006,              --FIN_ACT_TYP_C
+current date,      --EFF_D
+current date,      --CYC_D
+DUMMY_TR_REF_NO,   -- FROM CONVERSION_ASSETS TABLE  
+'1',               -- TR_TYPE_C  ALWAYS 1
+0,                 --FIN_ACT_STAT_CD  PENDING 
+'0',               --CONFIRM_C
+1006,              --CONFIRM_TYP_C
+0,                 --LE_I
+0,                 --LE_ROLE_C
+0,                 --ENRL_I
+0,                 --ENRL_TYP_C
+A.ENRL_PROV_GRP_I,   -- FROM PLAN_PROV_GRP 
+0,                 --PROV_I
+0,                 --PROV_TYP_C
+'UYC019',         -- USER ID
+'1'                --FIN_ACT_GRP_C
+ 
+FROM PENSION.PLAN_PROV_GRP A,CONV_TT080496 B
+WHERE A.ACCOUNT_NO='TT080496  00001'
+AND A.ACCOUNT_NO=B.CASE_NO
+--and dummy_tr_ref_no in ('20140117923304',
+--'20140117923303',
+--'20140117923302',
+--'20140117923301',
+--'20140117923300',
+--'20140117923299',
+--'20140117923298',
+--'20140117923297',
+--'20140117923296')
+
+ 
+---------------------------------------------------------------------------------
+-- STEP 9 - INSERT ROWS INTO FIN_ACT_ELECT
+ 
+INSERT INTO PENSION.FIN_ACT_ELEC
+(FIN_ACT_I, FIN_ACT_TYP_C, FD_PROV_I, ELEC_P,
+  AMT_TYP_C, USER_I)
+SELECT
+FIN_ACT_I,         --FIN ACT_I FROM FIN_ACT_PEND
+FIN_ACT_TYP_C,
+FD_PROV_I,
+100,
+'2',
+'UYC019'	      --YOUR RACF ID
+FROM PENSION.PLAN_PROV_GRP A, CONV_TT080496 B,PENSION.FIN_ACT_PEND C
+WHERE A.ACCOUNT_NO in (select distinct case_no from conv_TT080496)
+AND A.ACCOUNT_NO=B.CASE_NO
+AND A.ENRL_PROV_GRP_I=C.ENRL_PROV_GRP_I
+AND C.TR_REF_NO=B.DUMMY_TR_REF_NO
+AND FD_PROV_I IS NOT NULL
+--and dummy_tr_ref_no in ('20140117923304',
+--'20140117923303',
+--'20140117923302',
+--'20140117923301',
+--'20140117923300',
+--'20140117923299',
+--'20140117923298',
+--'20140117923297',
+--'20140117923296')
+----------------------------------------------------------------------------------------
+
+--STEP 10 - INSERT INTO BILL_REMIT DETAIL TO DUMMY SS#
+---****CHANGE THE SOURCE BELOW TO SHOW SOURCE CURRENTLY SET AT '5'****
+
+ 
+INSERT INTO TDA.BILL_REMIT_DETAIL
+(PKG_ID, CASE_NO, SOC_SEC_NO, TR_REF_NO, BILL_SUBM_AMT, BILL_EXP_AMT, 
+BILL_EXT_ADJ_AMT, BILL_APPLD_AMT, BILL_INT_CR_AMT, EXP_AMT_PRV_AMT, 
+EXT_ADJ_PRV_AMT, BILL_APPLD_PRV_AMT, INT_CR_PRV_AMT, BILL_DT, CYC_DT,
+ BILL_DUE_DT, STAT_CD, INTL_LN_NO, TAX_YR_NO, CTRB_TYP_CD, STKHR_CD, 
+ TR_TYP_CD, DEP_TYP_CD, BILL_VER_NO, XS415_CD, FILE_INPUT_SRC_CD, 
+ ER_SITE_CD, IRA_CONF_CD, TH_ER_SITE_CD, SRC_I,  ENRL_PROV_GRP_I, PART_ENRL_I)
+ 
+SELECT  upper('TDA'),CASE_NO,'999-00-0000' ,DUMMY_TR_REF_NO,ASSETS,0.00,0.00,0.00
+,0.00,0.00,0.00,0.00,0.00,SUBSTR(DUMMY_TR_REF_NO,1,8),SUBSTR(DUMMY_TR_REF_NO,1,8)
+,SUBSTR(DUMMY_TR_REF_NO,1,8),'0',' ',' '
+,'5',--CORRESPONDS TO SCR_I USED IN STEP 5
+' ',' ','2','01',' ','CONV INSERT',' ',' ',' ', SRC_I, PPG.ENRL_PROV_GRP_I, PART_ENRL_I
+FROM CONV_TT080496 A,
+PENSION.PLAN_PROV_GRP PPG,
+PENSION.PART_ENRL PE,
+PENSION.PERSON_SEARCH PS
+WHERE ACCOUNT_NO = CASE_NO
+AND PPG.ENRL_PROV_GRP_I = PE.ENRL_PROV_GRP_I
+AND PART_I = PERSON_I 
+AND ENRL_GRP_TYP_C = 361 
+AND SOC_SEC_NO = '999-00-0000'
+AND CASE_NO in (select distinct case_no from conv_TT080496)
+and FD_PROV_I is not null
+
+
+
+
+----------------------------------------------------------------------------- 
+-- STEP 11 - CHECK TO VERIFY SS# AND CTRB TYPE EXIST ON PLAN
+ 
+SELECT *
+FROM TDA.BILL_REMIT_DETAIL A, CONV_TT080496 B
+WHERE A.TR_REF_NO=B.DUMMY_TR_REF_NO
+AND A.CASE_NO=B.CASE_NO
+AND A.CASE_NO in (select distinct case_no from conv_TT080496)
+AND (A.SOC_SEC_NO  NOT IN (SELECT SOC_SEC_NO
+       FROM PENSION.PERSON_SEARCH C,PENSION.PART_ENRL D,PENSION.PLAN_PROV_GRP E
+       WHERE A.SOC_SEC_NO=C.SOC_SEC_NO
+       AND C.PERSON_I=D.PART_I
+       AND D.ENRL_PROV_GRP_I=E.ENRL_PROV_GRP_I
+       AND E.ACCOUNT_NO=B.CASE_NO)       
+       
+       OR
+     CTRB_TYP_CD NOT IN (SELECT CHAR(C.SRC_S)
+                FROM PENSION.PLAN_PROV_GRP D,
+                     PENSION.PLAN_PROVISION B,
+                     PENSION.PLAN_SRC_DETAIL C
+               WHERE ACCOUNT_NO in (select distinct case_no from conv_TT080496)
+                 AND D.RELATED_GRP_TYP_C = 361 
+                 AND D.ENRL_PROV_GRP_I = B.ENRL_PROV_GRP_I
+                 AND PROVISION_I = SRC_I
+                 AND PROV_TYP_C = 13))
+                 
+                 
+  
+--------------------------------------------------------------------
+-- STEP 12 -CHECK TO VERIFY ALL FUNDS ARE SET TO ACTIVE, CONTRIBUTIONS ALLOWED
+
+SELECT DISTINCT  A.CASE_NO, A.DIA_FUND_DESC, A.DUMMY_TR_REF_NO, B.STAT_CD, C.STAT_CD
+FROM CONV_TT080496 A, TDA.VCASE_FUND_DATA B, TDA.CONTRACT_FUND_DATA C
+WHERE SUBSTR(A.CASE_NO,1,7) = SUBSTR(B.CASE_NO,1,7)   AND CONT_NO=SUBSTR(B.CASE_NO,1,7)---TDA
+--WHERE SUBSTR(A.CASE_NO,1,8) = SUBSTR(B.CASE_NO,1,8)   AND CONT_NO=SUBSTR(B.CASE_NO,1,8)---N F P
+
+AND B.FD_NO=C.FD_NO
+AND (B.STAT_CD^='0' OR C.STAT_CD^='0')
+
+      
+ ------------------------------------------------------------------------------------      
+--STEP 13 - VERIFY THAT CASE_REMIT, BILL_REMIT_DETAIL AND CONVERSION TABLE ALL MATCH
+---------  YOU WANT TO GET NO RESULTS.
+                  
+                  
+SELECT A.TR_REF_NO, SUM(ASSETS), SUM(REMIT_AMT), SUM(BILL_SUBM_AMT)
+FROM TDA.CASE_REMIT A, CONV_TT080496 B, TDA.BILL_REMIT_DETAIL C
+
+
+WHERE A.CASE_NO in (select distinct case_no from conv_TT080496)
+AND A.CASE_NO = B.CASE_NO
+AND B.CASE_NO = C.CASE_NO
+AND A.CASE_NO = C.CASE_NO
+AND DUMMY_TR_REF_NO = A.TR_REF_NO
+AND A.TR_REF_NO = C.TR_REF_NO
+AND DUMMY_TR_REF_NO = C.TR_REF_NO
+AND SOC_SEC_NO = '999-00-0000'
+AND (ASSETS <> REMIT_AMT OR ASSETS <> BILL_SUBM_AMT)
+GROUP BY A.TR_REF_NO
+
+---------------------------------------------
+--STEP 14 - VERIFY THAT WIRE FUND TOTALS MATCH WIRE AMOUNT RECEIVED (IF PROCESSING DAY OF WIRE OR DIVIDENDS, ETC.)
+
+SELECT CASE_NO, SUM(REMIT_AMT) AS TOTAL
+FROM TDA.CASE_REMIT
+WHERE CASE_NO in (select distinct case_no from conv_TT080496)
+AND TR_NO = '1006'
+--AND DEP_EFF_DT = '20080116'
+AND TR_REF_NO IN (SELECT DUMMY_TR_REF_NO
+                  FROM CONV_TT080496)
+GROUP BY CASE_NO
+
+---------------------------------------------                  
+--STEP 15 - IF PROCESSING IN BATCH, AFTER YOU HAVE PROCESSED THE AMOUNTS USING "PROCESS IMMEDIATELY" IN P3, CHECK TRANSACT_DET_REM TO MAKE SURE YOU FUNDS AND AMOUNTS MATCH                  
+
+SELECT TR_REF_NO , FD_DESC_CD, SUM(TR_AMT)
+FROM TDA.TRANSACT_DET_REM
+WHERE substr(CASE_NO,1,8) in (select distinct substr(case_no,1,8) from conv_TT080496)  --USe for T D A
+--WHERE substr(CASE_NO,1,7) in (select distinct substr(case_no,1,7) from conv_TT080496)  --USe for C O R P
+AND TR_REF_NO IN (SELECT DUMMY_TR_REF_NO
+FROM CONV_TT080496)
+GROUP BY TR_REF_NO, FD_DESC_CD
+```
+
+## Output / What to Look For
+
+Same verification criteria as v1:
+- Step 13 sum-match returns zero rows.
+- Step 14 wire-total matches.
+- Step 15 TRANSACT_DET_REM per fund = CONV ASSETS.
+
+Additionally, given the `STAT_CD='5'` insert into CASE_REMIT, the CASE_REMIT rows will remain in pre-process status until the trigger is fired (v1's `STAT_CD='0'` rows flow automatically through the next batch).
+
+## Related Queries
+
+- [[takeover-holding-account-base-36]] — CORP / original version
+- [[day-of-rebook]]
+
+## See Also
+
+- [[takeover-holding-account]]
+- [[conversion-booking]]
+- [[tda-vs-corp]]

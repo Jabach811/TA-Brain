@@ -1,0 +1,9 @@
+# Welcome Kit Sample Process
+
+## Purpose
+- Generate and review enrollment confirm samples.
+
+## Process
+- Insert sample participants.
+- Run confirm jobs.
+- Review, approve, or correct confirms before release.

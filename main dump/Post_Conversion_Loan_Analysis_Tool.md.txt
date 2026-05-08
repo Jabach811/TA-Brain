@@ -1,0 +1,8 @@
+# Post Conversion Loan Analysis Tool
+
+## Phase I
+- Run loan census query and export results.
+
+## Phase II
+- Import data into Access tool.
+- Run loan analysis and save outputs.

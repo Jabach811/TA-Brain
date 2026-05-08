@@ -1,6 +1,6 @@
 ---
 title: "Blackout Notice"
-type: concept
+type: document
 tags: [concept, document, com, participant-communication, conversion]
 created: 2026-04-14
 updated: 2026-04-14

@@ -1,0 +1,143 @@
+<h2>How visible? Pick a sizing/placement direction.</h2>
+<p class="subtitle">Same concept page, three different sizes/treatments for the embedded animation. The article column in your wiki is ~820px wide.</p>
+
+<style>
+  .page-mock {
+    background: #0d0f12;
+    border: 1px solid #2a2f36;
+    border-radius: 10px;
+    padding: 24px 28px;
+    color: #e6e8eb;
+    font-family: -apple-system, system-ui, sans-serif;
+    margin-bottom: 14px;
+  }
+  .page-mock .crumb { font-size: 11px; color: #7c828a; letter-spacing: .5px; text-transform: uppercase; margin-bottom: 10px; }
+  .page-mock .ttl { font-size: 26px; font-weight: 700; margin: 0 0 12px; line-height: 1.1; }
+  .page-mock .chips-row { display: flex; gap: 6px; margin-bottom: 12px; flex-wrap: wrap; }
+  .page-mock .pill { background: #1c2128; color: #9aa0a6; font-size: 10px; padding: 2px 8px; border-radius: 99px; border: 1px solid #2a2f36; }
+  .page-mock .pill.tag { color: #6cb6ff; border-color: #234; }
+  .page-mock .desc { font-size: 13.5px; color: #c9cdd3; line-height: 1.55; margin: 0 0 16px; }
+  .page-mock h4.section-h { font-size: 15px; margin: 22px 0 8px; padding-bottom: 4px; border-bottom: 1px solid #2a2f36; }
+  .page-mock ul { font-size: 12.5px; color: #c9cdd3; line-height: 1.6; margin: 0; padding-left: 20px; }
+
+  /* Animation slot — placeholder showing aspect/footprint */
+  .anim-slot {
+    background: linear-gradient(135deg, #08090c 0%, #14171c 100%);
+    border: 1px solid #2a2f36;
+    border-radius: 6px;
+    overflow: hidden;
+    position: relative;
+    display: flex; align-items: center; justify-content: center;
+    color: #6cb6ff;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+  .anim-slot::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(circle at 30% 50%, rgba(108,182,255,0.15), transparent 60%);
+    animation: slotPulse 4s ease-in-out infinite;
+  }
+  @keyframes slotPulse { 0%,100%{opacity:.5} 50%{opacity:1} }
+  .anim-slot .label { position: relative; z-index: 1; }
+
+  .caption-row {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-top: 6px; font-size: 11px; color: #7c828a;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .caption-row .replay { color: #6cb6ff; cursor: pointer; }
+</style>
+
+<div class="cards" data-multiselect>
+
+  <!-- A — Compact inline (matches article column) -->
+  <div class="card" data-choice="compact" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div class="page-mock">
+        <div class="crumb">CONCEPTS › BALANCE IMPORT — MAPPING</div>
+        <div class="ttl">Balance Import — Mapping</div>
+        <div class="chips-row">
+          <span class="pill">concept</span><span class="pill">sources: 1</span>
+          <span class="pill tag">#balance</span><span class="pill tag">#mapping</span>
+        </div>
+        <p class="desc">Balance import method where prior-record-keeper funds map directly to corresponding TA funds. The wire is received and balances are applied the same day using a fully populated fund mapping file and the Day of Wire Informatica workflow.</p>
+
+        <!-- Animation: column-width, modest height -->
+        <div class="anim-slot" style="height: 280px; max-width: 100%;">
+          <span class="label">▶ animation · 820 × 280</span>
+        </div>
+        <div class="caption-row"><span>Fund Mapping Conversion Workflow · 18s</span><span class="replay">↻ replay · ⤢ fullscreen</span></div>
+
+        <h4 class="section-h">Key Characteristics</h4>
+        <ul><li><strong>Wire triggers the import</strong> — process starts same day…</li><li><strong>Fully populated fund mapping file</strong> — unlike Cash…</li></ul>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A — Compact inline</h3>
+      <p>Sits inside the article column. Modest height (~280px). Reads as part of the page content — feels integrated, not interruptive. Lowest chance of competing with the text.</p>
+    </div>
+  </div>
+
+  <!-- B — Full-width hero (breaks out of column) -->
+  <div class="card" data-choice="hero" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div class="page-mock" style="padding-left: 0; padding-right: 0;">
+        <div style="padding: 0 28px;">
+          <div class="crumb">CONCEPTS › BALANCE IMPORT — MAPPING</div>
+          <div class="ttl">Balance Import — Mapping</div>
+          <div class="chips-row">
+            <span class="pill">concept</span><span class="pill">sources: 1</span>
+            <span class="pill tag">#balance</span><span class="pill tag">#mapping</span>
+          </div>
+          <p class="desc">Balance import method where prior-record-keeper funds map directly to corresponding TA funds. The wire is received and balances are applied the same day using a fully populated fund mapping file and the Day of Wire Informatica workflow.</p>
+        </div>
+
+        <!-- Animation: full content-area width, big -->
+        <div class="anim-slot" style="height: 460px; border-radius: 0; border-left: none; border-right: none; margin: 0 -28px;">
+          <span class="label">▶ animation · 100% × 460</span>
+        </div>
+        <div style="padding: 0 28px;">
+          <div class="caption-row"><span>Fund Mapping Conversion Workflow · 18s</span><span class="replay">↻ replay · ⤢ fullscreen</span></div>
+          <h4 class="section-h">Key Characteristics</h4>
+          <ul><li><strong>Wire triggers the import</strong> — process starts same day…</li><li><strong>Fully populated fund mapping file</strong> — unlike Cash…</li></ul>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B — Full-width hero</h3>
+      <p>Breaks out of the 820px article column to fill the full main pane. Tall (~460px). Maximum visual impact — impossible to miss. Pushes "Key Characteristics" further down.</p>
+    </div>
+  </div>
+
+  <!-- C — Sticky top hero (above title, persistent during scroll) -->
+  <div class="card" data-choice="topbanner" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div class="page-mock" style="padding: 0;">
+        <!-- Animation appears ABOVE everything -->
+        <div class="anim-slot" style="height: 360px; border-radius: 10px 10px 0 0; border-bottom: 1px solid #2a2f36;">
+          <span class="label">▶ animation · banner · 100% × 360</span>
+        </div>
+        <div style="padding: 20px 28px 24px;">
+          <div class="crumb">CONCEPTS › BALANCE IMPORT — MAPPING</div>
+          <div class="ttl">Balance Import — Mapping</div>
+          <div class="chips-row">
+            <span class="pill">concept</span>
+            <span class="pill tag">#balance</span><span class="pill tag">#mapping</span>
+          </div>
+          <p class="desc">Balance import method where prior-record-keeper funds map directly to corresponding TA funds. The wire is received and balances are applied the same day…</p>
+          <h4 class="section-h">Key Characteristics</h4>
+          <ul><li><strong>Wire triggers the import</strong>…</li><li><strong>Fully populated fund mapping file</strong>…</li></ul>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C — Top banner (above the title)</h3>
+      <p>Animation is the first thing you see — appears <em>above</em> the breadcrumb/title, like a magazine hero image. Highest possible visibility. But you asked for "under the first description" — this would override that placement.</p>
+    </div>
+  </div>
+
+</div>
+
+<p class="subtitle" style="margin-top: 18px; font-size: 13px;"><strong>Note:</strong> A &amp; B both place the animation under the first description paragraph as you specified. C is included as a "what if you went even bigger" comparison. You can also pick a hybrid in chat (e.g. B sized between these two, or A with click-to-expand fullscreen).</p>

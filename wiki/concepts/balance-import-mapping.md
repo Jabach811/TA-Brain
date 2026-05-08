@@ -1,10 +1,10 @@
 ---
 title: "Balance Import — Mapping"
-type: concept
+type: process
 tags: ["concept", "balance", "mapping", "conversion", "informatica", "day-of-wire"]
 created: 2026-04-19
-updated: 2026-04-19
-sources: 1
+updated: 2026-05-03
+sources: 2
 ---
 
 # Balance Import — Mapping
@@ -50,10 +50,20 @@ Step 15 — Apply balances once wire confirmed (No Hold · Batch · Process Imme
 Step 17 — Apply balances to participant accounts
 Step 18 — Run all associated queries for backup
 
+## Where the Ref Number Lives
+
+The CITS Balances workflow needs to find the per-fund ref numbers somewhere. Mapping puts them in the **fund mapping file** — one ref per fund, alongside the prior fund code and TA fund code. The workflow looks them up there and matches against the participant balances on the CIT balance file.
+
+This is different from cash conversion: cash puts the (single) AE liquidation ref number on the **parameter file** because there's only one number to track. Mapping has many, so they live alongside the fund rows where each one logically belongs.
+
+The parameter file for mapping has `Cash Conversion = N` and **does not** carry a ref number.
+
 ## See Also
 - [[balance-import]]
 - [[balance-import-tik]]
+- [[balance-import-cash]]
 - [[informatica-balance-module]]
 - [[conv-file]]
+- [[fund-mapping]]
 - [[dummy-participant]]
 - [[day-of-wire-audit]]

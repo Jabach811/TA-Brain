@@ -1,0 +1,10 @@
+# Inserting a Target Date Chart
+
+## Purpose
+- Create or update Target Date Fund charts at the database level.
+
+## Process Overview
+- Verify default setup.
+- Insert portfolio, mix, and detail records.
+- Populate retirement years.
+- Validate via AQT.

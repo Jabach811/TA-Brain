@@ -1,6 +1,6 @@
 ---
 title: "Earl Sanford"
-type: entity
+type: person
 tags: [person, training, data-consultant, large-market]
 created: 2026-04-14
 updated: 2026-04-14
@@ -35,5 +35,4 @@ Earl leads the training of new Data Consultants. For a new hire, he is the prima
 
 - [[roles/lm-dc]]
 - [[onboarding/lm-dc]]
-- [[internal-teams]]
 - [[dc-onboarding-workflow]]

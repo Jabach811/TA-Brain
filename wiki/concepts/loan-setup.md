@@ -1,10 +1,10 @@
 ---
 title: "Loan Setup & Processing"
-type: concept
-tags: [loans, p3, informatica, conversion, takeover-loans]
+type: process
+tags: [loans, p3, informatica, conversion, takeover-loans, holb]
 created: 2026-04-18
-updated: 2026-04-18
-sources: 1
+updated: 2026-05-05
+sources: 4
 ---
 
 # Loan Setup & Processing
@@ -16,6 +16,19 @@ How a plan's outstanding participant loans move from a prior record keeper into 
 When a plan converts to Transamerica with active loans, the loans must be re-created on P3 with their full repayment state intact: outstanding balance, source allocations, NPER (remaining periods), and any deemed status. The process is **strictly ordered**. P3 setup must complete before validation; validation must pass before Informatica runs; Informatica must succeed before Takeover Loans is submitted; Takeover Loans must finish before confirmation queries run.
 
 The most common failure point is **Step 8 — Header = Source validation**. If the loan file's outstanding balance does not match the source totals exactly, every downstream system will compound the variance and the load will have to be reversed.
+
+![Loan loading diagram â€” P3 setup, loan header/source validation, Informatica test and production runs, Takeover Loans, HOLB handling, confirmation email, AQT verification, and audit evidence.](diagrams/loan-loading-detail.png)
+
+## Why It Matters
+
+A converting plan often arrives with hundreds of active loans, each with its own outstanding balance, source allocations, and remaining repayment schedule. Because every later step assumes loan setup is correct, a small mistake at setup compounds:
+
+- **Source balances** include outstanding loan principal — if loan principal is wrong, source balances are wrong.
+- **Loan repayment processing** depends on correct NPER (remaining periods) — incorrect setup causes participants to over- or under-pay.
+- **Deemed loan tax reporting** depends on the Deemed Date / Deemed Amount fields being correctly populated at setup.
+- **Takeover Loans is a one-shot system action** — reversing it requires manual intervention from the Loan team.
+
+This is why discipline at Steps 3, 8, and 9 matters more than the rest combined.
 
 ## Trigger
 
@@ -34,6 +47,10 @@ From the plan record, open the top-right dropdown and choose **Conversions**. Th
 #### 3. Add Record Keeper — Name only — DC
 Click **Add Record Keeper**. Enter the **Name field only** — leave address, contact, and other fields blank. Click **Apply**, then **Save**. Filling extra fields here causes downstream lookup mismatches in the Informatica Loan Module (the prior vendor name must match `censuslookupfile.xls` exactly — see [[informatica-loan-module]]).
 
+![Adding the prior record keeper — Name field only, all other fields left blank.](SS/Loans_Prior Vendor Entry.jpg)
+
+![Conversions list after the prior record keeper is saved — confirms the entry before moving to the Conversion tab.](SS/Loans_After Prior Vendor.jpg)
+
 #### 4. Conversion tab → New Conversion — DC
 From the Conversions area, open the **Conversion** tab and click **New Conversion**. This creates the conversion record that every later step writes to.
 
@@ -48,6 +65,8 @@ Three date fields. Two are derived from the effective date:
 
 #### 7. Conversion number generated — note it — DC
 Save the record. P3 generates a **Conversion Number** (CV-yyyy-####). Record it — every subsequent step (Informatica parameter file, Takeover Loans submit, confirmation queries) needs it.
+
+![Generated Conversion Number on the saved record — copy this; it's referenced in every later step.](SS/Loans_Conversion Number.png)
 
 ### Phase II · File Validation & Informatica Load (yellow)
 
@@ -75,6 +94,12 @@ Process the loan file through the [[informatica-loan-module]] using the recorded
 - Conversion number from P3 recorded
 - Import file saved and path accessible
 
+**Test → Production toggle.** The Informatica loan workflow has a test mode controlled by a `test = Y/N` flag on the parameter file:
+
+1. **First run:** set `test = Y`. If it completes with no errors and the load looks clean, proceed.
+2. **Second run:** flip to `test = N` and re-run for production.
+3. If the test run errors, fix the underlying issue before flipping — don't run production over a known problem.
+
 The module loads `PENSION.CONV_LOAN` (header) and `PENSION.CONV_LOAN_PRIN` (source balance). After it runs, check the **Loan Compare file** (all differences must equal `0`) and the **Loan BEE detail** for errors before continuing.
 
 ### Phase III · Takeover Loans & Confirmation (green)
@@ -86,14 +111,25 @@ Navigate back to P3:
 - Select **Takeover Loans** from the dropdown
 - Press **Submit** to proceed to the upload screen
 
+![P3 → Conversions → Existing Plan — the entry point for Takeover Loans.](SS/Loans_Existing Conversion.jpg)
+
 #### 12. Click Upload — bottom-left corner — DC
 The Upload button is in the **bottom-left corner** of the upload screen. Click it. Wait for processing — **do not navigate away or refresh** while the upload runs. The system queues a confirmation email when it finishes.
+
+**HOLB branch.** Before clicking Upload, check whether a [[holb|HOLB]] (Highest Outstanding Loan Balance) file exists for this plan:
+
+- **HOLB file exists** → upload it directly using the upload button
+- **No HOLB file** → click **Upload and Create** instead — P3 derives HOLB values from the loan data being loaded
+
+HOLB drives the loan hierarchy when a participant has multiple loans active and determines how repayments split across those loans. Both branches result in valid loan records; the difference is whether HOLB comes from a separate file or gets computed during this upload.
 
 #### 13. Wait for system confirmation email — DC
 The system emails confirmation: number of loans loaded and any errors encountered. Do **not** run confirmation queries until this email arrives. If the email reports errors, review the Informatica log before proceeding — do not paper over errors with manual fixes.
 
 #### 14. Run confirmation queries — DC
 After a clean confirmation email, run the standard verification queries against the conversion to confirm loan count, total balance, and active status. Log the case number, conversion number, and effective date. Loan setup and processing is complete.
+
+The confirmation query output (essentially the loaded loan header file) feeds into the [[audit-pack]] for QA review.
 
 ## Handoff Points
 
@@ -112,7 +148,7 @@ After a clean confirmation email, run the standard verification queries against 
 - **Phase I (P3 setup):** ~30 minutes once dates and case number are confirmed.
 - **Phase II (Validation + Informatica):** highly variable. If Header = Source on first check, ~20 minutes. If reconciliation is needed, can stretch into days while waiting on the prior RK.
 - **Phase III (Takeover + email):** upload itself is a few minutes; the confirmation email typically arrives within 15–30 minutes but can take longer under load.
-- **Sequencing:** loan setup must complete **before** participant balances post in [[final-files-posting]] — loan principal flows into source balances and the math will not reconcile if loans land later.
+- **Sequencing:** loan setup must complete **before** participant balances post in [[final-files-processing]] — loan principal flows into source balances and the math will not reconcile if loans land later.
 
 ## Failure Modes
 
@@ -123,12 +159,24 @@ After a clean confirmation email, run the standard verification queries against 
 - **Confirmation queries before email.** Returns partial state mid-load and looks like missing data. Wait for the email.
 - **Reload during Step 12.** Aborts the upload silently in some cases. Leave the tab alone.
 
+## Real-World Loan Trouble (Beyond Process Traps)
+
+The traps above are mostly procedural. Loans also break for **business-state reasons** that the file looks fine for at first glance:
+
+- **Plan was frozen at the prior RK.** When a plan is frozen, the prior vendor often stops re-amortizing the loans. Repayment schedules drift. The loan file lands looking valid but the NPER and outstanding balance no longer match what the participant has actually been paying down.
+- **Recent refinance that didn't fully complete.** A participant refinanced shortly before the conversion cutoff and the prior RK's records didn't fully settle the old loan / activate the new one. The file shows partial state. Goes back to the vendor for a re-pull.
+- **Detail report ≠ source breakdown by ~one principal payment.** When the loan detail report disagrees with the source breakdown by an amount that suspiciously matches one principal payment, it usually means **one of the two reports dropped the last payment**. Easy to spot once you know to look — the variance is too clean a number to be anything else. Identify which report is stale and re-request it.
+
+These are the ones that take judgment, not just a checklist. When something doesn't add up, don't reach for the file — reach for the prior RK.
+
 ## See Also
 
 - [[informatica-loan-module]]
 - [[loan-setup]]
 - [[informatica]]
-- [[final-files-posting]]
+- [[final-files-processing]]
 - [[plan-conversion-handoffs]]
 - [[lm-dc]]
 - [[toa]]
+- [[holb]]
+- [[audit-pack]]

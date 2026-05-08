@@ -1,0 +1,9 @@
+# Source Mapping Audit
+
+## Objective
+- Validate source mappings against approved source grids.
+
+## Review Items
+- Source names and codes
+- Vesting and withdrawal provisions
+- SCR I and contribution types

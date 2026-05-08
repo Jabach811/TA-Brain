@@ -1,6 +1,6 @@
 ---
 title: "DC Onboarding Workflow"
-type: concept
+type: process
 tags: [workflow, process, master, conversion, onboarding]
 created: 2026-04-14
 updated: 2026-04-14
@@ -34,7 +34,7 @@ The complete end-to-end process a Data Consultant follows to onboard a new retir
 - [ ] Check if [[p3]] is already set up (may be done early for mergers/some new plans)
 - [ ] Note plan type: **new plan**, **merger**, or **startup** (startup = no prior record keeper)
 - [ ] Note [[conversion-types|conversion type]]: cash, mapping, or transfer in kind
-- [ ] Attend internal kickoff meetings set up by [[internal-teams|COM]]
+- [ ] Attend internal kickoff meetings set up by [[com|COM]]
 - [ ] Review [[prd]] (Plan Review Document) or [[onboarding-package]] — focus on: eligibility, vesting, sources, classes
 - [ ] Review [[subpack]] (Submission Package) if available — details what TA will do
 - [ ] Note any frozen sources, new sources, special strategies
@@ -76,7 +76,7 @@ See [[prior-record-keeper]]
 - [ ] Provide FTP credentials to payroll contact
 - [ ] Request test payroll file
 - [ ] Test file through [[eds|EDS]] — review output
-- [ ] Send clean file to [[internal-teams|Payroll Support Team]] for deeper validation
+- [ ] Send clean file to [[payroll-support|Payroll Support Team]] for deeper validation
 - [ ] Iterate until green light
 
 > If automation isn't ready, client sends manual payroll files directly in the interim.
@@ -107,7 +107,7 @@ See [[prior-record-keeper]]
 - [ ] Confirm [[dummy-participant]] (SSN 999-00-0000) exists in census (required for mapping conversions)
 - [ ] Build **CONV file** skeleton — structure and fund list ready; totals filled in on liquidation day
 - [ ] Update Matt O'Connell's share estimates using test files (for TIK)
-- [ ] Day before liquidation: email [[internal-teams|Cashiering]] as wire heads-up
+- [ ] Day before liquidation: email [[cashiering|Cashiering]] as wire heads-up
 - [ ] Day before liquidation: email prior RK to confirm everything on track
 
 See [[liquidation-day]] for Day-of detail

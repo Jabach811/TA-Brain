@@ -1,0 +1,1976 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Fund Mapping Conversion Workflow</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  html, body { margin: 0; padding: 0; height: 100%; background: #08090C; overflow: hidden; }
+  #root { position: fixed; inset: 0; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script type="text/babel">
+/* inlined: animations.jsx */
+
+// animations.jsx
+// Reusable animation starter: Stage, Timeline, Sprite, easing helpers.
+// Usage (in an HTML file that loads React + Babel):
+//
+//   <Stage width={1280} height={720} duration={10} background="#f6f4ef">
+//     <MyScene />
+//   </Stage>
+//
+// Inside <Stage>, any child can call useTime() to read the current
+// playhead (seconds). Or wrap content in <Sprite start={1} end={4}>...</Sprite>
+// to only render during that window -- children receive a `localTime` and
+// `progress` via the useSprite() hook.
+//
+// ─────────────────────────────────────────────────────────────────────────────
+
+// ── Easing functions (hand-rolled, Popmotion-style) ─────────────────────────
+// All easings take t ∈ [0,1] and return eased t ∈ [0,1] (may overshoot for back/elastic).
+const Easing = {
+  linear: (t) => t,
+
+  // Quad
+  easeInQuad:    (t) => t * t,
+  easeOutQuad:   (t) => t * (2 - t),
+  easeInOutQuad: (t) => (t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t),
+
+  // Cubic
+  easeInCubic:    (t) => t * t * t,
+  easeOutCubic:   (t) => (--t) * t * t + 1,
+  easeInOutCubic: (t) => (t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1),
+
+  // Quart
+  easeInQuart:    (t) => t * t * t * t,
+  easeOutQuart:   (t) => 1 - (--t) * t * t * t,
+  easeInOutQuart: (t) => (t < 0.5 ? 8 * t * t * t * t : 1 - 8 * (--t) * t * t * t),
+
+  // Expo
+  easeInExpo:  (t) => (t === 0 ? 0 : Math.pow(2, 10 * (t - 1))),
+  easeOutExpo: (t) => (t === 1 ? 1 : 1 - Math.pow(2, -10 * t)),
+  easeInOutExpo: (t) => {
+    if (t === 0) return 0;
+    if (t === 1) return 1;
+    if (t < 0.5) return 0.5 * Math.pow(2, 20 * t - 10);
+    return 1 - 0.5 * Math.pow(2, -20 * t + 10);
+  },
+
+  // Sine
+  easeInSine:    (t) => 1 - Math.cos((t * Math.PI) / 2),
+  easeOutSine:   (t) => Math.sin((t * Math.PI) / 2),
+  easeInOutSine: (t) => -(Math.cos(Math.PI * t) - 1) / 2,
+
+  // Back (overshoot)
+  easeOutBack: (t) => {
+    const c1 = 1.70158, c3 = c1 + 1;
+    return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2);
+  },
+  easeInBack: (t) => {
+    const c1 = 1.70158, c3 = c1 + 1;
+    return c3 * t * t * t - c1 * t * t;
+  },
+  easeInOutBack: (t) => {
+    const c1 = 1.70158, c2 = c1 * 1.525;
+    return t < 0.5
+      ? (Math.pow(2 * t, 2) * ((c2 + 1) * 2 * t - c2)) / 2
+      : (Math.pow(2 * t - 2, 2) * ((c2 + 1) * (t * 2 - 2) + c2) + 2) / 2;
+  },
+
+  // Elastic
+  easeOutElastic: (t) => {
+    const c4 = (2 * Math.PI) / 3;
+    if (t === 0) return 0;
+    if (t === 1) return 1;
+    return Math.pow(2, -10 * t) * Math.sin((t * 10 - 0.75) * c4) + 1;
+  },
+};
+
+// ── Core interpolation helpers ──────────────────────────────────────────────
+
+// Clamp a value to [min, max]
+const clamp = (v, min, max) => Math.max(min, Math.min(max, v));
+
+// interpolate([0, 0.5, 1], [0, 100, 50], ease?) -> fn(t)
+// Popmotion-style: linearly maps t across input keyframes to output values,
+// with optional easing per segment (single fn or array of fns).
+function interpolate(input, output, ease = Easing.linear) {
+  return (t) => {
+    if (t <= input[0]) return output[0];
+    if (t >= input[input.length - 1]) return output[output.length - 1];
+    for (let i = 0; i < input.length - 1; i++) {
+      if (t >= input[i] && t <= input[i + 1]) {
+        const span = input[i + 1] - input[i];
+        const local = span === 0 ? 0 : (t - input[i]) / span;
+        const easeFn = Array.isArray(ease) ? (ease[i] || Easing.linear) : ease;
+        const eased = easeFn(local);
+        return output[i] + (output[i + 1] - output[i]) * eased;
+      }
+    }
+    return output[output.length - 1];
+  };
+}
+
+// animate({from, to, start, end, ease})(t) — simpler single-segment tween.
+// Returns `from` before `start`, `to` after `end`.
+function animate({ from = 0, to = 1, start = 0, end = 1, ease = Easing.easeInOutCubic }) {
+  return (t) => {
+    if (t <= start) return from;
+    if (t >= end) return to;
+    const local = (t - start) / (end - start);
+    return from + (to - from) * ease(local);
+  };
+}
+
+// ── Timeline context ────────────────────────────────────────────────────────
+
+const TimelineContext = React.createContext({ time: 0, duration: 10, playing: false });
+
+const useTime = () => React.useContext(TimelineContext).time;
+const useTimeline = () => React.useContext(TimelineContext);
+
+// ── Sprite ──────────────────────────────────────────────────────────────────
+// Renders children only when the playhead is inside [start, end]. Provides
+// a sub-context with `localTime` (seconds since start) and `progress` (0..1).
+//
+//   <Sprite start={2} end={5}>
+//     {({ localTime, progress }) => <Thing x={progress * 100} />}
+//   </Sprite>
+//
+// Or as a plain wrapper — children can call useSprite() themselves.
+
+const SpriteContext = React.createContext({ localTime: 0, progress: 0, duration: 0 });
+const useSprite = () => React.useContext(SpriteContext);
+
+function Sprite({ start = 0, end = Infinity, children, keepMounted = false }) {
+  const { time } = useTimeline();
+  const visible = time >= start && time <= end;
+  if (!visible && !keepMounted) return null;
+
+  const duration = end - start;
+  const localTime = Math.max(0, time - start);
+  const progress = duration > 0 && isFinite(duration)
+    ? clamp(localTime / duration, 0, 1)
+    : 0;
+
+  const value = { localTime, progress, duration, visible };
+
+  return (
+    <SpriteContext.Provider value={value}>
+      {typeof children === 'function' ? children(value) : children}
+    </SpriteContext.Provider>
+  );
+}
+
+// ── Sample sprite components ────────────────────────────────────────────────
+
+// TextSprite: fades/slides text in on entry, holds, then fades out on exit.
+// Props: text, x, y, size, color, font, entryDur, exitDur, align
+function TextSprite({
+  text,
+  x = 0, y = 0,
+  size = 48,
+  color = '#111',
+  font = 'Inter, system-ui, sans-serif',
+  weight = 600,
+  entryDur = 0.45,
+  exitDur = 0.35,
+  entryEase = Easing.easeOutBack,
+  exitEase = Easing.easeInCubic,
+  align = 'left',
+  letterSpacing = '-0.01em',
+}) {
+  const { localTime, duration } = useSprite();
+  const exitStart = Math.max(0, duration - exitDur);
+
+  let opacity = 1;
+  let ty = 0;
+
+  if (localTime < entryDur) {
+    const t = entryEase(clamp(localTime / entryDur, 0, 1));
+    opacity = t;
+    ty = (1 - t) * 16;
+  } else if (localTime > exitStart) {
+    const t = exitEase(clamp((localTime - exitStart) / exitDur, 0, 1));
+    opacity = 1 - t;
+    ty = -t * 8;
+  }
+
+  const translateX = align === 'center' ? '-50%' : align === 'right' ? '-100%' : '0';
+
+  return (
+    <div style={{
+      position: 'absolute',
+      left: x, top: y,
+      transform: `translate(${translateX}, ${ty}px)`,
+      opacity,
+      fontFamily: font,
+      fontSize: size,
+      fontWeight: weight,
+      color,
+      letterSpacing,
+      whiteSpace: 'pre',
+      lineHeight: 1.1,
+      willChange: 'transform, opacity',
+    }}>
+      {text}
+    </div>
+  );
+}
+
+// ImageSprite: scales + fades in; optional Ken Burns drift during hold.
+function ImageSprite({
+  src,
+  x = 0, y = 0,
+  width = 400, height = 300,
+  entryDur = 0.6,
+  exitDur = 0.4,
+  kenBurns = false,
+  kenBurnsScale = 1.08,
+  radius = 12,
+  fit = 'cover',
+  placeholder = null, // {label: string} for striped placeholder
+}) {
+  const { localTime, duration } = useSprite();
+  const exitStart = Math.max(0, duration - exitDur);
+
+  let opacity = 1;
+  let scale = 1;
+
+  if (localTime < entryDur) {
+    const t = Easing.easeOutCubic(clamp(localTime / entryDur, 0, 1));
+    opacity = t;
+    scale = 0.96 + 0.04 * t;
+  } else if (localTime > exitStart) {
+    const t = Easing.easeInCubic(clamp((localTime - exitStart) / exitDur, 0, 1));
+    opacity = 1 - t;
+    scale = (kenBurns ? kenBurnsScale : 1) + 0.02 * t;
+  } else if (kenBurns) {
+    const holdSpan = exitStart - entryDur;
+    const holdT = holdSpan > 0 ? (localTime - entryDur) / holdSpan : 0;
+    scale = 1 + (kenBurnsScale - 1) * holdT;
+  }
+
+  const content = placeholder ? (
+    <div style={{
+      width: '100%', height: '100%',
+      display: 'flex', alignItems: 'center', justifyContent: 'center',
+      background: 'repeating-linear-gradient(135deg, #e9e6df 0 10px, #dcd8cf 10px 20px)',
+      color: '#6b6458',
+      fontFamily: 'JetBrains Mono, ui-monospace, monospace',
+      fontSize: 13,
+      letterSpacing: '0.04em',
+      textTransform: 'uppercase',
+    }}>
+      {placeholder.label || 'image'}
+    </div>
+  ) : (
+    <img src={src} alt="" style={{ width: '100%', height: '100%', objectFit: fit, display: 'block' }} />
+  );
+
+  return (
+    <div style={{
+      position: 'absolute',
+      left: x, top: y,
+      width, height,
+      opacity,
+      transform: `scale(${scale})`,
+      transformOrigin: 'center',
+      borderRadius: radius,
+      overflow: 'hidden',
+      willChange: 'transform, opacity',
+    }}>
+      {content}
+    </div>
+  );
+}
+
+// RectSprite: simple rectangle that animates position/size/color via props.
+// Useful demo primitive — takes a `render` fn for per-frame customization.
+function RectSprite({
+  x = 0, y = 0,
+  width = 100, height = 100,
+  color = '#111',
+  radius = 8,
+  entryDur = 0.4,
+  exitDur = 0.3,
+  render, // optional: (ctx) => style overrides
+}) {
+  const spriteCtx = useSprite();
+  const { localTime, duration } = spriteCtx;
+  const exitStart = Math.max(0, duration - exitDur);
+
+  let opacity = 1;
+  let scale = 1;
+
+  if (localTime < entryDur) {
+    const t = Easing.easeOutBack(clamp(localTime / entryDur, 0, 1));
+    opacity = clamp(localTime / entryDur, 0, 1);
+    scale = 0.4 + 0.6 * t;
+  } else if (localTime > exitStart) {
+    const t = Easing.easeInQuad(clamp((localTime - exitStart) / exitDur, 0, 1));
+    opacity = 1 - t;
+    scale = 1 - 0.15 * t;
+  }
+
+  const overrides = render ? render(spriteCtx) : {};
+
+  return (
+    <div style={{
+      position: 'absolute',
+      left: x, top: y,
+      width, height,
+      background: color,
+      borderRadius: radius,
+      opacity,
+      transform: `scale(${scale})`,
+      transformOrigin: 'center',
+      willChange: 'transform, opacity',
+      ...overrides,
+    }} />
+  );
+}
+
+
+function Stage({
+  width = 1280,
+  height = 720,
+  duration = 10,
+  background = '#f6f4ef',
+  fps = 60,
+  loop = true,
+  autoplay = true,
+  persistKey = 'animstage',
+  children,
+}) {
+  const [time, setTime] = React.useState(() => {
+    try {
+      const v = parseFloat(localStorage.getItem(persistKey + ':t') || '0');
+      return isFinite(v) ? clamp(v, 0, duration) : 0;
+    } catch { return 0; }
+  });
+  const [playing, setPlaying] = React.useState(autoplay);
+  const [hoverTime, setHoverTime] = React.useState(null);
+  const [scale, setScale] = React.useState(1);
+
+  const stageRef = React.useRef(null);
+  const canvasRef = React.useRef(null);
+  const rafRef = React.useRef(null);
+  const lastTsRef = React.useRef(null);
+
+  // Persist playhead
+  React.useEffect(() => {
+    try { localStorage.setItem(persistKey + ':t', String(time)); } catch {}
+  }, [time, persistKey]);
+
+  // Auto-scale to fit viewport
+  React.useEffect(() => {
+    if (!stageRef.current) return;
+    const el = stageRef.current;
+    const measure = () => {
+      const barH = 44; // playback bar height
+      const s = Math.min(
+        el.clientWidth / width,
+        (el.clientHeight - barH) / height
+      );
+      setScale(Math.max(0.05, s));
+    };
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(el);
+    window.addEventListener('resize', measure);
+    return () => {
+      ro.disconnect();
+      window.removeEventListener('resize', measure);
+    };
+  }, [width, height]);
+
+  // Animation loop
+  React.useEffect(() => {
+    if (!playing) {
+      lastTsRef.current = null;
+      return;
+    }
+    const step = (ts) => {
+      if (lastTsRef.current == null) lastTsRef.current = ts;
+      const dt = (ts - lastTsRef.current) / 1000;
+      lastTsRef.current = ts;
+      setTime((t) => {
+        let next = t + dt;
+        if (next >= duration) {
+          if (loop) next = next % duration;
+          else { next = duration; setPlaying(false); }
+        }
+        return next;
+      });
+      rafRef.current = requestAnimationFrame(step);
+    };
+    rafRef.current = requestAnimationFrame(step);
+    return () => {
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+      lastTsRef.current = null;
+    };
+  }, [playing, duration, loop]);
+
+  // Keyboard: space = play/pause, ← → = seek
+  React.useEffect(() => {
+    const onKey = (e) => {
+      if (e.target && (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA')) return;
+      if (e.code === 'Space') {
+        e.preventDefault();
+        setPlaying(p => !p);
+      } else if (e.code === 'ArrowLeft') {
+        setTime(t => clamp(t - (e.shiftKey ? 1 : 0.1), 0, duration));
+      } else if (e.code === 'ArrowRight') {
+        setTime(t => clamp(t + (e.shiftKey ? 1 : 0.1), 0, duration));
+      } else if (e.key === '0' || e.code === 'Home') {
+        setTime(0);
+      }
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [duration]);
+
+  const displayTime = hoverTime != null ? hoverTime : time;
+
+  const ctxValue = React.useMemo(
+    () => ({ time: displayTime, duration, playing, setTime, setPlaying }),
+    [displayTime, duration, playing]
+  );
+
+  return (
+    <div
+      ref={stageRef}
+      style={{
+        position: 'absolute', inset: 0,
+        display: 'flex', flexDirection: 'column',
+        alignItems: 'center',
+        background: '#0a0a0a',
+        fontFamily: 'Inter, system-ui, sans-serif',
+      }}
+    >
+      {/* Canvas area — vertically centered in remaining space */}
+      <div style={{
+        flex: 1,
+        width: '100%',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        overflow: 'hidden',
+        minHeight: 0,
+      }}>
+        <div
+          ref={canvasRef}
+          style={{
+            width, height,
+            background,
+            position: 'relative',
+            transform: `scale(${scale})`,
+            transformOrigin: 'center',
+            flexShrink: 0,
+            boxShadow: '0 20px 60px rgba(0,0,0,0.4)',
+            overflow: 'hidden',
+          }}
+        >
+          <TimelineContext.Provider value={ctxValue}>
+            {children}
+          </TimelineContext.Provider>
+        </div>
+      </div>
+
+      {/* Playback bar — stacked below canvas, never overlapping */}
+      <PlaybackBar
+        time={displayTime}
+        actualTime={time}
+        duration={duration}
+        playing={playing}
+        onPlayPause={() => setPlaying(p => !p)}
+        onReset={() => { setTime(0); }}
+        onSeek={(t) => setTime(t)}
+        onHover={(t) => setHoverTime(t)}
+      />
+    </div>
+  );
+}
+
+// ── Playback bar ────────────────────────────────────────────────────────────
+// Play/pause, return-to-begin, scrub track, time display.
+// Uses fixed-width time fields so layout doesn't thrash.
+
+function PlaybackBar({ time, duration, playing, onPlayPause, onReset, onSeek, onHover }) {
+  const trackRef = React.useRef(null);
+  const [dragging, setDragging] = React.useState(false);
+
+  const timeFromEvent = React.useCallback((e) => {
+    const rect = trackRef.current.getBoundingClientRect();
+    const x = clamp((e.clientX - rect.left) / rect.width, 0, 1);
+    return x * duration;
+  }, [duration]);
+
+  const onTrackMove = (e) => {
+    if (!trackRef.current) return;
+    const t = timeFromEvent(e);
+    if (dragging) {
+      onSeek(t);
+    } else {
+      onHover(t);
+    }
+  };
+
+  const onTrackLeave = () => {
+    if (!dragging) onHover(null);
+  };
+
+  const onTrackDown = (e) => {
+    setDragging(true);
+    const t = timeFromEvent(e);
+    onSeek(t);
+    onHover(null);
+  };
+
+  React.useEffect(() => {
+    if (!dragging) return;
+    const onUp = () => setDragging(false);
+    const onMove = (e) => {
+      if (!trackRef.current) return;
+      const t = timeFromEvent(e);
+      onSeek(t);
+    };
+    window.addEventListener('mouseup', onUp);
+    window.addEventListener('mousemove', onMove);
+    return () => {
+      window.removeEventListener('mouseup', onUp);
+      window.removeEventListener('mousemove', onMove);
+    };
+  }, [dragging, timeFromEvent, onSeek]);
+
+  const pct = duration > 0 ? (time / duration) * 100 : 0;
+  const fmt = (t) => {
+    const total = Math.max(0, t);
+    const m = Math.floor(total / 60);
+    const s = Math.floor(total % 60);
+    const cs = Math.floor((total * 100) % 100);
+    return `${String(m).padStart(1, '0')}:${String(s).padStart(2, '0')}.${String(cs).padStart(2, '0')}`;
+  };
+
+  const mono = 'JetBrains Mono, ui-monospace, SFMono-Regular, monospace';
+
+  return (
+    <div style={{
+      display: 'flex', alignItems: 'center', gap: 12,
+      padding: '8px 16px',
+      background: 'rgba(20,20,20,0.92)',
+      borderTop: '1px solid rgba(255,255,255,0.08)',
+      width: '100%',
+      maxWidth: 680,
+      alignSelf: 'center',
+
+      borderRadius: 8,
+      color: '#f6f4ef',
+      fontFamily: 'Inter, system-ui, sans-serif',
+      userSelect: 'none',
+      flexShrink: 0,
+    }}>
+      <IconButton onClick={onReset} title="Return to start (0)">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <path d="M3 2v10M12 2L5 7l7 5V2z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" strokeLinecap="round"/>
+        </svg>
+      </IconButton>
+      <IconButton onClick={onPlayPause} title="Play/pause (space)">
+        {playing ? (
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <rect x="3" y="2" width="3" height="10" fill="currentColor"/>
+            <rect x="8" y="2" width="3" height="10" fill="currentColor"/>
+          </svg>
+        ) : (
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <path d="M3 2l9 5-9 5V2z" fill="currentColor"/>
+          </svg>
+        )}
+      </IconButton>
+
+      {/* Current time: fixed width so it doesn't thrash */}
+      <div style={{
+        fontFamily: mono,
+        fontSize: 12,
+        fontVariantNumeric: 'tabular-nums',
+        width: 64, textAlign: 'right',
+        color: '#f6f4ef',
+      }}>
+        {fmt(time)}
+      </div>
+
+      {/* Scrub track */}
+      <div
+        ref={trackRef}
+        onMouseMove={onTrackMove}
+        onMouseLeave={onTrackLeave}
+        onMouseDown={onTrackDown}
+        style={{
+          flex: 1,
+          height: 22,
+          position: 'relative',
+          cursor: 'pointer',
+          display: 'flex', alignItems: 'center',
+        }}
+      >
+        <div style={{
+          position: 'absolute',
+          left: 0, right: 0, height: 4,
+          background: 'rgba(255,255,255,0.12)',
+          borderRadius: 2,
+        }}/>
+        <div style={{
+          position: 'absolute',
+          left: 0, width: `${pct}%`, height: 4,
+          background: 'oklch(72% 0.12 250)',
+          borderRadius: 2,
+        }}/>
+        <div style={{
+          position: 'absolute',
+          left: `${pct}%`, top: '50%',
+          width: 12, height: 12,
+          marginLeft: -6, marginTop: -6,
+          background: '#fff',
+          borderRadius: 6,
+          boxShadow: '0 2px 4px rgba(0,0,0,0.4)',
+        }}/>
+      </div>
+
+      {/* Duration: fixed width */}
+      <div style={{
+        fontFamily: mono,
+        fontSize: 12,
+        fontVariantNumeric: 'tabular-nums',
+        width: 64, textAlign: 'left',
+        color: 'rgba(246,244,239,0.55)',
+      }}>
+        {fmt(duration)}
+      </div>
+    </div>
+  );
+}
+
+function IconButton({ children, onClick, title }) {
+  const [hover, setHover] = React.useState(false);
+  return (
+    <button
+      onClick={onClick}
+      title={title}
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+      style={{
+        width: 28, height: 28,
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        background: hover ? 'rgba(255,255,255,0.12)' : 'rgba(255,255,255,0.04)',
+        border: '1px solid rgba(255,255,255,0.1)',
+        borderRadius: 6,
+        color: '#f6f4ef',
+        cursor: 'pointer',
+        padding: 0,
+        transition: 'background 120ms',
+      }}
+    >
+      {children}
+    </button>
+  );
+}
+
+
+Object.assign(window, {
+  Easing, interpolate, animate, clamp,
+  TimelineContext, useTime, useTimeline,
+  Sprite, SpriteContext, useSprite,
+  TextSprite, ImageSprite, RectSprite,
+  Stage, PlaybackBar,
+});
+
+
+</script>
+<script type="text/babel">
+/* inlined: fm_shared.jsx */
+// fm_shared.jsx — Fund Mapping Animation: shared constants + primitives
+
+const FM = {
+  BG: '#08090C',
+  PANEL: '#10121A',
+  PANEL_HI: '#141720',
+  BORDER: 'rgba(255,255,255,0.07)',
+  BORDER_HI: 'rgba(255,255,255,0.13)',
+  TEXT: '#E8EAF0',
+  DIM: 'rgba(232,234,240,0.50)',
+  DIMMER: 'rgba(232,234,240,0.32)',
+  ACCENT: 'oklch(70% 0.14 248)',
+  ACCENT_S: 'oklch(70% 0.14 248 / 0.15)',
+  SUCCESS: 'oklch(73% 0.14 155)',
+  SUCCESS_S: 'oklch(73% 0.14 155 / 0.15)',
+  WARN: 'oklch(78% 0.12 60)',
+  WARN_S: 'oklch(78% 0.12 60 / 0.15)',
+  SANS: "'Inter', system-ui, sans-serif",
+  MONO: "'JetBrains Mono', ui-monospace, monospace",
+
+  // Fund color palette
+  FUND_COLORS: [
+    { accent: 'oklch(68% 0.16 255)', soft: 'oklch(68% 0.16 255 / 0.14)' }, // blue
+    { accent: 'oklch(72% 0.14 200)', soft: 'oklch(72% 0.14 200 / 0.14)' }, // teal
+    { accent: 'oklch(74% 0.12 270)', soft: 'oklch(74% 0.12 270 / 0.14)' }, // violet
+  ],
+};
+
+const WIRE_TOTAL = 4125000;
+
+const FUNDS = [
+  { id: 'FND-GRWTH', label: 'Growth Fund',       ticker: 'GRW', pct: 45 },
+  { id: 'FND-BALNC', label: 'Balanced Fund',     ticker: 'BAL', pct: 35 },
+  { id: 'FND-FIXED', label: 'Fixed Income',       ticker: 'FIX', pct: 20 },
+];
+
+const PARTICIPANTS = [
+  {
+    id: 'ACCT-4401', label: 'Account A',
+    allocations: [50, 30, 20],
+  },
+  {
+    id: 'ACCT-4402', label: 'Account B',
+    allocations: [40, 40, 20],
+  },
+  {
+    id: 'ACCT-4403', label: 'Account C',
+    allocations: [35, 35, 30],
+  },
+];
+
+// Each participant's total value = sum of their fund slices
+// Fund total = WIRE_TOTAL * fund.pct / 100
+// Each fund is split across 3 participants by their allocations
+
+function fundValue(fIdx) { return WIRE_TOTAL * FUNDS[fIdx].pct / 100; }
+function participantFundValue(pIdx, fIdx) {
+  return fundValue(fIdx) * PARTICIPANTS[pIdx].allocations[fIdx] / 100;
+}
+function participantTotal(pIdx) {
+  return FUNDS.reduce((sum, _, fi) => sum + participantFundValue(pIdx, fi), 0);
+}
+
+// ─── Shared primitives ────────────────────────────────────────
+
+function FMGlow({ x, y, size = 400, color, opacity = 0.15 }) {
+  return (
+    <div style={{
+      position: 'absolute', left: x, top: y,
+      width: size, height: size,
+      background: `radial-gradient(circle at center, ${color || FM.ACCENT}, transparent 65%)`,
+      opacity,
+      filter: 'blur(50px)',
+      pointerEvents: 'none',
+    }} />
+  );
+}
+
+function FMPanel({ x, y, w, h, children, style = {}, elevated = false, glowColor = null }) {
+  return (
+    <div style={{
+      position: 'absolute', left: x, top: y, width: w, height: h,
+      background: elevated ? FM.PANEL_HI : FM.PANEL,
+      border: `1px solid ${elevated ? FM.BORDER_HI : FM.BORDER}`,
+      borderRadius: 12,
+      boxShadow: elevated
+        ? '0 2px 0 rgba(255,255,255,0.04) inset, 0 24px 80px -20px rgba(0,0,0,0.9)'
+        : '0 1px 0 rgba(255,255,255,0.03) inset',
+      overflow: 'hidden',
+      ...style,
+    }}>
+      {glowColor && (
+        <div style={{
+          position: 'absolute', inset: 0,
+          background: `radial-gradient(ellipse at 50% 0%, ${glowColor}, transparent 55%)`,
+          pointerEvents: 'none',
+        }} />
+      )}
+      {children}
+    </div>
+  );
+}
+
+function FMChip({ label, color, soft }) {
+  return (
+    <div style={{
+      display: 'inline-flex', alignItems: 'center', gap: 5,
+      fontFamily: FM.MONO, fontSize: 10,
+      color, letterSpacing: '0.12em', textTransform: 'uppercase',
+      padding: '3px 8px',
+      background: soft,
+      border: `1px solid ${color}`,
+      borderRadius: 4,
+    }}>{label}</div>
+  );
+}
+
+function FMRow({ label, value, dim = false }) {
+  return (
+    <div style={{
+      display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+      padding: '8px 0',
+      borderBottom: `1px solid ${FM.BORDER}`,
+      fontFamily: FM.MONO, fontSize: 11,
+    }}>
+      <span style={{ color: FM.DIMMER }}>{label}</span>
+      <span style={{ color: dim ? FM.DIM : FM.TEXT, letterSpacing: '0.03em' }}>{value}</span>
+    </div>
+  );
+}
+
+function SceneCaption({ n, total = 6, label, t, startDelay = 0.4 }) {
+  const op = Easing.easeOutCubic(clamp((t - startDelay) / 0.5, 0, 1));
+  return (
+    <div style={{
+      position: 'absolute', left: 100, bottom: 72,
+      display: 'flex', alignItems: 'center', gap: 14, opacity: op,
+    }}>
+      <div style={{
+        fontFamily: FM.MONO, fontSize: 10,
+        color: FM.DIMMER, letterSpacing: '0.22em',
+      }}>{String(n).padStart(2,'0')} / {String(total).padStart(2,'0')}</div>
+      <div style={{ width: 28, height: 1, background: FM.BORDER_HI }} />
+      <div style={{
+        fontFamily: FM.SANS, fontSize: 15, fontWeight: 500,
+        color: FM.TEXT, letterSpacing: '-0.005em',
+      }}>{label}</div>
+    </div>
+  );
+}
+
+// Particle stream between two points on an SVG canvas
+function FMStream({ fromX, fromY, toX, toY, progress, active = true, color, count = 10, stageW = 1280, stageH = 720 }) {
+  const col = color || FM.ACCENT;
+  const dx = toX - fromX, dy = toY - fromY;
+  const len = Math.sqrt(dx*dx + dy*dy);
+  const angle = Math.atan2(dy, dx) * 180 / Math.PI;
+  const t = useTime();
+
+  return (
+    <>
+      <div style={{
+        position: 'absolute', left: fromX, top: fromY,
+        width: len * progress, height: 1.5,
+        transformOrigin: '0 50%',
+        transform: `translateY(-0.75px) rotate(${angle}deg)`,
+        background: `linear-gradient(90deg, transparent, ${col} 25%, ${col} 75%, transparent)`,
+        opacity: 0.35,
+        pointerEvents: 'none',
+      }} />
+      {active && Array.from({ length: count }).map((_, i) => {
+        const stagger = i / count;
+        const p = ((t * 0.8 - stagger) % 1);
+        if (p < 0 || p > progress) return null;
+        const x = fromX + dx * p;
+        const y = fromY + dy * p + Math.sin(p * Math.PI * 3 + i) * 3;
+        const op = Math.sin(p * Math.PI);
+        return (
+          <div key={i} style={{
+            position: 'absolute',
+            left: x - 3, top: y - 3,
+            width: 6, height: 6, borderRadius: 3,
+            background: col, opacity: op * 0.85,
+            boxShadow: `0 0 10px ${col}`,
+            pointerEvents: 'none',
+          }} />
+        );
+      })}
+    </>
+  );
+}
+
+// Bezier arc flow (SVG path)
+function FMArc({ fromX, fromY, toX, toY, progress, color, curveDir = 1 }) {
+  const col = color || FM.ACCENT;
+  const cpX = (fromX + toX) / 2;
+  const cpY = fromY + curveDir * 60;
+  const d = `M ${fromX} ${fromY} Q ${cpX} ${cpY} ${toX} ${toY}`;
+  const pathRef = React.useRef(null);
+  const [len, setLen] = React.useState(300);
+  React.useEffect(() => {
+    if (pathRef.current) setLen(pathRef.current.getTotalLength());
+  }, [fromX, fromY, toX, toY]);
+
+  const t = useTime();
+  const particles = [];
+  if (len > 0 && progress > 0 && progress < 1) {
+    for (let i = 0; i < 8; i++) {
+      const stagger = i / 8;
+      const p = ((t * 0.6 - stagger) % 1);
+      if (p < 0 || p > progress || !pathRef.current) continue;
+      try {
+        const pt = pathRef.current.getPointAtLength(len * p);
+        particles.push({ x: pt.x, y: pt.y, op: Math.sin(p * Math.PI), key: i });
+      } catch {}
+    }
+  }
+
+  return (
+    <svg style={{ position: 'absolute', inset: 0, pointerEvents: 'none', overflow: 'visible' }}
+      width={1280} height={720}>
+      <path ref={pathRef} d={d} fill="none" stroke={col} strokeWidth={1.5}
+        strokeDasharray={len} strokeDashoffset={len * (1 - progress)}
+        opacity={progress > 0 ? 0.5 : 0} />
+      {particles.map(pt => (
+        <circle key={pt.key} cx={pt.x} cy={pt.y} r={3} fill={col} opacity={pt.op}
+          style={{ filter: `drop-shadow(0 0 5px ${col})` }} />
+      ))}
+    </svg>
+  );
+}
+
+Object.assign(window, {
+  FM, WIRE_TOTAL, FUNDS, PARTICIPANTS,
+  fundValue, participantFundValue, participantTotal,
+  FMGlow, FMPanel, FMChip, FMRow, SceneCaption, FMStream, FMArc,
+});
+
+</script>
+<script type="text/babel">
+/* inlined: fm_scenes_a.jsx */
+// fm_scenes_a.jsx — Scenes 1, 2, 3
+
+// ─────────────────────────────────────────────────────────────
+// SCENE 1 — Wire Received
+
+function FMScene1() {
+  const { localTime: t, duration } = useSprite();
+  const sceneIn = Easing.easeOutCubic(clamp(t / 0.6, 0, 1));
+  const exitT = duration - 0.5;
+  const sceneOut = t > exitT ? 1 - Easing.easeInCubic(clamp((t - exitT) / 0.5, 0, 1)) : 1;
+
+  // Panel slides in
+  const panelIn = Easing.easeOutCubic(clamp((t - 0.2) / 0.7, 0, 1));
+
+  // Wire value counts up 0.7 -> 1.8s
+  const countP = Easing.easeOutCubic(clamp((t - 0.7) / 1.1, 0, 1));
+
+  // Confirmation chip at 1.9s
+  const confIn = Easing.easeOutCubic(clamp((t - 1.9) / 0.4, 0, 1));
+
+  // Pulse ring at 2.0
+  const pulse1 = Easing.easeOutCubic(clamp((t - 2.0) / 0.8, 0, 1));
+
+  // Status row appears at 2.4
+  const rowsIn = Easing.easeOutCubic(clamp((t - 2.4) / 0.5, 0, 1));
+
+  const val = Math.round(WIRE_TOTAL * countP);
+
+  return (
+    <div style={{ position: 'absolute', inset: 0, opacity: sceneIn * sceneOut }}>
+      <FMGlow x={300} y={100} size={600} opacity={0.12} />
+
+      <div style={{
+        position: 'absolute', left: 280, top: 140,
+        width: 720, height: 440,
+        opacity: panelIn,
+        transform: `translateY(${(1 - panelIn) * 10}px)`,
+      }}>
+        <FMPanel x={0} y={0} w={720} h={440} elevated glowColor={FM.ACCENT_S}>
+          {/* Pulse ring */}
+          {pulse1 > 0 && (
+            <div style={{
+              position: 'absolute', inset: -2,
+              border: `1px solid ${FM.ACCENT}`,
+              borderRadius: 12,
+              opacity: (1 - pulse1) * 0.7,
+              transform: `scale(${1 + pulse1 * 0.025})`,
+              pointerEvents: 'none',
+            }} />
+          )}
+
+          {/* Header */}
+          <div style={{
+            padding: '18px 26px',
+            borderBottom: `1px solid ${FM.BORDER}`,
+            display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+              <div style={{
+                width: 7, height: 7, borderRadius: 4,
+                background: FM.ACCENT, boxShadow: `0 0 10px ${FM.ACCENT}`,
+              }} />
+              <div style={{
+                fontFamily: FM.MONO, fontSize: 11, letterSpacing: '0.14em',
+                color: FM.DIM, textTransform: 'uppercase',
+              }}>Incoming Wire</div>
+            </div>
+            <div style={{ opacity: confIn }}>
+              <FMChip label="Wire Received" color={FM.SUCCESS} soft={FM.SUCCESS_S} />
+            </div>
+          </div>
+
+          {/* Value */}
+          <div style={{ padding: '36px 40px 28px' }}>
+            <div style={{
+              fontFamily: FM.MONO, fontSize: 10,
+              color: FM.DIMMER, letterSpacing: '0.16em',
+              textTransform: 'uppercase', marginBottom: 14,
+            }}>Total Funds Received</div>
+            <div style={{
+              fontFamily: FM.SANS, fontSize: 72, fontWeight: 500,
+              color: FM.TEXT, letterSpacing: '-0.03em',
+              fontVariantNumeric: 'tabular-nums', lineHeight: 1,
+            }}>
+              ${val.toLocaleString('en-US')}
+            </div>
+            <div style={{
+              marginTop: 10,
+              fontFamily: FM.MONO, fontSize: 12,
+              color: FM.DIMMER, letterSpacing: '0.04em',
+            }}>USD · Not yet allocated</div>
+
+            {/* Full bar */}
+            <div style={{
+              marginTop: 28, height: 5, borderRadius: 3,
+              background: `linear-gradient(90deg, ${FM.ACCENT}, oklch(65% 0.16 255))`,
+              width: `${countP * 100}%`,
+              boxShadow: `0 0 16px ${FM.ACCENT_S}`,
+            }} />
+          </div>
+
+          {/* Metadata rows */}
+          <div style={{ padding: '0 40px', opacity: rowsIn }}>
+            <FMRow label="Source" value="WIRE-2026-04-17-00471" />
+            <FMRow label="Value Date" value="2026-04-17" />
+            <FMRow label="Status" value="PENDING ALLOCATION" dim />
+          </div>
+        </FMPanel>
+      </div>
+
+      <SceneCaption n={1} t={t} label="Wire received — funds confirmed" />
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────
+// SCENE 2 — Fund Breakdown
+
+function FMScene2() {
+  const { localTime: t, duration } = useSprite();
+  const sceneIn = Easing.easeOutCubic(clamp(t / 0.5, 0, 1));
+  const exitT = duration - 0.5;
+  const sceneOut = t > exitT ? 1 - Easing.easeInCubic(clamp((t - exitT) / 0.5, 0, 1)) : 1;
+
+  // Source block — left
+  const srcIn = Easing.easeOutCubic(clamp(t / 0.6, 0, 1));
+
+  // Fund cards stagger in at 0.4, 0.6, 0.8
+  const cardIn = (i) => Easing.easeOutCubic(clamp((t - (0.4 + i * 0.2)) / 0.6, 0, 1));
+
+  // Streams from source to cards start at 1.2, 1.4, 1.6
+  const streamStart = (i) => 1.2 + i * 0.25;
+  const streamDur = 1.2;
+  const streamP = (i) => Easing.easeInOutCubic(clamp((t - streamStart(i)) / streamDur, 0, 1));
+
+  // Value count-up in cards follows stream
+  const countP = (i) => Easing.easeOutCubic(clamp((t - streamStart(i) - 0.4) / 0.9, 0, 1));
+
+  const srcX = 80, srcY = 220, srcW = 320, srcH = 190;
+  const cardX = 540, cardH = 148, cardGap = 12;
+
+  return (
+    <div style={{ position: 'absolute', inset: 0, opacity: sceneIn * sceneOut }}>
+      <FMGlow x={0} y={200} size={400} opacity={0.1} />
+      <FMGlow x={900} y={300} size={500} opacity={0.1} />
+
+      {/* Source block */}
+      <div style={{
+        position: 'absolute', left: srcX, top: srcY,
+        width: srcW, height: srcH,
+        opacity: srcIn, transform: `translateY(${(1-srcIn)*8}px)`,
+      }}>
+        <FMPanel x={0} y={0} w={srcW} h={srcH} elevated>
+          <div style={{
+            padding: '14px 18px',
+            borderBottom: `1px solid ${FM.BORDER}`,
+            display: 'flex', alignItems: 'center', gap: 8,
+          }}>
+            <div style={{ width: 6, height: 6, borderRadius: 3, background: FM.SUCCESS, boxShadow: `0 0 8px ${FM.SUCCESS}` }} />
+            <div style={{ fontFamily: FM.MONO, fontSize: 10, color: FM.DIM, letterSpacing: '0.14em', textTransform: 'uppercase' }}>Incoming Wire</div>
+          </div>
+          <div style={{ padding: '20px 22px' }}>
+            <div style={{ fontFamily: FM.MONO, fontSize: 10, color: FM.DIMMER, letterSpacing: '0.14em', marginBottom: 8 }}>TOTAL</div>
+            <div style={{ fontFamily: FM.SANS, fontSize: 36, fontWeight: 500, color: FM.TEXT, letterSpacing: '-0.02em', fontVariantNumeric: 'tabular-nums' }}>
+              ${WIRE_TOTAL.toLocaleString('en-US')}
+            </div>
+            <div style={{ marginTop: 12, display: 'flex', gap: 4 }}>
+              {FUNDS.map((_, fi) => (
+                <div key={fi} style={{
+                  flex: FUNDS[fi].pct, height: 4, borderRadius: 2,
+                  background: streamP(fi) > 0.05
+                    ? FM.FUND_COLORS[fi].accent
+                    : FM.BORDER_HI,
+                  opacity: Math.max(0, 1 - streamP(fi) * 0.6),
+                  transition: 'opacity 200ms',
+                }} />
+              ))}
+            </div>
+          </div>
+        </FMPanel>
+      </div>
+
+      {/* Streams */}
+      {FUNDS.map((f, fi) => {
+        const cardTop = (srcY + srcH/2) - ((FUNDS.length - 1) * (cardH + cardGap) / 2) + fi * (cardH + cardGap);
+        const sp = streamP(fi);
+        if (sp <= 0) return null;
+        return (
+          <FMStream key={fi}
+            fromX={srcX + srcW} fromY={srcY + srcH/2}
+            toX={cardX} toY={cardTop + cardH/2}
+            progress={sp}
+            active={sp > 0 && sp < 1}
+            color={FM.FUND_COLORS[fi].accent}
+            count={8}
+          />
+        );
+      })}
+
+      {/* Fund cards */}
+      {FUNDS.map((f, fi) => {
+        const cardTop = (srcY + srcH/2) - ((FUNDS.length - 1) * (cardH + cardGap) / 2) + fi * (cardH + cardGap);
+        const inP = cardIn(fi);
+        const cp = countP(fi);
+        const fColor = FM.FUND_COLORS[fi];
+        const val = Math.round(fundValue(fi) * cp);
+        const arrived = streamP(fi) >= 0.98;
+
+        return (
+          <div key={f.id} style={{
+            position: 'absolute', left: cardX, top: cardTop,
+            width: 660, height: cardH,
+            opacity: inP, transform: `translateX(${(1-inP)*12}px)`,
+          }}>
+            <FMPanel x={0} y={0} w={660} h={cardH} elevated={arrived}>
+              {arrived && (
+                <div style={{
+                  position: 'absolute', top: 0, left: 0, right: 0, height: 1,
+                  background: `linear-gradient(90deg, transparent, ${fColor.accent}, transparent)`,
+                  opacity: 0.7,
+                }} />
+              )}
+              <div style={{ padding: '18px 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: '100%' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+                  <div style={{
+                    width: 36, height: 36, borderRadius: 8,
+                    background: fColor.soft,
+                    border: `1px solid ${fColor.accent}`,
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    fontFamily: FM.MONO, fontSize: 11, fontWeight: 500,
+                    color: fColor.accent, letterSpacing: '0.06em',
+                  }}>{f.ticker}</div>
+                  <div>
+                    <div style={{ fontFamily: FM.SANS, fontSize: 14, fontWeight: 500, color: FM.TEXT }}>{f.label}</div>
+                    <div style={{ fontFamily: FM.MONO, fontSize: 10, color: FM.DIMMER, marginTop: 3, letterSpacing: '0.1em' }}>{f.id}</div>
+                  </div>
+                </div>
+
+                <div style={{ textAlign: 'right' }}>
+                  <div style={{ fontFamily: FM.SANS, fontSize: 28, fontWeight: 500, color: FM.TEXT, letterSpacing: '-0.02em', fontVariantNumeric: 'tabular-nums' }}>
+                    ${val.toLocaleString('en-US')}
+                  </div>
+                  <div style={{ fontFamily: FM.MONO, fontSize: 11, color: fColor.accent, marginTop: 3, letterSpacing: '0.08em' }}>{f.pct}%</div>
+                </div>
+              </div>
+
+              {/* fill bar */}
+              <div style={{
+                position: 'absolute', bottom: 0, left: 0, right: 0,
+                height: 3, background: FM.BORDER,
+              }}>
+                <div style={{
+                  height: '100%', width: `${streamP(fi) * 100}%`,
+                  background: fColor.accent,
+                  transition: 'width 50ms',
+                }} />
+              </div>
+            </FMPanel>
+          </div>
+        );
+      })}
+
+      <SceneCaption n={2} t={t} label="Fund mapping breakdown applied" />
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────
+// SCENE 3 — Initial Load / Holding Record
+
+function FMScene3() {
+  const { localTime: t, duration } = useSprite();
+  const sceneIn = Easing.easeOutCubic(clamp(t / 0.5, 0, 1));
+  const exitT = duration - 0.5;
+  const sceneOut = t > exitT ? 1 - Easing.easeInCubic(clamp((t - exitT) / 0.5, 0, 1)) : 1;
+
+  // Fund blocks slide in from top left
+  const fundsIn = Easing.easeOutCubic(clamp(t / 0.6, 0, 1));
+
+  // Holding record container materializes at 0.5
+  const holdIn = Easing.easeOutCubic(clamp((t - 0.5) / 0.7, 0, 1));
+
+  // Flows from fund blocks into holding at 1.0, 1.25, 1.5
+  const flowP = (fi) => Easing.easeInOutCubic(clamp((t - (1.0 + fi * 0.25)) / 1.0, 0, 1));
+  const flowActive = (fi) => flowP(fi) > 0 && flowP(fi) < 1;
+
+  // Holding record rows count up as flows arrive
+  const countP = (fi) => Easing.easeOutCubic(clamp((t - (1.0 + fi * 0.25) - 0.3) / 0.7, 0, 1));
+
+  // Total in holding
+  const holdTotal = FUNDS.reduce((s, _, fi) => s + fundValue(fi) * countP(fi), 0);
+
+  // Stabilize label at 3.0
+  const stableIn = Easing.easeOutCubic(clamp((t - 3.0) / 0.5, 0, 1));
+
+  // Source fund Y positions
+  const fundY = (fi) => 120 + fi * 150;
+  const fundX = 80, fundW = 380, fundH = 120;
+  const holdX = 620, holdY = 160, holdW = 560, holdH = 380;
+
+  return (
+    <div style={{ position: 'absolute', inset: 0, opacity: sceneIn * sceneOut }}>
+      <FMGlow x={500} y={200} size={600} color={FM.WARN} opacity={0.08} />
+
+      {/* Fund source blocks */}
+      {FUNDS.map((f, fi) => {
+        const fColor = FM.FUND_COLORS[fi];
+        const fp = flowP(fi);
+        return (
+          <div key={f.id} style={{
+            position: 'absolute', left: fundX, top: fundY(fi),
+            width: fundW, height: fundH,
+            opacity: fundsIn * (1 - Easing.easeInCubic(clamp((fp - 0.85) / 0.15, 0, 1))),
+            transform: `translateX(${(1 - fundsIn) * -10}px)`,
+          }}>
+            <FMPanel x={0} y={0} w={fundW} h={fundH}>
+              <div style={{ padding: '16px 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: '100%' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                  <div style={{
+                    width: 32, height: 32, borderRadius: 7,
+                    background: fColor.soft, border: `1px solid ${fColor.accent}`,
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    fontFamily: FM.MONO, fontSize: 10, color: fColor.accent,
+                  }}>{f.ticker}</div>
+                  <div style={{ fontFamily: FM.SANS, fontSize: 13, fontWeight: 500, color: FM.TEXT }}>{f.label}</div>
+                </div>
+                <div style={{ fontFamily: FM.SANS, fontSize: 22, fontWeight: 500, color: FM.TEXT, fontVariantNumeric: 'tabular-nums' }}>
+                  ${Math.round(fundValue(fi)).toLocaleString('en-US')}
+                </div>
+              </div>
+            </FMPanel>
+          </div>
+        );
+      })}
+
+      {/* Flow arcs */}
+      {FUNDS.map((_, fi) => {
+        const fp = flowP(fi);
+        if (fp <= 0) return null;
+        return (
+          <FMArc key={fi}
+            fromX={fundX + fundW} fromY={fundY(fi) + fundH/2}
+            toX={holdX} toY={holdY + 80 + fi * 90}
+            progress={fp}
+            color={FM.FUND_COLORS[fi].accent}
+            curveDir={fi === 1 ? 1 : (fi === 0 ? -1 : 1)}
+          />
+        );
+      })}
+
+      {/* Holding Record container */}
+      <div style={{
+        position: 'absolute', left: holdX, top: holdY,
+        width: holdW, height: holdH,
+        opacity: holdIn, transform: `translateY(${(1-holdIn)*10}px)`,
+      }}>
+        <FMPanel x={0} y={0} w={holdW} h={holdH} elevated>
+          <div style={{
+            position: 'absolute', top: 0, left: 0, right: 0, height: 1,
+            background: `linear-gradient(90deg, transparent, ${FM.WARN}, transparent)`,
+            opacity: 0.6,
+          }} />
+
+          <div style={{
+            padding: '16px 22px',
+            borderBottom: `1px solid ${FM.BORDER}`,
+            display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+              <div style={{ width: 7, height: 7, borderRadius: 4, background: FM.WARN, boxShadow: `0 0 10px ${FM.WARN}` }} />
+              <div style={{ fontFamily: FM.MONO, fontSize: 11, color: FM.DIM, letterSpacing: '0.14em', textTransform: 'uppercase' }}>
+                Initial Load · Holding Record
+              </div>
+            </div>
+            <FMChip label="Staging" color={FM.WARN} soft={FM.WARN_S} />
+          </div>
+
+          <div style={{ padding: '12px 22px' }}>
+            <div style={{ fontFamily: FM.MONO, fontSize: 10, color: FM.DIMMER, letterSpacing: '0.14em', marginBottom: 8 }}>STAGED TOTAL</div>
+            <div style={{
+              fontFamily: FM.SANS, fontSize: 40, fontWeight: 500,
+              color: FM.TEXT, letterSpacing: '-0.025em', fontVariantNumeric: 'tabular-nums', marginBottom: 16,
+            }}>${Math.round(holdTotal).toLocaleString('en-US')}</div>
+
+            {/* Per-fund rows in holding */}
+            {FUNDS.map((f, fi) => {
+              const val = Math.round(fundValue(fi) * countP(fi));
+              const cp = countP(fi);
+              return (
+                <div key={f.id} style={{
+                  display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                  padding: '9px 0',
+                  borderBottom: fi < FUNDS.length - 1 ? `1px solid ${FM.BORDER}` : 'none',
+                  opacity: cp > 0 ? 1 : 0.2,
+                }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                    <div style={{ width: 5, height: 5, borderRadius: 3, background: FM.FUND_COLORS[fi].accent }} />
+                    <span style={{ fontFamily: FM.MONO, fontSize: 11, color: FM.DIM }}>{f.label}</span>
+                  </div>
+                  <span style={{ fontFamily: FM.MONO, fontSize: 11, color: FM.TEXT, fontVariantNumeric: 'tabular-nums' }}>
+                    ${val.toLocaleString('en-US')}
+                  </span>
+                </div>
+              );
+            })}
+
+            {/* Stable indicator */}
+            <div style={{
+              marginTop: 16,
+              display: 'flex', alignItems: 'center', gap: 8,
+              opacity: stableIn,
+            }}>
+              <div style={{ flex: 1, height: 4, borderRadius: 2,
+                background: `linear-gradient(90deg, ${FM.WARN}, oklch(75% 0.10 55))`,
+                boxShadow: `0 0 12px ${FM.WARN_S}`,
+              }} />
+              <div style={{ fontFamily: FM.MONO, fontSize: 10, color: FM.WARN, letterSpacing: '0.12em' }}>STAGED · AWAITING FINAL FILES</div>
+            </div>
+          </div>
+        </FMPanel>
+      </div>
+
+      <SceneCaption n={3} t={t} label="Initial load — holding record staged" />
+    </div>
+  );
+}
+
+Object.assign(window, { FMScene1, FMScene2, FMScene3 });
+
+</script>
+<script type="text/babel">
+/* inlined: fm_scenes_b.jsx */
+// fm_scenes_b.jsx — Scenes 4, 5, 6
+
+// ─────────────────────────────────────────────────────────────
+// SCENE 4 — Final Files Arrive
+
+function FMScene4() {
+  const { localTime: t, duration } = useSprite();
+  const sceneIn = Easing.easeOutCubic(clamp(t / 0.5, 0, 1));
+  const exitT = duration - 0.5;
+  const sceneOut = t > exitT ? 1 - Easing.easeInCubic(clamp((t - exitT) / 0.5, 0, 1)) : 1;
+
+  // Holding record — left, same as scene 3 final state
+  const holdIn = Easing.easeOutCubic(clamp(t / 0.5, 0, 1));
+
+  // Final files notification slides in from top at 0.4
+  const notifIn = Easing.easeOutCubic(clamp((t - 0.4) / 0.5, 0, 1));
+  const checkIn = Easing.easeOutCubic(clamp((t - 0.9) / 0.4, 0, 1));
+
+  // Signal pulse from notif → holding at 1.3
+  const signalP = clamp((t - 1.3) / 0.5, 0, 1);
+
+  // Holding unlocks at 1.8: border shifts to accent, status changes
+  const unlockStart = 1.8;
+  const unlock = Easing.easeOutCubic(clamp((t - unlockStart) / 0.7, 0, 1));
+
+  // Dissolve/fragment effect: holding starts to split at 2.2
+  const dissolveStart = 2.2;
+  const dissolve = Easing.easeInCubic(clamp((t - dissolveStart) / 1.0, 0, 1));
+
+  const holdX = 100, holdY = 220, holdW = 500, holdH = 300;
+
+  return (
+    <div style={{ position: 'absolute', inset: 0, opacity: sceneIn * sceneOut }}>
+      <FMGlow x={400} y={100} size={600} color={FM.SUCCESS} opacity={0.08} />
+
+      {/* Holding record (unlocking) */}
+      <div style={{
+        position: 'absolute', left: holdX, top: holdY,
+        width: holdW, height: holdH,
+        opacity: holdIn * (1 - dissolve * 0.5),
+        transform: `scale(${1 - dissolve * 0.04})`,
+        transformOrigin: 'center',
+      }}>
+        <FMPanel x={0} y={0} w={holdW} h={holdH} elevated>
+          {/* Unlock glow ring */}
+          {unlock > 0 && (
+            <div style={{
+              position: 'absolute', inset: -1,
+              borderRadius: 12,
+              border: `1px solid ${unlock > 0.5 ? FM.ACCENT : FM.WARN}`,
+              opacity: unlock > 0.5 ? 0.7 : (1 - (unlock / 0.5)) * 0.6,
+              pointerEvents: 'none',
+              transition: 'border-color 200ms',
+            }} />
+          )}
+
+          <div style={{
+            padding: '16px 22px',
+            borderBottom: `1px solid ${FM.BORDER}`,
+            display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+              <div style={{
+                width: 7, height: 7, borderRadius: 4,
+                background: unlock > 0.5 ? FM.ACCENT : FM.WARN,
+                boxShadow: `0 0 10px ${unlock > 0.5 ? FM.ACCENT : FM.WARN}`,
+                transition: 'background 300ms, box-shadow 300ms',
+              }} />
+              <div style={{ fontFamily: FM.MONO, fontSize: 11, color: FM.DIM, letterSpacing: '0.14em', textTransform: 'uppercase' }}>
+                Initial Load · Holding Record
+              </div>
+            </div>
+            <div style={{ transition: 'all 300ms' }}>
+              {unlock > 0.5
+                ? <FMChip label="Unlocked" color={FM.ACCENT} soft={FM.ACCENT_S} />
+                : <FMChip label="Staging" color={FM.WARN} soft={FM.WARN_S} />
+              }
+            </div>
+          </div>
+
+          <div style={{ padding: '16px 22px' }}>
+            <div style={{ fontFamily: FM.MONO, fontSize: 10, color: FM.DIMMER, letterSpacing: '0.14em', marginBottom: 8 }}>STAGED TOTAL</div>
+            <div style={{
+              fontFamily: FM.SANS, fontSize: 42, fontWeight: 500,
+              color: FM.TEXT, letterSpacing: '-0.025em', fontVariantNumeric: 'tabular-nums', marginBottom: 14,
+            }}>${WIRE_TOTAL.toLocaleString('en-US')}</div>
+
+            {FUNDS.map((f, fi) => (
+              <div key={f.id} style={{
+                display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                padding: '8px 0',
+                borderBottom: fi < FUNDS.length - 1 ? `1px solid ${FM.BORDER}` : 'none',
+              }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                  <div style={{ width: 5, height: 5, borderRadius: 3, background: FM.FUND_COLORS[fi].accent }} />
+                  <span style={{ fontFamily: FM.MONO, fontSize: 11, color: FM.DIM }}>{f.label}</span>
+                </div>
+                <span style={{ fontFamily: FM.MONO, fontSize: 11, color: FM.TEXT, fontVariantNumeric: 'tabular-nums' }}>
+                  ${Math.round(fundValue(fi)).toLocaleString('en-US')}
+                </span>
+              </div>
+            ))}
+
+            <div style={{
+              marginTop: 14, fontFamily: FM.MONO, fontSize: 10,
+              color: unlock > 0.5 ? FM.ACCENT : FM.DIMMER,
+              letterSpacing: '0.12em', transition: 'color 300ms',
+            }}>
+              {unlock > 0.5 ? '→ Applying participant allocations…' : 'STAGED · AWAITING FINAL FILES'}
+            </div>
+          </div>
+        </FMPanel>
+      </div>
+
+      {/* Signal line from notif to holding */}
+      {signalP > 0 && (
+        <div style={{
+          position: 'absolute',
+          left: 710, top: 200,
+          width: 2,
+          height: Math.min(holdY - 200, 220) * signalP,
+          background: `linear-gradient(180deg, ${FM.SUCCESS} 0%, transparent 100%)`,
+          boxShadow: `0 0 8px ${FM.SUCCESS}`,
+          opacity: 1 - signalP * 0.5,
+        }} />
+      )}
+
+      {/* Final Files notification — top right */}
+      <div style={{
+        position: 'absolute', right: 100, top: 100,
+        width: 380,
+        opacity: notifIn,
+        transform: `translateY(${(1-notifIn) * -8}px)`,
+      }}>
+        <div style={{
+          background: FM.PANEL_HI,
+          border: `1px solid ${FM.BORDER_HI}`,
+          borderRadius: 10,
+          padding: '16px 18px',
+          display: 'flex', alignItems: 'center', gap: 14,
+          boxShadow: '0 24px 80px -20px rgba(0,0,0,0.9)',
+        }}>
+          <div style={{
+            width: 38, height: 38, borderRadius: 19,
+            background: FM.SUCCESS_S,
+            border: `1px solid ${FM.SUCCESS}`,
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            flexShrink: 0,
+            boxShadow: checkIn > 0 ? `0 0 20px ${FM.SUCCESS_S}` : 'none',
+          }}>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M3 8.5l3.2 3.2L13 5" stroke={FM.SUCCESS} strokeWidth="2"
+                strokeLinecap="round" strokeLinejoin="round"
+                strokeDasharray="20" strokeDashoffset={20 - 20 * checkIn} />
+            </svg>
+          </div>
+          <div>
+            <div style={{ fontFamily: FM.MONO, fontSize: 10, color: FM.DIMMER, letterSpacing: '0.14em', textTransform: 'uppercase', marginBottom: 4 }}>System Event</div>
+            <div style={{ fontFamily: FM.SANS, fontSize: 14, fontWeight: 500, color: FM.TEXT }}>Final Files Received</div>
+            <div style={{ fontFamily: FM.MONO, fontSize: 11, color: FM.DIM, marginTop: 2 }}>participant_elections_2026-04-17.xml</div>
+          </div>
+        </div>
+      </div>
+
+      <SceneCaption n={4} t={t} label="Final files received — holding record unlocked" />
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────
+// SCENE 5 — Participant Application
+
+function FMScene5() {
+  const { localTime: t, duration } = useSprite();
+  const sceneIn = Easing.easeOutCubic(clamp(t / 0.5, 0, 1));
+  const exitT = duration - 0.5;
+  const sceneOut = t > exitT ? 1 - Easing.easeInCubic(clamp((t - exitT) / 0.5, 0, 1)) : 1;
+
+  // Holding record (source, shrinking)
+  const holdX = 60, holdY = 210, holdW = 340, holdH = 300;
+
+  // Participant cards: stagger in at 0.3, 0.5, 0.7
+  const cardIn = (pi) => Easing.easeOutCubic(clamp((t - (0.3 + pi * 0.2)) / 0.6, 0, 1));
+
+  // Flows per fund per participant start at staggered times
+  const flowStart = (pi, fi) => 1.0 + pi * 0.4 + fi * 0.15;
+  const flowDur = 1.2;
+  const flowP = (pi, fi) => Easing.easeInOutCubic(clamp((t - flowStart(pi, fi)) / flowDur, 0, 1));
+
+  // Holding total drains as flows leave
+  const totalFlowed = PARTICIPANTS.reduce((sum, _, pi) =>
+    sum + FUNDS.reduce((s2, _, fi) =>
+      s2 + participantFundValue(pi, fi) * flowP(pi, fi), 0), 0);
+  const holdRemaining = Math.max(0, WIRE_TOTAL - totalFlowed);
+  const holdDepleteP = totalFlowed / WIRE_TOTAL;
+
+  const cardX = 480, cardW = 720, cardH = 168, cardGap = 10;
+
+  return (
+    <div style={{ position: 'absolute', inset: 0, opacity: sceneIn * sceneOut }}>
+      <FMGlow x={350} y={200} size={500} color={FM.WARN} opacity={0.06} />
+      <FMGlow x={900} y={300} size={600} opacity={0.1} />
+
+      {/* Holding record — left, draining */}
+      <div style={{
+        position: 'absolute', left: holdX, top: holdY,
+        width: holdW, height: holdH,
+        opacity: Math.max(0.1, 1 - holdDepleteP * 0.8),
+      }}>
+        <FMPanel x={0} y={0} w={holdW} h={holdH} elevated>
+          <div style={{
+            padding: '14px 18px',
+            borderBottom: `1px solid ${FM.BORDER}`,
+            display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              <div style={{ width: 6, height: 6, borderRadius: 3, background: FM.WARN, boxShadow: `0 0 8px ${FM.WARN}` }} />
+              <div style={{ fontFamily: FM.MONO, fontSize: 10, color: FM.DIM, letterSpacing: '0.14em', textTransform: 'uppercase' }}>
+                Holding Record
+              </div>
+            </div>
+            <FMChip label="Reversing" color={FM.WARN} soft={FM.WARN_S} />
+          </div>
+          <div style={{ padding: '14px 18px' }}>
+            <div style={{ fontFamily: FM.MONO, fontSize: 10, color: FM.DIMMER, letterSpacing: '0.12em', marginBottom: 8 }}>REMAINING</div>
+            <div style={{ fontFamily: FM.SANS, fontSize: 32, fontWeight: 500, color: FM.TEXT, fontVariantNumeric: 'tabular-nums', marginBottom: 12 }}>
+              ${Math.round(holdRemaining).toLocaleString('en-US')}
+            </div>
+            {/* Draining bar */}
+            <div style={{ height: 4, borderRadius: 2, background: FM.BORDER_HI, overflow: 'hidden' }}>
+              <div style={{
+                height: '100%', width: `${(1 - holdDepleteP) * 100}%`,
+                background: `linear-gradient(90deg, ${FM.WARN}, oklch(75% 0.10 55))`,
+                transition: 'width 50ms',
+              }} />
+            </div>
+
+            {FUNDS.map((f, fi) => {
+              const amountLeft = fundValue(fi) - PARTICIPANTS.reduce((s, _, pi) => s + participantFundValue(pi, fi) * flowP(pi, fi), 0);
+              return (
+                <div key={f.id} style={{
+                  display: 'flex', justifyContent: 'space-between',
+                  padding: '7px 0',
+                  borderTop: `1px solid ${FM.BORDER}`,
+                  marginTop: fi === 0 ? 12 : 0,
+                  fontFamily: FM.MONO, fontSize: 10,
+                }}>
+                  <span style={{ color: FM.DIMMER, display: 'flex', alignItems: 'center', gap: 6 }}>
+                    <span style={{ display: 'inline-block', width: 4, height: 4, borderRadius: 2, background: FM.FUND_COLORS[fi].accent }} />
+                    {f.ticker}
+                  </span>
+                  <span style={{ color: FM.DIM, fontVariantNumeric: 'tabular-nums' }}>
+                    ${Math.round(Math.max(0, amountLeft)).toLocaleString('en-US')}
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+        </FMPanel>
+      </div>
+
+      {/* Flow arcs from holding to participant cards */}
+      {PARTICIPANTS.map((p, pi) => {
+        const cardTop = 100 + pi * (cardH + cardGap);
+        return FUNDS.map((f, fi) => {
+          const fp = flowP(pi, fi);
+          if (fp <= 0) return null;
+          return (
+            <FMArc key={`${pi}-${fi}`}
+              fromX={holdX + holdW} fromY={holdY + holdH / 2}
+              toX={cardX} toY={cardTop + cardH / 2}
+              progress={fp}
+              color={FM.FUND_COLORS[fi].accent}
+              curveDir={pi === 1 ? 0.5 : (pi === 0 ? -1 : 1.5)}
+            />
+          );
+        });
+      })}
+
+      {/* Participant account cards */}
+      {PARTICIPANTS.map((p, pi) => {
+        const cardTop = 100 + pi * (cardH + cardGap);
+        const inP = cardIn(pi);
+        const pTotal = FUNDS.reduce((s, _, fi) => s + participantFundValue(pi, fi) * flowP(pi, fi), 0);
+        const allDone = FUNDS.every((_, fi) => flowP(pi, fi) >= 0.98);
+
+        return (
+          <div key={p.id} style={{
+            position: 'absolute', left: cardX, top: cardTop,
+            width: cardW, height: cardH,
+            opacity: inP, transform: `translateX(${(1-inP)*12}px)`,
+          }}>
+            <FMPanel x={0} y={0} w={cardW} h={cardH} elevated={allDone}>
+              {allDone && (
+                <div style={{
+                  position: 'absolute', top: 0, left: 0, right: 0, height: 1,
+                  background: `linear-gradient(90deg, transparent, ${FM.ACCENT}, transparent)`,
+                  opacity: 0.7,
+                }} />
+              )}
+              <div style={{ padding: '14px 20px', borderBottom: `1px solid ${FM.BORDER}`, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                  <div style={{ width: 6, height: 6, borderRadius: 3, background: allDone ? FM.SUCCESS : FM.ACCENT, boxShadow: `0 0 8px ${allDone ? FM.SUCCESS : FM.ACCENT}`, transition: 'background 300ms' }} />
+                  <div style={{ fontFamily: FM.MONO, fontSize: 10, color: FM.DIM, letterSpacing: '0.14em', textTransform: 'uppercase' }}>{p.id}</div>
+                  <div style={{ fontFamily: FM.SANS, fontSize: 13, fontWeight: 500, color: FM.TEXT }}>{p.label}</div>
+                </div>
+                <div style={{ fontFamily: FM.SANS, fontSize: 22, fontWeight: 500, color: FM.TEXT, fontVariantNumeric: 'tabular-nums' }}>
+                  ${Math.round(pTotal).toLocaleString('en-US')}
+                </div>
+              </div>
+              <div style={{ padding: '10px 20px', display: 'flex', gap: 0 }}>
+                {FUNDS.map((f, fi) => {
+                  const val = participantFundValue(pi, fi) * flowP(pi, fi);
+                  const fColor = FM.FUND_COLORS[fi];
+                  return (
+                    <div key={f.id} style={{
+                      flex: 1,
+                      padding: '8px 10px',
+                      borderRight: fi < FUNDS.length - 1 ? `1px solid ${FM.BORDER}` : 'none',
+                    }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 5, marginBottom: 6 }}>
+                        <div style={{ width: 4, height: 4, borderRadius: 2, background: fColor.accent }} />
+                        <div style={{ fontFamily: FM.MONO, fontSize: 9, color: FM.DIMMER, letterSpacing: '0.1em' }}>{f.ticker}</div>
+                        <div style={{ fontFamily: FM.MONO, fontSize: 9, color: fColor.accent, marginLeft: 'auto' }}>{p.allocations[fi]}%</div>
+                      </div>
+                      <div style={{ fontFamily: FM.MONO, fontSize: 12, color: FM.TEXT, fontVariantNumeric: 'tabular-nums' }}>
+                        ${Math.round(val).toLocaleString('en-US')}
+                      </div>
+                      <div style={{ marginTop: 6, height: 2, borderRadius: 1, background: FM.BORDER_HI, overflow: 'hidden' }}>
+                        <div style={{ height: '100%', width: `${flowP(pi, fi) * 100}%`, background: fColor.accent }} />
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </FMPanel>
+          </div>
+        );
+      })}
+
+      <SceneCaption n={5} t={t} label="Participant application — holding record reversal" />
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────
+// SCENE 6 — Final State
+
+function FMScene6() {
+  const { localTime: t, duration } = useSprite();
+  const sceneIn = Easing.easeOutCubic(clamp(t / 0.6, 0, 1));
+
+  const cardIn = (pi) => Easing.easeOutCubic(clamp((t - 0.2 - pi * 0.12) / 0.7, 0, 1));
+  const checkIn = (pi) => Easing.easeOutCubic(clamp((t - 1.8 - pi * 0.18) / 0.4, 0, 1));
+  const confIn = Easing.easeOutCubic(clamp((t - 1.6) / 0.5, 0, 1));
+  const summaryIn = Easing.easeOutCubic(clamp(t / 0.5, 0, 1));
+  const pulse = Math.sin(t * 1.8) * 0.5 + 0.5;
+
+  const cardW = 360, cardH = 250, cardGap = 20;
+  const totalW = PARTICIPANTS.length * cardW + (PARTICIPANTS.length - 1) * cardGap;
+  const startX = (1280 - totalW) / 2;
+
+  return (
+    <div style={{ position: 'absolute', inset: 0, opacity: sceneIn }}>
+      <FMGlow x={400} y={50} size={700} color={FM.SUCCESS} opacity={0.07 + pulse * 0.04} />
+      <FMGlow x={700} y={500} size={500} opacity={0.07} />
+
+      {/* Summary bar — top */}
+      <div style={{
+        position: 'absolute', left: startX, top: 90,
+        display: 'flex', alignItems: 'center', gap: 28,
+        opacity: summaryIn,
+      }}>
+        {[
+          { label: 'Total Applied', val: `$${WIRE_TOTAL.toLocaleString('en-US')}`, color: FM.TEXT },
+          { label: 'Participants', val: '3', color: FM.TEXT },
+          { label: 'Funds', val: '3', color: FM.TEXT },
+          { label: 'Variance', val: '$0.00', color: FM.SUCCESS },
+        ].map((item, i) => (
+          <React.Fragment key={i}>
+            {i > 0 && <div style={{ width: 1, height: 36, background: FM.BORDER_HI }} />}
+            <div>
+              <div style={{ fontFamily: FM.MONO, fontSize: 10, color: FM.DIMMER, letterSpacing: '0.14em', marginBottom: 5 }}>{item.label}</div>
+              <div style={{ fontFamily: FM.SANS, fontSize: 26, fontWeight: 500, color: item.color, letterSpacing: '-0.02em', fontVariantNumeric: 'tabular-nums' }}>{item.val}</div>
+            </div>
+          </React.Fragment>
+        ))}
+
+        {/* Mapping Complete pill */}
+        <div style={{ marginLeft: 'auto', opacity: confIn, transform: `translateY(${(1-confIn)*-5}px)` }}>
+          <div style={{
+            display: 'inline-flex', alignItems: 'center', gap: 10,
+            background: FM.SUCCESS_S,
+            border: `1px solid ${FM.SUCCESS}`,
+            borderRadius: 100,
+            padding: '9px 14px 9px 12px',
+            boxShadow: `0 0 24px ${FM.SUCCESS_S}`,
+          }}>
+            <div style={{ width: 18, height: 18, borderRadius: 9, background: FM.SUCCESS, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                <path d="M2 5.2l2 2L8 3.2" stroke="#08090C" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </div>
+            <div style={{ fontFamily: FM.SANS, fontSize: 13, fontWeight: 500, color: FM.SUCCESS }}>Mapping Complete</div>
+          </div>
+        </div>
+      </div>
+
+      {/* Participant cards in a row */}
+      {PARTICIPANTS.map((p, pi) => {
+        const inP = cardIn(pi);
+        const chk = checkIn(pi);
+        const pTotal = participantTotal(pi);
+
+        return (
+          <div key={p.id} style={{
+            position: 'absolute',
+            left: startX + pi * (cardW + cardGap),
+            top: 190,
+            width: cardW, height: cardH,
+            opacity: inP, transform: `translateY(${(1-inP)*10}px)`,
+          }}>
+            <FMPanel x={0} y={0} w={cardW} h={cardH} elevated>
+              <div style={{
+                position: 'absolute', top: 0, left: 0, right: 0, height: 1,
+                background: `linear-gradient(90deg, transparent, ${FM.ACCENT}, transparent)`,
+                opacity: 0.5,
+              }} />
+
+              <div style={{ padding: '16px 20px', borderBottom: `1px solid ${FM.BORDER}`, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <div>
+                  <div style={{ fontFamily: FM.MONO, fontSize: 10, color: FM.DIMMER, letterSpacing: '0.12em', marginBottom: 3 }}>{p.id}</div>
+                  <div style={{ fontFamily: FM.SANS, fontSize: 14, fontWeight: 500, color: FM.TEXT }}>{p.label}</div>
+                </div>
+                <div style={{
+                  width: 22, height: 22, borderRadius: 11,
+                  background: chk > 0 ? FM.SUCCESS_S : 'transparent',
+                  border: `1px solid ${chk > 0 ? FM.SUCCESS : FM.BORDER}`,
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  transition: 'all 200ms',
+                }}>
+                  <svg width="11" height="11" viewBox="0 0 11 11" fill="none">
+                    <path d="M2.2 5.5l2.2 2.2L8.8 3.3" stroke={FM.SUCCESS} strokeWidth="1.8"
+                      strokeLinecap="round" strokeLinejoin="round"
+                      strokeDasharray="13" strokeDashoffset={13 - 13 * chk} />
+                  </svg>
+                </div>
+              </div>
+
+              <div style={{ padding: '14px 20px' }}>
+                <div style={{ fontFamily: FM.MONO, fontSize: 10, color: FM.DIMMER, letterSpacing: '0.12em', marginBottom: 6 }}>TOTAL BALANCE</div>
+                <div style={{ fontFamily: FM.SANS, fontSize: 28, fontWeight: 500, color: FM.TEXT, fontVariantNumeric: 'tabular-nums', letterSpacing: '-0.02em', marginBottom: 14 }}>
+                  ${Math.round(pTotal).toLocaleString('en-US')}
+                </div>
+
+                {FUNDS.map((f, fi) => {
+                  const val = participantFundValue(pi, fi);
+                  const fColor = FM.FUND_COLORS[fi];
+                  return (
+                    <div key={f.id} style={{
+                      display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+                      padding: '5px 0',
+                      borderTop: `1px solid ${FM.BORDER}`,
+                    }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                        <div style={{ width: 4, height: 4, borderRadius: 2, background: fColor.accent }} />
+                        <span style={{ fontFamily: FM.MONO, fontSize: 10, color: FM.DIM }}>{f.ticker}</span>
+                      </div>
+                      <span style={{ fontFamily: FM.MONO, fontSize: 10, color: FM.TEXT, fontVariantNumeric: 'tabular-nums' }}>
+                        ${Math.round(val).toLocaleString('en-US')}
+                      </span>
+                    </div>
+                  );
+                })}
+
+                {/* Total allocation bar */}
+                <div style={{ marginTop: 10, display: 'flex', gap: 2, height: 3 }}>
+                  {FUNDS.map((_, fi) => (
+                    <div key={fi} style={{
+                      flex: p.allocations[fi],
+                      borderRadius: 2,
+                      background: FM.FUND_COLORS[fi].accent,
+                    }} />
+                  ))}
+                </div>
+              </div>
+            </FMPanel>
+          </div>
+        );
+      })}
+
+      {/* Audit footer */}
+      <div style={{
+        position: 'absolute', left: startX, bottom: 72,
+        display: 'flex', alignItems: 'center', gap: 14,
+        opacity: Easing.easeOutCubic(clamp((t - 2.0) / 0.5, 0, 1)),
+      }}>
+        <div style={{ fontFamily: FM.MONO, fontSize: 10, color: FM.DIMMER, letterSpacing: '0.22em' }}>06 / 06</div>
+        <div style={{ width: 28, height: 1, background: FM.BORDER_HI }} />
+        <div style={{ fontFamily: FM.SANS, fontSize: 15, fontWeight: 500, color: FM.TEXT, letterSpacing: '-0.005em' }}>Reconciled · all fund positions applied</div>
+        <div style={{ fontFamily: FM.MONO, fontSize: 10, color: FM.DIMMER, letterSpacing: '0.1em' }}>REF-FM-2026-04-17-00471</div>
+      </div>
+    </div>
+  );
+}
+
+Object.assign(window, { FMScene4, FMScene5, FMScene6 });
+
+</script>
+
+<script type="text/babel" data-presets="react">
+
+// Scene timing (total 33s)
+// S1 Wire Received:         0.0 – 5.0   (5s)
+// S2 Fund Breakdown:        5.0 – 11.0  (6s)
+// S3 Initial Load:         11.0 – 16.0  (5s)
+// S4 Final Files:          16.0 – 20.0  (4s)
+// S5 Participant Apply:    20.0 – 27.5  (7.5s)
+// S6 Final State:          27.5 – 33.0  (5.5s)
+
+const DURATION = 33;
+
+const SCENES = [
+  { n: 1, s: 0,    e: 5.0,  label: 'Wire Received' },
+  { n: 2, s: 5.0,  e: 11.0, label: 'Fund Breakdown' },
+  { n: 3, s: 11.0, e: 16.0, label: 'Initial Load' },
+  { n: 4, s: 16.0, e: 20.0, label: 'Final Files' },
+  { n: 5, s: 20.0, e: 27.5, label: 'Participant Apply' },
+  { n: 6, s: 27.5, e: 33.0, label: 'Reconciled' },
+];
+
+function ProgressDots() {
+  const t = useTime();
+  return (
+    <div style={{
+      position: 'absolute', right: 100, bottom: 68,
+      display: 'flex', gap: 6, alignItems: 'center',
+    }}>
+      {SCENES.map(s => {
+        const active = t >= s.s && t < s.e;
+        const done = t >= s.e;
+        return (
+          <div key={s.n} style={{
+            height: 5, borderRadius: 3,
+            width: active ? 20 : 5,
+            background: active
+              ? 'oklch(70% 0.14 248)'
+              : done
+              ? 'rgba(232,234,240,0.45)'
+              : 'rgba(232,234,240,0.14)',
+            boxShadow: active ? '0 0 10px oklch(70% 0.14 248)' : 'none',
+            transition: 'width 350ms cubic-bezier(0.4,0,0.2,1), background 250ms',
+          }} />
+        );
+      })}
+    </div>
+  );
+}
+
+function App() {
+  return (
+    <Stage
+      width={1280} height={720}
+      duration={DURATION}
+      background="#08090C"
+      persistKey="fund-map-conv"
+      loop={true}
+    >
+      {/* Grid background */}
+      <div style={{
+        position: 'absolute', inset: 0,
+        backgroundImage: `
+          linear-gradient(rgba(255,255,255,0.013) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255,255,255,0.013) 1px, transparent 1px)
+        `,
+        backgroundSize: '40px 40px',
+        maskImage: 'radial-gradient(ellipse at center, black 10%, transparent 75%)',
+        WebkitMaskImage: 'radial-gradient(ellipse at center, black 10%, transparent 75%)',
+        pointerEvents: 'none',
+      }} />
+
+      {/* Vignette */}
+      <div style={{
+        position: 'absolute', inset: 0,
+        background: 'radial-gradient(ellipse at center, transparent 35%, rgba(0,0,0,0.5) 100%)',
+        pointerEvents: 'none',
+      }} />
+
+      <Sprite start={0}    end={5.0}>  <FMScene1 /> </Sprite>
+      <Sprite start={5.0}  end={11.0}> <FMScene2 /> </Sprite>
+      <Sprite start={11.0} end={16.0}> <FMScene3 /> </Sprite>
+      <Sprite start={16.0} end={20.0}> <FMScene4 /> </Sprite>
+      <Sprite start={20.0} end={27.5}> <FMScene5 /> </Sprite>
+      <Sprite start={27.5} end={33.0}> <FMScene6 /> </Sprite>
+
+      <ProgressDots />
+    </Stage>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>

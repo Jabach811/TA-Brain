@@ -1,0 +1,12 @@
+# Monthly Reports Procedures
+
+## Reports Covered
+- PRS Report
+- CSR Stats Report
+- CCC Plan Report
+
+## Common Steps
+- Generate NBI reports
+- Clean and normalize data
+- Apply VLOOKUPs and date validation
+- Save and distribute to stakeholders

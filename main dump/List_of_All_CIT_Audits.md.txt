@@ -1,0 +1,14 @@
+# List of All CIT Audits
+
+## Conversion Audits
+- Fund Mapping Audit
+- Source Mapping Audit
+- Day of Wire Audit
+- Day After Wire Audit
+- Final Takeover Audit
+
+## Additional Audits
+- DDOL Audits
+- PSD Audit
+- Statement Audits
+- Post Conversion Loan Analysis

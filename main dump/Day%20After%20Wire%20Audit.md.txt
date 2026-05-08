@@ -1,0 +1,9 @@
+# Day After Wire Audit
+
+## Purpose
+- Confirm assets posted match prior vendor wire totals.
+
+## Process
+- Run appropriate takeover SQL queries.
+- Compare AQT totals to DC wire totals.
+- Document and resolve differences.

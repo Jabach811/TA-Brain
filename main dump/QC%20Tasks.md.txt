@@ -1,0 +1,9 @@
+# QC Tasks
+
+## Common QC Activities
+- TDF retirement age updates
+- Target date chart inserts
+- Deferral updates for terminated participants
+- Loan PoG maintenance
+- Division code updates
+- Participant note management

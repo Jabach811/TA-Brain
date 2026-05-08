@@ -1,0 +1,10 @@
+# Default Deferral Analysis by Division Code
+
+## Purpose
+- Analyze default deferral populations by division code.
+
+## Common Use Case
+- Mergers or segmented populations.
+
+## Output
+- Default deferral status, rates, and transmit codes by division.

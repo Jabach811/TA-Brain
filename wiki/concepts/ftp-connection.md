@@ -1,10 +1,10 @@
 ---
 title: "FTP Connection"
-type: concept
+type: process
 tags: [ftp, payroll, automation, vendor, file-transfer]
 created: 2026-04-14
-updated: 2026-04-14
-sources: 2
+updated: 2026-05-03
+sources: 3
 ---
 
 # FTP Connection
@@ -25,8 +25,15 @@ Once set up, the FTP connection enables automated payroll processing — the ven
 2. DC **emails the FTP team** to request account setup
 3. FTP team sets up the account and generates login + password credentials
 4. DC provides credentials to the payroll upload contact
-5. Payroll vendor tests the connection — they see a simple upload page on their end
-6. FTP is live — **each plan gets its own destination folder**; vendor uploads files there; system processes them
+5. **Connection test — send a random file first.** Before waiting on a real test payroll file, ask the uploader to send any file just to confirm the channel works end-to-end. The thing the system catches on is the [[payroll-template#file-naming-convention|naming convention]] — `<case#>_<contract>_<affiliate>.xls`. A throwaway file with the right name proves the channel works before you stake real test data on it.
+6. Payroll vendor tests the connection — they see a simple upload page on their end
+7. FTP is live — **each plan gets its own destination folder**; vendor uploads files there; system processes them
+
+![Vendor-side FTP upload page — what the payroll contact sees when sending a file.](SS/FTP.jpg)
+
+## Auto-Sweep / Batch Mode
+
+Auto-sweep — where the FTP folder is polled and files are processed automatically without anyone clicking upload — isn't enabled day one. The vendor needs **2 or 3 good runs** through the manual upload page before the channel is moved to batch processing. This typically happens months after go-live, well outside the DC's window.
 
 ## Timing
 
@@ -49,7 +56,7 @@ When FTP isn't ready, the client sends payroll files directly (via secure email 
 
 ## See Also
 
+- [[payroll-vendor-onboarding]]
 - [[payroll-template]]
-- [[internal-teams]]
 - [[eds]]
 - [[dc-onboarding-workflow]]

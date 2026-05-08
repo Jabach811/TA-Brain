@@ -1,0 +1,12 @@
+# Takeover Audit Process Review
+
+## Existing vs Enhanced Process
+- Shift from post-load audits to prior vendor comparisons.
+
+## Objectives
+- Reduce P/L exposure.
+- Increase audit coverage and efficiency.
+
+## Tools
+- Audit Control Checklist
+- Final Audit Analyzer (FAA)

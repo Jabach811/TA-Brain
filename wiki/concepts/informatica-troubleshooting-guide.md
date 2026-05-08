@@ -1,6 +1,6 @@
 ---
 title: "Informatica Troubleshooting Guide"
-type: concept
+type: process
 tags: [informatica, troubleshooting, system]
 created: 2026-04-16
 updated: 2026-04-16

@@ -1,0 +1,9 @@
+# CIT Management Walkthrough Questions
+
+## Purpose
+- Support management walkthroughs and control testing.
+
+## Topics
+- Project plans
+- Submission packages
+- Access controls

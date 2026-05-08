@@ -1,6 +1,6 @@
 ---
 title: "Common Remitter Plans"
-type: concept
+type: reference
 tags: [remitter, day-of-wire, p3, processing, conversion]
 created: 2026-04-15
 updated: 2026-04-15

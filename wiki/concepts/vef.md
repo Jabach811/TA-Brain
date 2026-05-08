@@ -1,6 +1,6 @@
 ---
 title: "VEF — Vendor Expense Form"
-type: concept
+type: document
 tags: [concept, document, com, advisor, compliance]
 created: 2026-04-14
 updated: 2026-04-14

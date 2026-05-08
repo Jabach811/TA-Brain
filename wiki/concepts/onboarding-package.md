@@ -1,6 +1,6 @@
 ---
 title: "Onboarding Package"
-type: concept
+type: document
 tags: [document, onboarding-package, pep, plan-provisions, discovery]
 created: 2026-04-14
 updated: 2026-04-14

@@ -1,10 +1,10 @@
 ---
 title: "Payroll Handoff at Go-Live"
-type: concept
+type: process
 tags: [payroll, go-live, handoff, fiduciary-services, filespecrq, process]
 created: 2026-04-15
-updated: 2026-04-15
-sources: 1
+updated: 2026-05-03
+sources: 2
 ---
 
 # Payroll Handoff at Go-Live
@@ -22,6 +22,14 @@ Plans go live regardless of whether payroll is ready. Payroll testing delays are
 ## When This Applies
 
 This procedure activates **only when payroll testing is still underway at go-live**. If testing is complete before go-live, no action is needed.
+
+## Operating Model — DC Owns Bridge Work, Still Hands Off At Live
+
+The shift from prior practice: previously, the mid-market team carried a chunk of the payroll testing/validation work and the DC took over from "wherever they were" at handoff. Now the DC owns ALL of the bridge work — vendor onboarding, template walkthrough, EDS validation, OnePayroll handoff, client demo (see [[payroll-vendor-onboarding]] for the full flow).
+
+**The handoff at go-live still happens regardless of where testing landed.** Some plans are not done at live — sometimes by months — and that's fine. The point of the handoff procedure below is exactly so DCs aren't handcuffed to a plan after live just to finish payroll. Pass it off as is, as best as it can be passed off, and move on.
+
+> *"We don't have to hold on to this until the very end, because some of these can go months after the live day. And we don't need to be handcuffed to these plans for that long."* — [[dc-brain-dump-002|brain dump #002]]
 
 ## Process
 
@@ -80,6 +88,7 @@ From the DC Training Notebook (February 26, 2026):
 
 ## See Also
 
+- [[payroll-vendor-onboarding]]
 - [[plan-conversion-handoffs]]
 - [[payroll-template]]
 - [[ftp-connection]]

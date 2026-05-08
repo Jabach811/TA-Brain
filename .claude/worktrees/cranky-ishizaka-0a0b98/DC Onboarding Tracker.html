@@ -1,0 +1,1066 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DC Onboarding Tracker — Manager Workspace</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#eeeff6;--surface:#fff;--surface-2:#f6f7fc;
+  --border:rgba(0,0,0,.07);--border-2:rgba(0,0,0,.12);
+  --text-1:#1c1c30;--text-2:#56567a;--text-3:#9898b8;
+  --accent:#635bff;--accent-bg:rgba(99,91,255,.08);
+  --ok:#22c55e;--ok-bg:rgba(34,197,94,.1);
+  --warn:#f59e0b;--warn-bg:rgba(245,158,11,.1);
+  --danger:#ef4444;--danger-bg:rgba(239,68,68,.1);
+  --muted:#9898b8;--muted-bg:rgba(0,0,0,.04);
+  --r:14px;--r-xl:22px;--r-full:999px;
+  --shadow:0 2px 4px rgba(0,0,0,.04),0 8px 24px rgba(0,0,0,.07),inset 0 1px 0 rgba(255,255,255,.9);
+  --shadow-sm:0 1px 3px rgba(0,0,0,.04),0 4px 12px rgba(0,0,0,.05),inset 0 1px 0 rgba(255,255,255,.9);
+}
+body{font-family:system-ui,-apple-system,'Segoe UI',sans-serif;background:var(--bg);color:var(--text-1);font-size:15px;display:flex;height:100vh;overflow:hidden}
+
+/* ── SIDEBAR ──────────────────────────────────────── */
+#sidebar{width:260px;min-width:260px;background:var(--surface);display:flex;flex-direction:column;height:100vh;border-right:1px solid var(--border);box-shadow:2px 0 12px rgba(0,0,0,.04)}
+#sidebar-header{padding:18px 14px 0}
+.sidebar-brand{display:flex;align-items:center;gap:11px;margin-bottom:16px}
+.sidebar-brand-icon{width:38px;height:38px;background:var(--accent);border-radius:12px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:16px;flex-shrink:0;box-shadow:0 4px 12px rgba(99,91,255,.35)}
+.sidebar-brand-name{font-size:14px;font-weight:700;color:var(--text-1)}
+.sidebar-brand-sub{font-size:11px;color:var(--text-3);margin-top:1px}
+.sidebar-search{position:relative;margin-bottom:10px}
+.sidebar-search i{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--text-3);font-size:12px;pointer-events:none}
+.sidebar-search input{width:100%;background:var(--surface-2);border:1.5px solid var(--border);border-radius:var(--r-full);padding:9px 12px 9px 34px;color:var(--text-1);font:inherit;font-size:13px;outline:none;transition:border-color .15s}
+.sidebar-search input::placeholder{color:var(--text-3)}
+.sidebar-search input:focus{border-color:var(--accent);background:#fff}
+.sidebar-filters{display:flex;gap:5px;flex-wrap:wrap;padding-bottom:12px}
+.filter-chip{padding:5px 12px;border-radius:var(--r-full);background:var(--muted-bg);border:1.5px solid transparent;color:var(--text-3);font-size:12px;font-weight:600;cursor:pointer;transition:all .12s}
+.filter-chip:hover{background:var(--accent-bg);color:var(--accent)}
+.filter-chip.active{background:var(--accent-bg);border-color:rgba(99,91,255,.25);color:var(--accent)}
+#sidebar-list{flex:1;overflow-y:auto;padding:8px 10px}
+#sidebar-list::-webkit-scrollbar{width:4px}
+#sidebar-list::-webkit-scrollbar-thumb{background:rgba(0,0,0,.1);border-radius:3px}
+.hire-card{border-radius:var(--r);padding:12px 13px;margin-bottom:6px;cursor:pointer;border:1.5px solid transparent;transition:all .15s;position:relative}
+.hire-card:hover{background:var(--surface-2)}
+.hire-card.active{background:var(--accent-bg);border-color:rgba(99,91,255,.2);border-left:3px solid var(--accent)}
+.hire-card-top{display:flex;align-items:flex-start;gap:10px;margin-bottom:8px}
+.hire-avatar{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;flex-shrink:0;letter-spacing:.02em;box-shadow:0 2px 8px rgba(0,0,0,.15)}
+.hire-card-info{flex:1;min-width:0}
+.hire-card-name{font-size:13px;font-weight:600;color:var(--text-1);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hire-card-meta{font-size:11px;color:var(--text-3);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hire-track{height:3px;background:rgba(0,0,0,.07);border-radius:3px;overflow:hidden;margin-top:8px}
+.hire-track-fill{height:100%;border-radius:3px;transition:width .4s}
+.hire-empty{padding:24px;text-align:center;color:var(--text-3);font-size:13px;line-height:1.7}
+#sidebar-footer{padding:12px 10px 14px;border-top:1px solid var(--border)}
+.sidebar-add-btn{width:100%;display:flex;align-items:center;justify-content:center;gap:7px;padding:11px;background:var(--accent);border:none;border-radius:var(--r-full);color:#fff;font:600 13px/1 system-ui;cursor:pointer;transition:all .15s;box-shadow:0 4px 14px rgba(99,91,255,.35)}
+.sidebar-add-btn:hover{background:#4f46e5;box-shadow:0 6px 20px rgba(99,91,255,.45)}
+
+/* ── MAIN ──────────────────────────────────────────── */
+#main{flex:1;display:flex;flex-direction:column;overflow:hidden}
+#topbar{background:var(--surface);border-bottom:1px solid var(--border);padding:0 24px;height:58px;display:flex;align-items:center;gap:14px;flex-shrink:0;box-shadow:var(--shadow-sm)}
+#topbar-title{font-size:16px;font-weight:700;flex:1;color:var(--text-1)}
+.view-tabs{display:flex;gap:3px;background:var(--surface-2);border:1.5px solid var(--border);border-radius:var(--r-full);padding:3px}
+.view-tab{padding:6px 18px;border:none;border-radius:var(--r-full);background:transparent;font:600 13px/1 system-ui;color:var(--text-3);cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:6px}
+.view-tab i{font-size:12px}
+.view-tab.active{background:var(--surface);color:var(--accent);box-shadow:var(--shadow-sm)}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:var(--r-full);font:600 13px/1 system-ui;cursor:pointer;transition:all .15s;border:1.5px solid transparent}
+.btn i{font-size:12px}
+.btn-primary{background:var(--accent);color:#fff;border-color:var(--accent);box-shadow:0 4px 12px rgba(99,91,255,.3)}
+.btn-primary:hover{background:#4f46e5}
+.btn-secondary{background:var(--surface);color:var(--text-2);border-color:var(--border);box-shadow:var(--shadow-sm)}
+.btn-secondary:hover{background:var(--surface-2)}
+.btn-ghost{background:transparent;color:var(--text-2);border-color:var(--border)}
+.btn-ghost:hover{background:var(--surface-2)}
+.btn-danger{background:var(--danger-bg);color:var(--danger);border-color:rgba(239,68,68,.2)}
+.btn-danger:hover{background:rgba(239,68,68,.18)}
+.btn-sm{padding:6px 14px;font-size:12px}
+#content{flex:1;overflow:hidden}
+#detail-view,#overview-view{height:100%;overflow-y:auto;padding:20px 24px}
+#detail-view{display:block}
+#overview-view{display:none}
+#detail-view::-webkit-scrollbar,#overview-view::-webkit-scrollbar{width:5px}
+#detail-view::-webkit-scrollbar-thumb,#overview-view::-webkit-scrollbar-thumb{background:rgba(0,0,0,.1);border-radius:3px}
+
+/* ── BADGES ─────────────────────────────────────────── */
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:var(--r-full);font-size:11px;font-weight:700;border:1px solid transparent;letter-spacing:.01em;white-space:nowrap}
+.badge i{font-size:10px}
+.s-not-started{background:var(--muted-bg);color:var(--muted)}
+.s-in-progress{background:var(--warn-bg);color:var(--warn)}
+.s-done{background:var(--ok-bg);color:var(--ok)}
+.s-blocked{background:var(--danger-bg);color:var(--danger)}
+.s-not-applicable{background:var(--muted-bg);color:var(--text-3)}
+.badge-phase{background:var(--accent-bg);color:var(--accent)}
+
+/* ── EMPTY STATE ────────────────────────────────────── */
+#empty-state{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;color:var(--text-3);text-align:center;gap:14px}
+.es-icon{width:68px;height:68px;background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r-xl);display:flex;align-items:center;justify-content:center;font-size:28px;color:var(--accent);box-shadow:var(--shadow)}
+.es-text{font-size:15px;max-width:300px;line-height:1.8;color:var(--text-2)}
+
+/* ── HIRE DETAIL ────────────────────────────────────── */
+.hire-detail-stack{display:flex;flex-direction:column;gap:16px}
+.detail-hero{background:var(--surface);border-radius:var(--r-xl);padding:22px 24px;box-shadow:var(--shadow)}
+.detail-hero-top{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin-bottom:18px;flex-wrap:wrap}
+.detail-hero-id{display:flex;align-items:center;gap:16px}
+.detail-avatar{width:64px;height:64px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:700;color:#fff;flex-shrink:0;letter-spacing:.02em;box-shadow:0 4px 16px rgba(0,0,0,.15)}
+.detail-name{font-size:22px;font-weight:800;color:var(--text-1);letter-spacing:-.4px}
+.detail-meta{font-size:13px;color:var(--text-2);margin-top:5px;line-height:1.8}
+.detail-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:flex-start}
+.detail-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.detail-stat{background:var(--surface-2);border-radius:var(--r);padding:14px 16px;border:1.5px solid var(--border)}
+.stat-label{font-size:11px;font-weight:700;color:var(--text-3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px}
+.stat-value{font-size:28px;font-weight:800;color:var(--text-1);line-height:1}
+.stat-value.danger{color:var(--danger)}
+.stat-sub{font-size:12px;color:var(--text-2);margin-top:5px;line-height:1.6}
+.stat-actions{margin-top:8px;display:flex;flex-direction:column;gap:5px}
+.stat-action-item{font-size:12px;color:var(--text-2);padding:6px 10px;background:var(--surface);border-radius:10px;border-left:3px solid var(--accent);box-shadow:var(--shadow-sm)}
+.progress-bar{height:6px;background:var(--muted-bg);border-radius:3px;overflow:hidden}
+.progress-fill{height:100%;border-radius:3px;transition:width .3s}
+
+/* ── DETAIL GRID ───────────────────────────────────── */
+.detail-grid{display:grid;grid-template-columns:1fr 280px;gap:18px}
+
+/* ── SECTION GROUPS (collapsible) ──────────────────── */
+.group-card{background:var(--surface);border-radius:var(--r-xl);overflow:hidden;margin-bottom:12px;box-shadow:var(--shadow)}
+.group-card:last-child{margin-bottom:0}
+.group-header{display:flex;align-items:center;gap:14px;padding:16px 20px;cursor:pointer;user-select:none;transition:background .12s;border-bottom:1.5px solid transparent}
+.group-header:hover{background:var(--surface-2)}
+.group-card:not(.collapsed) .group-header{border-bottom-color:var(--border)}
+.group-icon{width:38px;height:38px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+.group-header-text{flex:1;min-width:0}
+.group-title{font-size:14px;font-weight:700;color:var(--text-1)}
+.group-desc{font-size:12px;color:var(--text-3);margin-top:1px}
+.group-header-right{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.group-pct-bar{width:70px;height:5px;background:var(--muted-bg);border-radius:3px;overflow:hidden}
+.group-pct-fill{height:100%;border-radius:3px}
+.group-pct-label{font-size:12px;font-weight:700;color:var(--text-3);min-width:32px;text-align:right}
+.group-chevron{font-size:11px;color:var(--text-3);transition:transform .2s}
+.group-card.collapsed .group-chevron{transform:rotate(-90deg)}
+.group-body{}
+.group-card.collapsed .group-body{display:none}
+
+/* ── TASK ROW (cozy) ───────────────────────────────── */
+.task-row{padding:14px 20px;border-bottom:1.5px solid var(--border);cursor:default;transition:background .12s}
+.task-row:last-child{border-bottom:none}
+.task-row.task-blocked{background:rgba(239,68,68,.03);border-left:3px solid var(--danger)}
+.task-row.expanded{background:var(--surface-2)}
+.task-main-row{display:grid;grid-template-columns:32px 1fr auto;gap:12px;align-items:center}
+/* circle status button */
+.task-circle{width:28px;height:28px;border-radius:50%;border:2px solid var(--border-2,rgba(0,0,0,.15));background:var(--surface);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s;font-size:11px;color:transparent}
+.task-circle:hover{border-color:var(--accent);transform:scale(1.08)}
+.task-circle.in-progress{background:var(--warn);border-color:var(--warn);color:#fff}
+.task-circle.done{background:var(--ok);border-color:var(--ok);color:#fff}
+.task-circle.blocked{background:var(--danger);border-color:var(--danger);color:#fff}
+.task-circle.not-applicable{background:var(--muted-bg);border-color:rgba(0,0,0,.1);color:var(--text-3)}
+.task-circle.not-started{border-color:rgba(0,0,0,.18);color:transparent}
+.task-body{flex:1;min-width:0}
+.task-title{font-size:14px;font-weight:600;color:var(--text-1);line-height:1.4}
+.task-title.is-done{text-decoration:line-through;color:var(--text-3)}
+.task-title.is-na{color:var(--text-3)}
+.task-desc{font-size:12px;color:var(--text-3);margin-top:2px;line-height:1.5}
+.task-right{display:flex;align-items:center;gap:7px;flex-shrink:0}
+/* expand area */
+.task-expand{padding:14px 20px 16px 64px;display:none}
+.task-row.expanded .task-expand{display:block}
+.task-expand-grid{display:grid;grid-template-columns:1fr auto auto;gap:10px;align-items:start}
+.task-note-area{width:100%}
+.task-note-area textarea{width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:var(--r);font:inherit;font-size:13px;background:var(--surface);color:var(--text-1);outline:none;resize:vertical;min-height:60px;line-height:1.6;transition:border-color .15s}
+.task-note-area textarea:focus{border-color:var(--accent)}
+.task-note-label{font-size:11px;font-weight:700;color:var(--text-3);text-transform:uppercase;letter-spacing:.05em;margin-bottom:5px}
+.task-inline-sel{padding:7px 10px;border:1.5px solid var(--border);border-radius:var(--r);font:inherit;font-size:12px;background:var(--surface);color:var(--text-1);outline:none;cursor:pointer;transition:border-color .15s}
+.task-inline-sel:focus{border-color:var(--accent)}
+.task-expand-updated{font-size:11px;color:var(--text-3);margin-top:8px}
+
+/* ── RIGHT PANEL ───────────────────────────────────── */
+#right-panel-col{position:sticky;top:0;align-self:start}
+.right-panel{background:var(--surface);border-radius:var(--r-xl);padding:18px 20px;margin-bottom:14px;box-shadow:var(--shadow)}
+.right-panel:last-child{margin-bottom:0}
+.rp-title{font-size:13px;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:8px;color:var(--text-1)}
+.rp-title i{color:var(--accent);font-size:13px}
+.rp-textarea{width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:var(--r);font:inherit;font-size:13px;background:var(--surface-2);color:var(--text-1);outline:none;resize:vertical;min-height:72px;line-height:1.6;transition:border-color .15s}
+.rp-textarea:focus{border-color:var(--accent);background:#fff}
+
+/* Training Schedule */
+.ts-form{display:flex;flex-direction:column;gap:8px;padding:12px;background:var(--surface-2);border-radius:var(--r);margin-bottom:12px}
+.ts-form-row{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.ts-input{width:100%;padding:8px 10px;border:1.5px solid var(--border);border-radius:10px;font:inherit;font-size:12px;background:var(--surface);color:var(--text-1);outline:none;transition:border-color .15s}
+.ts-input:focus{border-color:var(--accent)}
+.ts-add-btn{width:100%;padding:8px;border:none;border-radius:10px;background:var(--accent);color:#fff;font:600 12px/1 system-ui;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;transition:all .15s}
+.ts-add-btn:hover{background:#4f46e5}
+.ts-list{display:flex;flex-direction:column;gap:7px}
+.ts-item{display:flex;align-items:flex-start;gap:9px;padding:9px 11px;background:var(--surface-2);border-radius:var(--r);border:1.5px solid var(--border)}
+.ts-item.ts-done{opacity:.6}
+.ts-item.ts-done .ts-topic{text-decoration:line-through;color:var(--text-3)}
+.ts-date-chip{font-size:10px;font-weight:700;color:var(--accent);background:var(--accent-bg);padding:3px 7px;border-radius:var(--r-full);white-space:nowrap;flex-shrink:0;margin-top:1px}
+.ts-info{flex:1;min-width:0}
+.ts-topic{font-size:13px;font-weight:600;color:var(--text-1)}
+.ts-with{font-size:11px;color:var(--text-3);margin-top:2px}
+.ts-actions{display:flex;align-items:center;gap:6px;flex-shrink:0}
+.ts-check{width:20px;height:20px;border-radius:50%;border:1.5px solid var(--border-2,rgba(0,0,0,.15));background:var(--surface);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:9px;color:transparent;transition:all .13s}
+.ts-check.done{background:var(--ok);border-color:var(--ok);color:#fff}
+.ts-del{width:20px;height:20px;border-radius:50%;border:none;background:transparent;color:var(--text-3);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:10px;transition:all .13s}
+.ts-del:hover{background:var(--danger-bg);color:var(--danger)}
+
+/* Manager Updates */
+.mu-form{display:flex;flex-direction:column;gap:8px;margin-bottom:12px}
+.mu-post-btn{align-self:flex-end;padding:7px 16px;border:none;border-radius:var(--r-full);background:var(--accent);color:#fff;font:600 12px/1 system-ui;cursor:pointer;display:flex;align-items:center;gap:5px;transition:all .15s}
+.mu-post-btn:hover{background:#4f46e5}
+.mu-list{display:flex;flex-direction:column;gap:7px;max-height:200px;overflow-y:auto}
+.mu-list::-webkit-scrollbar{width:3px}
+.mu-list::-webkit-scrollbar-thumb{background:rgba(0,0,0,.1);border-radius:3px}
+.mu-item{padding:10px 12px;background:var(--surface-2);border-radius:var(--r);border:1.5px solid var(--border);position:relative}
+.mu-ts{font-size:10px;font-weight:700;color:var(--text-3);margin-bottom:4px;display:flex;align-items:center;justify-content:space-between}
+.mu-text{font-size:13px;color:var(--text-1);line-height:1.6}
+.mu-del{background:none;border:none;color:var(--text-3);cursor:pointer;font-size:10px;padding:0;transition:color .13s}
+.mu-del:hover{color:var(--danger)}
+.mu-empty{font-size:12px;color:var(--text-3);text-align:center;padding:10px 0}
+
+/* Phase Readiness */
+.phase-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+.phase-box{background:var(--surface-2);border:1.5px solid var(--border);border-radius:var(--r);padding:10px 12px}
+.phase-box-label{font-size:10px;font-weight:700;color:var(--text-3);text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px}
+.phase-box-value{font-size:17px;font-weight:800;color:var(--text-1);line-height:1}
+.phase-box-bar{height:3px;background:var(--muted-bg);border-radius:3px;overflow:hidden;margin-top:6px}
+.phase-box-fill{height:100%;border-radius:3px}
+
+/* ── DASHBOARD ─────────────────────────────────────── */
+.ov-wrap{display:flex;flex-direction:column;gap:16px}
+.ov-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.ov-kpi{background:var(--surface);border-radius:var(--r-xl);padding:20px 22px;display:flex;align-items:flex-start;gap:16px;box-shadow:var(--shadow)}
+.ov-kpi-icon{width:46px;height:46px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.kpi-total .ov-kpi-icon{background:var(--accent-bg);color:var(--accent)}
+.kpi-blocked .ov-kpi-icon{background:var(--danger-bg);color:var(--danger)}
+.kpi-soon .ov-kpi-icon{background:var(--warn-bg);color:var(--warn)}
+.kpi-done .ov-kpi-icon{background:var(--ok-bg);color:var(--ok)}
+.ov-kpi-body{flex:1;min-width:0}
+.ov-kpi-num{font-size:34px;font-weight:800;color:var(--text-1);line-height:1;margin-bottom:4px}
+.kpi-blocked .ov-kpi-num{color:var(--danger)}
+.kpi-soon .ov-kpi-num{color:var(--warn)}
+.kpi-done .ov-kpi-num{color:var(--ok)}
+.ov-kpi-label{font-size:14px;font-weight:700;color:var(--text-1)}
+.ov-kpi-sub{font-size:12px;color:var(--text-3);margin-top:3px}
+.ov-pipeline-card{background:var(--surface);border-radius:var(--r-xl);padding:22px 24px;box-shadow:var(--shadow)}
+.ov-card-title{font-size:14px;font-weight:700;color:var(--text-1);margin-bottom:18px;display:flex;align-items:center;gap:8px}
+.ov-card-title i{color:var(--text-3);font-size:13px}
+.ov-pipeline{display:grid;grid-template-columns:repeat(6,1fr);gap:16px}
+.ov-pipe-step{display:flex;flex-direction:column;gap:6px}
+.ov-pipe-label{font-size:11px;font-weight:700;color:var(--text-3);text-transform:uppercase;letter-spacing:.05em}
+.ov-pipe-count{font-size:26px;font-weight:800;color:var(--text-1);line-height:1}
+.ov-pipe-bar-wrap{height:5px;background:var(--muted-bg);border-radius:3px;overflow:hidden}
+.ov-pipe-bar{height:100%;border-radius:3px;transition:width .4s}
+.ov-pipe-sub{font-size:11px;color:var(--text-3)}
+.ov-main{display:grid;grid-template-columns:1fr 280px;gap:16px;align-items:start}
+.ov-roster-card{background:var(--surface);border-radius:var(--r-xl);padding:22px 24px;box-shadow:var(--shadow)}
+.ov-roster-row{display:grid;grid-template-columns:auto 1fr auto auto;align-items:center;gap:14px;padding:11px 8px;border-radius:var(--r);cursor:pointer;transition:background .12s}
+.ov-roster-row:not(:last-child){border-bottom:1px solid var(--border)}
+.ov-roster-row:hover{background:var(--surface-2)}
+.ov-roster-avatar{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;flex-shrink:0;box-shadow:0 2px 8px rgba(0,0,0,.13)}
+.ov-roster-info{min-width:0}
+.ov-roster-name{font-size:14px;font-weight:700;color:var(--text-1);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ov-roster-meta{font-size:12px;color:var(--text-3);margin-top:2px}
+.ov-roster-badges{display:flex;gap:5px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+.ov-roster-progress{width:110px;flex-shrink:0}
+.ov-roster-pct{font-size:12px;font-weight:700;color:var(--text-2);margin-bottom:5px;text-align:right}
+.ov-roster-bar{height:5px;background:var(--muted-bg);border-radius:3px;overflow:hidden}
+.ov-roster-fill{height:100%;border-radius:3px}
+.ov-empty{font-size:13px;color:var(--text-3);padding:10px 4px;line-height:1.7}
+.ov-side{display:flex;flex-direction:column;gap:14px}
+.ov-side-card{background:var(--surface);border-radius:var(--r-xl);padding:20px;box-shadow:var(--shadow)}
+.ov-side-title{font-size:13px;font-weight:700;color:var(--text-1);margin-bottom:14px;display:flex;align-items:center;gap:7px}
+.ov-side-title i{font-size:12px;color:var(--text-3)}
+.ov-side-item{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid var(--border)}
+.ov-side-item:last-child{border-bottom:none;padding-bottom:0}
+.ov-side-item:first-child{padding-top:0}
+.ov-side-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;margin-top:4px}
+.ov-side-item-name{font-size:13px;font-weight:700;color:var(--text-1)}
+.ov-side-item-sub{font-size:12px;color:var(--text-3);margin-top:3px;line-height:1.6}
+
+/* ── MODALS ─────────────────────────────────────────── */
+.modal{position:fixed;inset:0;background:rgba(28,28,48,.45);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;padding:24px;z-index:100}
+.modal.open{display:flex}
+.modal-box{background:var(--surface);border-radius:var(--r-xl);width:min(600px,100%);max-height:90vh;overflow:auto;box-shadow:0 20px 60px rgba(0,0,0,.22)}
+.modal-header{padding:22px 26px 18px}
+.modal-title{font-size:18px;font-weight:800;color:var(--text-1)}
+.modal-sub{font-size:13px;color:var(--text-2);margin-top:4px}
+.modal-body{padding:0 26px 18px;display:flex;flex-direction:column;gap:14px}
+.modal-footer{padding:16px 26px;border-top:1.5px solid var(--border);display:flex;justify-content:flex-end;gap:10px}
+.modal-fields{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.modal-field label{display:block;font-size:11px;font-weight:700;color:var(--text-3);text-transform:uppercase;letter-spacing:.05em;margin-bottom:5px}
+.modal-input,.modal-select,.modal-textarea{width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:var(--r);font:inherit;font-size:14px;background:var(--surface-2);color:var(--text-1);outline:none;transition:border-color .15s}
+.modal-input:focus,.modal-select:focus,.modal-textarea:focus{border-color:var(--accent);background:#fff}
+.modal-textarea{min-height:88px;resize:vertical;line-height:1.6}
+.email-field{background:var(--surface-2);border:1.5px solid var(--border);border-radius:var(--r);padding:12px 14px;font-size:13px;margin-bottom:0}
+.email-field strong{color:var(--text-3);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:3px}
+.email-textarea{width:100%;min-height:210px;padding:12px;border:1.5px solid var(--border);border-radius:var(--r);font:inherit;font-size:13px;background:var(--surface-2);color:var(--text-1);resize:vertical;outline:none;line-height:1.7;transition:border-color .15s}
+.email-textarea:focus{border-color:var(--accent);background:#fff}
+
+@media(max-width:1100px){.detail-grid{grid-template-columns:1fr}.detail-stats{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:900px){.ov-kpis{grid-template-columns:repeat(2,1fr)}.ov-main{grid-template-columns:1fr}.ov-pipeline{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:700px){#sidebar{width:100%;min-width:0;height:auto}.modal-fields{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+
+<nav id="sidebar">
+  <div id="sidebar-header">
+    <div class="sidebar-brand">
+      <div class="sidebar-brand-icon"><i class="fa-solid fa-clipboard-list"></i></div>
+      <div>
+        <div class="sidebar-brand-name">Onboarding Tracker</div>
+        <div class="sidebar-brand-sub">Manager Workspace &mdash; DC</div>
+      </div>
+    </div>
+    <div class="sidebar-search">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <input id="search-input" type="text" placeholder="Search hires..." oninput="renderSidebar()">
+    </div>
+    <div class="sidebar-filters">
+      <button class="filter-chip active" onclick="setFilter('all',this)">All</button>
+      <button class="filter-chip" onclick="setFilter('attention',this)">Attention</button>
+      <button class="filter-chip" onclick="setFilter('starting-soon',this)">Starting</button>
+      <button class="filter-chip" onclick="setFilter('blocked',this)">Blocked</button>
+      <button class="filter-chip" onclick="setFilter('complete',this)">Complete</button>
+    </div>
+  </div>
+  <div id="sidebar-list"></div>
+  <div id="sidebar-footer">
+    <button class="sidebar-add-btn" onclick="openAddModal()">
+      <i class="fa-solid fa-plus"></i> Add New Hire
+    </button>
+  </div>
+</nav>
+
+<div id="main">
+  <div id="topbar">
+    <div id="topbar-title">Manager Workspace</div>
+    <div style="display:flex;align-items:center;gap:10px">
+      <div class="view-tabs">
+        <button class="view-tab active" id="tab-detail" onclick="switchView('detail')"><i class="fa-solid fa-user-clock"></i> Hire Detail</button>
+        <button class="view-tab" id="tab-overview" onclick="switchView('overview')"><i class="fa-solid fa-chart-simple"></i> Dashboard</button>
+      </div>
+      <button class="btn btn-ghost" onclick="exportTracker()"><i class="fa-solid fa-download"></i> Export</button>
+    </div>
+  </div>
+  <div id="content">
+    <div id="detail-view">
+      <div id="empty-state">
+        <div class="es-icon"><i class="fa-solid fa-user-clock"></i></div>
+        <div class="es-text">Select a hire from the sidebar to manage their onboarding progress, training sessions, and follow-up notes.</div>
+      </div>
+      <div id="hire-detail" style="display:none"></div>
+    </div>
+    <div id="overview-view"></div>
+  </div>
+</div>
+
+<!-- ADD HIRE MODAL -->
+<div class="modal" id="add-modal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div class="modal-title">Create Onboarding Profile</div>
+      <div class="modal-sub">Manager-owned tracking for this hire&rsquo;s onboarding progress.</div>
+    </div>
+    <div class="modal-body">
+      <div class="modal-fields">
+        <div class="modal-field"><label>First name</label><input class="modal-input" id="f-first"></div>
+        <div class="modal-field"><label>Last name</label><input class="modal-input" id="f-last"></div>
+        <div class="modal-field"><label>Hire type</label><select class="modal-select" id="f-hire-type"><option value="external">External hire</option><option value="internal">Internal transfer</option></select></div>
+      </div>
+      <div class="modal-fields">
+        <div class="modal-field"><label>Department</label><input class="modal-input" id="f-dept" value="Data Consultant"></div>
+        <div class="modal-field"><label>Manager</label><input class="modal-input" id="f-manager"></div>
+        <div class="modal-field"><label>Preset</label><select class="modal-select" id="f-preset"><option value="dc-core">Data Consultant</option></select></div>
+      </div>
+      <div class="modal-fields">
+        <div class="modal-field"><label>Start date</label><input class="modal-input" id="f-start" type="date"></div>
+        <div class="modal-field"><label>Employee ID</label><input class="modal-input" id="f-eid"></div>
+        <div class="modal-field"><label>Email</label><input class="modal-input" id="f-email" type="email"></div>
+      </div>
+      <div class="modal-field"><label>Manager summary</label><textarea class="modal-textarea" id="f-summary" placeholder="What should the manager keep top of mind for this hire?"></textarea></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('add-modal')">Cancel</button>
+      <button class="btn btn-primary" onclick="addHire()"><i class="fa-solid fa-check"></i> Create Profile</button>
+    </div>
+  </div>
+</div>
+
+<!-- EMAIL MODAL -->
+<div class="modal" id="email-modal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div class="modal-title">Draft Email</div>
+      <div class="modal-sub" id="email-kind"></div>
+    </div>
+    <div class="modal-body">
+      <div class="email-field"><strong>To</strong><span id="email-to"></span></div>
+      <div class="email-field"><strong>Subject</strong><span id="email-subject"></span></div>
+      <textarea class="email-textarea" id="email-body"></textarea>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="copyEmailDraft()"><i class="fa-solid fa-copy"></i> Copy Draft</button>
+      <button class="btn btn-primary" id="email-mailto"><i class="fa-solid fa-envelope"></i> Open in Mail App</button>
+      <button class="btn btn-ghost" onclick="closeModal('email-modal')">Close</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const STORAGE_KEY='dc_onboarding_state',APP_VERSION=2,COLORS=['#1f4db7','#0f766e','#a16612','#994a7d','#b54f2a','#3c5f9b'];
+const PHASES=[['prestart','Pre-Start'],['day1','Day 1'],['week1','Week 1'],['week2','Week 2'],['month1','Month 1'],['complete','Complete']];
+const PRESETS={'dc-core':{label:'Data Consultant',sections:[
+{id:'it-auth',title:'IT and Authentication',items:[
+['domain-acct','Domain account created','Active Directory account is live and ready for first login.','it','IT','Access','prestart','high','access-reminder'],
+['email-assign','Email address assigned','Corporate email account is created and confirmed.','it','IT','Access','prestart','high','welcome'],
+['mfa-enroll','MFA enrollment completed','Primary sign-in and multi-factor setup are tested.','it','IT','Security','day1','high','access-reminder'],
+['vpn-creds','VPN credentials issued','Remote access is confirmed for hybrid or remote work.','it','IT','Access','day1','medium','access-reminder'],
+['pwd-manager','Password manager setup','Vault access and initial credentials are documented for manager handoff.','it','IT','Security','week1','medium','access-reminder']]},
+{id:'env',title:'Work Environment',items:[
+['net-drive','Network drives mapped','Shared folders and legacy paths are available as expected.','it','IT','Environment','prestart','high','access-reminder'],
+['sharepoint','SharePoint access confirmed','Team sites and current documentation libraries are available.','it','IT','Environment','day1','medium','access-reminder'],
+['teams-channels','Teams channels and groups added','Required chats, channels, and lists are ready before training picks up.','mgr','Manager','Environment','day1','medium','welcome'],
+['workstation','Workstation assigned and configured','Primary machine is ready for full training day use.','it','IT','Equipment','prestart','high','access-reminder'],
+['office-suite','Office suite installed','Core apps are licensed and signed in with corporate credentials.','it','IT','Equipment','day1','medium','access-reminder']]},
+{id:'data',title:'Data Systems Access',items:[
+['aqt-acct','AQT account provisioned','AQT access is created with the expected role and environment.','it','IT','Systems','prestart','high','access-reminder'],
+['aqt-perms','AQT permissions confirmed','Manager validates the correct schema access and required permissions.','mgr','Manager','Systems','day1','high','blocked-followup'],
+['aqt-test','AQT connection tested','Validation query is run end-to-end and results are reviewed.','mgr','Manager','Systems','week1','high','meeting-support'],
+['p2-acct','P2 account created','P2 credentials are ready for a manager-led walkthrough.','mgr','Manager','Systems','week1','medium','access-reminder'],
+['p3-acct','P3 account created','P3 login is provisioned and queued for follow-up training.','mgr','Manager','Systems','week2','medium','access-reminder'],
+['p3-walkthru','P3 workflow walkthrough completed','Manager reviews how the submission workflow should be handled.','mgr','Manager','Systems','month1','medium','meeting-support']]},
+{id:'admin',title:'Compliance and Administration',items:[
+['i9','I-9 documentation verified','Identity documents are confirmed by the required deadline.','hr','HR','HR','day1','high','blocked-followup'],
+['benefits','Benefits enrollment tracked','Manager confirms the employee has the right next step and deadline.','hr','HR','HR','week1','medium','blocked-followup'],
+['security-training','Security training completed','Required awareness training is complete and logged.','hr','HR','Training','week1','high','blocked-followup'],
+['data-agreement','Data access agreement signed','Required data responsibility forms are complete before expanded access.','hr','HR','Training','week1','high','blocked-followup']]},
+{id:'ramp',title:'Department Ramp and Manager Touchpoints',items:[
+['welcome-email','Manager welcome and prep note sent','Manager sends the first prep message with what to expect and who to contact.','mgr','Manager','Communication','prestart','high','welcome'],
+['team-intro','Team introduction completed','New hire meets the immediate team and knows who handles what.','mgr','Manager','Ramp','day1','high','meeting-support'],
+['workflow-walkthru','Department workflow walkthrough','Manager reviews the DC process, tools, expectations, and pacing.','mgr','Manager','Ramp','week1','high','meeting-support'],
+['shadow-session','Shadow session with senior DC','Manager schedules hands-on observation with a strong team member.','mgr','Manager','Ramp','week2','medium','meeting-support'],
+['week1-checkin','Week 1 manager check-in completed','Blockers, confidence level, and pacing are reviewed directly.','mgr','Manager','Check-in','week1','high','meeting-support'],
+['30day-review','30-day review scheduled','A ramp checkpoint is on calendar before month-end slips.','mgr','Manager','Check-in','month1','medium','meeting-support']
+]},
+{id:'loading-census',title:'Loading Census',items:[
+['lc-immediate-errors','Identify immediate errors','Review the census file for immediate data errors before loading.','mgr','Manager','Loading Census','week1','high','meeting-support'],
+['lc-type-mismatches','Identify data type mismatches','Check for fields with incorrect data types that will cause load failures.','mgr','Manager','Loading Census','week1','high','meeting-support'],
+['lc-file-structure','Confirm correct file structure/order','Verify the file layout matches the expected column order and format.','mgr','Manager','Loading Census','week1','high','meeting-support'],
+['lc-missing-fields','Identify missing fields','Identify any expected fields that are absent from the census file.','mgr','Manager','Loading Census','week1','medium','meeting-support'],
+['lc-missing-acceptable','Determine if missing data acceptable','Assess whether the missing fields are required or optional for the load.','mgr','Manager','Loading Census','week1','medium','meeting-support'],
+['lc-feedback-corrections','Provide feedback and apply corrections','Document and apply all corrections before proceeding with the load.','mgr','Manager','Loading Census','week1','high','meeting-support'],
+['lc-create-eds-layout','Create EDS layout','Build the EDS layout that matches the corrected census file.','mgr','Manager','Loading Census','week1','high','meeting-support'],
+['lc-load-eds','Load file in EDS','Execute the load of the census file using the configured EDS layout.','mgr','Manager','Loading Census','week1','high','meeting-support'],
+['lc-validate-load','Validate load','Confirm all records loaded successfully and match expected counts.','mgr','Manager','Loading Census','week1','high','meeting-support'],
+['lc-confirm-aqt','Confirm via AQT','Run AQT validation queries to confirm data loaded correctly.','mgr','Manager','Loading Census','week1','medium','meeting-support'],
+['lc-enter-nbi','Enter in NBI','Document the load completion in NBI per standard protocol.','mgr','Manager','Loading Census','week1','medium','meeting-support'],
+['lc-status-email','Send status email','Send a status update email to relevant stakeholders after the load is complete.','mgr','Manager','Loading Census','week1','medium','meeting-support']
+]},
+{id:'base-file-analysis',title:'Base File Analysis',items:[
+['bfa-census-financial','Identify census and financial fields','Distinguish between census-only and financial data fields in the base file.','mgr','Manager','Base File Analysis','week1','high','meeting-support'],
+['bfa-elig-deferrals','Distinguish eligibility and deferrals','Understand how eligibility data differs from deferral data in the layout.','mgr','Manager','Base File Analysis','week1','high','meeting-support'],
+['bfa-validate-types','Validate data types','Confirm all fields use the correct data types as defined in the spec.','mgr','Manager','Base File Analysis','week1','high','meeting-support'],
+['bfa-confirm-totals','Confirm totals/logic','Validate financial totals and logic checks balance and reconcile correctly.','mgr','Manager','Base File Analysis','week1','high','meeting-support'],
+['bfa-provide-feedback','Provide feedback','Communicate findings and required corrections back to the relevant team.','mgr','Manager','Base File Analysis','week1','medium','meeting-support'],
+['bfa-client-walkthrough','Conduct client walkthrough','Walk the client through the analysis findings and answer questions.','mgr','Manager','Base File Analysis','week2','medium','meeting-support']
+]},
+{id:'eds-training',title:'EDS',items:[
+['eds-new-layout','Create new layout','Build a new EDS layout from scratch for a given data file.','mgr','Manager','EDS','week2','high','meeting-support'],
+['eds-clone-layout','Clone layout','Clone an existing EDS layout as a starting point for a new configuration.','mgr','Manager','EDS','week2','medium','meeting-support'],
+['eds-data-types','Assign data types','Set the correct data types for each field in the EDS layout.','mgr','Manager','EDS','week2','high','meeting-support'],
+['eds-p3-deps','Understand P3 dependencies','Learn how EDS layouts connect to and feed P3 processing.','mgr','Manager','EDS','week2','medium','meeting-support'],
+['eds-run-validation','Run validation','Execute the EDS validation process and review the results.','mgr','Manager','EDS','week2','high','meeting-support'],
+['eds-output-emails','Read output emails','Interpret the automated output emails generated after EDS processing.','mgr','Manager','EDS','week2','medium','meeting-support'],
+['eds-warnings-errors','Handle warnings/errors','Identify and resolve warnings and errors from the EDS output.','mgr','Manager','EDS','week2','high','meeting-support'],
+['eds-troubleshoot','Troubleshoot issues','Apply systematic troubleshooting steps when EDS processing fails.','mgr','Manager','EDS','week2','high','meeting-support']
+]},
+{id:'source-fund-mapping',title:'Source & Fund Mapping',items:[
+['sfm-required-fields','Identify required fields','Determine which source and fund fields are required for proper mapping.','mgr','Manager','Source & Fund Mapping','week2','high','meeting-support'],
+['sfm-populate-mapping','Populate mapping','Complete the source and fund mapping document with all required values.','mgr','Manager','Source & Fund Mapping','week2','high','meeting-support'],
+['sfm-build-from-toa','Build from TOA','Use the TOA document as the basis for building the source and fund mapping.','mgr','Manager','Source & Fund Mapping','week2','high','meeting-support'],
+['sfm-format-correctly','Format correctly','Ensure the mapping file is formatted to meet processing requirements.','mgr','Manager','Source & Fund Mapping','week2','medium','meeting-support'],
+['sfm-test-informatica','Test in Informatica','Run the mapping through Informatica to confirm it processes without errors.','mgr','Manager','Source & Fund Mapping','week2','high','meeting-support']
+]},
+{id:'aqt-training',title:'AQT',items:[
+['aqt-tr-login','Login','Access the AQT environment using the correct credentials and portal.','mgr','Manager','AQT','week1','high','meeting-support'],
+['aqt-tr-environments','Understand environments','Distinguish between the different AQT environments and when to use each.','mgr','Manager','AQT','week1','high','meeting-support'],
+['aqt-tr-run-queries','Run queries','Execute standard AQT queries against a plan to retrieve data.','mgr','Manager','AQT','week1','high','meeting-support'],
+['aqt-tr-modify-params','Modify parameters','Adjust query parameters to target specific dates, plans, or data sets.','mgr','Manager','AQT','week1','medium','meeting-support'],
+['aqt-tr-interpret','Interpret results','Read and interpret AQT query output to validate data accuracy.','mgr','Manager','AQT','week1','high','meeting-support']
+]},
+{id:'payroll-training',title:'Payroll',items:[
+['pay-build-template','Build template','Create the payroll template based on the plan spec and client requirements.','mgr','Manager','Payroll','month1','high','meeting-support'],
+['pay-send-client','Send to client','Deliver the payroll template to the client for review and completion.','mgr','Manager','Payroll','month1','medium','meeting-support'],
+['pay-conduct-meeting','Conduct meeting','Lead the payroll setup meeting with the client to review template requirements.','mgr','Manager','Payroll','month1','medium','meeting-support'],
+['pay-validate-test','Validate test file','Review the client-returned test file for accuracy and completeness.','mgr','Manager','Payroll','month1','high','meeting-support'],
+['pay-load-eds','Load in EDS','Process the validated payroll file through EDS.','mgr','Manager','Payroll','month1','high','meeting-support'],
+['pay-submit-confirm','Submit and confirm','Submit the payroll load and confirm successful processing with all parties.','mgr','Manager','Payroll','month1','high','meeting-support']
+]},
+{id:'elections-training',title:'Elections',items:[
+['elec-mapped-nonmapped','Understand mapped vs non-mapped','Learn the difference between mapped and non-mapped election handling.','mgr','Manager','Elections','month1','high','meeting-support'],
+['elec-run-informatica','Run Informatica workflow','Execute the Informatica workflow for elections processing.','mgr','Manager','Elections','month1','high','meeting-support'],
+['elec-load-eds','Load in EDS','Process the elections file through EDS after Informatica completion.','mgr','Manager','Elections','month1','high','meeting-support'],
+['elec-validate-aqt','Validate via AQT','Run AQT validation to confirm elections loaded correctly.','mgr','Manager','Elections','month1','medium','meeting-support']
+]},
+{id:'eligibility-training',title:'Eligibility',items:[
+['elig-enable-p3','Enable in P3','Activate eligibility processing in P3 for the plan.','mgr','Manager','Eligibility','month1','high','meeting-support'],
+['elig-understand-rules','Understand rules','Review and understand the eligibility rules defined in the plan document.','mgr','Manager','Eligibility','month1','high','meeting-support'],
+['elig-load-validate','Load and validate','Load eligibility data and validate results match plan rules.','mgr','Manager','Eligibility','month1','high','meeting-support']
+]},
+{id:'deferrals-training',title:'Deferrals',items:[
+['def-p3-setup','Confirm P3 setup','Verify the deferral configuration in P3 matches the plan spec.','mgr','Manager','Deferrals','month1','high','meeting-support'],
+['def-understand-types','Understand types','Understand the different deferral types and how each is processed.','mgr','Manager','Deferrals','month1','high','meeting-support'],
+['def-load-validate','Load and validate','Load deferral data and validate the results against expected values.','mgr','Manager','Deferrals','month1','high','meeting-support']
+]},
+{id:'informatica-training',title:'Informatica',items:[
+['inf-param-file','Create parameter file','Build the Informatica parameter file for a given workflow.','mgr','Manager','Informatica','week2','high','meeting-support'],
+['inf-configure-sources','Configure sources','Set up the source connections and file paths for the Informatica workflow.','mgr','Manager','Informatica','week2','high','meeting-support'],
+['inf-run-workflows','Run workflows','Execute Informatica workflows and monitor the run for completion.','mgr','Manager','Informatica','week2','high','meeting-support'],
+['inf-read-outputs','Read outputs','Review and interpret the output files and logs from Informatica runs.','mgr','Manager','Informatica','week2','medium','meeting-support'],
+['inf-troubleshoot','Troubleshoot','Diagnose and resolve common Informatica workflow errors.','mgr','Manager','Informatica','week2','high','meeting-support']
+]},
+{id:'prd-onboarding',title:'PRD / Onboarding',items:[
+['prd-read-docs','Read documents','Review the PRD and onboarding documentation for the assigned plan.','mgr','Manager','PRD / Onboarding','week1','high','meeting-support'],
+['prd-extract-rules','Extract rules','Identify and extract the key business rules from the PRD.','mgr','Manager','PRD / Onboarding','week1','high','meeting-support'],
+['prd-translate-layouts','Translate to layouts','Convert PRD rules into the required EDS layout configurations.','mgr','Manager','PRD / Onboarding','week1','high','meeting-support'],
+['prd-interpret-toa','Interpret TOA','Read and interpret the Transfer of Assets document and its implications.','mgr','Manager','PRD / Onboarding','week1','medium','meeting-support'],
+['prd-ask-questions','Ask questions','Formulate and raise questions with senior staff or the client to resolve ambiguities.','mgr','Manager','PRD / Onboarding','week1','medium','meeting-support']
+]},
+{id:'roth-basis',title:'Roth / Basis',items:[
+['roth-differences','Understand differences','Learn the key distinctions between Roth and traditional basis handling.','mgr','Manager','Roth / Basis','month1','high','meeting-support'],
+['roth-apply-correctly','Apply correctly','Apply the correct Roth or basis treatment to each applicable contribution type.','mgr','Manager','Roth / Basis','month1','high','meeting-support'],
+['roth-validate','Validate handling','Confirm that Roth and basis values are processed and stored correctly.','mgr','Manager','Roth / Basis','month1','high','meeting-support']
+]}
+]}};
+
+const EMAILS={
+welcome:{label:'Welcome and prep',subject:d=>`Welcome to ${d.department} onboarding - ${d.name}`,body:d=>`Hi ${d.first},\n\nWelcome aboard. I wanted to send a quick onboarding note before we get moving.\n\nStart date: ${d.startDate}\nManager: ${d.manager}\nDepartment: ${d.department}\n\nFor your first stretch, we are focusing on:\n- access setup\n- department workflow orientation\n- key training and first-week support\n\nMeeting link placeholder: ${d.meetingLink}\n\nThanks,\n${d.manager}`},
+'access-reminder':{label:'Access reminder',subject:d=>`Follow-up needed: ${d.task} for ${d.name}`,body:d=>`Hi team,\n\nQuick reminder that we still need progress on this onboarding item:\n\nTask: ${d.task}\nEmployee: ${d.name}\nDepartment: ${d.department}\nTarget phase: ${d.taskPhase}\n\nIf this is already in flight, please reply with the latest status so I can keep the manager tracker current.\n\nThanks,\n${d.manager}`},
+'meeting-support':{label:'Meeting support draft',subject:d=>`Onboarding touchpoint for ${d.name}`,body:d=>`Hi ${d.first},\n\nI want to set up a quick onboarding touchpoint for the next step in your ramp-up.\n\nFocus area: ${d.task}\nTarget phase: ${d.taskPhase}\nSuggested meeting link: ${d.meetingLink}\n\nPlease let me know if the proposed time works.\n\nThanks,\n${d.manager}`},
+'blocked-followup':{label:'Blocked item follow-up',subject:d=>`Blocked onboarding item: ${d.task} - ${d.name}`,body:d=>`Hi team,\n\nThis onboarding item is currently blocked and needs follow-up:\n\nTask: ${d.task}\nEmployee: ${d.name}\nDepartment: ${d.department}\nCurrent phase: ${d.phase}\nManager note: ${d.note||'No note entered yet.'}\n\nPlease send the latest update or next step so this does not slip.\n\nThanks,\n${d.manager}`}};
+
+const SECTION_GROUPS=[
+  {id:'setup',title:'Setup & Access',icon:'fa-laptop',color:'#635bff',desc:'Accounts, systems, and equipment',sectionIds:['it-auth','env','data']},
+  {id:'people',title:'People & HR',icon:'fa-id-badge',color:'#10b981',desc:'Documentation and compliance',sectionIds:['admin']},
+  {id:'connected',title:'Getting Connected',icon:'fa-handshake',color:'#ec4899',desc:'Team intro, shadow sessions, check-ins',sectionIds:['ramp']},
+  {id:'core',title:'Core Training',icon:'fa-book-open',color:'#3b82f6',desc:'AQT, census, EDS, PRD, Informatica, fund mapping',sectionIds:['aqt-training','loading-census','base-file-analysis','eds-training','prd-onboarding','informatica-training','source-fund-mapping']},
+  {id:'advanced',title:'Advanced Training',icon:'fa-graduation-cap',color:'#8b5cf6',desc:'Payroll, elections, eligibility, deferrals, Roth',sectionIds:['payroll-training','elections-training','eligibility-training','deferrals-training','roth-basis']},
+];
+
+let state={version:APP_VERSION,hires:[],selectedHireId:null,filter:'all',view:'detail'},currentDraft=null;
+const esc=s=>String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+const phaseLabel=id=>(PHASES.find(p=>p[0]===id)||PHASES[0])[1];
+const initials=h=>`${h.first?.[0]||''}${h.last?.[0]||''}`.toUpperCase()||'NA';
+const fmtDate=v=>v?new Date(v+'T12:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}):'Not set';
+const fmtDT=v=>v?new Date(v).toLocaleString('en-US',{month:'short',day:'numeric',hour:'numeric',minute:'2-digit'}):'No updates yet';
+const fmtDateShort=v=>v?new Date(v+'T12:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric'}):'';
+const now=()=>new Date().toISOString();
+const uid=()=>`id-${Date.now()}-${Math.random().toString(36).slice(2,7)}`;
+const presetItems=id=>PRESETS[id||'dc-core'].sections.flatMap(s=>s.items.map(i=>({id:i[0],title:i[1],desc:i[2],owner:i[3],ownerLabel:i[4],category:i[5],phase:i[6],priority:i[7],emailTemplateKey:i[8],sectionId:s.id,sectionTitle:s.title})));
+const makeTask=i=>({status:'not-started',note:'',updatedAt:'',ownerOverride:'',skippedReason:'',targetPhase:i.phase});
+const PHASE_ICONS={prestart:'fa-hourglass-start',day1:'fa-sun',week1:'fa-calendar-week',week2:'fa-calendar-days',month1:'fa-calendar-check',complete:'fa-graduation-cap'};
+const STATUS_ICONS={'not-started':'fa-circle','in-progress':'fa-circle-half-stroke',done:'fa-circle-check',blocked:'fa-triangle-exclamation','not-applicable':'fa-ban'};
+const phaseBadge=id=>`<span class="badge badge-phase"><i class="fa-solid ${PHASE_ICONS[id]||'fa-calendar'}"></i> ${phaseLabel(id)}</span>`;
+const statusBadge=s=>`<span class="badge ${statusClass(s)}">${statusLabel(s)}</span>`;
+const pcolor=p=>p>=100?'var(--ok)':p>=60?'var(--accent)':p>=30?'var(--warn)':'var(--muted)';
+
+function createHire(d){const checklist={};presetItems(d.departmentPreset).forEach(i=>checklist[i.id]=makeTask(i));return{id:`hire-${Date.now()}-${Math.random().toString(36).slice(2)}`,first:d.first||'',last:d.last||'',dept:d.dept||'Data Consultant',manager:d.manager||'',email:d.email||'',eid:d.eid||'',startDate:d.startDate||'',hireType:d.hireType||'external',phase:'prestart',managerSummary:d.managerSummary||'',managerNotes:d.managerNotes||'',departmentPreset:d.departmentPreset||'dc-core',lastUpdatedAt:now(),createdAt:now(),checklist,colorIdx:typeof d.colorIdx==='number'?d.colorIdx:Math.floor(Math.random()*COLORS.length),trainingSessions:[],updates:[]}}
+
+function migrateHire(h){const m=createHire({...h,managerSummary:h.managerSummary||h.notes||'',departmentPreset:h.departmentPreset||'dc-core'});m.id=h.id||m.id;m.createdAt=h.createdAt||m.createdAt;m.lastUpdatedAt=h.lastUpdatedAt||m.lastUpdatedAt;m.managerNotes=h.managerNotes||h.notes||'';m.trainingSessions=h.trainingSessions||[];m.updates=h.updates||[];presetItems(m.departmentPreset).forEach(i=>{const e=h.checklist?.[i.id];if(typeof e==='string')m.checklist[i.id]={...makeTask(i),status:e==='pending'?'not-started':e};else if(e&&typeof e==='object')m.checklist[i.id]={...makeTask(i),...e,status:e.status==='pending'?'not-started':(e.status||'not-started'),targetPhase:e.targetPhase||i.phase};});return m}
+
+const tstate=(h,id)=>h.checklist[id];
+const blockedCount=h=>presetItems(h.departmentPreset).filter(i=>tstate(h,i.id)?.status==='blocked').length;
+function progress(h){const items=presetItems(h.departmentPreset).filter(i=>tstate(h,i.id)?.status!=='not-applicable');const done=items.filter(i=>tstate(h,i.id)?.status==='done').length;return{done,total:items.length,pct:items.length?Math.round(done/items.length*100):100}}
+function currentPhase(h){for(const [id] of PHASES.slice(0,-1)){const items=presetItems(h.departmentPreset).filter(i=>i.phase===id&&tstate(h,i.id)?.status!=='not-applicable');if(items.length&&!items.every(i=>tstate(h,i.id)?.status==='done'))return id}return'complete'}
+function overall(h){const p=progress(h);if(blockedCount(h))return'blocked';if(p.total&&p.done===p.total)return'complete';return presetItems(h.departmentPreset).some(i=>['done','in-progress'].includes(tstate(h,i.id)?.status))?'in-progress':'not-started'}
+const statusClass=s=>({'not-started':'s-not-started','in-progress':'s-in-progress','blocked':'s-blocked','done':'s-done','complete':'s-done','not-applicable':'s-not-applicable'})[s]||'s-not-started';
+const statusLabel=s=>({'not-started':'Not Started','in-progress':'In Progress','blocked':'Blocked','done':'Complete','complete':'Complete','not-applicable':'N/A'})[s]||'Not Started';
+function startWindow(h){if(!h.startDate)return'No start date';const today=new Date(),start=new Date(h.startDate+'T12:00:00'),d=Math.round((start-new Date(today.getFullYear(),today.getMonth(),today.getDate(),12))/86400000);if(d>7)return'Future start';if(d>=1)return'Starting soon';if(d===0)return'Starts today';return'In progress'}
+function save(){state.hires.forEach(h=>{h.phase=currentPhase(h)});localStorage.setItem(STORAGE_KEY,JSON.stringify(state))}
+function load(){const raw=localStorage.getItem(STORAGE_KEY);if(raw)try{const p=JSON.parse(raw);state={version:APP_VERSION,hires:(p.hires||[]).map(migrateHire),selectedHireId:p.selectedHireId||null,filter:p.filter||'all',view:p.view||'detail'}}catch(e){};if(!state.hires.length)seed();if(!state.selectedHireId&&state.hires.length)state.selectedHireId=state.hires[0].id}
+function touch(h){h.lastUpdatedAt=now()}
+function setStatusById(h,id,status,note){if(!h.checklist[id])return;h.checklist[id].status=status;if(typeof note==='string')h.checklist[id].note=note;h.checklist[id].updatedAt=now();touch(h)}
+function score(h,i,cp){const s=tstate(h,i.id);return(s.status==='blocked'?0:1)+((s.targetPhase||i.phase)===cp?0:3)+(i.priority==='high'?0:i.priority==='medium'?2:4)}
+function nextActions(h){const cp=currentPhase(h);return presetItems(h.departmentPreset).filter(i=>!['done','not-applicable'].includes(tstate(h,i.id)?.status)).sort((a,b)=>score(h,a,cp)-score(h,b,cp)).slice(0,3)}
+
+// Training sessions
+function addTrainingSession(hid){
+  const h=state.hires.find(x=>x.id===hid);if(!h)return;
+  const dateEl=document.getElementById(`ts-date-${hid}`),topicEl=document.getElementById(`ts-topic-${hid}`),withEl=document.getElementById(`ts-with-${hid}`);
+  const date=dateEl?.value,topic=topicEl?.value.trim(),withWho=withEl?.value.trim();
+  if(!topic)return;
+  h.trainingSessions=h.trainingSessions||[];
+  h.trainingSessions.push({id:uid(),date:date||'',topic,with:withWho,done:false,createdAt:now()});
+  touch(h);save();
+  if(dateEl)dateEl.value='';if(topicEl)topicEl.value='';if(withEl)withEl.value='';
+  renderRightPanel(h);
+}
+function toggleSession(hid,sid){
+  const h=state.hires.find(x=>x.id===hid);if(!h)return;
+  const s=(h.trainingSessions||[]).find(x=>x.id===sid);if(!s)return;
+  s.done=!s.done;touch(h);save();renderRightPanel(h);
+}
+function deleteSession(hid,sid){
+  const h=state.hires.find(x=>x.id===hid);if(!h)return;
+  h.trainingSessions=(h.trainingSessions||[]).filter(x=>x.id!==sid);touch(h);save();renderRightPanel(h);
+}
+function postUpdate(hid){
+  const h=state.hires.find(x=>x.id===hid);if(!h)return;
+  const el=document.getElementById(`mu-input-${hid}`);
+  const text=el?.value.trim();if(!text)return;
+  h.updates=h.updates||[];
+  h.updates.unshift({id:uid(),text,createdAt:now()});
+  touch(h);save();
+  if(el)el.value='';
+  renderRightPanel(h);
+}
+function deleteUpdate(hid,uid2){
+  const h=state.hires.find(x=>x.id===hid);if(!h)return;
+  h.updates=(h.updates||[]).filter(x=>x.id!==uid2);touch(h);save();renderRightPanel(h);
+}
+
+function renderRightPanel(h){
+  const col=document.getElementById('right-panel-col');if(!col)return;
+  col.innerHTML=buildRightPanel(h);
+}
+
+function buildRightPanel(h){
+  const p=progress(h);
+  // Manager summary
+  const summaryCard=`<div class="right-panel">
+    <div class="rp-title"><i class="fa-solid fa-note-sticky"></i> Manager Summary</div>
+    <textarea class="rp-textarea" onchange="saveHireField('${h.id}','managerSummary',this.value)">${esc(h.managerSummary||'')}</textarea>
+  </div>`;
+
+  // Training schedule
+  const sessions=(h.trainingSessions||[]);
+  const sessionsList=sessions.length?sessions.map(s=>`
+    <div class="ts-item ${s.done?'ts-done':''}">
+      ${s.date?`<span class="ts-date-chip">${esc(fmtDateShort(s.date))}</span>`:''}
+      <div class="ts-info">
+        <div class="ts-topic">${esc(s.topic)}</div>
+        ${s.with?`<div class="ts-with">with ${esc(s.with)}</div>`:''}
+      </div>
+      <div class="ts-actions">
+        <button class="ts-check ${s.done?'done':''}" onclick="toggleSession('${h.id}','${s.id}')" title="${s.done?'Mark incomplete':'Mark done'}"><i class="fa-solid fa-check"></i></button>
+        <button class="ts-del" onclick="deleteSession('${h.id}','${s.id}')" title="Remove"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+    </div>`).join(''):'<div style="font-size:12px;color:var(--text-3);text-align:center;padding:8px 0">No sessions scheduled yet.</div>';
+  const trainingCard=`<div class="right-panel">
+    <div class="rp-title"><i class="fa-solid fa-calendar-days"></i> Training Schedule</div>
+    <div class="ts-form">
+      <div class="ts-form-row">
+        <input class="ts-input" id="ts-date-${h.id}" type="date" placeholder="Date">
+        <input class="ts-input" id="ts-with-${h.id}" type="text" placeholder="With who">
+      </div>
+      <input class="ts-input" id="ts-topic-${h.id}" type="text" placeholder="Topic or focus area">
+      <button class="ts-add-btn" onclick="addTrainingSession('${h.id}')"><i class="fa-solid fa-plus"></i> Add Session</button>
+    </div>
+    <div class="ts-list">${sessionsList}</div>
+  </div>`;
+
+  // Manager updates
+  const updates=(h.updates||[]);
+  const updatesList=updates.length?updates.map(u=>`
+    <div class="mu-item">
+      <div class="mu-ts"><span>${esc(fmtDT(u.createdAt))}</span><button class="mu-del" onclick="deleteUpdate('${h.id}','${u.id}')" title="Delete"><i class="fa-solid fa-xmark"></i></button></div>
+      <div class="mu-text">${esc(u.text)}</div>
+    </div>`).join(''):'<div class="mu-empty">No updates posted yet.</div>';
+  const updatesCard=`<div class="right-panel">
+    <div class="rp-title"><i class="fa-solid fa-bullhorn"></i> Manager Updates</div>
+    <div class="mu-form">
+      <textarea class="rp-textarea" id="mu-input-${h.id}" placeholder="Post an update, note, or observation&hellip;" style="min-height:60px"></textarea>
+      <button class="mu-post-btn" onclick="postUpdate('${h.id}')"><i class="fa-solid fa-paper-plane"></i> Post Update</button>
+    </div>
+    <div class="mu-list">${updatesList}</div>
+  </div>`;
+
+  // Phase readiness
+  const phaseCard=`<div class="right-panel">
+    <div class="rp-title"><i class="fa-solid fa-chart-gantt"></i> Phase Readiness</div>
+    <div class="phase-grid">${PHASES.slice(0,-1).map(ph=>{
+      const items=presetItems(h.departmentPreset).filter(i=>i.phase===ph[0]&&tstate(h,i.id)?.status!=='not-applicable');
+      const done=items.filter(i=>tstate(h,i.id)?.status==='done').length;
+      const pct=items.length?Math.round(done/items.length*100):100;
+      return`<div class="phase-box"><div class="phase-box-label">${esc(ph[1])}</div><div class="phase-box-value">${done}/${items.length}</div><div class="phase-box-bar"><div class="phase-box-fill" style="width:${pct}%;background:${pcolor(pct)}"></div></div></div>`;
+    }).join('')}</div>
+  </div>`;
+
+  return summaryCard+trainingCard+updatesCard+phaseCard;
+}
+
+function renderSidebar(){
+  const q=document.getElementById('search-input').value.trim().toLowerCase();
+  const list=document.getElementById('sidebar-list');
+  let hires=state.hires.filter(h=>{
+    const txt=`${h.first} ${h.last} ${h.dept} ${h.manager} ${phaseLabel(currentPhase(h))}`.toLowerCase();
+    if(q&&!txt.includes(q))return false;
+    const o=overall(h),sw=startWindow(h);
+    if(state.filter==='attention')return blockedCount(h)>0||progress(h).pct<70;
+    if(state.filter==='starting-soon')return sw==='Starting soon'||sw==='Starts today';
+    if(state.filter==='blocked')return o==='blocked';
+    if(state.filter==='complete')return o==='complete';
+    return true;
+  }).sort((a,b)=>blockedCount(b)-blockedCount(a)||new Date(b.lastUpdatedAt)-new Date(a.lastUpdatedAt));
+  list.innerHTML=hires.length?hires.map(h=>{
+    const p=progress(h),bl=blockedCount(h),col=COLORS[h.colorIdx%COLORS.length];
+    return `<div class="hire-card ${h.id===state.selectedHireId?'active':''}" onclick="selectHire('${h.id}')">
+      <div class="hire-card-top">
+        <div class="hire-avatar" style="background:${col}">${esc(initials(h))}</div>
+        <div class="hire-card-info">
+          <div class="hire-card-name">${esc(h.first)} ${esc(h.last)}</div>
+          <div class="hire-card-meta">${esc(h.dept)}${h.eid?` &middot; ${esc(h.eid)}`:''}</div>
+          <div class="hire-card-meta">${esc(startWindow(h))}${bl?` &middot; <span style="color:var(--danger);font-weight:700">${bl} blocked</span>`:''}</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+        ${phaseBadge(currentPhase(h))}
+        <span style="font-size:11px;font-weight:700;color:var(--text-3)">${p.pct}%</span>
+      </div>
+      <div class="hire-track"><div class="hire-track-fill" style="width:${p.pct}%;background:${pcolor(p.pct)}"></div></div>
+    </div>`;
+  }).join(''):'<div class="hire-empty">No hires match current filters.</div>';
+}
+
+function renderGroupCard(h,group,cp){
+  // Collect all items from this group's sections
+  const sections=PRESETS[h.departmentPreset].sections.filter(s=>group.sectionIds.includes(s.id));
+  const allItems=sections.flatMap(s=>s.items.map(i=>({id:i[0],title:i[1],desc:i[2],owner:i[3],ownerLabel:i[4],category:i[5],phase:i[6],priority:i[7],emailTemplateKey:i[8],sectionId:s.id})));
+  const active=allItems.filter(i=>tstate(h,i.id)?.status!=='not-applicable');
+  const done=active.filter(i=>tstate(h,i.id)?.status==='done').length;
+  const pct=active.length?Math.round(done/active.length*100):100;
+  const iconBg=group.color+'1a';
+  const tasksHTML=allItems.map(i=>renderTaskRow(h,i)).join('');
+  return `<div class="group-card" id="group-${group.id}">
+    <div class="group-header" onclick="toggleGroup('${group.id}')">
+      <div class="group-icon" style="background:${iconBg};color:${group.color}"><i class="fa-solid ${group.icon}"></i></div>
+      <div class="group-header-text">
+        <div class="group-title">${esc(group.title)}</div>
+        <div class="group-desc">${esc(group.desc)}</div>
+      </div>
+      <div class="group-header-right">
+        <div class="group-pct-bar"><div class="group-pct-fill" style="width:${pct}%;background:${pcolor(pct)}"></div></div>
+        <span class="group-pct-label">${pct}%</span>
+        <i class="fa-solid fa-chevron-down group-chevron"></i>
+      </div>
+    </div>
+    <div class="group-body">${tasksHTML}</div>
+  </div>`;
+}
+
+function renderTaskRow(h,i){
+  const s=tstate(h,i.id);
+  const st=s.status;
+  const isBlocked=st==='blocked';
+  const isDone=st==='done';
+  const isNA=st==='not-applicable';
+  const circleIcon=st==='done'?'fa-check':st==='in-progress'?'fa-circle-half-stroke':st==='blocked'?'fa-exclamation':st==='not-applicable'?'fa-minus':'';
+  return `<div class="task-row ${isBlocked?'task-blocked':''}" id="taskrow-${i.id}">
+    <div class="task-main-row">
+      <button class="task-circle ${st}" onclick="cycleStatus('${h.id}','${i.id}')" title="Click to change status">${circleIcon?`<i class="fa-solid ${circleIcon}"></i>`:''}</button>
+      <div class="task-body" onclick="toggleTaskExpand('${i.id}')" style="cursor:pointer">
+        <div class="task-title ${isDone?'is-done':''} ${isNA?'is-na':''}">${esc(i.title)}</div>
+        <div class="task-desc">${esc(i.desc)}</div>
+      </div>
+      <div class="task-right">
+        ${phaseBadge(s.targetPhase||i.phase)}
+      </div>
+    </div>
+    <div class="task-expand">
+      <div class="task-expand-grid">
+        <div class="task-note-area">
+          <div class="task-note-label">Manager note</div>
+          <textarea onchange="updateTaskField('${h.id}','${i.id}','note',this.value)">${esc(s.note||'')}</textarea>
+        </div>
+        <div>
+          <div class="task-note-label">Phase</div>
+          <select class="task-inline-sel" onchange="updateTaskField('${h.id}','${i.id}','targetPhase',this.value)">
+            ${PHASES.slice(0,-1).map(p=>`<option value="${p[0]}" ${(s.targetPhase||i.phase)===p[0]?'selected':''}>${esc(p[1])}</option>`).join('')}
+          </select>
+        </div>
+        <div>
+          <div class="task-note-label">Status</div>
+          <select class="task-inline-sel" onchange="setTaskStatus('${h.id}','${i.id}',this.value)">
+            <option value="not-started" ${st==='not-started'?'selected':''}>Not Started</option>
+            <option value="in-progress" ${st==='in-progress'?'selected':''}>In Progress</option>
+            <option value="done" ${st==='done'?'selected':''}>Complete</option>
+            <option value="blocked" ${st==='blocked'?'selected':''}>Blocked</option>
+            <option value="not-applicable" ${st==='not-applicable'?'selected':''}>N/A</option>
+          </select>
+        </div>
+      </div>
+      ${s.updatedAt?`<div class="task-expand-updated">Updated ${esc(fmtDT(s.updatedAt))}</div>`:''}
+    </div>
+  </div>`;
+}
+
+function renderDetail(){
+  const h=state.hires.find(x=>x.id===state.selectedHireId);
+  const empty=document.getElementById('empty-state'),detail=document.getElementById('hire-detail');
+  if(!h){empty.style.display='flex';detail.style.display='none';detail.innerHTML='';return}
+  empty.style.display='none';detail.style.display='block';
+  const p=progress(h),cp=currentPhase(h),na=nextActions(h);
+  const col=COLORS[h.colorIdx%COLORS.length];
+  detail.innerHTML=`<div class="hire-detail-stack">
+    <div class="detail-hero">
+      <div class="detail-hero-top">
+        <div class="detail-hero-id">
+          <div class="detail-avatar" style="background:${col}">${esc(initials(h))}</div>
+          <div>
+            <div class="detail-name">${esc(h.first)} ${esc(h.last)}</div>
+            <div class="detail-meta">${esc(h.dept)} &middot; ${esc(h.hireType==='internal'?'Internal transfer':'External hire')} &middot; ${esc(h.manager||'Manager not set')}<br>${esc(h.email||'No email set')} &middot; Start ${esc(fmtDate(h.startDate))}</div>
+          </div>
+        </div>
+        <div class="detail-actions">
+          <button class="btn btn-secondary btn-sm" onclick="openEmailModal('${h.id}','welcome-email')"><i class="fa-solid fa-envelope"></i> Email</button>
+          <button class="btn btn-secondary btn-sm" onclick="exportTracker('${h.id}')"><i class="fa-solid fa-download"></i> Export</button>
+          <button class="btn btn-danger btn-sm" onclick="removeHire('${h.id}')"><i class="fa-solid fa-trash"></i></button>
+        </div>
+      </div>
+      <div class="detail-stats">
+        <div class="detail-stat">
+          <div class="stat-label">Current Phase</div>
+          <div style="margin-top:6px">${phaseBadge(cp)}</div>
+          <div class="stat-sub" style="margin-top:8px">${esc(h.managerSummary||'Add a manager summary.')}</div>
+        </div>
+        <div class="detail-stat">
+          <div class="stat-label">Completion</div>
+          <div class="stat-value">${p.pct}%</div>
+          <div class="stat-sub">${p.done} of ${p.total} active tasks done</div>
+          <div class="progress-bar" style="margin-top:10px"><div class="progress-fill" style="width:${p.pct}%;background:${pcolor(p.pct)}"></div></div>
+        </div>
+        <div class="detail-stat">
+          <div class="stat-label">Blocked Items</div>
+          <div class="stat-value ${blockedCount(h)?'danger':''}">${blockedCount(h)}</div>
+          <div class="stat-sub">${blockedCount(h)?'Need direct manager follow-up.':'No active blockers.'}</div>
+        </div>
+        <div class="detail-stat">
+          <div class="stat-label">Next Priority Items</div>
+          ${na.length?`<div class="stat-actions">${na.map(i=>`<div class="stat-action-item">${esc(i.title)}</div>`).join('')}</div>`:'<div class="stat-sub">No open tasks remain.</div>'}
+        </div>
+      </div>
+    </div>
+    <div class="detail-grid">
+      <div id="left-tasks-col">
+        ${SECTION_GROUPS.map(g=>renderGroupCard(h,g,cp)).join('')}
+      </div>
+      <div id="right-panel-col">
+        ${buildRightPanel(h)}
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderOverview(){
+  const root=document.getElementById('overview-view');
+  const total=state.hires.length;
+  const blocked=state.hires.filter(h=>blockedCount(h));
+  const soon=state.hires.filter(h=>['Starting soon','Starts today'].includes(startWindow(h)));
+  const complete=state.hires.filter(h=>overall(h)==='complete');
+  const PIPE_COLORS={prestart:'var(--muted)',day1:'#6366f1',week1:'var(--accent)',week2:'#0ea5e9',month1:'var(--warn)',complete:'var(--ok)'};
+  const pipelineHTML=PHASES.map(([id,label])=>{
+    const count=state.hires.filter(h=>currentPhase(h)===id).length;
+    const pct=total?Math.round(count/total*100):0;
+    return`<div class="ov-pipe-step">
+      <div class="ov-pipe-label">${esc(label)}</div>
+      <div class="ov-pipe-count">${count}</div>
+      <div class="ov-pipe-bar-wrap"><div class="ov-pipe-bar" style="width:${pct}%;background:${PIPE_COLORS[id]||'var(--accent)'}"></div></div>
+      <div class="ov-pipe-sub">${total?pct+'% of hires':'—'}</div>
+    </div>`;
+  }).join('');
+  const rosterHTML=!total?`<div class="ov-empty">No hires added yet. Use <strong>Add New Hire</strong> to get started.</div>`:
+    [...state.hires].sort((a,b)=>blockedCount(b)-blockedCount(a)||new Date(b.lastUpdatedAt)-new Date(a.lastUpdatedAt)).map(h=>{
+      const p=progress(h),bl=blockedCount(h),col=COLORS[h.colorIdx%COLORS.length];
+      return`<div class="ov-roster-row" onclick="switchView('detail');selectHire('${h.id}')">
+        <div class="ov-roster-avatar" style="background:${col}">${esc(initials(h))}</div>
+        <div class="ov-roster-info">
+          <div class="ov-roster-name">${esc(h.first)} ${esc(h.last)}</div>
+          <div class="ov-roster-meta">${esc(h.manager||'No manager')} &middot; Start ${esc(fmtDate(h.startDate))}</div>
+        </div>
+        <div class="ov-roster-badges">
+          ${phaseBadge(currentPhase(h))}
+          ${bl?`<span class="badge s-blocked"><i class="fa-solid fa-triangle-exclamation"></i> ${bl} blocked</span>`:''}
+          ${statusBadge(overall(h))}
+        </div>
+        <div class="ov-roster-progress">
+          <div class="ov-roster-pct">${p.pct}% <span style="font-weight:400;color:var(--text-3)">${p.done}/${p.total}</span></div>
+          <div class="ov-roster-bar"><div class="ov-roster-fill" style="width:${p.pct}%;background:${pcolor(p.pct)}"></div></div>
+        </div>
+      </div>`;
+    }).join('');
+  const attentionHTML=blocked.length?blocked.map(h=>`<div class="ov-side-item">
+    <div class="ov-side-dot" style="background:var(--danger)"></div>
+    <div>
+      <div class="ov-side-item-name">${esc(h.first)} ${esc(h.last)}</div>
+      <div class="ov-side-item-sub">${blockedCount(h)} blocked &middot; ${esc(phaseLabel(currentPhase(h)))}<br>${esc(nextActions(h)[0]?.title||'Review blockers')}</div>
+    </div>
+  </div>`).join(''):`<div class="ov-empty">No blocked hires right now.</div>`;
+  const soonHTML=soon.length?soon.map(h=>`<div class="ov-side-item">
+    <div class="ov-side-dot" style="background:var(--warn)"></div>
+    <div>
+      <div class="ov-side-item-name">${esc(h.first)} ${esc(h.last)}</div>
+      <div class="ov-side-item-sub">Starts ${esc(fmtDate(h.startDate))}<br>${esc(h.manager||'No manager set')}</div>
+    </div>
+  </div>`).join(''):`<div class="ov-empty">No upcoming starts this week.</div>`;
+  root.innerHTML=`<div class="ov-wrap">
+    <div class="ov-kpis">
+      <div class="ov-kpi kpi-total"><div class="ov-kpi-icon"><i class="fa-solid fa-users"></i></div><div class="ov-kpi-body"><div class="ov-kpi-num">${total}</div><div class="ov-kpi-label">Total Hires</div><div class="ov-kpi-sub">Active onboarding profiles</div></div></div>
+      <div class="ov-kpi kpi-blocked"><div class="ov-kpi-icon"><i class="fa-solid fa-triangle-exclamation"></i></div><div class="ov-kpi-body"><div class="ov-kpi-num">${blocked.length}</div><div class="ov-kpi-label">Blocked</div><div class="ov-kpi-sub">Need direct follow-up</div></div></div>
+      <div class="ov-kpi kpi-soon"><div class="ov-kpi-icon"><i class="fa-solid fa-rocket"></i></div><div class="ov-kpi-body"><div class="ov-kpi-num">${soon.length}</div><div class="ov-kpi-label">Starting Soon</div><div class="ov-kpi-sub">Within the next 7 days</div></div></div>
+      <div class="ov-kpi kpi-done"><div class="ov-kpi-icon"><i class="fa-solid fa-circle-check"></i></div><div class="ov-kpi-body"><div class="ov-kpi-num">${complete.length}</div><div class="ov-kpi-label">Complete</div><div class="ov-kpi-sub">All active tasks done</div></div></div>
+    </div>
+    <div class="ov-pipeline-card">
+      <div class="ov-card-title"><i class="fa-solid fa-arrow-right-long"></i> Phase Pipeline</div>
+      <div class="ov-pipeline">${pipelineHTML}</div>
+    </div>
+    <div class="ov-main">
+      <div class="ov-roster-card">
+        <div class="ov-card-title"><i class="fa-solid fa-list-check"></i> All Hires</div>
+        ${rosterHTML}
+      </div>
+      <div class="ov-side">
+        <div class="ov-side-card"><div class="ov-side-title"><i class="fa-solid fa-triangle-exclamation"></i> Needs Attention</div>${attentionHTML}</div>
+        <div class="ov-side-card"><div class="ov-side-title"><i class="fa-solid fa-rocket"></i> Starting Soon</div>${soonHTML}</div>
+      </div>
+    </div>
+  </div>`;
+}
+
+function selectHire(id){state.selectedHireId=id;save();renderSidebar();renderDetail()}
+function switchView(v){
+  state.view=v;const isDetail=v==='detail';
+  document.getElementById('tab-detail').classList.toggle('active',isDetail);
+  document.getElementById('tab-overview').classList.toggle('active',!isDetail);
+  document.getElementById('detail-view').style.display=isDetail?'block':'none';
+  document.getElementById('overview-view').style.display=isDetail?'none':'block';
+  if(!isDetail)renderOverview();save();
+}
+function setFilter(f,el){state.filter=f;document.querySelectorAll('.filter-chip').forEach(c=>c.classList.remove('active'));el.classList.add('active');renderSidebar();save()}
+function toggleGroup(id){document.getElementById(`group-${id}`)?.classList.toggle('collapsed')}
+function toggleTaskExpand(id){
+  const row=document.getElementById(`taskrow-${id}`);
+  if(!row)return;
+  row.classList.toggle('expanded');
+}
+function cycleStatus(hid,id){
+  const h=state.hires.find(x=>x.id===hid),order=['not-started','in-progress','done','blocked','not-applicable'];
+  if(!h)return;
+  const s=tstate(h,id),idx=order.indexOf(s.status);
+  s.status=order[(idx+1)%order.length];
+  if(s.status==='not-applicable'&&!s.skippedReason)s.skippedReason='Marked not applicable by manager.';
+  s.updatedAt=now();touch(h);save();renderSidebar();renderDetail();
+  if(state.view==='overview')renderOverview();
+}
+function setTaskStatus(hid,id,val){
+  const h=state.hires.find(x=>x.id===hid);if(!h)return;
+  const s=tstate(h,id);s.status=val;
+  if(val==='not-applicable'&&!s.skippedReason)s.skippedReason='Marked not applicable by manager.';
+  s.updatedAt=now();touch(h);save();renderSidebar();
+  // Re-render just the circle button and title to avoid losing textarea focus
+  const row=document.getElementById(`taskrow-${id}`);
+  if(row){
+    const circle=row.querySelector('.task-circle');
+    if(circle){
+      circle.className=`task-circle ${val}`;
+      const iconMap={done:'fa-check','in-progress':'fa-circle-half-stroke',blocked:'fa-exclamation','not-applicable':'fa-minus'};
+      const ic=iconMap[val];
+      circle.innerHTML=ic?`<i class="fa-solid ${ic}"></i>`:'';
+    }
+    const title=row.querySelector('.task-title');
+    if(title){title.className=`task-title ${val==='done'?'is-done':''} ${val==='not-applicable'?'is-na':''}`;}
+    row.classList.toggle('task-blocked',val==='blocked');
+  }
+  if(state.view==='overview')renderOverview();
+}
+function updateTaskField(hid,id,field,val){
+  const h=state.hires.find(x=>x.id===hid);if(!h)return;
+  tstate(h,id)[field]=val;
+  if(field==='note'&&tstate(h,id).status==='not-applicable')tstate(h,id).skippedReason=val;
+  tstate(h,id).updatedAt=now();touch(h);save();renderSidebar();
+  if(state.view==='overview')renderOverview();
+}
+function saveHireField(hid,field,val){
+  const h=state.hires.find(x=>x.id===hid);if(!h)return;
+  h[field]=val;touch(h);save();renderSidebar();
+  if(state.view==='overview')renderOverview();
+}
+function openAddModal(){document.getElementById('f-start').value=new Date().toISOString().split('T')[0];document.getElementById('add-modal').classList.add('open')}
+function closeModal(id){document.getElementById(id).classList.remove('open')}
+function addHire(){
+  const first=document.getElementById('f-first').value.trim(),last=document.getElementById('f-last').value.trim();
+  if(!first||!last){alert('Please enter a first and last name.');return}
+  const h=createHire({first,last,dept:document.getElementById('f-dept').value.trim()||'Data Consultant',manager:document.getElementById('f-manager').value.trim(),email:document.getElementById('f-email').value.trim(),eid:document.getElementById('f-eid').value.trim(),startDate:document.getElementById('f-start').value,hireType:document.getElementById('f-hire-type').value,managerSummary:document.getElementById('f-summary').value.trim(),departmentPreset:document.getElementById('f-preset').value});
+  h.colorIdx=state.hires.length%COLORS.length;
+  state.hires.push(h);state.selectedHireId=h.id;save();closeModal('add-modal');
+  ['f-first','f-last','f-manager','f-email','f-eid','f-summary'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('f-hire-type').value='external';document.getElementById('f-dept').value='Data Consultant';
+  renderSidebar();renderDetail();if(state.view==='overview')renderOverview();
+}
+function removeHire(id){
+  if(!confirm('Remove this onboarding profile? This cannot be undone.'))return;
+  state.hires=state.hires.filter(h=>h.id!==id);
+  if(state.selectedHireId===id)state.selectedHireId=state.hires[0]?.id||null;
+  save();renderSidebar();renderDetail();if(state.view==='overview')renderOverview();
+}
+function draft(h,item){
+  const key=item?.emailTemplateKey||'welcome',tpl=EMAILS[key]||EMAILS.welcome;
+  const d={name:`${h.first} ${h.last}`.trim(),first:h.first||'there',manager:h.manager||'Manager',department:h.dept||'Data Consultant',startDate:fmtDate(h.startDate),phase:phaseLabel(currentPhase(h)),meetingLink:'[Insert Teams meeting link]',task:item?item.title:'Onboarding follow-up',taskPhase:item?phaseLabel(tstate(h,item.id).targetPhase||item.phase):phaseLabel(currentPhase(h)),note:item?(tstate(h,item.id).note||tstate(h,item.id).skippedReason||''):''};
+  return{to:h.email||'[Employee email]',subject:tpl.subject(d),body:tpl.body(d),label:tpl.label};
+}
+function openEmailModal(hid,itemId){
+  const h=state.hires.find(x=>x.id===hid);if(!h)return;
+  const item=presetItems(h.departmentPreset).find(i=>i.id===itemId);
+  currentDraft=draft(h,item);
+  document.getElementById('email-kind').textContent=currentDraft.label;
+  document.getElementById('email-to').textContent=currentDraft.to;
+  document.getElementById('email-subject').textContent=currentDraft.subject;
+  document.getElementById('email-body').value=currentDraft.body;
+  document.getElementById('email-mailto').onclick=()=>{const body=document.getElementById('email-body').value,href=`mailto:${encodeURIComponent(currentDraft.to)}?subject=${encodeURIComponent(currentDraft.subject)}&body=${encodeURIComponent(body)}`;window.location.href=href};
+  document.getElementById('email-modal').classList.add('open');
+}
+async function copyEmailDraft(){
+  if(!currentDraft)return;
+  const text=`To: ${currentDraft.to}\nSubject: ${currentDraft.subject}\n\n${document.getElementById('email-body').value}`;
+  try{await navigator.clipboard.writeText(text);alert('Email draft copied.')}catch(e){alert('Copy from the draft box manually.')}
+}
+function exportTracker(singleId){
+  const hires=singleId?state.hires.filter(h=>h.id===singleId):state.hires;
+  if(!hires.length)return;
+  const sum=hires.map(h=>{const p=progress(h);return`<tr><td>${esc(h.first)} ${esc(h.last)}</td><td>${esc(h.dept)}</td><td>${esc(h.manager||'')}</td><td>${esc(phaseLabel(currentPhase(h)))}</td><td>${p.pct}%</td><td>${blockedCount(h)}</td><td>${esc(fmtDate(h.startDate))}</td><td>${esc(h.managerSummary||'')}</td></tr>`}).join('');
+  const rows=hires.map(h=>presetItems(h.departmentPreset).map(i=>{const s=tstate(h,i.id);return`<tr><td>${esc(h.first)} ${esc(h.last)}</td><td>${esc(h.dept)}</td><td>${esc(h.manager||'')}</td><td>${esc(h.hireType||'')}</td><td>${esc(phaseLabel(currentPhase(h)))}</td><td>${esc(i.sectionTitle)}</td><td>${esc(i.title)}</td><td>${esc(phaseLabel(s.targetPhase||i.phase))}</td><td>${esc(i.priority)}</td><td>${esc(s.ownerOverride||i.ownerLabel)}</td><td>${esc(statusLabel(s.status))}</td><td>${esc(s.note||s.skippedReason||'')}</td><td>${esc(s.updatedAt?fmtDT(s.updatedAt):'')}</td></tr>`}).join('')).join('');
+  const html=`<html><head><meta charset="UTF-8"><style>body{font-family:Segoe UI,Arial,sans-serif;padding:24px;color:#1b2740}table{border-collapse:collapse;width:100%;margin-bottom:24px}th,td{border:1px solid #d5dfef;padding:8px 10px;font-size:12px;vertical-align:top}th{background:#eaf0fb;text-align:left}</style></head><body><h1>Onboarding Tracker Export</h1><p>Generated ${new Date().toLocaleString('en-US')}.</p><h2>Summary</h2><table><thead><tr><th>Hire</th><th>Dept</th><th>Manager</th><th>Phase</th><th>Completion</th><th>Blocked</th><th>Start</th><th>Summary</th></tr></thead><tbody>${sum}</tbody></table><h2>Task Detail</h2><table><thead><tr><th>Hire</th><th>Dept</th><th>Manager</th><th>Type</th><th>Phase</th><th>Section</th><th>Task</th><th>Target Phase</th><th>Priority</th><th>Owner</th><th>Status</th><th>Note</th><th>Updated</th></tr></thead><tbody>${rows}</tbody></table></body></html>`;
+  const blob=new Blob([html],{type:'application/vnd.ms-excel'}),url=URL.createObjectURL(blob),a=document.createElement('a');
+  a.href=url;a.download=singleId?'onboarding-hire.xls':'onboarding-tracker.xls';
+  document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url);
+}
+
+function seed(){
+  const hires=[
+    createHire({first:'Marcus',last:'Reyes',dept:'Data Consultant',manager:'Joel Abarca',email:'marcus.reyes@transamerica.com',eid:'TC-00138',startDate:'2026-03-10',hireType:'external',managerSummary:'Near-complete external hire. Final systems and longer-tail ramp items remain.'}),
+    createHire({first:'Priya',last:'Sharma',dept:'Data Consultant',manager:'Joel Abarca',email:'priya.sharma@transamerica.com',eid:'TC-00141',startDate:'2026-03-17',hireType:'external',managerSummary:'Active Week 1 onboarding. Strong start, still waiting on a few system items.'}),
+    createHire({first:'Aaliyah',last:'Brooks',dept:'Data Consultant',manager:'Joel Abarca',email:'aaliyah.brooks@transamerica.com',eid:'TC-00146',startDate:'2026-03-24',hireType:'external',managerSummary:'Brand-new external hire. Pre-start and first-day readiness are the current focus.'}),
+    createHire({first:'Lena',last:'Garcia',dept:'Data Consultant',manager:'Joel Abarca',email:'lena.garcia@transamerica.com',eid:'TC-00133',startDate:'2026-03-03',hireType:'internal',managerSummary:'Internal transfer. Core company familiarity exists, but the DC-specific process still needs structure.'})
+  ];
+  ['domain-acct','email-assign','aqt-acct','net-drive','workstation','welcome-email','teams-channels','mfa-enroll','vpn-creds','sharepoint','office-suite','i9','benefits','security-training','data-agreement','aqt-perms','aqt-test','p2-acct','team-intro','workflow-walkthru','week1-checkin'].forEach(id=>setStatusById(hires[0],id,'done'));
+  setStatusById(hires[0],'p3-acct','in-progress');
+  setStatusById(hires[0],'p3-walkthru','blocked','Waiting on downstream access approval before the walkthrough can happen.');
+  hires[0].managerNotes='P3 is the only real blocker. Everything else is moving the way it should.';
+  ['domain-acct','email-assign','aqt-acct','net-drive','workstation','welcome-email','team-intro','i9'].forEach(id=>setStatusById(hires[1],id,'done'));
+  setStatusById(hires[1],'mfa-enroll','in-progress');
+  setStatusById(hires[1],'aqt-perms','in-progress','Manager validating schema scope before access is finalized.');
+  hires[1].managerNotes='Good Week 1 momentum. Need to keep system follow-through tight.';
+  ['welcome-email','domain-acct','workstation'].forEach(id=>setStatusById(hires[2],id,'done'));
+  setStatusById(hires[2],'email-assign','in-progress');
+  hires[2].managerNotes='Focus this week is pre-start readiness and first day flow.';
+  ['domain-acct','email-assign','mfa-enroll','net-drive','sharepoint','teams-channels','workstation','office-suite','i9','welcome-email','team-intro','workflow-walkthru','aqt-acct','aqt-perms'].forEach(id=>setStatusById(hires[3],id,'done'));
+  setStatusById(hires[3],'aqt-test','in-progress');
+  setStatusById(hires[3],'benefits','not-applicable','Internal transfer already completed benefits enrollment.');
+  hires[3].managerNotes='Internal transfer is moving faster because core company access already existed.';
+  state.hires=hires;
+}
+
+document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelectorAll('.modal.open').forEach(m=>m.classList.remove('open'))});
+document.querySelectorAll('.modal').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('open')}));
+load();renderSidebar();renderDetail();switchView(state.view==='overview'?'overview':'detail');
+</script>
+</body>
+</html>

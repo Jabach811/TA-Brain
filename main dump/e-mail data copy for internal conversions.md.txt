@@ -1,0 +1,13 @@
+# e-mail data copy for internal conversions
+
+## SQL
+```sql
+insert into pension.ee_secure_data
+( PKG_ID, CASE_NO, SOC_SEC_NO, MOTHERS_MAIDEN_NM, LAST_MOD_DT, PASS_WORD, PSW_STAT_CD, PSW_EXP_DT, PSW_EXP_FREQ_CD, CONF_STAT_CD, CONF_PROCESS_DT, EMAIL_ADDR_NM, PASSWORD_HINT_TXT, CUSTOMER_SIGNIN_I, PSW_ENCRYPT_T, PRIVACY_ACCEPT_C)
+
+select PKG_ID, 'JK62250   00001', SOC_SEC_NO, MOTHERS_MAIDEN_NM, LAST_MOD_DT, PASS_WORD, PSW_STAT_CD, PSW_EXP_DT, PSW_EXP_FREQ_CD, CONF_STAT_CD, CONF_PROCESS_DT, EMAIL_ADDR_NM, PASSWORD_HINT_TXT, CUSTOMER_SIGNIN_I, PSW_ENCRYPT_T, PRIVACY_ACCEPT_C
+
+from pension.ee_secure_data
+where case_no='QK62132   00001'
+and soc_Sec_no not in (select soc_sec_no from pension.ee_secure_data where case_no='JK62250   00001')
+```

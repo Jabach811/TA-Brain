@@ -1,10 +1,11 @@
 ---
 title: "Liquidation Day"
-type: concept
+type: process
 tags: [liquidation, day-of-wire, wire, cashiering, critical]
 created: 2026-04-14
-updated: 2026-04-15
-sources: 3
+updated: 2026-05-03
+sources: 4
+extras: [animation|liquidation-day-featured.html|Liquidation Day Walkthrough]
 ---
 
 # Liquidation Day
@@ -49,6 +50,15 @@ When confirmed, Cashiering emails:
 > "Wire received for [Plan Name]. Amount: $X. Transfer Reference Number: [XXXX]."
 
 The **Transfer Reference Number** (trans ref number) is the unique ID for this wire transaction in the system.
+
+### Self-Service Confirmation in P2
+
+The DC doesn't have to wait for the cashiering email. Two confirmation paths exist:
+
+1. **Email** — Cashiering's wire-received notification (described above)
+2. **Self-service** — Log into [[p2]], search the plan's ref numbers, find the row matching the expected wire amount, and pull the ref number from there. Once the ref number is visible in P2, that's confirmation the wire booked — proceed.
+
+Use whichever shows up first. Many DCs check P2 around the cashiering pull times (7 AM, 9 AM, 1 PM, 3 PM CST) rather than waiting for the email to land.
 
 ## Processing by Conversion Type
 
@@ -158,7 +168,6 @@ If the plan is coded as a "common remitter," the standard **Pre-Process** option
 - [[informatica]]
 - [[dummy-participant]]
 - [[wire-instructions]]
-- [[internal-teams]]
 - [[final-files-processing]]
 - [[p3]]
 - [[booking-assets]]

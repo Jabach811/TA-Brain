@@ -1,0 +1,13 @@
+# Auto Enroll and Enrollment Kit Analysis
+
+## Objective
+- Validate auto-enrolled and defaulted deferral populations.
+
+## Steps
+- Run Default Status query.
+- Isolate deferral defaults only.
+- Compare against Eligible query results.
+
+## Validation
+- Confirm correct hire, eligibility, entry, and kit mail dates.
+- Ensure populations align with auto-enroll strategy.

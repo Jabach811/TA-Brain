@@ -1,0 +1,1493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TA Brain — The company we already are.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<style>
+  :root {
+    --white: #ffffff;
+    --offwhite: #f5f5f7;
+    --paper: #fbfbfd;
+    --ink: #1d1d1f;
+    --ink-2: #111114;
+    --black: #000000;
+    --muted: #6e6e73;
+    --muted-2: #86868b;
+    --hairline: #d2d2d7;
+    --hairline-soft: #e8e8ed;
+    --accent: #0071e3;
+    --accent-hover: #0077ed;
+    --grad: linear-gradient(110deg, #5e5ce6 0%, #2d6cdf 45%, #00c2ff 100%);
+    --grad-warm: linear-gradient(110deg, #ff5b8a 0%, #b347ea 50%, #5e5ce6 100%);
+    --ease: cubic-bezier(.32,.72,0,1);
+    --ease-soft: cubic-bezier(.22,1,.36,1);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--white);
+    color: var(--ink);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+    font-feature-settings: "ss01", "cv11";
+    line-height: 1.5;
+  }
+
+  ::selection { background: #1d1d1f; color: #fff; }
+
+  /* ────── NAV ────── */
+  .nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    height: 48px;
+    background: rgba(251, 251, 253, 0.72);
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+    transition: transform .35s var(--ease-soft);
+  }
+  .nav-inner {
+    max-width: 1024px;
+    margin: 0 auto;
+    height: 100%;
+    padding: 0 22px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 13px;
+    letter-spacing: -0.01em;
+  }
+  .nav-brand {
+    display: flex; align-items: center; gap: 8px;
+    font-weight: 600; color: var(--ink);
+    text-decoration: none;
+  }
+  .nav-mark {
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    background: var(--grad);
+    box-shadow: 0 0 0 2px rgba(255,255,255,.7), 0 4px 12px rgba(94,92,230,.35);
+  }
+  .nav-links {
+    display: flex; gap: 28px;
+    list-style: none;
+  }
+  .nav-links a {
+    color: var(--ink);
+    text-decoration: none;
+    opacity: .85;
+    transition: opacity .2s var(--ease);
+  }
+  .nav-links a:hover { opacity: 1; }
+  .nav-cta {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 6px 14px;
+    background: var(--ink);
+    color: var(--white);
+    border-radius: 980px;
+    font-size: 12px; font-weight: 500;
+    text-decoration: none;
+    transition: background .2s var(--ease);
+  }
+  .nav-cta:hover { background: #000; }
+  .nav.hidden { transform: translateY(-100%); }
+
+  @media (max-width: 720px) {
+    .nav-links { display: none; }
+  }
+
+  /* ────── HERO ────── */
+  .hero {
+    min-height: 100dvh;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center;
+    padding: 120px 22px 60px;
+    position: relative;
+    overflow: hidden;
+    background: var(--white);
+  }
+  .hero-mesh {
+    position: absolute; inset: 0; z-index: 0;
+    pointer-events: none;
+    opacity: .55;
+  }
+
+  .hero-eyebrow {
+    position: relative; z-index: 2;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: .02em;
+    background: var(--grad);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin-bottom: 18px;
+  }
+  .hero h1 {
+    position: relative; z-index: 2;
+    font-size: clamp(56px, 11vw, 168px);
+    font-weight: 800;
+    letter-spacing: -0.055em;
+    line-height: 0.92;
+    color: var(--ink);
+    margin-bottom: 20px;
+  }
+  .hero h1 .dot { color: #5e5ce6; }
+  .hero-tagline {
+    position: relative; z-index: 2;
+    font-size: clamp(24px, 3.4vw, 40px);
+    font-weight: 600;
+    letter-spacing: -0.025em;
+    line-height: 1.1;
+    color: var(--ink);
+    max-width: 18ch;
+    margin-bottom: 18px;
+  }
+  .hero-tagline span {
+    background: var(--grad);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .hero-sub {
+    position: relative; z-index: 2;
+    font-size: clamp(17px, 1.6vw, 21px);
+    color: var(--muted);
+    max-width: 44ch;
+    margin: 0 auto;
+    line-height: 1.42;
+  }
+  .hero-cta-row {
+    position: relative; z-index: 2;
+    display: flex; gap: 14px;
+    margin-top: 36px;
+    flex-wrap: wrap; justify-content: center;
+  }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 12px 22px;
+    border-radius: 980px;
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: -0.005em;
+    text-decoration: none;
+    transition: transform .25s var(--ease), background .2s var(--ease), color .2s var(--ease);
+  }
+  .btn-primary { background: var(--ink); color: var(--white); }
+  .btn-primary:hover { background: #000; transform: translateY(-1px); }
+  .btn-ghost { background: transparent; color: var(--ink); }
+  .btn-ghost:hover { color: var(--accent); }
+  .btn .arrow {
+    display: inline-block;
+    transition: transform .25s var(--ease);
+  }
+  .btn:hover .arrow { transform: translateX(3px); }
+
+  .scroll-cue {
+    position: absolute;
+    bottom: 28px; left: 50%; transform: translateX(-50%);
+    font-size: 11px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    z-index: 2;
+    animation: cue 2.4s var(--ease-soft) infinite;
+  }
+  @keyframes cue {
+    0%, 100% { opacity: .5; transform: translateX(-50%) translateY(0); }
+    50% { opacity: 1; transform: translateX(-50%) translateY(4px); }
+  }
+
+  /* ────── PROMISE ────── */
+  .promise {
+    background: var(--white);
+    padding: 160px 22px 200px;
+    text-align: center;
+    border-top: 1px solid var(--hairline-soft);
+  }
+  .promise-eyebrow {
+    font-size: 12px;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 500;
+    margin-bottom: 28px;
+  }
+  .promise h2 {
+    font-size: clamp(36px, 6.5vw, 92px);
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    line-height: 1.02;
+    color: var(--ink);
+    max-width: 16ch;
+    margin: 0 auto;
+  }
+  .promise h2 em {
+    font-style: normal;
+    background: var(--grad);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .promise-sub {
+    margin-top: 32px;
+    font-size: clamp(17px, 1.6vw, 21px);
+    color: var(--muted);
+    max-width: 52ch;
+    margin-left: auto; margin-right: auto;
+    line-height: 1.5;
+  }
+
+  /* ────── TEXT MASK REVEAL ────── */
+  .mask-section {
+    position: relative;
+    background: var(--ink-2);
+    color: var(--white);
+    min-height: 280vh;
+  }
+  .mask-sticky {
+    position: sticky; top: 0;
+    height: 100dvh;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+  }
+  .mask-bg {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(at 20% 20%, rgba(94,92,230,.35), transparent 50%),
+      radial-gradient(at 80% 30%, rgba(0,194,255,.3), transparent 55%),
+      radial-gradient(at 50% 80%, rgba(179,71,234,.32), transparent 55%),
+      var(--ink-2);
+    background-size: 200% 200%;
+    animation: bgDrift 18s var(--ease-soft) infinite;
+  }
+  @keyframes bgDrift {
+    0%,100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+  .mask-overlay {
+    position: absolute; inset: 0;
+    background: var(--ink-2);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .mask-text {
+    font-size: clamp(56px, 16vw, 240px);
+    font-weight: 800;
+    letter-spacing: -0.05em;
+    line-height: 0.9;
+    text-align: center;
+    color: transparent;
+    -webkit-text-stroke: 1.5px rgba(255,255,255,.18);
+    background: var(--ink-2);
+    z-index: 2;
+  }
+  .mask-reveal {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    z-index: 3;
+    clip-path: inset(100% 0 0 0);
+  }
+  .mask-text-filled {
+    font-size: clamp(56px, 16vw, 240px);
+    font-weight: 800;
+    letter-spacing: -0.05em;
+    line-height: 0.9;
+    text-align: center;
+    color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+    background-image: var(--grad-warm);
+    background-size: 200% 200%;
+    animation: gradMove 8s var(--ease-soft) infinite;
+  }
+  @keyframes gradMove {
+    0%,100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+  .mask-sub {
+    position: absolute;
+    bottom: 12%;
+    left: 50%; transform: translateX(-50%);
+    text-align: center;
+    z-index: 4;
+    opacity: 0;
+    max-width: 42ch;
+    padding: 0 22px;
+  }
+  .mask-sub p {
+    font-size: clamp(15px, 1.4vw, 18px);
+    color: rgba(255,255,255,.7);
+    line-height: 1.55;
+  }
+
+  /* ────── STICKY STACK (THE PRODUCT) ────── */
+  .product {
+    background: var(--paper);
+    padding: 140px 22px 160px;
+    position: relative;
+  }
+  .product-head {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto 80px;
+  }
+  .product-eyebrow {
+    font-size: 12px;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 500;
+    margin-bottom: 18px;
+  }
+  .product-head h2 {
+    font-size: clamp(34px, 5.2vw, 72px);
+    font-weight: 700;
+    letter-spacing: -0.035em;
+    line-height: 1.04;
+    color: var(--ink);
+  }
+  .product-head h2 em {
+    font-style: normal;
+    color: var(--muted-2);
+  }
+  .product-head p {
+    margin-top: 22px;
+    font-size: clamp(17px, 1.5vw, 21px);
+    color: var(--muted);
+    max-width: 52ch;
+    margin-left: auto; margin-right: auto;
+    line-height: 1.5;
+  }
+
+  .stack-grid {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: start;
+  }
+
+  /* Mockup column (sticky) */
+  .stack-visual {
+    position: sticky;
+    top: 110px;
+    height: fit-content;
+  }
+  .mockup {
+    background: var(--white);
+    border-radius: 22px;
+    overflow: hidden;
+    box-shadow:
+      0 1px 0 rgba(0,0,0,.04),
+      0 24px 48px rgba(17,17,20,.10),
+      0 50px 120px rgba(17,17,20,.10);
+    border: 1px solid rgba(0,0,0,.06);
+  }
+  .mockup-bar {
+    height: 40px;
+    background: #f6f6f8;
+    border-bottom: 1px solid var(--hairline-soft);
+    display: flex; align-items: center;
+    padding: 0 14px; gap: 7px;
+  }
+  .mockup-dot {
+    width: 11px; height: 11px; border-radius: 50%;
+  }
+  .mockup-dot:nth-child(1){ background: #ff5f57; }
+  .mockup-dot:nth-child(2){ background: #febc2e; }
+  .mockup-dot:nth-child(3){ background: #28c840; }
+  .mockup-url {
+    margin-left: 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--muted-2);
+    background: #fff;
+    border: 1px solid var(--hairline-soft);
+    border-radius: 6px;
+    padding: 3px 10px;
+    flex: 1;
+    text-align: center;
+    max-width: 280px;
+  }
+  .mockup-body {
+    position: relative;
+    height: 460px;
+    overflow: hidden;
+  }
+  .mockup-state {
+    position: absolute; inset: 0;
+    padding: 32px 36px;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity .55s var(--ease-soft), transform .55s var(--ease-soft);
+    display: flex; flex-direction: column;
+  }
+  .mockup-state.active { opacity: 1; transform: translateY(0); }
+
+  .ms-eyebrow {
+    font-size: 11px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 500;
+    margin-bottom: 8px;
+  }
+  .ms-title {
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin-bottom: 18px;
+  }
+  .ms-line {
+    height: 1px;
+    background: var(--hairline-soft);
+    margin: 14px 0;
+  }
+  .ms-row {
+    display: flex; align-items: center;
+    font-size: 13px;
+    padding: 10px 0;
+    color: var(--ink);
+  }
+  .ms-link {
+    color: #2d6cdf;
+    background: rgba(45,108,223,.08);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-weight: 500;
+  }
+  .ms-meta {
+    margin-left: auto;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--muted-2);
+  }
+  .ms-tag {
+    display: inline-block;
+    font-size: 11px;
+    padding: 3px 9px;
+    border-radius: 980px;
+    background: rgba(94,92,230,.10);
+    color: #5e5ce6;
+    margin-right: 6px;
+    font-weight: 500;
+  }
+  .ms-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 4px;
+  }
+  .ms-card {
+    background: var(--paper);
+    border: 1px solid var(--hairline-soft);
+    border-radius: 12px;
+    padding: 14px 16px;
+  }
+  .ms-card .num {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    background: var(--grad);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .ms-card .lbl {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 2px;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+  }
+  .ms-handoff {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 0;
+    font-size: 13px;
+  }
+  .ms-handoff .from { color: var(--ink); font-weight: 500; }
+  .ms-handoff .arrow { color: var(--muted-2); }
+  .ms-handoff .to { color: var(--ink); font-weight: 500; }
+  .ms-handoff .pill {
+    margin-left: auto;
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 980px;
+    background: #f0f0f3;
+    color: var(--muted);
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .ms-bar {
+    height: 6px;
+    border-radius: 3px;
+    background: rgba(0,0,0,.06);
+    overflow: hidden;
+    margin: 10px 0;
+  }
+  .ms-bar-fill {
+    height: 100%;
+    background: var(--grad);
+    border-radius: 3px;
+    width: 64%;
+  }
+  .ms-cmd {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    background: #0a0a0c;
+    color: #c8d3e1;
+    padding: 14px 16px;
+    border-radius: 10px;
+    line-height: 1.7;
+  }
+  .ms-cmd .prompt { color: #5e5ce6; }
+  .ms-cmd .result { color: #75e0a8; }
+  .ms-cmd .meta { color: var(--muted-2); }
+
+  /* Features column */
+  .stack-features {
+    display: flex; flex-direction: column;
+    gap: 28px;
+    padding: 24px 0 80px;
+  }
+  .feat {
+    padding: 36px 32px;
+    border-radius: 18px;
+    background: var(--white);
+    border: 1px solid var(--hairline-soft);
+    opacity: 0.4;
+    transform: translateY(6px);
+    transition: opacity .45s var(--ease-soft), transform .45s var(--ease-soft), border-color .45s var(--ease-soft), box-shadow .45s var(--ease-soft);
+  }
+  .feat.active {
+    opacity: 1;
+    transform: translateY(0);
+    border-color: rgba(94,92,230,.35);
+    box-shadow: 0 14px 36px rgba(94,92,230,.10), 0 0 0 1px rgba(94,92,230,.18);
+  }
+  .feat-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: .12em;
+    color: #5e5ce6;
+    font-weight: 500;
+    margin-bottom: 12px;
+    display: inline-block;
+  }
+  .feat h3 {
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    line-height: 1.15;
+    color: var(--ink);
+    margin-bottom: 10px;
+  }
+  .feat p {
+    font-size: 16px;
+    color: var(--muted);
+    line-height: 1.55;
+  }
+
+  @media (max-width: 900px) {
+    .stack-grid { grid-template-columns: 1fr; gap: 32px; }
+    .stack-visual { position: relative; top: 0; }
+    .mockup-body { height: 380px; }
+  }
+
+  /* ────── COMPOUND (sticky cards) ────── */
+  .compound {
+    background: var(--white);
+    padding: 140px 22px 220px;
+    border-top: 1px solid var(--hairline-soft);
+  }
+  .compound-head {
+    max-width: 760px;
+    margin: 0 auto 80px;
+    text-align: center;
+  }
+  .compound-head h2 {
+    font-size: clamp(34px, 5.4vw, 72px);
+    font-weight: 700;
+    letter-spacing: -0.035em;
+    line-height: 1.04;
+    color: var(--ink);
+  }
+  .compound-head p {
+    margin-top: 22px;
+    font-size: clamp(17px, 1.5vw, 21px);
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  .compound-stack {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+  .stack-card {
+    position: sticky;
+    border-radius: 28px;
+    padding: 56px 44px 48px;
+    margin-bottom: 28px;
+    min-height: 360px;
+    display: flex; flex-direction: column;
+    box-shadow: 0 30px 80px rgba(17,17,20,.10);
+    overflow: hidden;
+    color: #fff;
+  }
+  .stack-card:nth-child(1){ top: 88px; background: #1d1d1f; z-index: 1; }
+  .stack-card:nth-child(2){ top: 108px; background: linear-gradient(135deg,#2d6cdf,#5e5ce6); z-index: 2; }
+  .stack-card:nth-child(3){ top: 128px; background: linear-gradient(135deg,#5e5ce6,#b347ea); z-index: 3; }
+  .stack-card:nth-child(4){ top: 148px; background: linear-gradient(135deg,#b347ea,#ff5b8a); z-index: 4; }
+  .stack-card:nth-child(5){ top: 168px; background: var(--white); color: var(--ink); border: 1px solid var(--hairline); z-index: 5; }
+
+  .stack-card .sc-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: .12em;
+    opacity: .7;
+    margin-bottom: 14px;
+  }
+  .stack-card h3 {
+    font-size: clamp(28px, 3.8vw, 44px);
+    font-weight: 700;
+    letter-spacing: -0.028em;
+    line-height: 1.05;
+    margin-bottom: 14px;
+    max-width: 18ch;
+  }
+  .stack-card p {
+    font-size: 17px;
+    opacity: .82;
+    line-height: 1.55;
+    max-width: 50ch;
+  }
+  .stack-card .visual {
+    margin-top: auto;
+    padding-top: 28px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    opacity: .78;
+    line-height: 1.7;
+  }
+  .stack-card .visual .ind { color: rgba(255,255,255,.4); }
+
+  /* ────── NETWORK ────── */
+  .network {
+    background: var(--ink-2);
+    color: var(--white);
+    padding: 140px 22px 160px;
+    position: relative;
+    overflow: hidden;
+  }
+  .network-mesh {
+    position: absolute; inset: 0;
+    z-index: 0;
+    opacity: .9;
+  }
+  .network-inner {
+    position: relative; z-index: 2;
+    max-width: 1100px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .network-eyebrow {
+    font-size: 12px;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,.6);
+    font-weight: 500;
+    margin-bottom: 24px;
+  }
+  .network h2 {
+    font-size: clamp(36px, 6vw, 92px);
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    line-height: 1.02;
+    color: var(--white);
+    max-width: 18ch;
+    margin: 0 auto;
+  }
+  .network h2 span {
+    background: var(--grad-warm);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .network-sub {
+    margin-top: 26px;
+    font-size: clamp(16px, 1.5vw, 20px);
+    color: rgba(255,255,255,.7);
+    max-width: 52ch;
+    margin-left: auto; margin-right: auto;
+    line-height: 1.55;
+  }
+  .net-canvas-wrap {
+    position: relative;
+    margin-top: 80px;
+    height: 480px;
+    border-radius: 24px;
+    overflow: hidden;
+    background: rgba(255,255,255,.02);
+    border: 1px solid rgba(255,255,255,.08);
+  }
+  #netCanvas {
+    width: 100%; height: 100%; display: block;
+  }
+
+  /* ────── MATH ────── */
+  .math {
+    background: var(--white);
+    padding: 160px 22px 180px;
+    text-align: center;
+    border-top: 1px solid var(--hairline-soft);
+  }
+  .math-eyebrow {
+    font-size: 12px;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 500;
+    margin-bottom: 24px;
+  }
+  .math h2 {
+    font-size: clamp(36px, 5.6vw, 80px);
+    font-weight: 700;
+    letter-spacing: -0.038em;
+    line-height: 1.04;
+    color: var(--ink);
+    max-width: 22ch;
+    margin: 0 auto 60px;
+  }
+  .math h2 em {
+    font-style: normal;
+    background: var(--grad);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .math-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .stat {
+    padding: 36px 24px;
+    border-radius: 18px;
+    background: var(--paper);
+    border: 1px solid var(--hairline-soft);
+    text-align: left;
+  }
+  .stat-num {
+    font-size: clamp(40px, 5vw, 72px);
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    line-height: 1;
+    background: var(--grad);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin-bottom: 14px;
+    font-feature-settings: "tnum";
+  }
+  .stat-label {
+    font-size: 14px;
+    color: var(--ink);
+    line-height: 1.4;
+    font-weight: 500;
+  }
+  .stat-sub {
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: 6px;
+    line-height: 1.4;
+  }
+  @media (max-width: 900px) {
+    .math-grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 520px) {
+    .math-grid { grid-template-columns: 1fr; }
+  }
+
+  /* ────── CTA ────── */
+  .cta {
+    background: var(--white);
+    padding: 160px 22px 200px;
+    text-align: center;
+    border-top: 1px solid var(--hairline-soft);
+  }
+  .cta-eyebrow {
+    font-size: 12px;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 500;
+    margin-bottom: 24px;
+  }
+  .cta h2 {
+    font-size: clamp(48px, 9vw, 144px);
+    font-weight: 800;
+    letter-spacing: -0.05em;
+    line-height: 0.96;
+    color: var(--ink);
+    max-width: 14ch;
+    margin: 0 auto;
+  }
+  .cta h2 .dot { color: #5e5ce6; }
+  .cta p {
+    margin-top: 32px;
+    font-size: clamp(17px, 1.6vw, 21px);
+    color: var(--muted);
+    max-width: 48ch;
+    margin-left: auto; margin-right: auto;
+    line-height: 1.5;
+  }
+  .cta-row {
+    margin-top: 44px;
+    display: flex; gap: 14px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .btn-grad {
+    background: var(--grad);
+    color: #fff;
+    box-shadow: 0 8px 24px rgba(94,92,230,.32);
+    border: none;
+  }
+  .btn-grad:hover { transform: translateY(-1px); }
+
+  /* ────── FOOTER ────── */
+  footer {
+    background: var(--paper);
+    padding: 36px 22px 32px;
+    text-align: center;
+    border-top: 1px solid var(--hairline-soft);
+    color: var(--muted);
+    font-size: 12px;
+    letter-spacing: -0.005em;
+  }
+  footer .row {
+    display: flex; gap: 24px;
+    justify-content: center;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+  }
+  footer a { color: var(--ink); text-decoration: none; }
+  footer a:hover { color: var(--accent); }
+
+  /* ────── REVEAL ────── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 1s var(--ease-soft), transform 1s var(--ease-soft);
+  }
+  .reveal.in {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .r-d1 { transition-delay: .08s; }
+  .r-d2 { transition-delay: .16s; }
+  .r-d3 { transition-delay: .24s; }
+  .r-d4 { transition-delay: .32s; }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: .001ms !important;
+      transition-duration: .001ms !important;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- ────── NAV ────── -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="#top" class="nav-brand">
+      <span class="nav-mark"></span>
+      <span>TA Brain</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#promise">The idea</a></li>
+      <li><a href="#product">How it works</a></li>
+      <li><a href="#network">The network</a></li>
+      <li><a href="#math">The math</a></li>
+    </ul>
+    <a class="nav-cta" href="#cta">Add your voice <span aria-hidden="true">&rarr;</span></a>
+  </div>
+</nav>
+
+<!-- ────── HERO ────── -->
+<section class="hero" id="top">
+  <canvas class="hero-mesh" id="heroMesh"></canvas>
+  <div class="hero-eyebrow reveal">Introducing</div>
+  <h1 class="reveal r-d1">TA Brain<span class="dot">.</span></h1>
+  <div class="hero-tagline reveal r-d2">The company we already are. <span>Finally written down.</span></div>
+  <p class="hero-sub reveal r-d3">A living wiki for every role, every team, and every relationship that holds Transamerica together. Built five minutes at a time.</p>
+  <div class="hero-cta-row reveal r-d4">
+    <a class="btn btn-primary" href="#promise">See how it works <span class="arrow">&rarr;</span></a>
+    <a class="btn btn-ghost" href="#cta">Add your voice <span class="arrow">&rarr;</span></a>
+  </div>
+  <div class="scroll-cue">Scroll</div>
+</section>
+
+<!-- ────── PROMISE ────── -->
+<section class="promise" id="promise">
+  <div class="reveal">
+    <div class="promise-eyebrow">The idea</div>
+    <h2>Five minutes. Every couple of days.<br><em>Compounds forever.</em></h2>
+    <p class="promise-sub">No long meetings. No documentation projects. Just one short brain dump from one person, every once in a while &mdash; and a system that quietly weaves it into a wiki the entire company can read.</p>
+  </div>
+</section>
+
+<!-- ────── TEXT MASK REVEAL ────── -->
+<section class="mask-section" id="reveal">
+  <div class="mask-sticky">
+    <div class="mask-bg"></div>
+    <div class="mask-overlay">
+      <div class="mask-text">Knowledge<br>that compounds</div>
+    </div>
+    <div class="mask-reveal">
+      <div class="mask-text-filled">Knowledge<br>that compounds</div>
+    </div>
+    <div class="mask-sub" id="maskSub">
+      <p>Every five-minute session adds another node to the network. Across a hundred people and a thousand handoffs, that becomes the most accurate picture of how this company actually works.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ────── PRODUCT (STICKY STACK) ────── -->
+<section class="product" id="product">
+  <div class="product-head reveal">
+    <div class="product-eyebrow">How it works</div>
+    <h2>One wiki. <em>Every role, every team, every handoff.</em></h2>
+    <p>Pages write themselves from your brain dumps. Roles, departments, processes, and people are connected the moment they&rsquo;re mentioned &mdash; so the next person reading never has to start from zero.</p>
+  </div>
+
+  <div class="stack-grid">
+    <!-- Sticky mockup -->
+    <div class="stack-visual">
+      <div class="mockup">
+        <div class="mockup-bar">
+          <div class="mockup-dot"></div>
+          <div class="mockup-dot"></div>
+          <div class="mockup-dot"></div>
+          <div class="mockup-url">ta-brain / wiki / roles / lm-dc</div>
+        </div>
+        <div class="mockup-body">
+
+          <!-- State 1: Bridge knowledge gaps (role page) -->
+          <div class="mockup-state active" data-state="1">
+            <div class="ms-eyebrow">Roles</div>
+            <div class="ms-title">Large Market Data Consultant</div>
+            <div class="ms-tag">role</div>
+            <div class="ms-tag">data</div>
+            <div class="ms-tag">large-market</div>
+            <div class="ms-line"></div>
+            <div class="ms-row"><span class="ms-link">[[plan-onboarding]]</span> <span class="ms-meta">12 sources</span></div>
+            <div class="ms-row"><span class="ms-link">[[balance-import]]</span> <span class="ms-meta">9 sources</span></div>
+            <div class="ms-row"><span class="ms-link">[[lm-dc-conversion]]</span> <span class="ms-meta">7 sources</span></div>
+            <div class="ms-row"><span class="ms-link">[[com-checklist]]</span> <span class="ms-meta">5 sources</span></div>
+            <div class="ms-line"></div>
+            <div class="ms-row" style="font-size:12px;color:var(--muted);"><span>Last updated by 5-minute brain dump &middot; 2 days ago</span></div>
+          </div>
+
+          <!-- State 2: Unite departments (network preview) -->
+          <div class="mockup-state" data-state="2">
+            <div class="ms-eyebrow">Departments</div>
+            <div class="ms-title">Communications &harr; Data Consultant</div>
+            <div class="ms-handoff">
+              <span class="from">COM</span><span class="arrow">&rarr;</span><span class="to">LM DC</span>
+              <span class="pill">handoff</span>
+            </div>
+            <div class="ms-handoff">
+              <span class="from">LM DC</span><span class="arrow">&rarr;</span><span class="to">Plan Sponsor</span>
+              <span class="pill">handoff</span>
+            </div>
+            <div class="ms-handoff">
+              <span class="from">Plan Sponsor</span><span class="arrow">&rarr;</span><span class="to">Payroll</span>
+              <span class="pill">handoff</span>
+            </div>
+            <div class="ms-handoff">
+              <span class="from">Payroll</span><span class="arrow">&rarr;</span><span class="to">Recordkeeping</span>
+              <span class="pill">handoff</span>
+            </div>
+            <div class="ms-line"></div>
+            <div class="ms-row" style="font-size:12px;color:var(--muted);">Pulled from 4 brain dumps across 3 teams.</div>
+          </div>
+
+          <!-- State 3: Highlight relationships (entity page) -->
+          <div class="mockup-state" data-state="3">
+            <div class="ms-eyebrow">Entities</div>
+            <div class="ms-title">Plan Onboarding</div>
+            <div class="ms-grid">
+              <div class="ms-card"><div class="num">38</div><div class="lbl">Linked pages</div></div>
+              <div class="ms-card"><div class="num">14</div><div class="lbl">Teams involved</div></div>
+              <div class="ms-card"><div class="num">9</div><div class="lbl">Handoff points</div></div>
+              <div class="ms-card"><div class="num">22</div><div class="lbl">Open questions</div></div>
+            </div>
+          </div>
+
+          <!-- State 4: Capture history -->
+          <div class="mockup-state" data-state="4">
+            <div class="ms-eyebrow">Timeline</div>
+            <div class="ms-title">Balance Import &mdash; how it really runs</div>
+            <div class="ms-row" style="display:block;padding:8px 0;"><strong style="color:var(--ink);">2024 &middot; v1</strong> &nbsp; Spreadsheet handoff between COM and DC <span class="ms-meta" style="margin-left:8px;">3 sources</span></div>
+            <div class="ms-row" style="display:block;padding:8px 0;"><strong style="color:var(--ink);">2025 Q1 &middot; v2</strong> &nbsp; New validation step added by Recordkeeping <span class="ms-meta" style="margin-left:8px;">2 sources</span></div>
+            <div class="ms-row" style="display:block;padding:8px 0;"><strong style="color:var(--ink);">2025 Q3 &middot; v3</strong> &nbsp; Automated nightly sync; legacy CSV retired <span class="ms-meta" style="margin-left:8px;">4 sources</span></div>
+            <div class="ms-line"></div>
+            <div class="ms-row" style="font-size:12px;color:var(--muted);">History is preserved &mdash; new contradictions are flagged, not overwritten.</div>
+          </div>
+
+          <!-- State 5: Pull any report -->
+          <div class="mockup-state" data-state="5">
+            <div class="ms-eyebrow">Reports</div>
+            <div class="ms-title">Ask the wiki anything</div>
+            <div class="ms-cmd">
+              <div><span class="prompt">&gt;</span> onboard new LM DC<br></div>
+              <div class="meta">&nbsp;&nbsp;Reading 14 pages...<br></div>
+              <div class="result">&nbsp;&nbsp;&#10003; reading list assembled (12 pages, ordered)<br></div>
+              <div class="result">&nbsp;&nbsp;&#10003; key contacts: 6 people across 4 teams<br></div>
+              <div class="result">&nbsp;&nbsp;&#10003; first-week priorities: 5 actions<br></div>
+              <br>
+              <div><span class="prompt">&gt;</span> map plan-onboarding-handoffs<br></div>
+              <div class="result">&nbsp;&nbsp;&#10003; 9 handoff points mapped, 3 failure modes flagged</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Scrolling features -->
+    <div class="stack-features">
+      <div class="feat active" data-feature="1">
+        <div class="feat-num">01 &middot; BRIDGE</div>
+        <h3>Bridge the knowledge gaps.</h3>
+        <p>The senior who knows everything? Their head is the single point of failure. Five minutes of voice into the wiki turns one person&rsquo;s lived experience into a page anyone can find.</p>
+      </div>
+      <div class="feat" data-feature="2">
+        <div class="feat-num">02 &middot; CONNECT</div>
+        <h3>Unite the departments.</h3>
+        <p>Lateral &mdash; not hierarchical. The wiki maps how work actually flows between teams: who hands what to whom, and where the friction lives. Org charts can&rsquo;t do this.</p>
+      </div>
+      <div class="feat" data-feature="3">
+        <div class="feat-num">03 &middot; SEE</div>
+        <h3>Highlight the key relationships.</h3>
+        <p>Every name, every system, every handoff is its own page. Click any link and you&rsquo;re looking at the network of people and tools that make a process actually run.</p>
+      </div>
+      <div class="feat" data-feature="4">
+        <div class="feat-num">04 &middot; REMEMBER</div>
+        <h3>Capture the history that always gets lost.</h3>
+        <p>Why do we do it this way? Who changed the process in 2023? The wiki preserves every version, every contradiction, every open question &mdash; nothing gets quietly overwritten.</p>
+      </div>
+      <div class="feat" data-feature="5">
+        <div class="feat-num">05 &middot; PULL</div>
+        <h3>Pull virtually any report.</h3>
+        <p>Onboarding guides, team maps, handoff diagrams, glossary lookups, contradiction reports. Ask once &mdash; the wiki assembles it from everything we&rsquo;ve already written.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ────── COMPOUND (STICKY CARDS) ────── -->
+<section class="compound">
+  <div class="compound-head reveal">
+    <h2>It&rsquo;s a win on every floor.</h2>
+    <p>One contribution helps everyone &mdash; and so does the next, and the next. Each card is a different person, getting a different thing, from the same five minutes.</p>
+  </div>
+
+  <div class="compound-stack">
+
+    <div class="stack-card">
+      <div class="sc-eyebrow">For the new hire</div>
+      <h3>Day one with day&shy;-three&shy;-hundred context.</h3>
+      <p>An ordered reading list, the right people to meet, the systems they&rsquo;ll touch &mdash; all assembled from the people who actually do the job.</p>
+      <div class="visual"><span class="ind">&gt;</span> /onboard lm-dc<br><span class="ind">&gt;</span> 12 pages &middot; 6 contacts &middot; 5 priorities</div>
+    </div>
+
+    <div class="stack-card">
+      <div class="sc-eyebrow">For the experienced employee</div>
+      <h3>The handoff map you wished existed.</h3>
+      <p>You finally see what happens to your work after you pass it on &mdash; and what was happening before it ever reached you. Less guesswork, fewer reruns.</p>
+      <div class="visual"><span class="ind">&gt;</span> /map plan-onboarding<br><span class="ind">&gt;</span> 9 handoffs &middot; 3 failure modes flagged</div>
+    </div>
+
+    <div class="stack-card">
+      <div class="sc-eyebrow">For the manager</div>
+      <h3>Your team, finally legible.</h3>
+      <p>Who owns what. Where the bottlenecks live. Which contributions made the biggest dent in onboarding time. Numbers that actually mean something.</p>
+      <div class="visual"><span class="ind">&gt;</span> /team-health communications<br><span class="ind">&gt;</span> 24 pages &middot; 4 partners &middot; 6 unknowns</div>
+    </div>
+
+    <div class="stack-card">
+      <div class="sc-eyebrow">For leadership</div>
+      <h3>The single source of how we actually operate.</h3>
+      <p>Not the org chart. Not last year&rsquo;s slides. The lived, current, internally-authored picture of how Transamerica runs &mdash; written by the people who run it.</p>
+      <div class="visual"><span class="ind">&gt;</span> /overview<br><span class="ind">&gt;</span> 412 pages &middot; 38 roles &middot; 1,204 connections</div>
+    </div>
+
+    <div class="stack-card">
+      <div class="sc-eyebrow">For everyone</div>
+      <h3>Knowledge that never leaves the building.</h3>
+      <p>People come and go. Their five minutes stay. The next time someone asks &ldquo;who do I talk to about X?&rdquo; &mdash; the answer is already there, with citations.</p>
+      <div class="visual"><span class="ind">&gt;</span> /search "balance import"<br><span class="ind">&gt;</span> 9 pages &middot; 14 mentions &middot; 4 contradictions resolved</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ────── NETWORK ────── -->
+<section class="network" id="network">
+  <canvas class="network-mesh" id="netMesh"></canvas>
+  <div class="network-inner">
+    <div class="reveal">
+      <div class="network-eyebrow">The network effect</div>
+      <h2>Every department.<br><span>One nervous system.</span></h2>
+      <p class="network-sub">When enough teams contribute, the wiki stops being a collection of pages and starts being the company&rsquo;s working memory. Every connection makes the next answer faster.</p>
+    </div>
+    <div class="net-canvas-wrap reveal r-d2">
+      <canvas id="netCanvas"></canvas>
+    </div>
+  </div>
+</section>
+
+<!-- ────── MATH ────── -->
+<section class="math" id="math">
+  <div class="reveal">
+    <div class="math-eyebrow">The compounding math</div>
+    <h2>Five minutes is small. <em>Multiplied by everyone, it&rsquo;s enormous.</em></h2>
+  </div>
+  <div class="math-grid">
+    <div class="stat reveal r-d1">
+      <div class="stat-num" data-count="5">0</div>
+      <div class="stat-label">Minutes per session</div>
+      <div class="stat-sub">Voice, type, or paste &mdash; whatever&rsquo;s easiest.</div>
+    </div>
+    <div class="stat reveal r-d2">
+      <div class="stat-num"><span data-count="2">0</span>&times;/wk</div>
+      <div class="stat-label">Suggested cadence</div>
+      <div class="stat-sub">Skip a week. The wiki waits.</div>
+    </div>
+    <div class="stat reveal r-d3">
+      <div class="stat-num"><span data-count="20">0</span>+</div>
+      <div class="stat-label">Pages per brain dump</div>
+      <div class="stat-sub">Roles, departments, processes &mdash; updated together.</div>
+    </div>
+    <div class="stat reveal r-d4">
+      <div class="stat-num">&infin;</div>
+      <div class="stat-label">Reports you can pull</div>
+      <div class="stat-sub">Onboarding guides, maps, audits, lookups.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ────── CTA ────── -->
+<section class="cta" id="cta">
+  <div class="reveal">
+    <div class="cta-eyebrow">Get on board</div>
+    <h2>Add your voice<span class="dot">.</span></h2>
+    <p>Five minutes. Whatever&rsquo;s top of mind about your role, your team, or that handoff that&rsquo;s been bugging you for years. The wiki does the rest.</p>
+    <div class="cta-row">
+      <a class="btn btn-grad" href="mailto:abacherlijoel@yahoo.com?subject=TA%20Brain%20%E2%80%94%20I%E2%80%99m%20in&body=Hi%20%E2%80%94%20I%E2%80%99d%20like%20to%20contribute%20a%20brain%20dump%20to%20TA%20Brain.%20Best%20time%20for%20a%20five-minute%20session%3F">Schedule my five minutes <span class="arrow">&rarr;</span></a>
+      <a class="btn btn-ghost" href="#product">See how it works <span class="arrow">&rarr;</span></a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="row">
+    <a href="#promise">The idea</a>
+    <a href="#product">How it works</a>
+    <a href="#network">The network</a>
+    <a href="#math">The math</a>
+    <a href="#cta">Add your voice</a>
+  </div>
+  <div>TA Brain &middot; A living institutional memory for Transamerica.</div>
+</footer>
+
+<script>
+(function() {
+  if (window.gsap) gsap.registerPlugin(ScrollTrigger);
+
+  /* ────── Reveal on scroll ────── */
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if (e.isIntersecting) {
+        e.target.classList.add('in');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08, rootMargin: '-6% 0px -6% 0px' });
+  document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+
+  /* ────── Nav auto-hide on scroll-down ────── */
+  var nav = document.getElementById('nav');
+  var lastY = 0;
+  window.addEventListener('scroll', function(){
+    var y = window.scrollY;
+    if (y > 80 && y > lastY) nav.classList.add('hidden');
+    else nav.classList.remove('hidden');
+    lastY = y;
+  }, { passive: true });
+
+  /* ────── Hero mesh canvas ────── */
+  function meshCanvas(id, colors, speed, bgFill) {
+    var c = document.getElementById(id);
+    if (!c) return;
+    var ctx = c.getContext('2d');
+    var dpr = window.devicePixelRatio || 1;
+    function resize(){
+      c.width = c.offsetWidth * dpr;
+      c.height = c.offsetHeight * dpr;
+    }
+    resize(); window.addEventListener('resize', resize);
+    var blobs = colors.map(function(col){
+      return {
+        x: Math.random(), y: Math.random(),
+        vx: (Math.random()-.5) * speed,
+        vy: (Math.random()-.5) * speed,
+        r: 0.32 + Math.random() * 0.22,
+        color: col
+      };
+    });
+    function draw(){
+      var w = c.width, h = c.height;
+      ctx.fillStyle = bgFill;
+      ctx.fillRect(0,0,w,h);
+      blobs.forEach(function(b){
+        b.x += b.vx / w; b.y += b.vy / h;
+        if (b.x < -.2 || b.x > 1.2) b.vx *= -1;
+        if (b.y < -.2 || b.y > 1.2) b.vy *= -1;
+        var grd = ctx.createRadialGradient(b.x*w, b.y*h, 0, b.x*w, b.y*h, b.r * Math.max(w,h));
+        grd.addColorStop(0, b.color);
+        grd.addColorStop(1, 'transparent');
+        ctx.globalCompositeOperation = 'lighter';
+        ctx.fillStyle = grd;
+        ctx.fillRect(0,0,w,h);
+        ctx.globalCompositeOperation = 'source-over';
+      });
+      requestAnimationFrame(draw);
+    }
+    draw();
+  }
+  meshCanvas('heroMesh', [
+    'rgba(94,92,230,0.22)',
+    'rgba(0,194,255,0.18)',
+    'rgba(179,71,234,0.16)',
+    'rgba(255,91,138,0.10)'
+  ], 0.35, '#ffffff');
+
+  meshCanvas('netMesh', [
+    'rgba(94,92,230,0.30)',
+    'rgba(0,194,255,0.22)',
+    'rgba(179,71,234,0.22)',
+    'rgba(45,108,223,0.20)'
+  ], 0.30, '#111114');
+
+  /* ────── Text mask reveal (GSAP ScrollTrigger) ────── */
+  if (window.gsap) {
+    gsap.to('.mask-reveal', {
+      clipPath: 'inset(0% 0 0 0)',
+      ease: 'none',
+      scrollTrigger: {
+        trigger: '.mask-section',
+        start: 'top top',
+        end: '60% bottom',
+        scrub: 0.3
+      }
+    });
+    gsap.to('#maskSub', {
+      opacity: 1,
+      scrollTrigger: {
+        trigger: '.mask-section',
+        start: '55% top',
+        end: '70% top',
+        scrub: true
+      }
+    });
+  }
+
+  /* ────── Sticky stack: feature ↔ mockup state sync ────── */
+  if (window.gsap) {
+    var feats = document.querySelectorAll('.feat');
+    var states = document.querySelectorAll('.mockup-state');
+    feats.forEach(function(card){
+      ScrollTrigger.create({
+        trigger: card,
+        start: 'top 65%',
+        end: 'bottom 40%',
+        onEnter: function(){ activate(card.dataset.feature); },
+        onEnterBack: function(){ activate(card.dataset.feature); }
+      });
+    });
+    function activate(num){
+      feats.forEach(function(f){ f.classList.toggle('active', f.dataset.feature === num); });
+      states.forEach(function(s){ s.classList.toggle('active', s.dataset.state === num); });
+    }
+  }
+
+  /* ────── Number counters ────── */
+  var counters = document.querySelectorAll('[data-count]');
+  var counterSeen = new WeakSet();
+  var counterIO = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if (e.isIntersecting && !counterSeen.has(e.target)) {
+        counterSeen.add(e.target);
+        var target = parseInt(e.target.getAttribute('data-count'), 10);
+        var dur = 1200;
+        var start = performance.now();
+        function tick(now){
+          var p = Math.min((now - start) / dur, 1);
+          var eased = 1 - Math.pow(1 - p, 3);
+          e.target.textContent = Math.round(eased * target);
+          if (p < 1) requestAnimationFrame(tick);
+        }
+        requestAnimationFrame(tick);
+      }
+    });
+  }, { threshold: 0.4 });
+  counters.forEach(function(c){ counterIO.observe(c); });
+
+  /* ────── Network canvas ────── */
+  (function(){
+    var c = document.getElementById('netCanvas');
+    if (!c) return;
+    var ctx = c.getContext('2d');
+    var dpr = window.devicePixelRatio || 1;
+    var W, H;
+    function resize(){
+      W = c.offsetWidth; H = c.offsetHeight;
+      c.width = W * dpr; c.height = H * dpr;
+      ctx.setTransform(dpr,0,0,dpr,0,0);
+    }
+    resize(); window.addEventListener('resize', resize);
+
+    var labels = ['LM DC','COM','Payroll','Recordkeeping','Plan Sponsor','Onboarding','Service','Compliance','Data','Ops','Wholesale','Comms'];
+    var anchors = labels.map(function(name, i){
+      var a = (i / labels.length) * Math.PI * 2;
+      return {
+        name: name,
+        baseX: 0.5 + Math.cos(a) * 0.35,
+        baseY: 0.5 + Math.sin(a) * 0.32,
+        x: 0, y: 0,
+        phase: Math.random() * Math.PI * 2,
+        big: true
+      };
+    });
+    var smallNodes = [];
+    for (var i = 0; i < 56; i++) {
+      smallNodes.push({
+        x: Math.random(), y: Math.random(),
+        vx: (Math.random()-.5) * 0.0006,
+        vy: (Math.random()-.5) * 0.0006,
+        big: false
+      });
+    }
+    var pulses = [];
+    var t = 0;
+
+    function frame(){
+      t += 0.008;
+      // motion trail
+      ctx.fillStyle = 'rgba(17,17,20,0.22)';
+      ctx.fillRect(0,0,W,H);
+
+      // update anchor positions
+      anchors.forEach(function(a){
+        a.x = (a.baseX + Math.sin(t + a.phase) * 0.012) * W;
+        a.y = (a.baseY + Math.cos(t * 0.9 + a.phase) * 0.012) * H;
+      });
+
+      // small nodes drift
+      smallNodes.forEach(function(n){
+        n.x += n.vx; n.y += n.vy;
+        if (n.x < 0 || n.x > 1) n.vx *= -1;
+        if (n.y < 0 || n.y > 1) n.vy *= -1;
+      });
+
+      var all = anchors.concat(smallNodes.map(function(n){
+        return { x: n.x * W, y: n.y * H, big: false };
+      }));
+
+      // links
+      var linkDist = Math.min(W, H) * 0.28;
+      ctx.lineWidth = 1;
+      for (var i = 0; i < all.length; i++) {
+        for (var j = i + 1; j < all.length; j++) {
+          var dx = all[i].x - all[j].x;
+          var dy = all[i].y - all[j].y;
+          var d = Math.sqrt(dx*dx + dy*dy);
+          if (d < linkDist) {
+            var a = (1 - d / linkDist) * 0.32;
+            ctx.strokeStyle = 'rgba(140,170,255,' + a + ')';
+            ctx.beginPath();
+            ctx.moveTo(all[i].x, all[i].y);
+            ctx.lineTo(all[j].x, all[j].y);
+            ctx.stroke();
+          }
+        }
+      }
+
+      // anchor (department) nodes
+      anchors.forEach(function(a){
+        var grd = ctx.createRadialGradient(a.x, a.y, 0, a.x, a.y, 22);
+        grd.addColorStop(0, 'rgba(180,170,255,0.95)');
+        grd.addColorStop(0.4, 'rgba(94,92,230,0.7)');
+        grd.addColorStop(1, 'rgba(94,92,230,0)');
+        ctx.fillStyle = grd;
+        ctx.beginPath(); ctx.arc(a.x, a.y, 22, 0, Math.PI*2); ctx.fill();
+        ctx.fillStyle = '#fff';
+        ctx.beginPath(); ctx.arc(a.x, a.y, 4, 0, Math.PI*2); ctx.fill();
+
+        // label
+        ctx.font = '500 11px "JetBrains Mono", monospace';
+        ctx.fillStyle = 'rgba(255,255,255,0.85)';
+        ctx.textAlign = 'center';
+        ctx.fillText(a.name.toUpperCase(), a.x, a.y - 18);
+      });
+
+      // small nodes
+      smallNodes.forEach(function(n){
+        ctx.fillStyle = 'rgba(180,200,255,0.55)';
+        ctx.beginPath(); ctx.arc(n.x * W, n.y * H, 1.4, 0, Math.PI*2); ctx.fill();
+      });
+
+      // pulses
+      if (Math.random() < 0.06 && anchors.length > 1) {
+        var s = anchors[Math.floor(Math.random()*anchors.length)];
+        var e = anchors[Math.floor(Math.random()*anchors.length)];
+        if (s !== e) pulses.push({ sx: s.x, sy: s.y, ex: e.x, ey: e.y, t: 0 });
+      }
+      pulses.forEach(function(p){
+        p.t += 0.025;
+        var px = p.sx + (p.ex - p.sx) * p.t;
+        var py = p.sy + (p.ey - p.sy) * p.t;
+        ctx.fillStyle = 'rgba(0,220,255,0.95)';
+        ctx.beginPath(); ctx.arc(px, py, 2.4, 0, Math.PI*2); ctx.fill();
+      });
+      pulses = pulses.filter(function(p){ return p.t < 1; });
+
+      requestAnimationFrame(frame);
+    }
+    frame();
+  })();
+
+})();
+</script>
+
+</body>
+</html>

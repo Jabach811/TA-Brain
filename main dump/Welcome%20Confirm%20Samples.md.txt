@@ -1,0 +1,10 @@
+# Welcome Confirm Samples
+
+## Purpose
+- Generate and review enrollment confirmation samples.
+
+## Process Summary
+- Hold confirms in P3.
+- Run ROC stored procedures.
+- Trigger batch job via JIRA.
+- Retrieve and save sample PDFs.

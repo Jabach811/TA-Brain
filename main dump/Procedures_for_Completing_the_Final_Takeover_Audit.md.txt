@@ -1,0 +1,8 @@
+# Final Takeover Audit Procedures
+
+## Steps
+1. Run takeover audit queries.
+2. Pivot and export results.
+3. Compare fund totals.
+4. Compare source totals.
+5. Reconcile with Plan Sponsor and ER statements.

@@ -1,0 +1,9 @@
+# Vesting Override Procedure
+
+## Purpose
+- Audit participant vesting overrides.
+
+## Steps
+- Run Vesting Overrides SQL.
+- Validate vesting years and percentages.
+- Compare to DC override population.

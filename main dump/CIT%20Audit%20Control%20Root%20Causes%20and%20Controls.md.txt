@@ -1,0 +1,10 @@
+# CIT Audit Control Root Causes and Controls
+
+## Purpose
+- Identify common conversion risks and mitigation controls.
+
+## Categories
+- TOA accuracy
+- System setup
+- Allocation accuracy
+- Data scrubbing

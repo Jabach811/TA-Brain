@@ -1,6 +1,6 @@
 ---
 title: "WX — Plan Sponsor Site"
-type: entity
+type: system
 tags: [system, tool, com, tc, plan-sponsor, participant]
 created: 2026-04-14
 updated: 2026-04-14

@@ -1,0 +1,25 @@
+# Pre-Conversion Loan Analysis Procedures
+
+## Purpose
+- Perform loan due diligence prior to conversion.
+
+## Data Options
+### Option 1
+- Outstanding principal
+- Repayment amount and frequency
+- Interest rate
+- Actual maturity date
+- Loan default date (if available)
+
+### Option 2
+- Outstanding principal
+- Repayment amount and frequency
+- Interest rate
+- Issue date
+- Loan term (months or years)
+- Loan default date (if available)
+
+## Process
+- Enter data into Pre-Conversion Loan Analysis Worksheet.
+- Populate formulas and review next payment due dates.
+- Report loans past due by more than 30 days.

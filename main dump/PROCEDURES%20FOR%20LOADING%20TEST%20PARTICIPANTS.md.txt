@@ -1,0 +1,10 @@
+# Loading Test Participants
+
+## Purpose
+- Load dummy/test participants into P3 for testing and audits.
+
+## Process
+- Build EDS layout.
+- Map spreadsheet columns.
+- Load file and review status.
+- Validate participants in Call Center view.

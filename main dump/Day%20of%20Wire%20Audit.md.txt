@@ -1,0 +1,8 @@
+# Day of Wire Audit
+
+## Purpose
+- Validate wire amounts received match DC fund mapping.
+
+## Steps
+- Compare prior vendor wire breakdown to Fund Mapping sheet.
+- Use prior fund codes or fund names as applicable.

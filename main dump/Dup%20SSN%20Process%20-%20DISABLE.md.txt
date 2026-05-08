@@ -1,0 +1,9 @@
+# Duplicate SSN Process – Disable Access
+
+## Purpose
+- Disable DDOL/VRU access and apply legal holds for true duplicate SSNs.
+
+## Process Summary
+- Run `ROC_DUPLICATE_SSN_DISABLE` in both CORP and TDA.
+- Validate, analyze, and execute.
+- Run Dup SSN Email report and notify TC.

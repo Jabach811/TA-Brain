@@ -1,0 +1,9 @@
+# CIT Takeover Audit Process – External
+
+## Purpose
+- Define standardized takeover audit steps.
+
+## Audit Phases
+- Asset transfer audits
+- FAA participant audits
+- Default and loan analysis

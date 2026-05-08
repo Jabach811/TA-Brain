@@ -1,10 +1,10 @@
 ---
 title: "Dummy Participant"
-type: concept
+type: reference
 tags: [dummy, mapping, day-of-wire, processing, workaround]
 created: 2026-04-14
-updated: 2026-04-14
-sources: 2
+updated: 2026-05-03
+sources: 3
 ---
 
 # Dummy Participant
@@ -18,9 +18,15 @@ The Informatica Day of Wire workflow, when processing a mapping conversion, rout
 ## Key Facts
 
 - **SSN:** 999-00-0000
+- **Date of Birth:** 12/25/1955 (stand-out value)
+- **Date of Hire:** 12/25/1985 (stand-out value)
 - **Required for:** Mapping conversions
 - **Not required for:** Cash conversions (advanced employer used instead), TIK conversions
 - **Must exist in census before** Day of Wire workflow runs — check this before liquidation day
+
+## Stand-Out Date Convention
+
+The DOB and DOH above are deliberate. Anytime one of those dates shows up in a query result or P3 screen, it's an immediate signal: **this is not a real participant — handle it differently.** [[forfeiture-loading|Forfeiture entries]] use the same convention.
 
 ## Lifecycle
 
@@ -71,3 +77,4 @@ This is one of the most painful avoidable mistakes in a conversion. Check for th
 - [[final-files-processing]]
 - [[p3]]
 - [[transfer-in-kind]]
+- [[forfeiture-loading]]

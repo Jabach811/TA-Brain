@@ -1,0 +1,9 @@
+# Quality Control – Team Project Charter
+
+## Role Summary
+- Perform conversion audits and controls.
+
+## Responsibilities
+- Asset, allocation, deferral, and loan audits
+- Recordkeeping setup checks
+- DB plan setup and retiree payment audits

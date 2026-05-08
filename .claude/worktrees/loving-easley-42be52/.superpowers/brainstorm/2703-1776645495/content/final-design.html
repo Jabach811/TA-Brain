@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Final Design — Animated Concept Page</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: #07070e; font-family: "Inter", sans-serif; color: #dcddde; padding: 28px; }
+
+.label-row {
+  display: flex; align-items: center; gap: 16px;
+  max-width: 1200px; margin: 0 auto 16px;
+}
+.label-row h2 { font-size: 16px; font-weight: 700; color: #fff; }
+.label-row .pill {
+  background: #a277ff1a; color: #a277ff;
+  border: 1px solid #a277ff44;
+  border-radius: 99px; font-size: 11px; font-weight: 600;
+  padding: 3px 10px;
+}
+.label-row .note { font-size: 12px; color: #6d6d7a; margin-left: auto; }
+
+/* ── Wiki shell ── */
+.wiki {
+  max-width: 1200px; margin: 0 auto;
+  height: 720px;
+  border-radius: 12px; overflow: hidden;
+  border: 1px solid #30303c;
+  box-shadow: 0 32px 100px rgba(0,0,0,.7);
+  display: grid;
+  grid-template-columns: 240px 1fr 280px;
+  grid-template-rows: 44px 1fr;
+  background: #1e1e26;
+}
+
+/* Topbar */
+.topbar {
+  grid-column: 1/-1;
+  background: #16161c; border-bottom: 1px solid #30303c;
+  display: flex; align-items: center; gap: 8px; padding: 0 14px;
+}
+.dots { display:flex; gap:5px; margin-right:6px; }
+.dot { width:10px; height:10px; border-radius:50%; }
+.brand {
+  font-family:"Space Grotesk",sans-serif; font-weight:700; font-size:14px;
+  background:linear-gradient(90deg,#a277ff,#7aa2f7);
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+}
+.meta { font-size:11px; color:#6d6d7a; }
+.spacer { flex:1; }
+.tbtn {
+  background:#262633; color:#9a9aa8;
+  border:1px solid #30303c; padding:4px 10px;
+  border-radius:7px; font-size:11px;
+}
+
+/* Left sidebar */
+.sb-left {
+  background:#16161c; border-right:1px solid #30303c;
+  padding:10px 6px; overflow:hidden;
+}
+.search {
+  background:#262633; border:1px solid #30303c; border-radius:8px;
+  height:30px; display:flex; align-items:center; padding:0 9px; gap:5px;
+  margin-bottom:10px;
+}
+.search .icon { color:#6d6d7a; font-size:12px; }
+.search .ph { color:#6d6d7a; font-size:11px; }
+
+.folder-row {
+  display:flex; align-items:center; gap:6px; padding:5px 7px; margin-bottom:2px;
+}
+.ficon { width:17px;height:17px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:9px;flex-shrink:0; }
+.fname { font-family:"Space Grotesk",sans-serif; font-size:10px; font-weight:600; text-transform:uppercase; letter-spacing:1px; }
+.fcount { margin-left:auto; background:#262633; color:#6d6d7a; font-size:9px; padding:1px 5px; border-radius:99px; }
+
+.nav-item {
+  display:flex; align-items:center; gap:7px;
+  padding:5px 7px 5px 24px; border-radius:7px;
+  font-size:12px; color:#9a9aa8; margin-bottom:1px; position:relative;
+}
+.nav-item.active { background:rgba(162,119,255,.14); color:#dcddde; }
+.nav-item.active::before {
+  content:''; position:absolute; left:0; top:5px; bottom:5px;
+  width:3px; background:#a277ff; border-radius:3px; box-shadow:0 0 8px #a277ff;
+}
+.ndot { width:5px;height:5px;border-radius:50%;flex-shrink:0; }
+
+/* Main content */
+.main { overflow-y:auto; padding:22px 28px 40px; background:#1e1e26; }
+
+.crumb { font-size:11px; color:#6d6d7a; margin-bottom:7px; display:flex; align-items:center; gap:4px; }
+.crumb span { color:#9a9aa8; }
+
+.page-title {
+  font-family:"Space Grotesk",sans-serif; font-size:26px; font-weight:700;
+  background:linear-gradient(90deg,#fff,#c9b3ff);
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+  margin-bottom:9px; line-height:1.2;
+}
+.tags { display:flex; gap:5px; flex-wrap:wrap; margin-bottom:14px; }
+.tag {
+  background:#2b2538; color:#c9b3ff;
+  border:1px solid rgba(162,119,255,.2);
+  padding:2px 8px; border-radius:99px; font-size:11px;
+}
+
+/* ONE-LINER description before animation */
+.page-desc { font-size:14px; color:#9a9aa8; line-height:1.6; margin-bottom:18px; }
+
+/* ── Animation block (16:9 inline) ── */
+.anim-wrap {
+  width:100%; aspect-ratio:16/9;
+  border-radius:8px; overflow:hidden;
+  border:1px solid #a277ff33;
+  background:linear-gradient(150deg,#160d28 0%,#0b1530 45%,#0d1020 100%);
+  position:relative;
+  margin-bottom:24px;
+}
+.anim-wrap::before {
+  content:''; position:absolute; inset:0;
+  background:
+    radial-gradient(ellipse at 25% 50%,#a277ff1e 0%,transparent 55%),
+    radial-gradient(ellipse at 78% 40%,#7aa2f714 0%,transparent 50%);
+}
+
+/* Animated scene content */
+.scene { position:absolute; inset:0; }
+
+/* Nodes */
+.node {
+  position:absolute;
+  border-radius:50%; border:1px solid;
+  display:flex; flex-direction:column;
+  align-items:center; justify-content:center; gap:3px;
+}
+.node-label { font-size:11px; color:#9a9aa8; font-weight:500; letter-spacing:.3px; }
+.node-emoji { font-size:20px; }
+
+/* Connecting lines */
+.line { position:absolute; height:1px; transform-origin:left center; }
+
+/* Data packets */
+.packet {
+  position:absolute; width:8px; height:8px; border-radius:50%;
+  background:#a277ff; box-shadow:0 0 10px #a277ff;
+}
+
+/* Overlay UI */
+.anim-badge {
+  position:absolute; top:10px; left:12px; z-index:10;
+  display:flex; align-items:center; gap:6px;
+  background:rgba(22,22,28,.75); backdrop-filter:blur(4px);
+  border:1px solid #a277ff33; border-radius:7px;
+  padding:5px 10px;
+}
+.anim-badge .abrand { font-size:11px; font-weight:600; color:#fff; font-family:"Space Grotesk",sans-serif; }
+.anim-badge .ameta { font-size:10px; color:#9a9aa8; }
+
+.loop-pill {
+  position:absolute; top:10px; right:10px; z-index:10;
+  background:rgba(162,119,255,.15); border:1px solid rgba(162,119,255,.3);
+  border-radius:99px; padding:3px 9px;
+  font-size:10px; color:#a277ff; font-weight:600; letter-spacing:.5px;
+}
+
+.progress-bar {
+  position:absolute; bottom:10px; left:12px; right:12px; height:3px; z-index:10;
+  background:rgba(255,255,255,.08); border-radius:2px;
+}
+.progress-fill {
+  height:100%; width:52%;
+  background:linear-gradient(90deg,#a277ff,#7aa2f7); border-radius:2px;
+  animation:prog 12s linear infinite;
+}
+@keyframes prog { 0%{width:0%} 100%{width:100%} }
+
+/* Node animations */
+@keyframes breathe { 0%,100%{opacity:.55;transform:scale(1)} 50%{opacity:1;transform:scale(1.06)} }
+@keyframes flow1 { 0%{left:22%;opacity:0} 15%{opacity:1} 85%{opacity:1} 100%{left:50%;opacity:0} }
+@keyframes flow2 { 0%{left:56%;opacity:0} 15%{opacity:1} 85%{opacity:1} 100%{left:74%;opacity:0} }
+@keyframes flowdown { 0%{top:32%;opacity:0} 15%{opacity:1} 85%{opacity:1} 100%{top:64%;opacity:0} }
+
+/* Section headings */
+.sh {
+  font-family:"Space Grotesk",sans-serif; font-size:14px; font-weight:600;
+  color:#dcddde; margin:0 0 8px;
+  padding-bottom:6px; border-bottom:1px solid #30303c;
+}
+.prose { font-size:13.5px; color:#b8b8c4; line-height:1.65; margin-bottom:10px; }
+.prose a { color:#b891ff; text-decoration:none; }
+.callout {
+  background:#262633; border:1px solid #30303c;
+  border-left:3px solid #a277ff; border-radius:0 6px 6px 0;
+  padding:10px 14px; font-size:13px; color:#9a9aa8;
+  margin:10px 0 16px; line-height:1.5;
+}
+.checklist { list-style:none; padding:0; margin:8px 0; }
+.checklist li {
+  font-size:13px; color:#9a9aa8; padding:3px 0 3px 18px;
+  position:relative; line-height:1.5;
+}
+.checklist li::before { content:'□'; position:absolute; left:2px; color:#6d6d7a; }
+
+/* Right sidebar */
+.sb-right {
+  background:#16161c; border-left:1px solid #30303c;
+  padding:14px 14px 20px; overflow-y:auto;
+}
+.sb-head {
+  font-family:"Space Grotesk",sans-serif; font-size:11px; font-weight:600;
+  text-transform:uppercase; letter-spacing:1px; color:#6d6d7a; margin-bottom:8px;
+}
+.toc-item {
+  display:block; font-size:12px; color:#9a9aa8;
+  padding:3px 0 3px 8px; border-left:2px solid #30303c;
+  margin-bottom:2px; cursor:pointer;
+}
+.toc-item:hover { color:#a277ff; border-color:#a277ff44; }
+.bl-item {
+  display:flex; align-items:center; gap:5px;
+  font-size:12px; color:#b891ff; padding:3px 0; cursor:pointer;
+}
+.bl-item::before { content:'←'; color:#6d6d7a; font-size:10px; }
+.ol-item {
+  display:flex; align-items:center; gap:5px;
+  font-size:12px; color:#7aa2f7; padding:3px 0; cursor:pointer;
+}
+.ol-item::before { content:'→'; color:#6d6d7a; font-size:10px; }
+.sb-divider { height:1px; background:#30303c; margin:12px 0; }
+</style>
+</head>
+<body>
+
+<div class="label-row">
+  <h2>Final Design — Concept page with animation</h2>
+  <span class="pill">✓ Approved decisions</span>
+  <span class="note">Title → description → 16:9 animation (auto-play, loop) → text · Right sidebar unchanged</span>
+</div>
+
+<div class="wiki">
+
+  <!-- Topbar -->
+  <div class="topbar">
+    <div class="dots">
+      <div class="dot" style="background:#ff5f57"></div>
+      <div class="dot" style="background:#febc2e"></div>
+      <div class="dot" style="background:#28c840"></div>
+    </div>
+    <div class="brand">TA Brain</div>
+    <div class="meta">107 pages · 5 sources</div>
+    <div class="spacer"></div>
+    <div class="tbtn">? Help</div>
+    <div class="tbtn" style="margin-left:4px">⚙ Settings</div>
+    <div class="tbtn" style="margin-left:4px">Graph</div>
+    <div class="tbtn" style="margin-left:4px;color:#a277ff;border-color:#a277ff44">Overview</div>
+  </div>
+
+  <!-- Left sidebar -->
+  <div class="sb-left">
+    <div class="search">
+      <span class="icon">⌕</span>
+      <span class="ph">Search pages, tags…</span>
+    </div>
+    <div class="folder-row">
+      <div class="ficon" style="background:#7dcfff18;color:#7dcfff">◈</div>
+      <span class="fname" style="color:#7dcfff">Concepts</span>
+      <span class="fcount">52</span>
+    </div>
+    <div class="nav-item" style="color:#7dcfff55"><div class="ndot" style="background:#7dcfff33"></div>Conversion Types</div>
+    <div class="nav-item" style="color:#7dcfff55"><div class="ndot" style="background:#7dcfff33"></div>Fund Mapping</div>
+    <div class="nav-item active"><div class="ndot" style="background:#a277ff"></div>Liquidation Day</div>
+    <div class="nav-item" style="color:#7dcfff55"><div class="ndot" style="background:#7dcfff33"></div>Final Files Processing</div>
+    <div class="nav-item" style="color:#7dcfff55"><div class="ndot" style="background:#7dcfff33"></div>Eligibility</div>
+    <div class="nav-item" style="color:#7dcfff55"><div class="ndot" style="background:#7dcfff33"></div>Deferrals</div>
+    <div class="folder-row" style="margin-top:10px">
+      <div class="ficon" style="background:#bb9af718;color:#bb9af7">⬡</div>
+      <span class="fname" style="color:#bb9af7">Processes</span>
+      <span class="fcount">1</span>
+    </div>
+    <div class="nav-item" style="color:#bb9af755"><div class="ndot" style="background:#bb9af733"></div>Plan Conversion Handoffs</div>
+  </div>
+
+  <!-- Main content -->
+  <div class="main">
+    <div class="crumb"><span>Concepts</span><span style="color:#30303c">›</span><span style="color:#dcddde">Liquidation Day</span></div>
+    <div class="page-title">Liquidation Day</div>
+    <div class="tags">
+      <span class="tag">liquidation</span>
+      <span class="tag">day-of-wire</span>
+      <span class="tag">wire</span>
+      <span class="tag">cashiering</span>
+      <span class="tag">critical</span>
+    </div>
+    <div class="page-desc">The day the prior record keeper liquidates plan assets and sends them to Transamerica — the highest-stakes day in any conversion.</div>
+
+    <!-- 16:9 animation inline -->
+    <div class="anim-wrap">
+      <div class="anim-badge">
+        <div class="abrand">Day of Wire</div>
+        <div class="ameta">Liquidation flow</div>
+      </div>
+      <div class="loop-pill">↻ Loop</div>
+
+      <div class="scene">
+        <!-- Prior RK node -->
+        <div class="node" style="width:80px;height:80px;top:28%;left:10%;border-color:rgba(162,119,255,.45);background:rgba(162,119,255,.07);animation:breathe 2.8s ease-in-out infinite;">
+          <div class="node-emoji">🏦</div>
+          <div class="node-label">Prior RK</div>
+        </div>
+        <!-- Connecting line 1 -->
+        <div class="line" style="top:calc(28% + 40px);left:calc(10% + 80px);width:13%;background:linear-gradient(90deg,rgba(162,119,255,.5),rgba(162,119,255,.2));"></div>
+        <!-- Packet 1 -->
+        <div class="packet" style="top:calc(28% + 36px);animation:flow1 3.2s ease-in-out infinite;animation-delay:.2s"></div>
+
+        <!-- Cashiering node -->
+        <div class="node" style="width:80px;height:80px;top:28%;left:26%;border-color:rgba(122,162,247,.45);background:rgba(122,162,247,.07);animation:breathe 2.8s ease-in-out infinite;animation-delay:.6s;">
+          <div class="node-emoji">⚡</div>
+          <div class="node-label" style="color:#7aa2f7">Cashiering</div>
+        </div>
+        <!-- Line to DC -->
+        <div class="line" style="top:calc(28% + 40px);left:calc(26% + 80px);width:13%;background:linear-gradient(90deg,rgba(122,162,247,.5),rgba(122,162,247,.2));"></div>
+        <!-- Packet 2 -->
+        <div class="packet" style="top:calc(28% + 36px);background:#7aa2f7;box-shadow:0 0 10px #7aa2f7;animation:flow2 3.2s ease-in-out infinite;animation-delay:1.1s"></div>
+
+        <!-- DC node -->
+        <div class="node" style="width:80px;height:80px;top:28%;left:42%;border-color:rgba(187,154,247,.45);background:rgba(187,154,247,.07);animation:breathe 2.8s ease-in-out infinite;animation-delay:1.1s;">
+          <div class="node-emoji">💻</div>
+          <div class="node-label" style="color:#bb9af7">DC</div>
+        </div>
+
+        <!-- Line down to P3 -->
+        <div class="line" style="top:calc(28% + 80px);left:calc(42% + 40px);width:1px;height:12%;background:linear-gradient(180deg,rgba(187,154,247,.5),rgba(187,154,247,.1));transform:none;"></div>
+        <!-- Packet down -->
+        <div class="packet" style="left:calc(42% + 36px);background:#bb9af7;box-shadow:0 0 10px #bb9af7;animation:flowdown 3.2s ease-in-out infinite;animation-delay:1.8s"></div>
+
+        <!-- Informatica node -->
+        <div class="node" style="width:80px;height:80px;top:62%;left:35%;border-color:rgba(86,182,194,.45);background:rgba(86,182,194,.07);animation:breathe 2.8s ease-in-out infinite;animation-delay:1.6s;">
+          <div class="node-emoji">⚙️</div>
+          <div class="node-label" style="color:#56b6c2;font-size:10px">Informatica</div>
+        </div>
+        <!-- Line to P3 -->
+        <div class="line" style="top:calc(62% + 40px);left:calc(35% + 80px);width:13%;background:linear-gradient(90deg,rgba(86,182,194,.5),rgba(86,182,194,.2));"></div>
+
+        <!-- P3 node -->
+        <div class="node" style="width:80px;height:80px;top:62%;left:51%;border-color:rgba(247,198,88,.45);background:rgba(247,198,88,.07);animation:breathe 2.8s ease-in-out infinite;animation-delay:2.2s;">
+          <div class="node-emoji">📊</div>
+          <div class="node-label" style="color:#f7c658">P3</div>
+        </div>
+
+        <!-- Scene label -->
+        <div style="position:absolute;bottom:20px;right:14px;font-size:10px;color:rgba(220,221,222,.25);font-weight:500;letter-spacing:.5px">Day of Wire Workflow</div>
+      </div>
+
+      <div class="progress-bar"><div class="progress-fill"></div></div>
+    </div>
+
+    <!-- Text content -->
+    <div class="sh">Day Before</div>
+    <div class="prose">Email <a href="#">Cashiering</a> with the expected wire amount and plan name. Email the <a href="#">prior record keeper</a> to confirm. Both parties should be on notice going into liquidation day.</div>
+
+    <div class="sh" style="margin-top:16px">Wire Confirmation</div>
+    <div class="prose">Cashiering pulls wires at 7 AM, 9 AM, 1 PM, and 3 PM CST. They notify the DC by 3:45 PM if the wire was received. Wires after 3 PM CST deposit the next business day.</div>
+
+    <div class="callout">The SSBT cut-off is 4:00 PM EST — the Fund Management Calendar must be updated and the notification email sent before this time on any day trades go out.</div>
+
+    <div class="sh" style="margin-top:4px">Pre-Checks Before Running Day of Wire</div>
+    <ul class="checklist">
+      <li>Plan fully set up in P3</li>
+      <li>Trans ref numbers created (one per fund)</li>
+      <li>CONV file totals match vendor breakdown</li>
+      <li>Dummy participant exists in census (mapping only)</li>
+      <li>Fund mapping approved and loaded</li>
+    </ul>
+  </div>
+
+  <!-- Right sidebar — UNCHANGED -->
+  <div class="sb-right">
+    <div class="sb-head">On this page</div>
+    <span class="toc-item">Day Before</span>
+    <span class="toc-item">Morning of Liquidation Day</span>
+    <span class="toc-item">Wire Confirmation</span>
+    <span class="toc-item">Processing by Conversion Type</span>
+    <span class="toc-item">Pre-Checks</span>
+    <span class="toc-item">Cutoff Time</span>
+    <div class="sb-divider"></div>
+    <div class="sb-head">Backlinks</div>
+    <span class="bl-item">DC Onboarding Workflow</span>
+    <span class="bl-item">Plan Conversion Handoffs</span>
+    <span class="bl-item">Final Files Processing</span>
+    <div class="sb-divider"></div>
+    <div class="sb-head">Outgoing Links</div>
+    <span class="ol-item">Cashiering</span>
+    <span class="ol-item">Informatica</span>
+    <span class="ol-item">Dummy Participant</span>
+    <span class="ol-item">Fund Management Calendar</span>
+    <span class="ol-item">P2</span>
+    <div class="sb-divider"></div>
+    <div class="sb-head">Tags</div>
+    <div style="display:flex;flex-wrap:wrap;gap:4px">
+      <span style="background:#2b2538;color:#c9b3ff;border:1px solid rgba(162,119,255,.2);padding:2px 7px;border-radius:99px;font-size:10px">liquidation</span>
+      <span style="background:#2b2538;color:#c9b3ff;border:1px solid rgba(162,119,255,.2);padding:2px 7px;border-radius:99px;font-size:10px">critical</span>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

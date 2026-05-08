@@ -1,0 +1,287 @@
+# Counts and totals for Gamble
+
+## Notes (from header comments)
+- AQT SETPARM,PARM=CASE,VALUE="TA068919  00001"
+- AQT SETPARM,PARM=Business_line,VALUE="TDA"
+- AQT SETPARM,PARM=Enddate,VALUE="20220622"
+
+## SQL
+```sql
+--AQT SETPARM,PARM=CASE,VALUE="TA068919  00001"
+--AQT SETPARM,PARM=Business_line,VALUE="TDA"
+--AQT SETPARM,PARM=Enddate,VALUE="20220622"
+
+with plan as
+(select account_no as case_no, enrl_prov_grp_i from pension.plan_prov_grp
+where account_no='$CASE' and RELATED_GRP_TYP_C=361 )
+,
+actpop as
+(
+select soc_Sec_no, ee_hire_dt,ee_term_dt, ee_rehire_dt
+from $Business_line.EMPLOYEE
+where case_no ='$CASE'
+AND (EE_TERM_DT in( '00000000','')
+or (DATE(SUBSTR(EE_TERM_DT,1,4)||'-'||SUBSTR(EE_TERM_DT,5,2)||'-'||SUBSTR(EE_TERM_DT,7,2)) <= EE_REHIRE_DT and ee_rehire_dt<='$Enddate'
+or ee_hire_dt>ee_term_dt)
+or ee_term_dt>'$Enddate')
+
+
+)
+, 
+termpop as
+
+(
+select case_no,soc_Sec_no, ee_hire_dt,ee_term_dt, ee_rehire_dt
+from $Business_line.EMPLOYEE
+where case_no ='$CASE'
+AND EE_TERM_DT not in('00000000','')
+AND (EE_REHIRE_DT IS NULL OR (DATE(SUBSTR(EE_TERM_DT,1,4)||'-'||SUBSTR(EE_TERM_DT,5,2)||'-'||SUBSTR(EE_TERM_DT,7,2))>EE_REHIRE_DT) and ee_rehire_dt<='$Enddate')
+and ee_term_dt<'$Enddate' and ee_term_dt>ee_hire_dt
+)
+,
+----- need below (including for PCRA
+ period_close_bal as
+(
+select a.case_no,  b.soc_Sec_no, fd_Descr_cd,eff_d, sum(TOTAL_A) as balance
+from $Business_line.ee_part_bal_header a, $Business_line.ee_part_balance b
+where a.case_no = '$CASE'
+and a.transact_i=b.transact_i
+and a.enrl_prov_grp_i=b.enrl_prov_grp_i
+and a.eff_d in (select max(eff_d) from $Business_line.ee_part_bal_header c where c.enrl_prov_grp_i=a.enrl_prov_grp_i and eff_d<=date(substr('$Enddate',1,4)||'-'||substr('$Enddate',5,2)||'-'||substr('$Enddate',7,2)))
+--and b.soc_Sec_no not like '%-%-%'
+group by a.case_no, eff_d, b.soc_sec_no, fd_descr_cd
+)
+,
+------need 
+subscriptions as
+(
+SELECT  --a.*, f.*
+ distinct B.ACCOUNT_NO, 
+   D.SOC_SEC_NO, 
+   H.EE_LAST_NM,
+   H.EE_FST_MID_NM, 
+   UCASE(G.HLP_TEXT) AS SERVICE_NAME, 
+   A.EFF_D,
+   End_D
+FROM  PENSION.PART_XPRESS_DATA A,
+   PENSION.PLAN_PROV_GRP B,
+   PENSION.PART_ENRL C,
+   PENSION.PERSON_SEARCH D,
+   PENSION.PART_SERVICE_DATA F,
+   $Business_line.HELPER2 G,
+   $Business_line.EMPLOYEE H
+WHERE  A.ENRL_PROV_GRP_I = B.ENRL_PROV_GRP_I
+AND   A.ENRL_PROV_GRP_I = C.ENRL_PROV_GRP_I
+AND   A.PART_ENRL_I = C.PART_ENRL_I
+AND   C.PART_I = D.PERSON_I
+AND   A.ENRL_PROV_GRP_I = F.ENRL_PROV_GRP_I
+AND   A.PART_ENRL_I = F.PART_ENRL_I
+AND   F.SERV_TYP_C = CAST(G.HLP_VALUE AS SMALLINT)
+AND   B.ACCOUNT_NO = H.CASE_NO
+AND   D.SOC_SEC_NO = H.SOC_SEC_NO
+AND   G.HLP_CODE = 'SERVICES'
+AND   B.ACCOUNT_NO='$CASE'
+--AND   A.STAT_C = 'A'
+--and h.soc_Sec_no='321-70-6817'
+--and UCASE(G.HLP_TEXT)='CUSTOM PORTFOLIO'
+--AND   F.SERV_TYP_C in(4005,6001,6002,6004)
+and   f.eff_d<=date(substr('$Enddate',1,4)||'-'||substr('$Enddate',5,2)||'-'||substr('$Enddate',7,2))
+and   (End_D is null or end_d>date(substr('$Enddate',1,4)||'-'||substr('$Enddate',5,2)||'-'||substr('$Enddate',7,2)))
+--and  d.soc_sec_no in (select soc_Sec_no from period_close_bal)
+)
+-----------------need below
+,
+models as
+(
+select distinct account_no,count(distinct PORTF_TYP_T ) as mods
+from pension.inv_mix_detail b, pension.inv_mix_Data c, pension.plan_prov_grp a, pension.plan_provision d
+where  prov_typ_c=1059
+and account_no='$CASE'
+and a.enrl_prov_grp_i=d.enrl_prov_grp_i and b.INV_MIX_PROV_I=provision_i
+and eff_d in (select max(eff_D) from pension.inv_mix_detail a where a.inv_mix_prov_i=b.inv_mix_prov_i)
+and b.INV_MIX_PROV_I= c.INV_MIX_PROV_I
+and b.portfolio_i=c.portfolio_i
+and LANG_C=0
+and b.mod_ts=c.mod_ts
+group by account_no
+)
+
+,
+escripts as
+(
+select distinct b.case_no, substr(cast(decimal(count(distinct c.soc_Sec_no),9,3)/decimal(count(distinct b.soc_Sec_no),9,3)*100 as varchar),1,6) as percentage
+from  period_close_bal b
+left join (select account_no, soc_Sec_no from pension.part_service_Data
+where account_no ='$CASE'
+and serv_typ_c=7001) as c on c.account_no=b.case_no and c.soc_Sec_no=b.soc_Sec_no
+group by b.case_no
+)
+
+,
+elig_pop as
+(
+select distinct soc_Sec_no, account_no, enrl_prov_grp_i
+from pension.part_enrl_xref a, pension.part_elig_src b
+where account_no='$CASE'
+and a.part_enrl_i=b.part_enrl_i
+and b.stat_c=3
+and PART_HIST_C=0
+and plan_entry_d<=date(substr('$Enddate',1,4)||'-'||substr('$Enddate',5,2)||'-'||substr('$Enddate',7,2))
+and soc_Sec_no in (select soc_sec_no from actpop)
+)
+
+
+
+,
+SDBAS as
+(
+Select  distinct case
+when related_grp_typ_c=362 then (select account_no from pension.plan_prov_grp e where e.enrl_prov_grp_i=d.RELATED_GRP_I)
+else account_no end as account_no, fd_desc_cd, REPTG_1_FD_NM, REPTG_2_FD_NM, sda_account_c,'YES' as has_it
+
+FROM $Business_line.CONTRACT_DATA A, $Business_line.CASE_DATA B, $Business_line.CONTRACT_fund_data c, pension.plan_prov_grp d
+where (fd_Desc_cd like 'NMF%' or fd_Desc_cd like 'NME%')                                                                            
+ AND A.CONT_NO = B.CONT_NO
+ and a.cont_no=c.cont_no                                                
+ AND A.CONT_STAT_CD IN ('6','7')
+and case_no=account_no
+and fd_action_cd='0'
+)
+,
+loan_bal as
+(
+with repayments as
+(select A.enrl_prov_grp_i,  loan_no, soc_Sec_no, sum(LN_PRNC_A) as paid_amt from pension.loan_repay_src A, PENSION.PLAN_PROV_GRP B
+where account_no like '$CASE%' 
+AND A.ENRL_PROV_GRP_I=B.ENRL_PROV_GRP_I
+AND TR_REF_NO IN (SELECT TR_REF_NO FROM $Business_line.LOAN_REPAYMENT C WHERE C.CASE_NO=B.ACCOUNT_NO AND C.SOC_sEC_NO=A.SOC_sEC_NO AND EFF_DT<='$Enddate')
+group by A.enrl_prov_grp_i, loan_no, soc_Sec_no)
+
+
+select A.CASE_NO, sum(
+
+ (case
+when coalesce(initial_ln_amt,0)>init_ln_amt and coalesce(initial_ln_amt,0)>init_tkovr_ln_amt then coalesce(initial_ln_amt,0)
+else INIT_LN_AMT end ) -coalesce(paid_amt,0) )as principal_due
+ 
+from $Business_line.LOAN_DETAIL a
+left join repayments b on b.loan_no=a.loan_no and b.soc_Sec_no=a.soc_Sec_no
+left join $Business_line.loan_history d on a.loan_no=d.loan_no and d.SEQ_N=0
+					
+where a.case_no ='$CASE'
+and orig_ln_iss_dt<='$Enddate'
+
+and REFI_LOAN_NO is null
+ and (LN_TR_STAT_CD NOT IN ('4', 'E','3','7','5','1') or (ln_Default_dt='$Enddate' and LN_TR_STAT_CD ='E'))
+
+group by a.case_no
+)
+--
+--select a.soc_Sec_no, ee_hire_dt, ee_term_dt, ee_rehire_dt, sum(balance)
+--from period_close_bal a, tda.employee b
+--where a.case_no=b.case_no
+--and a.soc_Sec_no=b.soc_Sec_no
+--group by a.soc_Sec_no, ee_hire_dt, ee_term_dt, ee_rehire_dt
+
+
+select a.case_no, 'Total participant balance',sum(balance) as balance
+from plan a  
+left join period_close_bal b on a.case_no=b.case_no
+where soc_Sec_no like '%-%-%'
+group by a.case_no
+
+union 
+
+select a.case_no, 'Total AE/EBA balance',sum(balance) as balance
+from plan a
+left join period_close_bal b on a.case_no=b.case_no
+where (soc_Sec_no like '%A%' or soc_sec_no like '%X%')
+group by a.case_no
+
+union 
+
+select a.case_no, 'Total Forfeiture balance',sum(balance) as balance
+from plan a
+left join period_close_bal b on a.case_no=b.case_no
+where soc_Sec_no like '%F%'
+group by a.case_no
+
+
+union 
+
+select a.case_no, 'Total plan balance',sum(balance) as balance
+from plan a
+left join period_close_bal b on a.case_no=b.case_no and soc_Sec_no not like '%S%'
+group by a.case_no
+
+union all
+
+select a.case_no, 'Total loan balance', principal_due
+from plan a
+left join loan_bal b on a.case_no=b.case_no
+
+union all
+select a.case_no, 'Participants with balance',count(distinct soc_Sec_no)
+from plan a
+left join period_close_bal b on a.case_no=b.case_no
+and soc_Sec_no like '%-%-%'
+group by a.case_no
+
+union all
+select a.case_no, 'Active participants with balance',count(distinct soc_Sec_no)
+from plan a
+left join period_close_bal b on a.case_no=b.case_no
+and soc_Sec_no like '%-%-%'
+and soc_Sec_no in (select soc_Sec_no from actpop)
+group by a.case_no
+
+union all
+select a.case_no, 'Terminated participants with balance',count(distinct soc_Sec_no)
+from plan a
+left join period_close_bal b on a.case_no=b.case_no
+and soc_Sec_no like '%-%-%'
+and soc_Sec_no in (select soc_Sec_no from termpop)
+group by a.case_no
+
+union all
+
+select a.case_no, 'Terminated participants with balance < $5000.00',count(distinct b.soc_Sec_no)
+from plan a
+left join period_close_bal b on a.case_no=b.case_no
+and soc_Sec_no like '%-%-%'
+and soc_Sec_no in (select soc_Sec_no from termpop)
+join (
+
+select case_no,soc_Sec_no, sum(balance)
+from period_close_bal 
+where soc_Sec_no like '%-%-%'
+group by case_no, soc_Sec_no
+having sum(balance)<5000 ) c on c.case_no=b.case_no and c.soc_sec_no=b.soc_Sec_no
+group by a.case_no
+
+union all
+
+select a.case_no,SERVICE_NAME, count(distinct soc_Sec_no)
+from plan a
+left join subscriptions b on a.case_no=b.account_no
+group by a.case_no, SERVICE_NAME
+
+union all
+
+select a.case_no, 'PCRA participation', count(distinct soc_Sec_no)
+from plan a
+left join period_close_bal b on b.case_no=a.case_no
+and fd_Descr_cd='PCRA'
+group by a.case_no
+
+
+
+
+
+
+--select *
+--from tda.transact_Detail
+--where eff_Dt like '2022%'
+--and soc_Sec_no like '%F%'
+--and case_no ='FA053867  00001'
+```

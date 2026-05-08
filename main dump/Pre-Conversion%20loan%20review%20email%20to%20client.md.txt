@@ -1,0 +1,8 @@
+# Pre-Conversion Loan Review Email to Client
+
+## Purpose
+- Communicate loan review findings and required actions to plan sponsor.
+
+## Key Guidance
+- Review loans past maturity
+- Consider default rules and VCP if applicable

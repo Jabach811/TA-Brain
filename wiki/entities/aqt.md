@@ -1,37 +1,42 @@
 ---
 title: "AQT"
-type: entity
-tags: [system, aqt, sql, query, source-mapping]
+type: system
+tags: [system, aqt, sql, query]
 created: 2026-04-14
-updated: 2026-04-14
+updated: 2026-05-03
 sources: 2
 ---
 
 # AQT
 
-Standalone SQL query application used by DCs to look up TransAmerica source IDs and run isolating queries. Read-only — cannot modify data.
+Standalone SQL query application used by DCs throughout the conversion lifecycle. Read-only — cannot modify data.
 
 ## Overview
 
-AQT is an internal database query tool that DCs use throughout the conversion lifecycle. Its primary use is pulling TransAmerica's internal source IDs during [[source-mapping]], but it is also used to build the isolating queries required before submitting [[prod-support]] AWD tickets. AQT operates as a standalone desktop application — it is not integrated into P3 or EDS.
+AQT is an internal database query tool. DCs use it for SQL queries against TransAmerica's databases — every interaction is a query. It is a standalone desktop application, not integrated into P3 or EDS.
+
+![AQT main window — query editor on top, results grid below.](SS/AQT - Main.jpg)
 
 ## Key Facts
 
 - **Type:** Standalone desktop application
 - **Access:** Not within P3 — separate app
 - **Permissions:** Read-only (view-only). DCs cannot make table changes through AQT.
-- **Primary use:** Pulling TA source IDs for [[source-mapping]]
 - **Full name:** Unknown — acronym not yet expanded
 
-## Primary Use Case — Source Mapping
+## How DCs Use It
 
-During [[source-mapping]], the DC runs a query in AQT to retrieve TransAmerica's internal source ID for each prior vendor source type. The specific query is complex and will be documented separately as part of the DC query library.
+AQT is the DC's SQL query surface. Common queries include:
+
+- **Source mapping** — pulling TransAmerica source IDs for each prior vendor source type during [[source-mapping]]. The specific query is complex and will be documented separately as part of the DC query library.
+- **Isolating queries for [[prod-support]] AWD tickets** — building a query that returns exactly the records that need to be modified (not the full table) and pasting it into the ticket comments.
+- **Lookups during conversion work** — confirming record state, verifying loaded data, checking source IDs and balances.
 
 > Get the actual query that holds exactly the data you need. Don't pull the entire table.
 
-## Secondary Use — Prod Support Tickets
+![AQT toolbar — run, stop, export, and connection controls.](SS/AQT - Toolbar.jpg)
 
-Before submitting an AWD ticket to [[prod-support]], the DC must use AQT to build an **isolating query** — a query that returns exactly the records that need to be modified, not the full table. This query is pasted into the AWD ticket comments.
+The full query library will be documented separately.
 
 ## Limitations
 

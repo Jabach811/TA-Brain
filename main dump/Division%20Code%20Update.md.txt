@@ -1,0 +1,8 @@
+# Division Code Update
+
+## Purpose
+- Update participant division codes for a specific plan and population.
+
+## Process
+- Update `ee_div_no` in `corp.employee`.
+- Filter by `case_no` and current blank division code.

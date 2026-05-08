@@ -1,0 +1,16 @@
+# Pending Enrollment Kit Analysis
+
+## Purpose
+- Identifies participants scheduled to receive enrollment kits while PoD is On Hold.
+
+## Key Points
+- Shows real and projected kit mail dates.
+- Kits mailed 6 weeks prior to plan entry date.
+
+## Prerequisites
+- Eligibility/Kit Outsourcing complete.
+- Eligibility run through batch.
+
+## Analysis
+- Validate population against conversion strategy.
+- Remove incorrect kit rows if needed.

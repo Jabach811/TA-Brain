@@ -1,6 +1,6 @@
 ---
 title: "EDS Load Beneficiary Requirements"
-type: concept
+type: process
 tags: [eds, beneficiary, process, system]
 created: 2026-04-16
 updated: 2026-04-16

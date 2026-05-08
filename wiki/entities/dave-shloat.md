@@ -1,6 +1,6 @@
 ---
 title: "Dave Shloat"
-type: entity
+type: person
 tags: [person, data, alteryx, informatica, large-market]
 created: 2026-04-14
 updated: 2026-04-14
@@ -36,6 +36,5 @@ He is a core piece of the team's operational capability — the kind of resource
 ## See Also
 
 - [[informatica]]
-- [[internal-teams]]
 - [[roles/lm-dc]]
 - [[concepts/dc-onboarding-workflow]]

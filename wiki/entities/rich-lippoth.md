@@ -1,6 +1,6 @@
 ---
 title: "Rich Lippoth"
-type: entity
+type: person
 tags: [person, trading, vanguard, fund-management]
 created: 2026-04-16
 updated: 2026-04-16

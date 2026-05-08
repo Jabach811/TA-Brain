@@ -1,0 +1,37 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//c/Users/mabac/**)",
+      "Read(//tmp/**)",
+      "Read(//tmp/marp-slides/**)",
+      "Read(//c/tmp/marp-slides/**)",
+      "Bash(cp \"C:/Users/mabac/AppData/Local/Temp/marp-slides/SKILL.md\" ~/.claude/commands/marp-slides.md)",
+      "Bash(cp -r \"C:/Users/mabac/AppData/Local/Temp/marp-slides/examples\" ~/.claude/commands/marp-slides-examples)",
+      "Bash(grep -n \"^$\" \"c:/Users/mabac/OneDrive/Desktop/TA Brain/lm-dc-conversion-timeline.md\")",
+      "Bash(awk 'NR>=58 && NR<=65' \"c:/Users/mabac/OneDrive/Desktop/TA Brain/lm-dc-conversion-timeline.md\")",
+      "Bash(grep -n \"# Kickoff\\\\|# Prior RK\\\\|# Final Files\\\\|^---$\" \"c:/Users/mabac/OneDrive/Desktop/TA Brain/lm-dc-conversion-timeline.md\")",
+      "Bash(python3 -)",
+      "Bash(npx @marp-team/marp-cli \"lm-dc-conversion-timeline.md\" --html --allow-local-files -o \"lm-dc-conversion-timeline.html\")",
+      "Bash(npx @marp-team/marp-cli ai-investment-pitch.md --html --allow-local-files)",
+      "Bash(npx @marp-team/marp-cli@latest lm-dc-conversion-timeline.md --html --allow-local-files -o lm-dc-conversion-timeline.html)",
+      "Bash(npx @marp-team/marp-cli@latest lm-dc-conversion-timeline-dark.md --html --allow-local-files -o lm-dc-conversion-timeline-dark.html)",
+      "mcp__Claude_Preview__preview_start",
+      "Bash(npx @marp-team/marp-cli --html \"Balance-Import-Guide.md\" -o \"/tmp/balance-preview.html\")",
+      "Bash(npx @marp-team/marp-cli --html \"Balance-Import-Guide.md\" -o \"balance-preview.html\")",
+      "Bash(python3 -c ' *)",
+      "Bash(grep -c \"^---$\" \"C:\\\\Users\\\\mabac\\\\OneDrive\\\\Desktop\\\\TA Brain\\\\dc-onboarding.md\")",
+      "Bash(grep -n \"^### \\\\|^# \\\\|^---$\" \"C:\\\\Users\\\\mabac\\\\OneDrive\\\\Desktop\\\\TA Brain\\\\dc-onboarding.md\")",
+      "Bash(npx @marp-team/marp-cli dc-onboarding.md --html --allow-local-files)",
+      "Bash(npx @marp-team/marp-cli Balance-Import-Guide-Apple.md --html --allow-local-files)",
+      "Bash(npx @marp-team/marp-cli --html --allow-local-files 01-payroll-integration.md 02-re-registration-tik.md 03-balance-import.md 04-loan-setup.md 05-eligibility-processing.md 06-deferral-elections.md 07-roth-basis-tracking.md)",
+      "Bash(git clone *)",
+      "Bash(python build-wiki.py)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(python -c ' *)"
+    ],
+    "additionalDirectories": [
+      "C:\\Users\\mabac\\.claude"
+    ]
+  }
+}

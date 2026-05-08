@@ -1,0 +1,9 @@
+# Insert / Delete Participant Note
+
+## Purpose
+- Add, update, or deactivate participant-level notes in P3.
+
+## Actions
+- Insert note into `PARTICIPANT_NOTES`.
+- Update or disable existing notes.
+- Verify via select query.

@@ -1,0 +1,9 @@
+# Statement GUI Procedures
+
+## Purpose
+- Run ER statements for final plan-level audits.
+
+## Key Steps
+- Schedule Employer Only statement.
+- Set date range and case number.
+- Run and email PDF output.

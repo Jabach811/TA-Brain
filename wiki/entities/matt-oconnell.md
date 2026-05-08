@@ -1,6 +1,6 @@
 ---
 title: "Matt O'Connell"
-type: entity
+type: person
 tags: [person, transfer-in-kind, reregistration, fidelity]
 created: 2026-04-14
 updated: 2026-04-14

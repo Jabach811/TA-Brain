@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TA Brain Program Icon Mocks</title>
+  <style>
+    :root {
+      --bg: #f8f9fa;
+      --surface: #fff;
+      --surface-2: #f1f4f7;
+      --ink: #202122;
+      --muted: #54595d;
+      --faint: #72777d;
+      --line: #a2a9b1;
+      --line-soft: #d8dde3;
+      --accent: #2a6f73;
+      --serif: Georgia, "Times New Roman", serif;
+      --sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--sans);
+      font-size: 15px;
+      line-height: 1.5;
+    }
+
+    main {
+      width: min(1180px, calc(100% - 48px));
+      margin: 0 auto;
+      padding: 34px 0 80px;
+    }
+
+    h1 {
+      margin: 0 0 6px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--line);
+      font-family: var(--serif);
+      font-size: 34px;
+      font-weight: 400;
+      line-height: 1.15;
+    }
+
+    .lede {
+      max-width: 760px;
+      margin: 0 0 24px;
+      color: #2a2e33;
+      font-size: 16px;
+    }
+
+    .mock-shell {
+      border: 1px solid var(--line-soft);
+      background: #fff;
+      box-shadow: 0 18px 44px rgba(32, 33, 34, 0.08);
+      margin: 22px 0 28px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      min-height: 58px;
+      border-bottom: 1px solid var(--line-soft);
+      background: #fff;
+      padding: 9px 22px;
+    }
+
+    .crumbs {
+      min-width: 0;
+      flex: 1 1 auto;
+      overflow: hidden;
+      color: var(--muted);
+      font-size: 13px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .crumbs strong { color: var(--ink); font-weight: 600; }
+
+    .mock-button {
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--muted);
+      padding: 5px 10px;
+      border-radius: 2px;
+      font-size: 13px;
+    }
+
+    .program-mark {
+      width: 40px;
+      height: 40px;
+      flex: 0 0 auto;
+      border: 1px solid rgba(42, 111, 115, 0.22);
+      border-radius: 10px;
+      background: #fff;
+      box-shadow: 0 5px 14px rgba(32, 33, 34, 0.12);
+      overflow: hidden;
+    }
+
+    .program-mark img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .article-shell {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 250px;
+      gap: 24px;
+      padding: 26px 28px 34px;
+      background: var(--bg);
+    }
+
+    .article h2 {
+      margin: 0 0 10px;
+      padding: 12px 0 8px;
+      border-bottom: 1px solid var(--line);
+      font-family: var(--serif);
+      font-size: 38px;
+      font-weight: 400;
+      line-height: 1.15;
+    }
+
+    .article p { max-width: 740px; color: #2a2e33; }
+
+    .rail {
+      border: 1px solid var(--line);
+      background: #fff;
+      align-self: start;
+      font-size: 13px;
+    }
+
+    .rail-title {
+      border-bottom: 1px solid var(--line);
+      background: #e8f0f2;
+      padding: 9px 12px;
+      font-family: var(--serif);
+      font-weight: 700;
+      text-align: center;
+    }
+
+    .rail-row {
+      display: grid;
+      grid-template-columns: 82px minmax(0, 1fr);
+      border-bottom: 1px solid var(--line-soft);
+    }
+
+    .rail-row:last-child { border-bottom: 0; }
+    .rail-key { background: #f5f6f7; padding: 7px 8px; font-weight: 700; }
+    .rail-value { padding: 7px 8px; color: var(--muted); }
+
+    .section-title {
+      margin: 30px 0 8px;
+      font-family: var(--serif);
+      font-size: 24px;
+      font-weight: 400;
+    }
+
+    .variant-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .variant {
+      border: 1px solid var(--line-soft);
+      background: #fff;
+      padding: 14px;
+    }
+
+    .variant.selected {
+      border-color: rgba(42, 111, 115, 0.6);
+      box-shadow: 0 0 0 3px rgba(42, 111, 115, 0.12);
+    }
+
+    .variant img {
+      display: block;
+      width: 100%;
+      aspect-ratio: 1;
+      object-fit: cover;
+      border-radius: 12px;
+      background: var(--surface-2);
+    }
+
+    .variant h3 {
+      margin: 12px 0 3px;
+      font-size: 14px;
+      line-height: 1.2;
+    }
+
+    .variant p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 12.5px;
+    }
+
+    .scale-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+      align-items: end;
+      border: 1px dashed var(--line-soft);
+      background: #fff;
+      padding: 18px;
+      margin-top: 14px;
+    }
+
+    .scale-sample {
+      display: grid;
+      gap: 6px;
+      justify-items: center;
+      color: var(--faint);
+      font-size: 11px;
+    }
+
+    .scale-sample img {
+      display: block;
+      border-radius: 22%;
+      object-fit: cover;
+      box-shadow: 0 3px 10px rgba(32, 33, 34, 0.12);
+    }
+
+    @media (max-width: 860px) {
+      main { width: min(100% - 28px, 680px); }
+      .article-shell { grid-template-columns: 1fr; padding: 22px 18px; }
+      .variant-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .mock-button { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>TA Brain Program Icon Mocks</h1>
+    <p class="lede">Lattice direction only. The selected preview uses the top-right refinement in the same topbar position where the program mark would live.</p>
+
+    <section class="mock-shell" aria-label="Topbar context mock">
+      <header class="topbar">
+        <div class="crumbs">TA Brain / Processes / <strong>Plan Conversion Handoffs</strong></div>
+        <button class="mock-button" type="button">Main page</button>
+        <button class="mock-button" type="button">All pages</button>
+        <div class="program-mark" aria-label="Program icon preview">
+          <img src="mock-assets/ta-brain-lattice-v2.png" alt="">
+        </div>
+      </header>
+      <div class="article-shell">
+        <article class="article">
+          <h2>Plan Conversion Handoffs</h2>
+          <p>This mock keeps the lifecycle app chrome intact and only swaps the small program icon. The goal is a mark that feels like institutional knowledge, handoffs, and relationship mapping without becoming a generic tech logo.</p>
+        </article>
+        <aside class="rail">
+          <div class="rail-title">Plan Conversion Handoffs</div>
+          <div class="rail-row"><div class="rail-key">Type</div><div class="rail-value">Process</div></div>
+          <div class="rail-row"><div class="rail-key">Sources</div><div class="rail-value">3 ingested</div></div>
+          <div class="rail-row"><div class="rail-key">Linked</div><div class="rail-value">18 pages</div></div>
+        </aside>
+      </div>
+    </section>
+
+    <h2 class="section-title">Refined Lattice Variants</h2>
+    <div class="variant-grid">
+      <section class="variant">
+        <img src="mock-assets/ta-brain-lattice-v1.png" alt="">
+        <h3>1. Clean Diamond</h3>
+        <p>Most editorial and calm.</p>
+      </section>
+      <section class="variant selected">
+        <img src="mock-assets/ta-brain-lattice-v2.png" alt="">
+        <h3>2. Rich Network</h3>
+        <p>Closest to the top-right pick.</p>
+      </section>
+      <section class="variant">
+        <img src="mock-assets/ta-brain-lattice-v3.png" alt="">
+        <h3>3. Lifecycle Lattice</h3>
+        <p>Best bridge to the banner.</p>
+      </section>
+      <section class="variant">
+        <img src="mock-assets/ta-brain-lattice-v4.png" alt="">
+        <h3>4. Minimal Mark</h3>
+        <p>Cleanest at small sizes.</p>
+      </section>
+    </div>
+
+    <h2 class="section-title">Tiny Size Check</h2>
+    <div class="scale-row" aria-label="Icon size previews">
+      <div class="scale-sample"><img src="mock-assets/ta-brain-lattice-v2.png" width="64" height="64" alt=""><span>64px</span></div>
+      <div class="scale-sample"><img src="mock-assets/ta-brain-lattice-v2.png" width="48" height="48" alt=""><span>48px</span></div>
+      <div class="scale-sample"><img src="mock-assets/ta-brain-lattice-v2.png" width="40" height="40" alt=""><span>40px topbar</span></div>
+      <div class="scale-sample"><img src="mock-assets/ta-brain-lattice-v2.png" width="32" height="32" alt=""><span>32px sidebar</span></div>
+      <div class="scale-sample"><img src="mock-assets/ta-brain-lattice-v2.png" width="24" height="24" alt=""><span>24px</span></div>
+    </div>
+  </main>
+</body>
+</html>

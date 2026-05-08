@@ -1,6 +1,6 @@
 ---
 title: "Prod Support"
-type: entity
+type: department
 tags: [team, prod-support, awd, tables, corrections]
 created: 2026-04-14
 updated: 2026-04-14
@@ -68,7 +68,6 @@ Thorough tickets = fewer back-and-forth exchanges = faster resolution.
 
 ## See Also
 
-- [[internal-teams]]
 - [[p3]]
 - [[eds]]
 - [[final-files-processing]]

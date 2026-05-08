@@ -1,6 +1,6 @@
 ---
 title: "LTPT Eligibility (Long-Term Part-Time)"
-type: concept
+type: reference
 tags: [eligibility, ltpt, secure-act-2, part-time, deferrals, concept]
 created: 2026-04-15
 updated: 2026-04-15

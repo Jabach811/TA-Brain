@@ -1,0 +1,10 @@
+# Default Allocation Analysis by Division Code
+
+## Purpose
+- Analyze default allocation populations by division code.
+
+## Common Use Case
+- Mergers or plans with multiple divisions.
+
+## Output
+- Allocation defaults filtered by division.

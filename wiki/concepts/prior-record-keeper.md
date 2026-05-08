@@ -1,6 +1,6 @@
 ---
 title: "Prior Record Keeper"
-type: concept
+type: process
 tags: [prior-record-keeper, vendor, liquidation, test-files, coordination]
 created: 2026-04-14
 updated: 2026-04-14
@@ -74,7 +74,7 @@ DC sends wire instructions to prior RK as early as possible. See [[wire-instruct
 On liquidation day:
 - DC emails prior RK to confirm everything on track (day before)
 - DC emails prior RK in the morning to request wire confirmation + fund breakdown
-- DC stays in contact until wire is confirmed received by [[internal-teams|Cashiering]]
+- DC stays in contact until wire is confirmed received by [[cashiering|Cashiering]]
 
 ## Unresponsive Prior RKs
 

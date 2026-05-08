@@ -1,10 +1,10 @@
 ---
 title: "Payroll Template"
-type: concept
+type: document
 tags: [document, payroll, template, vendor, contributions]
 created: 2026-04-14
-updated: 2026-04-14
-sources: 2
+updated: 2026-05-03
+sources: 3
 ---
 
 # Payroll Template
@@ -39,8 +39,20 @@ The payroll template defines exactly how payroll files must be structured to be 
 4. DC requests a **test payroll file** from the vendor as soon as they're ready
 5. DC tests file through [[eds]] — reviews warnings and errors
 6. If issues: send feedback to vendor → new test file → repeat
-7. Clean file sent to [[internal-teams|Payroll Support Team]] for deeper validation
+7. Clean file sent to [[payroll-support|Payroll Support Team]] for deeper validation
 8. Green light from Payroll Support → payroll setup complete
+
+> Full vendor-side narrative — intro email, kickoff meeting flow, OnePayroll handoff, client demo, auto-sweep timing — lives in [[payroll-vendor-onboarding]].
+
+## File Naming Convention
+
+Every payroll file uploaded through FTP (or sent manually) must follow:
+
+```
+<case#>_<contract>_<affiliate>.xls
+```
+
+The system catches on the prefix — wrong name and the file isn't picked up. A timestamp gets appended automatically on receipt to prevent duplicates, so the sender only controls the prefix.
 
 ## EDS Layout Dependency
 
@@ -72,9 +84,9 @@ If a plan has multiple payroll vendors: DC handles it "as best as we can" — no
 
 ## See Also
 
+- [[payroll-vendor-onboarding]]
 - [[base-file]]
 - [[ftp-connection]]
 - [[eds]]
 - [[source-mapping]]
 - [[dc-onboarding-workflow]]
-- [[internal-teams]]

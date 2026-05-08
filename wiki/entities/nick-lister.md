@@ -1,6 +1,6 @@
 ---
 title: "Nick Lister"
-type: entity
+type: person
 tags: [person, manager, direct-manager]
 created: 2026-04-14
 updated: 2026-04-14
@@ -33,4 +33,3 @@ Nick Lister is the DC's current direct manager. He's new to the relationship (re
 
 - [[stacey-fortune]]
 - [[final-files-processing]]
-- [[internal-teams]]

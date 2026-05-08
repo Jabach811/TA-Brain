@@ -1,10 +1,10 @@
 ---
 title: "Balance Import — Cash Conversion"
-type: concept
+type: process
 tags: ["concept", "balance", "cash", "conversion", "informatica", "cits"]
 created: 2026-04-19
-updated: 2026-04-19
-sources: 1
+updated: 2026-05-03
+sources: 2
 ---
 
 # Balance Import — Cash Conversion
@@ -47,6 +47,19 @@ Step 18 — Run all associated queries for backup
 ## Critical Requirement
 
 All participants must have investment elections before running Cash Conversion. The workflow cannot distribute cash to participants without elections on file.
+
+If newly-added participants show up on the final files, check their election status. If they don't have elections, default them via [[defaulting-elections-eds]] before running the workflow.
+
+## AE Liquidation Ref Number
+
+After cashiering confirms the wire and AE liquidation completes, the DC must:
+
+1. **Create a ref number** for the AE liquidation amount (in [[p2]])
+2. **Attach that ref number to the parameter file** alongside `Cash Conversion = Y`
+
+The CITS Balances workflow uses this ref number to tie the cash distribution back to the wire that funded it. Without it, the workflow has no anchor for the disbursement.
+
+This is the cash-conversion equivalent of how mapping uses per-fund ref numbers in the [[fund-mapping|fund mapping file]] — same idea, different file location.
 
 ## See Also
 - [[balance-import]]

@@ -1,6 +1,6 @@
 ---
 title: "Informatica Basis Module"
-type: concept
+type: process
 tags: [informatica, basis, system]
 created: 2026-04-16
 updated: 2026-04-16

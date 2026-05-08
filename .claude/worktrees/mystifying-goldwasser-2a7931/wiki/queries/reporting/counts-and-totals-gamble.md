@@ -1,0 +1,391 @@
+---
+title: "Counts and Totals — Gamble Report"
+type: query
+tags: [query, reporting, gamble, balance, counts, pcra, subscriptions, loans, models]
+used-by-role: [lm-dc, reporting, sda]
+used-in-process: [gamble-quarterly-report, plan-review]
+aqt-parameters: [CASE, Business_line, Enddate]
+tables:
+  - PENSION.PLAN_PROV_GRP
+  - PENSION.PART_XPRESS_DATA
+  - PENSION.PART_ENRL
+  - PENSION.PERSON_SEARCH
+  - PENSION.PART_SERVICE_DATA
+  - PENSION.INV_MIX_DETAIL
+  - PENSION.INV_MIX_DATA
+  - PENSION.PLAN_PROVISION
+  - PENSION.PART_ENRL_XREF
+  - PENSION.PART_ELIG_SRC
+  - PENSION.LOAN_REPAY_SRC
+  - TDA.EMPLOYEE
+  - TDA.HELPER2
+  - TDA.EE_PART_BAL_HEADER
+  - TDA.EE_PART_BALANCE
+  - TDA.CONTRACT_DATA
+  - TDA.CASE_DATA
+  - TDA.CONTRACT_FUND_DATA
+  - TDA.LOAN_DETAIL
+  - TDA.LOAN_REPAYMENT
+  - TDA.LOAN_HISTORY
+systems: [db2, aqt, tda]
+created: 2026-04-17
+updated: 2026-04-17
+sources: 1
+---
+
+# Counts and Totals — Gamble Report
+
+Consolidated counts-and-totals pull that feeds the Gamble quarterly report. Returns plan-level participant counts (active, terminated, forfeiture, AE/EBA), total balances, loan balance, subscription counts (by service name), PCRA participation, and model-portfolio counts — all in one UNION-chained result set.
+
+## Purpose
+
+The Gamble report is a quarterly plan-health snapshot combining balance, headcount, service-subscription, and loan metrics for a single plan. This query produces the headline numbers; the companion queries [[gamble-fund-level]], [[gamble-source-level]], and [[interest-rates-gamble]] produce the fund-, source-, and rate-level detail.
+
+The query uses multiple CTEs:
+
+- **plan** — resolves `CASE_NO` to `ENRL_PROV_GRP_I`
+- **actpop** — participants active as of `$Enddate` (handles re-hires and terminations in the right order)
+- **termpop** — participants terminated as of `$Enddate` (with no overriding re-hire)
+- **period_close_bal** — period-close participant balances, by fund, from `EE_PART_BAL_HEADER` and `EE_PART_BALANCE`
+- **subscriptions** — active `PART_XPRESS_DATA` subscriptions with service-type name translated via `HELPER2.HLP_CODE='SERVICES'`
+- **models** — count of active model portfolios on the plan
+- **escripts** — % of participants subscribed to eScripts (service type 7001)
+- **elig_pop** — eligible active participants
+- **SDBAs** — self-directed brokerage accounts (fund codes starting `NMF%` or `NME%`)
+- **loan_bal** — outstanding principal on active non-refi'd loans
+
+The final `SELECT` UNIONs these into rows with a label column ("Total participant balance", "Active participants with balance", "PCRA participation", etc.).
+
+## When to Run
+
+Quarterly for the Gamble report. May also be adapted to any plan by changing `$CASE` and `$Enddate`.
+
+## Parameters
+
+| Parameter | Example | Notes |
+|-----------|---------|-------|
+| CASE | `TA068919  00001` | Plan case number; note the double space |
+| Business_line | `TDA` | Schema for employee/balance/loan tables |
+| Enddate | `20220622` | YYYYMMDD cutoff for balance and participant status |
+
+## Tables
+
+See the frontmatter for the full list. Key tables:
+
+- **$Business_line.EMPLOYEE** — census
+- **$Business_line.EE_PART_BAL_HEADER / EE_PART_BALANCE** — period-close balances
+- **$Business_line.LOAN_DETAIL / LOAN_REPAYMENT / LOAN_HISTORY** — loans
+- **PENSION.PART_XPRESS_DATA / PART_SERVICE_DATA** — subscriptions
+- **PENSION.INV_MIX_DETAIL / INV_MIX_DATA** — model portfolios
+
+## SQL
+
+```sql
+--AQT SETPARM,PARM=CASE,VALUE="TA068919  00001"
+--AQT SETPARM,PARM=Business_line,VALUE="TDA"
+--AQT SETPARM,PARM=Enddate,VALUE="20220622"
+
+with plan as
+(select account_no as case_no, enrl_prov_grp_i from pension.plan_prov_grp
+where account_no='$CASE' and RELATED_GRP_TYP_C=361 )
+,
+actpop as
+(
+select soc_Sec_no, ee_hire_dt,ee_term_dt, ee_rehire_dt
+from $Business_line.EMPLOYEE
+where case_no ='$CASE'
+AND (EE_TERM_DT in( '00000000','')
+or (DATE(SUBSTR(EE_TERM_DT,1,4)||'-'||SUBSTR(EE_TERM_DT,5,2)||'-'||SUBSTR(EE_TERM_DT,7,2)) <= EE_REHIRE_DT and ee_rehire_dt<='$Enddate'
+or ee_hire_dt>ee_term_dt)
+or ee_term_dt>'$Enddate')
+
+
+)
+, 
+termpop as
+
+(
+select case_no,soc_Sec_no, ee_hire_dt,ee_term_dt, ee_rehire_dt
+from $Business_line.EMPLOYEE
+where case_no ='$CASE'
+AND EE_TERM_DT not in('00000000','')
+AND (EE_REHIRE_DT IS NULL OR (DATE(SUBSTR(EE_TERM_DT,1,4)||'-'||SUBSTR(EE_TERM_DT,5,2)||'-'||SUBSTR(EE_TERM_DT,7,2))>EE_REHIRE_DT) and ee_rehire_dt<='$Enddate')
+and ee_term_dt<'$Enddate' and ee_term_dt>ee_hire_dt
+)
+,
+----- need below (including for PCRA
+ period_close_bal as
+(
+select a.case_no,  b.soc_Sec_no, fd_Descr_cd,eff_d, sum(TOTAL_A) as balance
+from $Business_line.ee_part_bal_header a, $Business_line.ee_part_balance b
+where a.case_no = '$CASE'
+and a.transact_i=b.transact_i
+and a.enrl_prov_grp_i=b.enrl_prov_grp_i
+and a.eff_d in (select max(eff_d) from $Business_line.ee_part_bal_header c where c.enrl_prov_grp_i=a.enrl_prov_grp_i and eff_d<=date(substr('$Enddate',1,4)||'-'||substr('$Enddate',5,2)||'-'||substr('$Enddate',7,2)))
+--and b.soc_Sec_no not like '%-%-%'
+group by a.case_no, eff_d, b.soc_sec_no, fd_descr_cd
+)
+,
+------need 
+subscriptions as
+(
+SELECT  --a.*, f.*
+ distinct B.ACCOUNT_NO, 
+   D.SOC_SEC_NO, 
+   H.EE_LAST_NM,
+   H.EE_FST_MID_NM, 
+   UCASE(G.HLP_TEXT) AS SERVICE_NAME, 
+   A.EFF_D,
+   End_D
+FROM  PENSION.PART_XPRESS_DATA A,
+   PENSION.PLAN_PROV_GRP B,
+   PENSION.PART_ENRL C,
+   PENSION.PERSON_SEARCH D,
+   PENSION.PART_SERVICE_DATA F,
+   $Business_line.HELPER2 G,
+   $Business_line.EMPLOYEE H
+WHERE  A.ENRL_PROV_GRP_I = B.ENRL_PROV_GRP_I
+AND   A.ENRL_PROV_GRP_I = C.ENRL_PROV_GRP_I
+AND   A.PART_ENRL_I = C.PART_ENRL_I
+AND   C.PART_I = D.PERSON_I
+AND   A.ENRL_PROV_GRP_I = F.ENRL_PROV_GRP_I
+AND   A.PART_ENRL_I = F.PART_ENRL_I
+AND   F.SERV_TYP_C = CAST(G.HLP_VALUE AS SMALLINT)
+AND   B.ACCOUNT_NO = H.CASE_NO
+AND   D.SOC_SEC_NO = H.SOC_SEC_NO
+AND   G.HLP_CODE = 'SERVICES'
+AND   B.ACCOUNT_NO='$CASE'
+--AND   A.STAT_C = 'A'
+--and h.soc_Sec_no='321-70-6817'
+--and UCASE(G.HLP_TEXT)='CUSTOM PORTFOLIO'
+--AND   F.SERV_TYP_C in(4005,6001,6002,6004)
+and   f.eff_d<=date(substr('$Enddate',1,4)||'-'||substr('$Enddate',5,2)||'-'||substr('$Enddate',7,2))
+and   (End_D is null or end_d>date(substr('$Enddate',1,4)||'-'||substr('$Enddate',5,2)||'-'||substr('$Enddate',7,2)))
+--and  d.soc_sec_no in (select soc_Sec_no from period_close_bal)
+)
+-----------------need below
+,
+models as
+(
+select distinct account_no,count(distinct PORTF_TYP_T ) as mods
+from pension.inv_mix_detail b, pension.inv_mix_Data c, pension.plan_prov_grp a, pension.plan_provision d
+where  prov_typ_c=1059
+and account_no='$CASE'
+and a.enrl_prov_grp_i=d.enrl_prov_grp_i and b.INV_MIX_PROV_I=provision_i
+and eff_d in (select max(eff_D) from pension.inv_mix_detail a where a.inv_mix_prov_i=b.inv_mix_prov_i)
+and b.INV_MIX_PROV_I= c.INV_MIX_PROV_I
+and b.portfolio_i=c.portfolio_i
+and LANG_C=0
+and b.mod_ts=c.mod_ts
+group by account_no
+)
+
+,
+escripts as
+(
+select distinct b.case_no, substr(cast(decimal(count(distinct c.soc_Sec_no),9,3)/decimal(count(distinct b.soc_Sec_no),9,3)*100 as varchar),1,6) as percentage
+from  period_close_bal b
+left join (select account_no, soc_Sec_no from pension.part_service_Data
+where account_no ='$CASE'
+and serv_typ_c=7001) as c on c.account_no=b.case_no and c.soc_Sec_no=b.soc_Sec_no
+group by b.case_no
+)
+
+,
+elig_pop as
+(
+select distinct soc_Sec_no, account_no, enrl_prov_grp_i
+from pension.part_enrl_xref a, pension.part_elig_src b
+where account_no='$CASE'
+and a.part_enrl_i=b.part_enrl_i
+and b.stat_c=3
+and PART_HIST_C=0
+and plan_entry_d<=date(substr('$Enddate',1,4)||'-'||substr('$Enddate',5,2)||'-'||substr('$Enddate',7,2))
+and soc_Sec_no in (select soc_sec_no from actpop)
+)
+
+
+
+,
+SDBAS as
+(
+Select  distinct case
+when related_grp_typ_c=362 then (select account_no from pension.plan_prov_grp e where e.enrl_prov_grp_i=d.RELATED_GRP_I)
+else account_no end as account_no, fd_desc_cd, REPTG_1_FD_NM, REPTG_2_FD_NM, sda_account_c,'YES' as has_it
+
+FROM $Business_line.CONTRACT_DATA A, $Business_line.CASE_DATA B, $Business_line.CONTRACT_fund_data c, pension.plan_prov_grp d
+where (fd_Desc_cd like 'NMF%' or fd_Desc_cd like 'NME%')                                                                            
+ AND A.CONT_NO = B.CONT_NO
+ and a.cont_no=c.cont_no                                                
+ AND A.CONT_STAT_CD IN ('6','7')
+and case_no=account_no
+and fd_action_cd='0'
+)
+,
+loan_bal as
+(
+with repayments as
+(select A.enrl_prov_grp_i,  loan_no, soc_Sec_no, sum(LN_PRNC_A) as paid_amt from pension.loan_repay_src A, PENSION.PLAN_PROV_GRP B
+where account_no like '$CASE%' 
+AND A.ENRL_PROV_GRP_I=B.ENRL_PROV_GRP_I
+AND TR_REF_NO IN (SELECT TR_REF_NO FROM $Business_line.LOAN_REPAYMENT C WHERE C.CASE_NO=B.ACCOUNT_NO AND C.SOC_sEC_NO=A.SOC_sEC_NO AND EFF_DT<='$Enddate')
+group by A.enrl_prov_grp_i, loan_no, soc_Sec_no)
+
+
+select A.CASE_NO, sum(
+
+ (case
+when coalesce(initial_ln_amt,0)>init_ln_amt and coalesce(initial_ln_amt,0)>init_tkovr_ln_amt then coalesce(initial_ln_amt,0)
+else INIT_LN_AMT end ) -coalesce(paid_amt,0) )as principal_due
+ 
+from $Business_line.LOAN_DETAIL a
+left join repayments b on b.loan_no=a.loan_no and b.soc_Sec_no=a.soc_Sec_no
+left join $Business_line.loan_history d on a.loan_no=d.loan_no and d.SEQ_N=0
+					
+where a.case_no ='$CASE'
+and orig_ln_iss_dt<='$Enddate'
+
+and REFI_LOAN_NO is null
+ and (LN_TR_STAT_CD NOT IN ('4', 'E','3','7','5','1') or (ln_Default_dt='$Enddate' and LN_TR_STAT_CD ='E'))
+
+group by a.case_no
+)
+--
+--select a.soc_Sec_no, ee_hire_dt, ee_term_dt, ee_rehire_dt, sum(balance)
+--from period_close_bal a, tda.employee b
+--where a.case_no=b.case_no
+--and a.soc_Sec_no=b.soc_Sec_no
+--group by a.soc_Sec_no, ee_hire_dt, ee_term_dt, ee_rehire_dt
+
+
+select a.case_no, 'Total participant balance',sum(balance) as balance
+from plan a  
+left join period_close_bal b on a.case_no=b.case_no
+where soc_Sec_no like '%-%-%'
+group by a.case_no
+
+union 
+
+select a.case_no, 'Total AE/EBA balance',sum(balance) as balance
+from plan a
+left join period_close_bal b on a.case_no=b.case_no
+where (soc_Sec_no like '%A%' or soc_sec_no like '%X%')
+group by a.case_no
+
+union 
+
+select a.case_no, 'Total Forfeiture balance',sum(balance) as balance
+from plan a
+left join period_close_bal b on a.case_no=b.case_no
+where soc_Sec_no like '%F%'
+group by a.case_no
+
+
+union 
+
+select a.case_no, 'Total plan balance',sum(balance) as balance
+from plan a
+left join period_close_bal b on a.case_no=b.case_no and soc_Sec_no not like '%S%'
+group by a.case_no
+
+union all
+
+select a.case_no, 'Total loan balance', principal_due
+from plan a
+left join loan_bal b on a.case_no=b.case_no
+
+union all
+select a.case_no, 'Participants with balance',count(distinct soc_Sec_no)
+from plan a
+left join period_close_bal b on a.case_no=b.case_no
+and soc_Sec_no like '%-%-%'
+group by a.case_no
+
+union all
+select a.case_no, 'Active participants with balance',count(distinct soc_Sec_no)
+from plan a
+left join period_close_bal b on a.case_no=b.case_no
+and soc_Sec_no like '%-%-%'
+and soc_Sec_no in (select soc_Sec_no from actpop)
+group by a.case_no
+
+union all
+select a.case_no, 'Terminated participants with balance',count(distinct soc_Sec_no)
+from plan a
+left join period_close_bal b on a.case_no=b.case_no
+and soc_Sec_no like '%-%-%'
+and soc_Sec_no in (select soc_Sec_no from termpop)
+group by a.case_no
+
+union all
+
+select a.case_no, 'Terminated participants with balance < $5000.00',count(distinct b.soc_Sec_no)
+from plan a
+left join period_close_bal b on a.case_no=b.case_no
+and soc_Sec_no like '%-%-%'
+and soc_Sec_no in (select soc_Sec_no from termpop)
+join (
+
+select case_no,soc_Sec_no, sum(balance)
+from period_close_bal 
+where soc_Sec_no like '%-%-%'
+group by case_no, soc_Sec_no
+having sum(balance)<5000 ) c on c.case_no=b.case_no and c.soc_sec_no=b.soc_Sec_no
+group by a.case_no
+
+union all
+
+select a.case_no,SERVICE_NAME, count(distinct soc_Sec_no)
+from plan a
+left join subscriptions b on a.case_no=b.account_no
+group by a.case_no, SERVICE_NAME
+
+union all
+
+select a.case_no, 'PCRA participation', count(distinct soc_Sec_no)
+from plan a
+left join period_close_bal b on b.case_no=a.case_no
+and fd_Descr_cd='PCRA'
+group by a.case_no
+
+
+
+
+--select *
+--from tda.transact_Detail
+--where eff_Dt like '2022%'
+--and soc_Sec_no like '%F%'
+--and case_no ='FA053867  00001'
+```
+
+## Output
+
+One row per metric. Columns: `case_no`, label, value. Labels include:
+
+- Total participant balance
+- Total AE/EBA balance
+- Total Forfeiture balance
+- Total plan balance
+- Total loan balance
+- Participants with balance
+- Active participants with balance
+- Terminated participants with balance
+- Terminated participants with balance < $5000.00
+- (One row per subscription service name, e.g., "ADVICE", "CUSTOM PORTFOLIO", etc.)
+- PCRA participation
+
+## Related Queries
+
+- [[gamble-fund-level]] — quarterly fund-level balances and participant counts
+- [[gamble-source-level]] — quarterly source-level balances
+- [[interest-rates-gamble]] — rate-level detail for guaranteed/credited rates
+- [[loan-balances-prior-to-liquidation]] — detail-level loan balance pull
+
+## See Also
+
+- [[gamble-report]]
+- [[part-xpress-data]]
+- [[inv-mix-detail]]
+- [[sdba]]
+- [[pcra]]
+- [[lm-dc]]

@@ -1,0 +1,1501 @@
+# Internal conversion DAY OF LIQUIDATION2
+
+## Notes (from header comments)
+- AQT SETPARM,PARM=CASE,VALUE="513397"
+- AQT SETPARM,PARM=Business_line,VALUE="CORP"
+- AQT SETPARM,PARM=NOT_THESE_AFFILIATES,VALUE="'ABCDE'"
+- AQT SETPARM,PARM=PLANS_TO_MOVE,VALUE="'00000'"
+- AQT SETPARM,PARM=LIQUIDATION, VALUE="20211116"
+
+## SQL
+```sql
+--AQT SETPARM,PARM=CASE,VALUE="513397"
+--AQT SETPARM,PARM=Business_line,VALUE="CORP"
+--AQT SETPARM,PARM=NOT_THESE_AFFILIATES,VALUE="'ABCDE'"
+--AQT SETPARM,PARM=PLANS_TO_MOVE,VALUE="'00000'"
+--AQT SETPARM,PARM=LIQUIDATION, VALUE="20211116"
+;
+
+
+DECLARE GLOBAL TEMPORARY TABLE SESSION.terminating_sub_ids
+(
+case_NO VARCHAR(20) NOT NULL,
+eff_dt VARCHAR(10),
+fd_Desc_cd VARCHAR(6),
+fund_name VARCHAR(80),
+SRC_TYP_C SMALLINT,
+Conversion_amt DECIMAL(12,2)
+
+	)WITH REPLACE ON COMMIT PRESERVE ROWS NOT LOGGED;
+
+
+insert into session.terminating_sub_ids
+
+with rundate as
+(
+SELECT CAST(MAX(To_DATE(HLP_VALUE,'YYYYMMDD')) AS DATE) as proc_date
+FROM corp.HELPER2
+WHERE HLP_CODE = 'BUSDAYS'
+  AND CAST(To_DATE(HLP_VALUE,'YYYYMMDD') AS DATE) < current date
+    AND HLP_TEXT LIKE '%OPEN%')
+
+
+select CD.case_no, CAST((SELECT PROC_DATE FROM RUNDATE)AS VARCHAR),COALESCE(FD_DESCR_CD,'ACTIVE') AS FD_dESC_CD,COALESCE(FD_FUND_NAME,'NO BALANCE'), COALESCE(SRC_TYP_C,NULL) AS SRC_TYP_C,COALESCE(AMOUNT,0) AS CONVERSION_AMT
+
+FROM CORP.CASE_DATA CD
+ 
+LEFT JOIN (SELECT case_no, A.eff_d,FD_DESCR_CD, STRIP(STRIP(c.REPORT_1_FD_NM)||' '||STRIP(c.REPORT_2_FD_NM)) FD_FUND_NAME,SRC_TYP_C,sum(TOTAL_A) AS AMOUNT
+from corp.ee_part_bal_header a, corp.ee_part_balance b
+JOIN PENSION.PLAN_FUND c ON b.FD_PROV_I = c.FD_PROV_I
+JOIN PENSION.PLAN_SRC_dETAIL D ON D.SRC_I=B.SRC_I
+where  case_no like '$CASE%'
+and substr(case_no,11,5)  in ($PLANS_TO_MOVE)
+--and case_stat_cd='7'
+and a.transact_i=b.transact_i
+and a.enrl_prov_grp_i=b.enrl_prov_grp_i
+and A.eff_d=(SELECT PROC_DATE FROM RUNDATE)
+
+group by case_no, A.EFF_D,FD_DESCR_CD, STRIP(STRIP(c.REPORT_1_FD_NM)||' '||STRIP(c.REPORT_2_FD_NM)),SRC_TYP_C
+) BAL
+ON CD.CASE_NO=BAL.CASE_NO
+WHERE CD.CASE_NO LIKE '$CASE %'
+AND substr(CD.case_no,11,5)  in ($PLANS_TO_MOVE)
+
+;
+
+
+
+-- FUND BALANCE
+select ' ' as new_case_no, '' as new_sub_id,SUM(CONVERSION_AMT) AS ESTIMATED_CONVERSION_AMT, 
+EFF_DT, $CASE, FD_DESC_CD
+--SELECT *
+FROM SESSION.terminating_sub_ids
+GROUP BY EFF_DT, FD_DESC_CD,FUND_NAME
+having SUM(CONVERSION_AMT)>0
+
+;
+
+--- SOURCE BALANCE
+select ' ' as new_case_no, '' as new_sub_id,SUM(CONVERSION_AMT) AS ESTIMATED_CONVERSION_AMT, 
+  EFF_DT, $CASE, SRC_TYP_C
+--SELECT *
+FROM SESSION.terminating_sub_ids
+GROUP BY EFF_DT,  SRC_TYP_C
+having SUM(CONVERSION_AMT)>0
+
+;
+
+-- Individual sub_ID balances
+select ' ' as new_case_no, '' as new_sub_id,SUM(CONVERSION_AMT) AS ESTIMATED_CONVERSION_AMT, 
+  EFF_DT, $CASE, case_no
+--SELECT *
+FROM SESSION.terminating_sub_ids
+GROUP BY EFF_DT,  case_no
+
+;
+
+-- INDICATIVE DATA
+
+WITH PLAN_LIST
+AS (
+	SELECT ACCOUNT_NO
+		,ENRL_PROV_GRP_I
+		,ENRL_STAT_C
+	FROM PENSION.PLAN_PROV_GRP
+	WHERE account_no in (select case_no from session.terminating_sub_ids)
+		AND RELATED_GRP_TYP_C = 361
+		AND ENRL_STAT_C = 7
+		
+	)
+
+	
+
+SELECT '' as new_case, '' as new_sub_id
+	,substr(A.SOC_SEC_NO,1,3)||substr(A.SOC_SEC_NO,5,2)||substr(A.SOC_SEC_NO,8,4) as SSN 
+	,A.EE_LAST_NM
+	,A.EE_FST_MID_NM
+	,A.MIDDLE_NM
+	,A.SUFFIX_NM
+	,COALESCE(C.STREET_NM, '') ADDRESS
+	,CASE WHEN REGION_ST_CD = '99' THEN '' ELSE COALESCE(C.ADDR_LINE_2_T, '') END ADDRESS
+	,CASE WHEN REGION_ST_CD = '99' THEN '' ELSE COALESCE(C.CITY_NM, '') END CITY
+	,CASE WHEN REGION_ST_CD = '99' THEN '' ELSE COALESCE(C.ST_CD, '') END STATE
+	,CASE WHEN REGION_ST_CD = '99' THEN '' ELSE COALESCE(C.ZIP_CD, '') END ZIP
+	,CASE WHEN REGION_ST_CD <> '99' THEN '' ELSE coalesce(CITY_NM,'') END FOREIGN_COUNTRY
+	,CASE WHEN REGION_ST_CD <> '99' THEN '' ELSE coalesce(TRIM(SUBSTR(ADDR_LINE_2_T,1,25)),'') END FOREIGN_CITY
+	,CASE WHEN REGION_ST_CD <> '99' THEN '' ELSE coalesce(TRIM(SUBSTR(ADDR_LINE_2_T,41,39)),'') END FOREIGN_POSTAL_CD
+	,A.EE_BRTH_DT
+	,A.EE_HIRE_DT
+	,CASE 
+		WHEN EE_TERM_DT = '00000000'
+			THEN ''
+		ELSE EE_TERM_DT
+		END EE_TERM_DT
+	,case when  A.EE_REHIRE_DT is null then ' '
+else cast (a.ee_rehire_dt as varchar) end as rehire_Date, coalesce(MOBILE_PHONE_NO ,'')
+	,substr(a.case_no,1,instr(a.case_no,' ')-1)as old_contract,SUBSTR(A.CASE_NO, 11, 5) as old_sub_id
+FROM CORP.EMPLOYEE A
+JOIN PLAN_LIST PL ON A.CASE_NO = PL.ACCOUNT_NO
+LEFT JOIN CORP.EE_BEN_ADDRESS C ON A.CASE_NO = C.CASE_NO
+	AND A.SOC_SEC_NO = C.SOC_SEC_NO
+	AND C.PAYEE_TYP_CD = '1'
+
+WHERE A.SOC_SEC_NO LIKE '%-%-%'
+	AND A.SOC_SEC_NO NOT LIKE '%P'
+	--AND A.EE_DIV_NO = 'ZZZZ'  --HASH IN IF LOOKING FOR SPECIFIC DIVISION	
+;
+
+;
+-- BASIS
+									
+with basis as(
+SELECT 
+DISTINCT SUBSTR(A.CASE_NO,11,5) CASE_NO, 
+A.SOC_SEC_NO, 
+LAST_VALUE(A.CORP_TYP6_CTRB_AMT) OVER(PARTITION BY A.CASE_NO, A.SOC_SEC_NO ORDER BY A.EE_BEG_BAL_DT RANGE BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) CORP_TYP6_CTRB_AMT,
+LAST_VALUE(A.RTH_TAXFREE_CTRB_A) OVER(PARTITION BY A.CASE_NO, A.SOC_SEC_NO ORDER BY A.EE_BEG_BAL_DT RANGE BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) RTH_TAXFREE_CTRB_A,
+RTH_CTRB_FST_YR,
+LAST_VALUE(A.RTH_TAXFREE_ROLL_A) OVER(PARTITION BY A.CASE_NO, A.SOC_SEC_NO ORDER BY A.EE_BEG_BAL_DT RANGE BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) RTH_TAXFREE_ROLL_A,
+LAST_VALUE(A.RTH_HRDSHP_CTRB_A) OVER(PARTITION BY A.CASE_NO, A.SOC_SEC_NO ORDER BY A.EE_BEG_BAL_DT RANGE BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) RTH_HRDSHP_CTRB_A,
+LAST_VALUE(A.PRE87_TAX_BAS_AMT) OVER(PARTITION BY A.CASE_NO, A.SOC_SEC_NO ORDER BY A.EE_BEG_BAL_DT RANGE BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) PRE87_TAX_BAS_AMT,
+LAST_VALUE(A.POST86_TAX_BAS_AMT) OVER(PARTITION BY A.CASE_NO, A.SOC_SEC_NO ORDER BY A.EE_BEG_BAL_DT RANGE BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) POST86_TAX_BAS_AMT											
+FROM CORP.EE_BASIS A											
+JOIN CORP.EMPLOYEE B ON A.CASE_NO = B.CASE_NO											
+	AND A.SOC_SEC_NO = B.SOC_SEC_NO
+											
+--B.EE_DIV_NO = 'ZZZZ'											
+											
+WHERE A.CASE_NO in (select case_no from session.terminating_sub_ids)
+)						
+select 
+'' as New_case_no, '' as new_sub_id, substr(A.SOC_SEC_NO,1,3)||substr(A.SOC_SEC_NO,5,2)||substr(A.SOC_SEC_NO,8,4)  as SSN,CORP_TYP6_CTRB_AMT ,RTH_TAXFREE_CTRB_A,RTH_CTRB_FST_YR, RTH_TAXFREE_ROLL_A,RTH_HRDSHP_CTRB_A,PRE87_TAX_BAS_AMT,POST86_TAX_BAS_AMT,substr(ACCOUNT_NO,1,instr(account_no,' ')-1) as old_contract, case_no as old_sub_id from basis a
+join pension.plan_prov_grp c on substr(c.account_no,11,5)=case_no and c.ACCOUNT_NO like '$CASE%' and RELATED_GRP_TYP_C=361	
+where CORP_TYP6_CTRB_AMT+RTH_TAXFREE_CTRB_A+RTH_TAXFREE_ROLL_A+RTH_HRDSHP_CTRB_A+ PRE87_TAX_BAS_AMT+POST86_TAX_BAS_AMT>0	
+		
+ORDER BY CASE_NO, SOC_SEC_NO
+
+
+
+;
+
+--INVESTMENT ELECTIONS 
+ 
+WITH PPTS_TO_INCLUDE
+AS (
+	SELECT CASE_NO
+		,A.SOC_SEC_NO
+		,EE_DIV_NO
+		,B.PART_ENRL_I
+		,D.ENRL_PROV_GRP_I
+		,EE_LAST_NM
+		,EE_FST_MID_NM
+	FROM CORP.EMPLOYEE A
+		,PENSION.PART_ENRL B
+		,PENSION.PERSON_SEARCH C
+		,PENSION.PLAN_PROV_GRP D
+	WHERE CASE_NO like '$CASE%' 
+		--AND EE_DIV_NO IN ('3700','3703')  --HASH IN FOR PPTS IN CERTAIN DIVISIONS (AND UPDATED DIVISION NUMBERS)
+		--AND and A.soc_sec_no IN ('011-48-7059','015-82-9097','025-42-1403','033-52-3410','041-60-8964')--HASH IN IF NEEDED
+		AND B.PART_I = C.PERSON_I
+		AND B.ENRL_PROV_GRP_I = D.ENRL_PROV_GRP_I
+		AND A.SOC_SEC_NO = C.SOC_SEC_NO
+and case_no in (select case_no from session.terminating_sub_ids)
+		
+		AND D.ACCOUNT_NO = A.CASE_NO
+		AND D.RELATED_GRP_TYP_C = 361
+	)
+SELECT '' as new_case, '' as new_sub_id
+	,substr(A.SOC_SEC_NO,1,3)||substr(A.SOC_SEC_NO,5,2)||substr(A.SOC_SEC_NO,8,4) as SSN 
+	
+    ,' ' as "Map New Fund Desc Here and delete Old Plan Fund Reference"
+	,A.ELEC_P
+	,CASE 
+		WHEN DEFAULT_STAT_C = 0
+			THEN 'N'
+		WHEN DEFAULT_STAT_C = 1
+			THEN 'Y'
+		END AS IN_DEFAULT,A.FD_DESC_C as prior_fund_code, substr(A.ACCOUNT_NO,1,instr(A.account_no,' ')-1) as old_cont_no,SUBSTR(A.ACCOUNT_NO, 11, 5) as old_sub_id
+FROM (
+	SELECT D.CASE_NO AS ACCOUNT_NO
+		,D.SOC_SEC_NO
+		,D.EE_LAST_NM
+		,D.EE_FST_MID_NM
+		,D.EE_DIV_NO
+		,A.ENRL_PROV_GRP_I
+		,A.PART_ENRL_I
+		,A.ELEC_TYP_C
+		,A.EFF_D
+		,A.SRC_I
+		,A.FD_PROV_I
+		,A.CYC_D
+		,A.SRC_S
+		,A.FD_DESC_C
+		,A.ELEC_P
+		,A.INPUT_SRC_C
+		,A.SRC_C
+		,A.UNRSTRC_FD_CONV_C
+		,A.USER_I
+		,A.MOD_TS
+	FROM PENSION.PART_ELECT_DETAIL A
+		,PPTS_TO_INCLUDE D
+	WHERE D.PART_ENRL_I = A.PART_ENRL_I
+       
+		AND A.ENRL_PROV_GRP_I = D.ENRL_PROV_GRP_I
+		AND (
+			(
+				A.SRC_S = 0
+				AND A.ELEC_TYP_C IN ('0')
+				AND A.EFF_D = (
+					SELECT MAX(EFF_D) AS EFF_D
+					FROM PENSION.PART_ELECT_DETAIL E
+					WHERE E.PART_ENRL_I = A.PART_ENRL_I
+						AND E.ELEC_TYP_C IN ('0')
+						AND E.SRC_S = 0
+						AND E.SRC_S = A.SRC_S
+						AND EFF_D <= CURRENT DATE
+						AND E.SRC_I = A.SRC_I
+						AND NOT EXISTS (
+							SELECT ''
+							FROM PENSION.PART_ELECT_DETAIL E5
+							WHERE E5.PART_ENRL_I = A.PART_ENRL_I
+								AND E5.ELEC_TYP_C IN ('0')
+								AND E5.SRC_S <> 0
+								AND E5.EFF_D <= CURRENT DATE
+								AND E5.EFF_D > A.EFF_D
+							)
+						--                                                          ) )
+						AND NOT EXISTS (
+							SELECT ''
+							FROM PENSION.PART_ELECT_DETAIL E6
+							WHERE E6.PART_ENRL_I = A.PART_ENRL_I
+								AND E6.ELEC_TYP_C IN ('0')
+								AND E6.SRC_S <> 0
+								AND E6.EFF_D = A.EFF_D
+							)
+					)
+				)
+			OR (
+				A.SRC_S <> 0
+				AND A.ELEC_TYP_C IN ('0')
+				AND (
+					A.EFF_D >= (
+						SELECT MAX(EFF_D) AS EFF_D
+						FROM PENSION.PART_ELECT_DETAIL E2
+						WHERE E2.PART_ENRL_I = A.PART_ENRL_I
+							AND E2.ELEC_TYP_C IN ('0')
+							AND E2.SRC_S = 0
+							AND E2.EFF_D <= CURRENT DATE
+						)
+					AND EXISTS (
+						SELECT ''
+						FROM PENSION.PART_ELECT_DETAIL EE
+						WHERE EE.PART_ENRL_I = A.PART_ENRL_I
+							AND EE.ELEC_TYP_C IN ('0')
+							AND EE.SRC_S = 0
+							AND EE.EFF_D <= CURRENT DATE
+						)
+					AND A.EFF_D = (
+						SELECT MAX(EFF_D) AS EFF_D
+						FROM PENSION.PART_ELECT_DETAIL E3
+						WHERE E3.PART_ENRL_I = A.PART_ENRL_I
+							AND E3.ELEC_TYP_C IN ('0')
+							AND E3.SRC_S <> 0
+							AND E3.EFF_D <= CURRENT DATE
+							AND E3.SRC_I = A.SRC_I
+						)
+					)
+				)
+			OR (
+				A.SRC_S <> 0
+				AND A.ELEC_TYP_C IN ('0')
+				AND (
+					A.EFF_D = (
+						SELECT MAX(EFF_D) AS EFF_D
+						FROM PENSION.PART_ELECT_DETAIL E4
+						WHERE E4.PART_ENRL_I = A.PART_ENRL_I
+							AND E4.ELEC_TYP_C IN ('0')
+							AND E4.SRC_S <> 0
+							AND E4.EFF_D <= CURRENT DATE
+							AND E4.SRC_I = A.SRC_I
+						)
+					AND NOT EXISTS (
+						SELECT ''
+						FROM PENSION.PART_ELECT_DETAIL E5
+						WHERE E5.PART_ENRL_I = A.PART_ENRL_I
+							AND E5.ELEC_TYP_C IN ('0')
+							AND E5.SRC_S = 0
+							AND E5.EFF_D <= CURRENT DATE
+						)
+					)
+				)
+			)
+	) AS A
+LEFT JOIN PENSION.PLAN_FUND AS E ON A.FD_PROV_I = E.FD_PROV_I
+LEFT JOIN PENSION.PLAN_SRC_DETAIL F ON A.SRC_I = F.SRC_I
+LEFT JOIN PENSION.PART_PPA_DEFAULT AS G ON A.ACCOUNT_NO = G.ACCOUNT_NO
+	AND A.SOC_SEC_NO = G.SOC_SEC_NO
+	AND G.ENRL_SERV_TYP_C = 2
+	AND G.STAT_C = 'A'
+    
+;
+
+--RMD
+
+WITH	PLAN_LIST 
+AS (
+	SELECT 
+	ACCOUNT_NO
+	FROM PENSION.PLAN_PROV_GRP 
+	WHERE RELATED_GRP_TYP_C = 361
+	AND ACCOUNT_NO LIKE '$CASE%'
+and account_no in (select case_no from session.terminating_sub_ids)
+	AND ENRL_STAT_C = 7
+
+	)
+
+	,PYE_BALANCE
+AS (
+	SELECT *
+	FROM (
+		SELECT A.CASE_NO
+			,A.SOC_SEC_NO
+			,coalesce(B.PYE_ACCOUNT_BALANCE, LST_CAL_YR_END_BAL, 0) AS PYE_ACCOUNT_BALANCE
+		FROM CORP.EMPLOYEE A
+		JOIN PLAN_LIST PL ON A.CASE_NO = PL.ACCOUNT_NO
+		LEFT OUTER JOIN (
+			SELECT EFF_D
+				,A.CASE_NO
+				,B.SOC_SEC_NO
+				,SUM(TOTAL_A) AS PYE_ACCOUNT_BALANCE
+			FROM CORP.EE_PART_BAL_HEADER A
+				,CORP.EE_PART_BALANCE B
+				,PLAN_LIST C
+			WHERE A.TRANSACT_I = B.TRANSACT_I
+				AND A.CASE_NO = C.ACCOUNT_NO
+				AND A.ENRL_PROV_GRP_I = B.ENRL_PROV_GRP_I
+				AND A.EFF_D = DATE(TRIM(CHAR(YEAR(CURRENT DATE - 1 YEAR))) || '-12-31')
+				AND SRC_CD = 1
+			GROUP BY EFF_D
+				,A.CASE_NO
+				,B.SOC_SEC_NO
+			) B ON B.CASE_NO = A.CASE_NO
+			AND B.SOC_SEC_NO = A.SOC_SEC_NO
+		LEFT OUTER JOIN (
+			SELECT A.CASE_NO
+				,A.SOC_SEC_NO
+				,COALESCE(LST_CAL_YR_END_BAL, 0) LST_CAL_YR_END_BAL
+			FROM CORP.MIN_DIST_DATA A
+				,PLAN_LIST B
+			WHERE EFF_YR = TRIM(CHAR(YEAR(CURRENT DATE - 1 YEAR)))
+				AND A.CASE_NO = B.ACCOUNT_NO
+			) C ON C.CASE_NO = A.CASE_NO
+			AND C.SOC_SEC_NO = A.SOC_SEC_NO
+		)
+	WHERE PYE_ACCOUNT_BALANCE > 0
+	)
+
+	,CURRENT_BALANCE
+AS (
+	SELECT A.CASE_NO, B.SOC_SEC_NO, SUM(TOTAL_A) AS BALANCE, EFF_D
+	FROM CORP.EE_PART_BAL_HEADER A, CORP.EE_PART_BALANCE B, PLAN_LIST C
+	WHERE A.CASE_NO = C.ACCOUNT_NO
+	AND A.TRANSACT_I = B.TRANSACT_I
+	AND A.ENRL_PROV_GRP_I = B.ENRL_PROV_GRP_I
+	AND A.EFF_D = (SELECT MAX(EFF_D) FROM CORP.EE_PART_BAL_HEADER)
+	GROUP BY A.CASE_NO, B.SOC_SEC_NO, EFF_D
+	)
+
+SELECT 
+'' as new_case_no, '' as new_sub_id,
+substr(A.SOC_SEC_NO,1,3)||substr(A.SOC_SEC_NO,5,2)||substr(A.SOC_SEC_NO,8,4)  as SSN, 
+EE_FST_MID_NM,
+EE_LAST_NM,
+DECIMAL(ROUND((DAYS(CURRENT DATE) - DAYS (DATE(SUBSTR(EE_BRTH_DT,1,4)||'-'||SUBSTR(EE_BRTH_DT,5,2)||'-'||SUBSTR(EE_BRTH_DT,7,2))))/365.24, 2),5,2) AGE,
+BALANCE CURRENT_BALANCE,
+COALESCE(PYE_ACCOUNT_BALANCE,0) PYE_BALANCE,substr(A.case_NO,1,instr(A.case_no,' ')-1) as old_cont,SUBSTR(A.CASE_NO,11,5) as old_sub_id
+FROM CORP.EMPLOYEE A 
+JOIN PLAN_LIST B ON A.CASE_NO = B.ACCOUNT_NO
+LEFT JOIN PYE_BALANCE C ON A.CASE_NO = C.CASE_NO
+	AND A.SOC_SEC_NO = C.SOC_SEC_NO
+JOIN CURRENT_BALANCE D ON A.CASE_NO = D.CASE_NO
+	AND A.SOC_SEC_NO = D.SOC_SEC_NO
+
+
+;
+
+--YTD CONTRIBS
+
+
+with calendar_year as
+
+(SELECT 
+substr(b.case_NO,1,instr(b.case_no,' ')-1) as cont,SUBSTR(B.CASE_NO,11,5) CASE_NO,
+SUBSTR(B.SOC_SEC_NO,1,11) AS SOC_sEC_NO,src_typ_c,c.src_i,
+DOC_NM,CONTRIB_YR_D,
+SUM(CONTRIB_A) AS CONTRIB_A
+FROM PENSION.PLAN_PROV_GRP A
+JOIN CORP.EMPLOYEE B ON A.ACCOUNT_NO = B.CASE_NO
+JOIN PENSION.PART_CONTRIB C ON B.CASE_NO = C.ACCOUNT_NO
+	AND B.SOC_SEC_NO = C.SOC_SEC_NO
+	AND CONTRIB_YR_D = year(current date)
+	AND CONTRIB_TYP_C = '1'  
+JOIN PENSION.plan_src_detail D ON C.SRC_I = D.SRC_I
+WHERE A.ACCOUNT_NO in (select case_no from session.terminating_sub_ids)
+AND RELATED_GRP_TYP_C = 361
+AND ENRL_STAT_C = 7
+
+GROUP BY 
+substr(b.case_NO,1,instr(b.case_no,' ')-1),SUBSTR(B.CASE_NO,11,5),SUBSTR(B.SOC_SEC_NO,1,11),src_typ_c,c.src_i,
+DOC_NM,CONTRIB_YR_D
+
+)
+
+SELECT 
+'' as New_case_no, '' as new_sub_id,
+substr(b.SOC_SEC_NO,1,3)||substr(b.SOC_SEC_NO,5,2)||substr(b.SOC_SEC_NO,8,4) as SSN,c.CONTRIB_YR_D as plan_year, e.CONTRIB_YR_D as cal_year,'' as new_source_code,
+SUM(c.CONTRIB_A) as plan_year, e.contrib_a as calendar_year,substr(b.case_NO,1,instr(b.case_no,' ')-1) as old_cont,SUBSTR(B.CASE_NO,11,5) old_CASE_NO,d.src_typ_c as old_source_code ,
+d.DOC_Nm as old_source_name
+FROM PENSION.PLAN_PROV_GRP A
+JOIN CORP.EMPLOYEE B ON A.ACCOUNT_NO = B.CASE_NO
+JOIN PENSION.PART_CONTRIB C ON B.CASE_NO = C.ACCOUNT_NO
+	AND B.SOC_SEC_NO = C.SOC_SEC_NO
+	AND c.CONTRIB_YR_D = year(current date)
+	AND c.CONTRIB_TYP_C = '2' 
+JOIN PENSION.plan_src_Detail D ON C.SRC_I = D.SRC_I
+left join calendar_year e on   e.src_i=c.src_i and SUBSTR(e.soc_Sec_no,1,11)=SUBSTR(c.soc_Sec_no,1,11)
+WHERE A.ACCOUNT_NO in (select case_no from session.terminating_sub_ids)
+AND RELATED_GRP_TYP_C = 361
+AND ENRL_STAT_C = 7
+GROUP BY
+substr(b.case_NO,1,instr(b.case_no,' ')-1) ,SUBSTR(B.CASE_NO,11,5) ,
+substr(b.SOC_SEC_NO,1,3)||substr(b.SOC_SEC_NO,5,2)||substr(b.SOC_SEC_NO,8,4) ,d.src_typ_c,
+d.DOC_NM,c.CONTRIB_YR_D,e.contrib_a, e.CONTRIB_YR_D
+
+
+
+
+;
+
+-- LOAN INFORMATION 1 
+with repayments as
+(select enrl_prov_grp_i,  loan_no, soc_Sec_no, sum(LN_PRNC_A) as paid_amt from pension.loan_repay_src
+where ENRL_PROV_GRP_I in (select ENRL_PROV_GRP_I from pension.plan_prov_grp where account_no like '$CASE%' )
+
+group by enrl_prov_grp_i, loan_no, soc_Sec_no),
+
+last_amort_date as
+(select case_no, loan_no, soc_Sec_no, max(CAST(SUBSTR(LN_AMORTIZATION_DT, 1, 4) || '-' || SUBSTR(LN_AMORTIZATION_DT, 5, 2) || '-' || SUBSTR(LN_AMORTIZATION_DT, 7, 2) AS DATE)) as loan_amort
+from $Business_line.loan_repayment
+where case_no in (select case_no from session.terminating_sub_ids)
+and (LN_REPAY_STAT_CD='1' )
+group by case_no, loan_no, soc_sec_no)
+
+select ' ' as case_no, ' ' as sub_id , substr(A.SOC_SEC_NO,1,3)||substr(A.SOC_SEC_NO,5,2)||substr(A.SOC_SEC_NO,8,4) as SSN , substr(a.loan_no,12,3) ,
+case
+when init_tkovr_ln_amt>init_ln_amt and init_tkovr_ln_amt>coalesce(initial_ln_amt,0) then init_tkovr_ln_amt
+when coalesce(initial_ln_amt,0)>init_ln_amt and coalesce(initial_ln_amt,0)>init_tkovr_ln_amt then coalesce(initial_ln_amt,0)
+else INIT_LN_AMT end as original_ln_amt , 
+ CASE 
+WHEN A.SRC_CD='T' THEN INIT_TKOVR_EFF_DT
+ELSE coalesce(orig_ln_iss_d,cast(SUBSTR(a.ORIG_LN_ISS_DT,5,2)||'/'||SUBSTR(A.ORIG_LN_ISS_DT,7,2)||'/'||SUBSTR(ORIG_LN_ISS_DT,1,4) as date)) END AS ORIGINAL_LN_DT , a.LN_REPAY_FREQ_CD , a.LN_REPAY_AMT ,
+ (case
+when coalesce(initial_ln_amt,0)>init_ln_amt and coalesce(initial_ln_amt,0)>init_tkovr_ln_amt then coalesce(initial_ln_amt,0)
+else INIT_LN_AMT end ) -coalesce(paid_amt,0) as principal_due,
+ case
+when CHAR(LN_DEEMED_DEF_DT,USA) is null then ''
+else CHAR(LN_DEEMED_DEF_DT,USA) end as deemed_date,
+CASE WHEN LN_DEEMED_dEF_DT IS NULL THEN 0
+ELSE coalesce(DEFAULTED_AMT,0) END as deemed_amount,a.BAS_BLENDED_LN_PCT, substr(a.FINAL_LN_REPAY_dt,1,4)||'-'||substr(a.FINAL_LN_REPAY_dt,5,2)||'-'||substr(a.FINAL_LN_REPAY_dt,7,2) as maturity_date, LN_TYP_RQST_C,
+
+
+CASE
+WHEN a.SRC_CD = 'T' AND (INIT_LN_TERM_YR_CT IS NULL OR INIT_LN_TERM_YR_CT = 0)
+THEN
+                (
+CASE
+WHEN LN_TYP_RQST_C IN (1,3)
+THEN
+                (
+CASE
+WHEN DECIMAL(DECIMAL(DAYS(DATE(SUBSTR(a.FINAL_LN_REPAY_DT,1,4)||'-'||SUBSTR(a.FINAL_LN_REPAY_DT,5,2)||'-'||SUBSTR(a.FINAL_LN_REPAY_DT,7,2))) -
+DAYS(ORIG_LN_ISS_Dt))/365.25,5,2) >5.00
+THEN 5.00
+ELSE DECIMAL(DECIMAL(DAYS(DATE(SUBSTR(a.FINAL_LN_REPAY_DT,1,4)||'-'||SUBSTR(a.FINAL_LN_REPAY_DT,5,2)||'-'||SUBSTR(a.FINAL_LN_REPAY_DT,7,2))) -
+DAYS(ORIG_LN_ISS_Dt))/365.25,5,2) END)
+ELSE DECIMAL(DECIMAL(DAYS(DATE(SUBSTR(a.FINAL_LN_REPAY_DT,1,4)||'-'||SUBSTR(a.FINAL_LN_REPAY_DT,5,2)||'-'||SUBSTR(a.FINAL_LN_REPAY_DT,7,2))) -
+DAYS(ORIG_LN_ISS_Dt))/365.25,5,2) END)
+WHEN a.SRC_CD = 'T' AND INIT_LN_TERM_YR_CT > 0
+THEN INIT_LN_TERM_YR_CT
+WHEN a.SRC_CD <> 'T'
+THEN DECIMAL(ROUND(DECIMAL(a.LOAN_TERM_MTH_CT) / DECIMAL(12),2),5,2)
+END LOAN_DURATION,' ' as NPER, ' ' as pays_to_load,' ' as first_pay_dt,
+coalesce (cast(loan_amort as varchar), substr(ORIG_LN_ISS_DT,1,4)||'-'||substr(orig_ln_iss_dt,5,2)||'-'||substr(orig_ln_iss_dt,7,2)) as last_amort_date,  '' as calc_RATE,substr(a.case_NO,1,instr(a.case_no,' ')-1) as old_cont,SUBSTR(a.CASE_NO,11,5) as old_sub_id
+from $Business_line.LOAN_DETAIL a
+left join repayments b on b.loan_no=a.loan_no and b.soc_Sec_no=a.soc_Sec_no
+left join last_amort_date c on c.loan_no=a.loan_no and c.soc_Sec_no=a.soc_Sec_no
+left join $Business_line.loan_history d on a.loan_no=d.loan_no and d.SEQ_N=0
+LEFT JOIN (
+					SELECT 
+					LOAN_NO, TR_REF_NO, SUM(LOAN_DEF_A) DEFAULTED_AMT
+					FROM PENSION.LOAN_DEF_SRC A
+					JOIN PENSION.PLAN_PROV_GRP B ON A.ENRL_PROV_GRP_I = B.ENRL_PROV_GRP_I
+						AND RELATED_GRP_TYP_C IN (361,12)
+					GROUP BY LOAN_NO, TR_REF_NO
+					) LD ON a.LOAN_NO = LD.LOAN_NO 
+						AND a.WD_TR_REF_NO = LD.TR_REF_NO
+						
+where a.case_no in  (select case_no from session.terminating_sub_ids)
+
+and REFI_LOAN_NO is null
+ and (LN_TR_STAT_CD NOT IN ('4', 'E','3','7','5','1') or (ln_Default_dt='$LIQUIDATION' and LN_TR_STAT_CD ='E'))
+
+
+;
+
+--LOAN INFO 2
+
+WITH
+LOAN_DATA	AS
+	(
+SELECT B.ACCOUNT_NO, A.SOC_SEC_NO, A.LOAN_NO, A.SRC_I, A.SRC_S,SRC_TYP_C, COALESCE(C.ORIG_LN_A,A.ORIG_LN_A) AS ORIG_LN_A
+FROM PENSION.LOAN_DETAIL_SRC A, pension.plan_src_detail d
+
+JOIN 
+PENSION.PLAN_PROV_GRP B
+ON A.ENRL_PROV_GRP_I = B.ENRL_PROV_GRP_I
+AND B.ACCOUNT_NO in  (select case_no from session.terminating_sub_ids)
+AND B.RELATED_GRP_TYP_C = 361
+
+LEFT JOIN PENSION.LOAN_detail_Src_HISTORY C
+ON C.LOAN_NO=A.LOAN_NO AND C.SRC_I=A.SRC_I AND C.SOC_SEC_NO=A.SOc_sEC_NO and SEQ_NO=0
+
+WHERE EXISTS	(SELECT '' FROM CORP.LOAN_DETAIL C
+ WHERE A.LOAN_NO = C.LOAN_NO
+AND (c.LN_TR_STAT_CD NOT IN ('4', 'E','3','7','5','1') or (ln_Default_dt='$LIQUIDATION' and c.LN_TR_STAT_CD ='E')))
+and a.src_i=d.src_i
+	)
+
+
+SELECT 
+ ' ' as case_no, ' ' as sub_id , 
+substr(A.SOC_SEC_NO,1,3)||substr(A.SOC_SEC_NO,5,2)||substr(A.SOC_SEC_NO,8,4)  as SSN, 
+substr(a.LOAN_NO,12,3), 
+ '' as new_source,
+a.ORIG_LN_A-coalesce(LN_PRNC_A,0) as source_bal,' ',' ', ' ',' ',
+substr(a.ACCOUNT_NO,1,instr(a.ACCOUNT_no,' ')-1) as old_cont,SUBSTR(a.ACCOUNT_NO,11,5) as old_sub_id, a.SRC_TYP_C as old_source
+FROM LOAN_DATA a
+--
+LEFT JOIN
+	(
+SELECT 
+SOC_SEC_NO,
+LOAN_NO,
+SRC_S,
+SRC_I,
+SUM(LN_PRNC_A) LN_PRNC_A
+FROM PENSION.LOAN_REPAY_SRC 
+WHERE LOAN_NO IN (SELECT LOAN_NO
+				  FROM LOAN_DATA) 
+
+GROUP BY
+SOC_SEC_NO,
+LOAN_NO,
+SRC_S,
+SRC_I
+	) B
+ON A.LOAN_NO = B.LOAN_NO
+AND A.SRC_I = B.SRC_I
+AND A.SOC_SEC_NO = B.SOC_sec_no
+;
+
+------------------------------------------------------------
+-- Hours data
+
+
+with current_hours as(
+with
+ last_ann as
+( with hire_date as
+(select case_no, soc_Sec_no, case
+when substr(ee_hire_dt,5,4)='0229' then substr(ee_hire_dt,1,4)||'0228' else ee_hire_dt end as ee_hire_dt
+from $Business_line.employee where case_no like '$CASE %'
+and case_no in  (select case_no from session.terminating_sub_ids))
+
+
+
+select a.case_no, a.soc_Sec_no,a.ee_hire_dt,ee_term_dt,ee_rehire_dt,
+case when cast(year(current_Date)||'-'||substr(b.ee_hire_dt,5,2)||'-'||substr(b.ee_hire_dt,7,2) as date) <current date then cast(year(current_Date)||'-'||substr(b.ee_hire_dt,5,2)||'-'||substr(b.ee_hire_dt,7,2) as date)
+else cast((year(current_Date)-1)||'-'||substr(b.ee_hire_dt,5,2)||'-'||substr(b.ee_hire_dt,7,2) as date) end as last_anniversary
+,cast(cast(year(current_Date)-1 as varchar)||'-'||substr(b.ee_hire_dt,5,2)||'-'||substr(b.ee_hire_dt,7,2) as date) as prior_yr_ann
+
+from $Business_line.EMPLOYEE a
+join hire_date b on b.case_no=a.case_no and b.soc_Sec_no=a.soc_Sec_no
+where a.case_no in  (select case_no from session.terminating_sub_ids)
+),
+
+last_plan_ann as
+(
+select case_no, cast(cast(year(current date)-1 as varchar)||'-'||substr(pye_dt,1,2)||'-'||substr(pye_dt,3,2)as date) as last_plan_anniversary
+from $Business_line.case_data 
+where case_no like '$CASE %'
+and case_no in  (select case_no from session.terminating_sub_ids)),
+
+	TPA_CHOICE
+AS (
+	SELECT 
+	A.ACCOUNT_NO
+	FROM PENSION.PLAN_PROV_GRP A
+	JOIN PENSION.PLAN_PROVISION C ON A.ENRL_PROV_GRP_I = C.ENRL_PROV_GRP_I
+	JOIN PENSION.OUTSRC_SERVICE D ON C.PROVISION_I = D.OUTSRC_I
+		AND SERV_TYP_C = 25
+		AND SERV_OFFERING_C = 1
+	JOIN PENSION.OUTSRC_TPA_CHOICE_DET E ON D.OUTSRC_I = E.OUTSRC_I
+		AND TPA_TYP_C = 1
+		AND ALLOW_IND_C = '1'
+where a.account_no in  (select case_no from session.terminating_sub_ids) ),
+
+Vest_comp_period as
+(
+select account_no, compute_per_yr_c, related_grp_typ_c, hlp_text
+from pension.GEN_VESTING_DATA c,pension.plan_provision a, pension.plan_prov_grp  b, $Business_line.helper2 d
+where vest_i =provision_i
+and account_no  in  (select case_no from session.terminating_sub_ids)
+ and a.enrl_prov_grp_i=b.enrl_prov_grp_i 
+and hlp_code='VCOMPCD'
+and hlp_value=compute_per_yr_c)
+
+
+select b.case_no, g.hlp_text,b.soc_SeC_no, ee_hire_dt, ee_term_dt,ee_rehire_dt,last_anniversary, 
+case
+when last_anniversary>last_plan_anniversary then coalesce(a.YTD_EMPL_HRS,0)
+else coalesce(a.YTD_plan_HRS,0) end as load_asof
+
+from  last_ann b, last_plan_ann h 
+left join $Business_line.EE_HRS_WORKED a on a.case_no=b.case_no and a.soc_Sec_no=b.soc_Sec_no
+and a.PERIOD_END_DT in (select max(period_end_dt) from $Business_line.ee_hrs_worked c where c.case_no=a.case_no and c.soc_Sec_no=a.soc_Sec_no and period_end_dt>last_anniversary  and period_end_dt>last_plan_anniversary)
+
+
+
+left join vest_comp_period g on account_no=b.case_no
+where b.case_no not in (select account_no from TPA_CHOICE)
+and b.case_no=h.case_no)
+select '' as new_case_no, '' as new_subID
+, substr(SOC_SEC_NO,1,3)||substr(SOC_SEC_NO,5,2)||substr(SOC_SEC_NO,8,4), load_asof as hours, current date as load_4,
+ substr(case_NO,1,instr(case_no,' ')-1) as old_cont,SUBSTR(case_NO,11,5) as old_sub_id
+
+ from current_hours
+where load_asof>0
+
+------------
+;
+
+with current_hours as(
+with
+ last_ann as
+( with hire_date as
+(select case_no, soc_Sec_no, case
+when substr(ee_hire_dt,5,4)='0229' then substr(ee_hire_dt,1,4)||'0228' else ee_hire_dt end as ee_hire_dt
+from $Business_line.employee where case_no in  (select case_no from session.terminating_sub_ids))
+
+select a.case_no, a.soc_Sec_no,a.ee_hire_dt,ee_term_dt,ee_rehire_dt,
+case when cast(year(current_Date)||'-'||substr(b.ee_hire_dt,5,2)||'-'||substr(b.ee_hire_dt,7,2) as date) <current date then cast(year(current_Date)||'-'||substr(b.ee_hire_dt,5,2)||'-'||substr(b.ee_hire_dt,7,2) as date)
+else cast((year(current_Date)-1)||'-'||substr(b.ee_hire_dt,5,2)||'-'||substr(b.ee_hire_dt,7,2) as date) end as last_anniversary
+,cast(cast(year(current_Date)-1 as varchar)||'-'||substr(b.ee_hire_dt,5,2)||'-'||substr(b.ee_hire_dt,7,2) as date) as prior_yr_ann
+
+from $Business_line.EMPLOYEE a
+join hire_date b on b.case_no=a.case_no and b.soc_Sec_no=a.soc_Sec_no
+where a.case_no  in  (select case_no from session.terminating_sub_ids)
+),
+
+last_plan_ann as
+(
+select case_no, cast(cast(year(current date)-1 as varchar)||'-'||substr(pye_dt,1,2)||'-'||substr(pye_dt,3,2)as date) as last_plan_anniversary
+from $Business_line.case_data 
+where case_no  in  (select case_no from session.terminating_sub_ids)),
+
+	TPA_CHOICE
+AS (
+	SELECT 
+	A.ACCOUNT_NO
+	FROM PENSION.PLAN_PROV_GRP A
+	JOIN PENSION.PLAN_PROVISION C ON A.ENRL_PROV_GRP_I = C.ENRL_PROV_GRP_I
+	JOIN PENSION.OUTSRC_SERVICE D ON C.PROVISION_I = D.OUTSRC_I
+		AND SERV_TYP_C = 25
+		AND SERV_OFFERING_C = 1
+	JOIN PENSION.OUTSRC_TPA_CHOICE_DET E ON D.OUTSRC_I = E.OUTSRC_I
+		AND TPA_TYP_C = 1
+		AND ALLOW_IND_C = '1'
+where a.account_no  in  (select case_no from session.terminating_sub_ids)),
+
+Vest_comp_period as
+(
+select account_no, compute_per_yr_c, related_grp_typ_c, hlp_text
+from pension.GEN_VESTING_DATA c,pension.plan_provision a, pension.plan_prov_grp  b, $Business_line.helper2 d
+where vest_i =provision_i
+and account_no  in  (select case_no from session.terminating_sub_ids)
+ and a.enrl_prov_grp_i=b.enrl_prov_grp_i 
+and hlp_code='VCOMPCD'
+and hlp_value=compute_per_yr_c)
+
+
+select b.case_no, g.hlp_text,b.soc_Sec_no, ee_hire_dt, ee_term_dt,ee_rehire_dt,last_anniversary, last_plan_anniversary,
+
+case 
+when last_anniversary>last_plan_anniversary then coalesce(i.YTD_plan_hrs,0)
+else 0 end as hours
+
+from  last_ann b, last_plan_ann h 
+
+left join $Business_line.EE_HRS_WORKED i on i.case_no=b.case_no and i.soc_Sec_no=b.soc_Sec_no
+and i.PERIOD_END_DT in (select max(period_end_dt) from $Business_line.ee_hrs_worked c where c.case_no=i.case_no and c.soc_Sec_no=i.soc_Sec_no and period_end_dt<=last_anniversary and period_end_dt>last_plan_anniversary)
+
+
+
+left join vest_comp_period g on account_no=b.case_no
+where b.case_no not in (select account_no from TPA_CHOICE)
+and b.case_no=h.case_no)
+select '' as new_case_no,'' as new_subID, substr(SOC_SEC_NO,1,3)||substr(SOC_SEC_NO,5,2)||substr(SOC_SEC_NO,8,4),  hours, last_plan_anniversary+1 as load_3, substr(case_NO,1,instr(case_no,' ')-1) as old_cont,SUBSTR(case_NO,11,5) as old_sub_id
+
+ from current_hours
+where hours>0
+;
+-------------------------
+
+with current_hours as(
+with
+ last_ann as
+( with hire_date as
+(select case_no, soc_Sec_no, case
+when substr(ee_hire_dt,5,4)='0229' then substr(ee_hire_dt,1,4)||'0228' else ee_hire_dt end as ee_hire_dt
+from $Business_line.employee where case_no  in  (select case_no from session.terminating_sub_ids))
+
+select a.case_no, a.soc_Sec_no,a.ee_hire_dt,ee_term_dt,ee_rehire_dt,
+case when cast(year(current_Date)||'-'||substr(b.ee_hire_dt,5,2)||'-'||substr(b.ee_hire_dt,7,2) as date) <current date then cast(year(current_Date)||'-'||substr(b.ee_hire_dt,5,2)||'-'||substr(b.ee_hire_dt,7,2) as date)
+else cast((year(current_Date)-1)||'-'||substr(b.ee_hire_dt,5,2)||'-'||substr(b.ee_hire_dt,7,2) as date) end as last_anniversary
+,cast(cast(year(current_Date)-1 as varchar)||'-'||substr(b.ee_hire_dt,5,2)||'-'||substr(b.ee_hire_dt,7,2) as date) as prior_yr_ann
+
+from $Business_line.EMPLOYEE a
+join hire_date b on b.case_no=a.case_no and b.soc_Sec_no=a.soc_Sec_no
+where a.case_no  in  (select case_no from session.terminating_sub_ids)
+),
+
+last_plan_ann as
+(
+select case_no, cast(cast(year(current date)-1 as varchar)||'-'||substr(pye_dt,1,2)||'-'||substr(pye_dt,3,2)as date) as last_plan_anniversary
+from $Business_line.case_data 
+where case_no  in  (select case_no from session.terminating_sub_ids)),
+
+	TPA_CHOICE
+AS (
+	SELECT 
+	A.ACCOUNT_NO
+	FROM PENSION.PLAN_PROV_GRP A
+	JOIN PENSION.PLAN_PROVISION C ON A.ENRL_PROV_GRP_I = C.ENRL_PROV_GRP_I
+	JOIN PENSION.OUTSRC_SERVICE D ON C.PROVISION_I = D.OUTSRC_I
+		AND SERV_TYP_C = 25
+		AND SERV_OFFERING_C = 1
+	JOIN PENSION.OUTSRC_TPA_CHOICE_DET E ON D.OUTSRC_I = E.OUTSRC_I
+		AND TPA_TYP_C = 1
+		AND ALLOW_IND_C = '1'
+where a.account_no  in  (select case_no from session.terminating_sub_ids)),
+
+Vest_comp_period as
+(
+select account_no, compute_per_yr_c, related_grp_typ_c, hlp_text
+from pension.GEN_VESTING_DATA c,pension.plan_provision a, pension.plan_prov_grp  b, $Business_line.helper2 d
+where vest_i =provision_i
+and account_no  in  (select case_no from session.terminating_sub_ids)
+ and a.enrl_prov_grp_i=b.enrl_prov_grp_i 
+and hlp_code='VCOMPCD'
+and hlp_value=compute_per_yr_c)
+
+
+select b.case_no, g.hlp_text,b.SOC_SEC_NO, ee_hire_dt, ee_term_dt,ee_rehire_dt,last_anniversary, last_plan_anniversary,
+
+coalesce(j.ytd_empl_hrs,0) as hours
+
+from  last_ann b, last_plan_ann h 
+
+left join $Business_line.EE_HRS_WORKED j on j.case_no=b.case_no and j.soc_Sec_no=b.soc_Sec_no
+and j.PERIOD_END_DT in (select max(period_end_dt) from $Business_line.ee_hrs_worked c where c.case_no=j.case_no and c.soc_Sec_no=j.soc_Sec_no  and period_end_dt<=last_plan_anniversary and period_end_dt>prior_yr_ann)
+
+
+
+left join vest_comp_period g on account_no=b.case_no
+where b.case_no not in (select account_no from TPA_CHOICE)
+and b.case_no=h.case_no)
+select '' as new_case_no,'' as new_sub_id, substr(SOC_SEC_NO,1,3)||substr(SOC_SEC_NO,5,2)||substr(SOC_SEC_NO,8,4),  hours, last_plan_anniversary as load_2 ,
+ substr(case_NO,1,instr(case_no,' ')-1) as old_cont,SUBSTR(case_NO,11,5) as old_sub_id
+ from current_hours
+where hours>0
+;
+-----------------------------
+with current_hours as(
+with
+ last_ann as
+( with hire_date as
+(select case_no, soc_Sec_no, case
+when substr(ee_hire_dt,5,4)='0229' then substr(ee_hire_dt,1,4)||'0228' else ee_hire_dt end as ee_hire_dt
+from $Business_line.employee where case_no  in  (select case_no from session.terminating_sub_ids))
+
+select a.case_no, a.soc_Sec_no,a.ee_hire_dt,ee_term_dt,ee_rehire_dt,
+case when cast(year(current_Date)||'-'||substr(b.ee_hire_dt,5,2)||'-'||substr(b.ee_hire_dt,7,2) as date) <current date then cast(year(current_Date)||'-'||substr(b.ee_hire_dt,5,2)||'-'||substr(b.ee_hire_dt,7,2) as date)
+else cast((year(current_Date)-1)||'-'||substr(b.ee_hire_dt,5,2)||'-'||substr(b.ee_hire_dt,7,2) as date) end as last_anniversary
+,cast(cast(year(current_Date)-1 as varchar)||'-'||substr(b.ee_hire_dt,5,2)||'-'||substr(b.ee_hire_dt,7,2) as date) as prior_yr_ann
+
+from $Business_line.EMPLOYEE a
+join hire_date b on b.case_no=a.case_no and b.soc_Sec_no=a.soc_Sec_no
+where a.case_no  in  (select case_no from session.terminating_sub_ids)
+),
+
+last_plan_ann as
+(
+select case_no, cast(cast(year(current date)-1 as varchar)||'-'||substr(pye_dt,1,2)||'-'||substr(pye_dt,3,2)as date) as last_plan_anniversary
+from $Business_line.case_data 
+where case_no  in  (select case_no from session.terminating_sub_ids)),
+
+	TPA_CHOICE
+AS (
+	SELECT 
+	A.ACCOUNT_NO
+	FROM PENSION.PLAN_PROV_GRP A
+	JOIN PENSION.PLAN_PROVISION C ON A.ENRL_PROV_GRP_I = C.ENRL_PROV_GRP_I
+	JOIN PENSION.OUTSRC_SERVICE D ON C.PROVISION_I = D.OUTSRC_I
+		AND SERV_TYP_C = 25
+		AND SERV_OFFERING_C = 1
+	JOIN PENSION.OUTSRC_TPA_CHOICE_DET E ON D.OUTSRC_I = E.OUTSRC_I
+		AND TPA_TYP_C = 1
+		AND ALLOW_IND_C = '1'
+where a.account_no  in  (select case_no from session.terminating_sub_ids)),
+
+Vest_comp_period as
+(
+select account_no, compute_per_yr_c, related_grp_typ_c, hlp_text
+from pension.GEN_VESTING_DATA c,pension.plan_provision a, pension.plan_prov_grp  b, $Business_line.helper2 d
+where vest_i =provision_i
+and account_no  in  (select case_no from session.terminating_sub_ids)
+ and a.enrl_prov_grp_i=b.enrl_prov_grp_i 
+and hlp_code='VCOMPCD'
+and hlp_value=compute_per_yr_c)
+
+
+select b.case_no, g.hlp_text,b.SOC_SEC_NO, ee_hire_dt, ee_term_dt,ee_rehire_dt,last_anniversary, last_plan_anniversary,
+
+coalesce(d.ytd_plan_hrs,0) as hours
+from  last_ann b, last_plan_ann h 
+
+--
+left join $Business_line.EE_HRS_WORKED d on d.case_no=b.case_no and d.soc_Sec_no=b.soc_Sec_no
+and d.PERIOD_END_DT in (select max(period_end_dt) from $Business_line.ee_hrs_worked c where c.case_no=d.case_no and c.soc_Sec_no=d.soc_Sec_no and period_end_dt>last_plan_anniversary-1 year and period_end_dt<prior_yr_ann) 
+
+
+
+left join vest_comp_period g on account_no=b.case_no
+where b.case_no not in (select account_no from TPA_CHOICE)
+and b.case_no=h.case_no)
+select '' as new_case_no,'' as New_sub_id, substr(SOC_SEC_NO,1,3)||substr(SOC_SEC_NO,5,2)||substr(SOC_SEC_NO,8,4),  hours, last_plan_anniversary-1 year +1 as load_1  , substr(case_NO,1,instr(case_no,' ')-1) as old_cont,SUBSTR(case_NO,11,5) as old_sub_id
+ from current_hours
+where hours>0
+;
+
+----years of service
+
+WITH
+TPA_CHOICE
+AS (
+	SELECT 
+	A.ACCOUNT_NO
+	FROM PENSION.PLAN_PROV_GRP A
+	JOIN PENSION.PLAN_PROVISION C ON A.ENRL_PROV_GRP_I = C.ENRL_PROV_GRP_I
+	JOIN PENSION.OUTSRC_SERVICE D ON C.PROVISION_I = D.OUTSRC_I
+		AND SERV_TYP_C = 25
+		AND SERV_OFFERING_C = 1
+	JOIN PENSION.OUTSRC_TPA_CHOICE_DET E ON D.OUTSRC_I = E.OUTSRC_I
+		AND TPA_TYP_C = 1
+		AND ALLOW_IND_C = '1'
+where account_no  in (select case_no from session.terminating_sub_ids)
+
+	)
+
+
+,Vest_comp_period as
+(
+select account_no, compute_per_yr_c, related_grp_typ_c, hlp_text,Vest_Year_Hrs_Ct,Vest_Year_Serv_C
+
+
+from pension.GEN_VESTING_DATA c,pension.plan_provision a, pension.plan_prov_grp  b, $Business_line.helper2 d
+where vest_i =provision_i
+and account_no like '$CASE%'
+ and a.enrl_prov_grp_i=b.enrl_prov_grp_i 
+and hlp_code='VCOMPCD'
+and hlp_value=compute_per_yr_c
+and compute_per_yr_c=1
+and Vest_Year_Serv_C=2),
+
+
+ last_ann as
+( with hire_date as
+(select case_no, soc_Sec_no, case
+when substr(ee_hire_dt,5,4)='0229' then substr(ee_hire_dt,1,4)||'0228' else ee_hire_dt end as ee_hire_dt
+from $Business_line.employee where case_no in  (select case_no from session.terminating_sub_ids))
+
+select a.case_no, a.soc_Sec_no,a.ee_hire_dt,ee_term_dt,ee_rehire_dt,
+case when cast(year(current_Date)||'-'||substr(b.ee_hire_dt,5,2)||'-'||substr(b.ee_hire_dt,7,2) as date) <current date then cast(year(current_Date)||'-'||substr(b.ee_hire_dt,5,2)||'-'||substr(b.ee_hire_dt,7,2) as date)
+else cast((year(current_Date)-1)||'-'||substr(b.ee_hire_dt,5,2)||'-'||substr(b.ee_hire_dt,7,2) as date) end as last_anniversary
+
+
+from $Business_line.EMPLOYEE a
+join hire_date b on b.case_no=a.case_no and b.soc_Sec_no=a.soc_Sec_no
+where a.case_no  in (select case_no from session.terminating_sub_ids)
+)
+
+
+	SELECT '' as new_case_no,'' as new_sub_id,substr(a.SOC_SEC_NO,1,3)||substr(a.SOC_SEC_NO,5,2)||substr(a.SOC_SEC_NO,8,4) , YR_SRV_CR_NO, 
+case
+when hlp_text='PLAN YEAR COMPUTATION PERIODS' then cast(year(current date)-1 as varchar)||'-12-31'
+else last_anniversary end as credit_date_dont_load, substr(a.case_NO,1,instr(a.case_no,' ')-1) as old_cont,SUBSTR(a.case_NO,11,5) as old_sub_id
+
+
+	FROM CORP.EE_CREDITED_SRV A, vest_comp_period b, last_ann c
+	where a.case_no in  (select case_no from session.terminating_sub_ids) and a.case_no=c.case_no and a.soc_Sec_no=c.soc_Sec_no
+and a.case_no=b.account_no
+	AND CR_YR_END_DT IN (SELECT MAX(CR_YR_END_DT) FROM CORP.EE_CREDITED_SRV C
+						 WHERE A.CASE_NO = C.CASE_NO
+						 AND A.SOC_SEC_NO = C.SOC_SEC_NO
+                         and cr_yr_end_dt<current date	)
+and a.case_no not in (select account_no from TPA_CHOICE)
+;
+WITH
+TPA_CHOICE
+AS (
+	SELECT 
+	A.ACCOUNT_NO
+	FROM PENSION.PLAN_PROV_GRP A
+	JOIN PENSION.PLAN_PROVISION C ON A.ENRL_PROV_GRP_I = C.ENRL_PROV_GRP_I
+	JOIN PENSION.OUTSRC_SERVICE D ON C.PROVISION_I = D.OUTSRC_I
+		AND SERV_TYP_C = 25
+		AND SERV_OFFERING_C = 1
+	JOIN PENSION.OUTSRC_TPA_CHOICE_DET E ON D.OUTSRC_I = E.OUTSRC_I
+		AND TPA_TYP_C = 1
+		AND ALLOW_IND_C = '1'
+where account_no  in (select case_no from session.terminating_sub_ids)
+
+	)
+
+
+,Vest_comp_period as
+(
+select account_no, compute_per_yr_c, related_grp_typ_c, hlp_text,Vest_Year_Hrs_Ct,Vest_Year_Serv_C
+
+
+from pension.GEN_VESTING_DATA c,pension.plan_provision a, pension.plan_prov_grp  b, $Business_line.helper2 d
+where vest_i =provision_i
+and account_no like '$CASE%'
+ and a.enrl_prov_grp_i=b.enrl_prov_grp_i 
+and hlp_code='VCOMPCD'
+and hlp_value=compute_per_yr_c
+and compute_per_yr_c=2
+and Vest_Year_Serv_C=2),
+
+
+ last_ann as
+( with hire_date as
+(select case_no, soc_Sec_no, case
+when substr(ee_hire_dt,5,4)='0229' then substr(ee_hire_dt,1,4)||'0228' else ee_hire_dt end as ee_hire_dt
+from $Business_line.employee where case_no in  (select case_no from session.terminating_sub_ids))
+
+select a.case_no, a.soc_Sec_no,a.ee_hire_dt,ee_term_dt,ee_rehire_dt,
+case when cast(year(current_Date)||'-'||substr(b.ee_hire_dt,5,2)||'-'||substr(b.ee_hire_dt,7,2) as date) <current date then cast(year(current_Date)||'-'||substr(b.ee_hire_dt,5,2)||'-'||substr(b.ee_hire_dt,7,2) as date)
+else cast((year(current_Date)-1)||'-'||substr(b.ee_hire_dt,5,2)||'-'||substr(b.ee_hire_dt,7,2) as date) end as last_anniversary
+
+
+from $Business_line.EMPLOYEE a
+join hire_date b on b.case_no=a.case_no and b.soc_Sec_no=a.soc_Sec_no
+where a.case_no  in (select case_no from session.terminating_sub_ids)
+)
+
+
+	SELECT '' as new_case_no,'' as new_sub_id,substr(a.SOC_SEC_NO,1,3)||substr(a.SOC_SEC_NO,5,2)||substr(a.SOC_SEC_NO,8,4) , YR_SRV_CR_NO, 
+case
+when hlp_text='PLAN YEAR COMPUTATION PERIODS' then cast(year(current date)-1 as varchar)||'-12-31'
+else last_anniversary end as credit_date, substr(a.case_NO,1,instr(a.case_no,' ')-1) as old_cont,SUBSTR(a.case_NO,11,5) as old_sub_id
+
+
+	FROM CORP.EE_CREDITED_SRV A, vest_comp_period b, last_ann c
+	where a.case_no in  (select case_no from session.terminating_sub_ids) and a.case_no=c.case_no and a.soc_Sec_no=c.soc_Sec_no
+and a.case_no=b.account_no
+	AND CR_YR_END_DT IN (SELECT MAX(CR_YR_END_DT) FROM CORP.EE_CREDITED_SRV C
+						 WHERE A.CASE_NO = C.CASE_NO
+						 AND A.SOC_SEC_NO = C.SOC_SEC_NO
+                         and cr_yr_end_dt<current date	)
+and a.case_no not in (select account_no from TPA_CHOICE)
+
+
+;
+-------- eligibility
+
+	SELECT '' as new_case, '' as new_sub_id,
+	 substr(b.SOC_SEC_NO,1,3)||substr(b.SOC_SEC_NO,5,2)||substr(b.SOC_SEC_NO,8,4) as SSN, '' as new_src_cd ,
+case
+when stat_c=3 then stat_c
+when stat_c=1 then 0
+when stat_c=2 then 2
+else 4 end as stat_c,
+case
+when stat_c=3 then cast(ELIG_D as varchar)
+else '' end as elig_d, 
+case
+when stat_c=3 then cast (PLAN_ENTRY_D as varchar)
+else '' end as plan_entry_d,
+case
+when stat_c in (2,3) then cast(coalesce(kit_mail_d, client_kit_mail_d) as varchar)
+else '' end  as kit_date,'N' as rehire_cd,substr(a.account_NO,1,instr(a.account_no,' ')-1) as old_cont,SUBSTR(a.account_NO,11,5) as old_sub_id, src_typ_c as prior_source_cd
+	FROM PENSION.PLAN_PROV_GRP A, CORP.EMPLOYEE B,PENSION.PART_ENRL_XREF C, PENSION.PART_ELIG_SRC D,PENSION.PLAN_SRC_DETAIL E 
+where a.account_no  in (select case_no from session.terminating_sub_ids)
+and a.RELATED_GRP_TYP_C=361
+and A.ACCOUNT_NO = CASE_NO
+and B.CASE_NO = C.ACCOUNT_NO
+AND B.SOC_SEC_NO = C.SOC_SEC_NO
+and C.PART_ENRL_I = D.PART_ENRL_I
+AND PART_HIST_C = 0
+and D.SRC_I = E.SRC_I
+;
+
+--------------------
+
+--vesting query
+with rundate as
+(
+SELECT CAST(MAX(To_DATE(HLP_VALUE,'YYYYMMDD')) AS DATE) as proc_date
+FROM corp.HELPER2
+WHERE HLP_CODE = 'BUSDAYS'
+  AND CAST(To_DATE(HLP_VALUE,'YYYYMMDD') AS DATE) < current date
+    AND HLP_TEXT LIKE '%OPEN%')
+
+,
+part_bals as
+(
+select case_no,soc_sec_no, src_i, sum(total_a) as balance
+from corp.ee_part_bal_header a, corp.ee_part_balance b
+where  case_no in  (select case_no from session.terminating_sub_ids)
+and eff_d in (select proc_date from rundate)
+and a.transact_i=b.transact_i
+group by case_no,soc_Sec_no, src_i)
+
+
+
+
+
+
+SELECT distinct '' as new_contract,'' as new_subID,
+ substr(a.SOC_SEC_NO,1,3)||substr(a.SOC_SEC_NO,5,2)||substr(a.SOC_SEC_NO,8,4) as SSN, ' ' as new_source, C.VEST_P , 
+C.EFF_D, src_typ_c as old_source, coalesce(balance,0) as src_bal, ee_term_dt, ee_rehire_dt,substr(a.case_NO,1,instr(a.case_NO,' ')-1) as old_cont
+	,SUBSTR(a.case_NO,11,5) Old_Sub_id						
+FROM CORP.EMPLOYEE A, PENSION.PLAN_PROV_GRP B, PENSION.PART_VEST_OVRD C,PENSION.PLAN_SRC_DETAIL D						
+left join part_bals pb on pb.soc_Sec_no=a.soc_Sec_no and pb.src_i=c.src_i AND A.CASE_NO=PB.CASE_NO			
+								
+where  a.case_no in  (select case_no from session.terminating_sub_ids)
+and A.CASE_NO = B.ACCOUNT_NO	
+and B.ENRL_PROV_GRP_I = C.ENRL_PROV_GRP_I 
+and C.SRC_I = D.SRC_I
+
+AND A.SOC_SEC_NO = C.SOC_SEC_no
+and c.eff_d in 
+(select max(eff_d) from pension.part_vest_ovrd e where e.ENRL_PROV_GRP_I=c.ENRL_PROV_GRP_I and e.PART_ENRL_I=c.PART_ENRL_I and e.SRC_I=c.SRC_I and eff_d ^= cast(substr('$LIQUIDATION',1,4)||'-'||substr('$LIQUIDATION',5,2)||'-'||substr('$LIQUIDATION',7,2) as date))			
+and (balance>0 or (ee_term_dt in ('','00000000') or (ee_term_dt not in ('','00000000') and cast(substr(ee_term_dt,1,4)||'-'||substr(ee_term_dt,5,2)||'-'||substr(ee_term_dt,7,2) as date)<ee_rehire_dt))	)				 
+
+
+;
+------
+
+--compensation data
+
+select '','',
+substr(SOC_SEC_NO,1,3)||substr(SOC_SEC_NO,5,2)||substr(SOC_SEC_NO,8,4) as SSN, decode(comp_typ_c,
+1,'3401(a) (W-2 comp) - pay period',
+2,'3401(a) w/ pre-tax defrls - pay period',
+3,'6041/6051 - pay period',
+4,'6041/6051 w/ pre-tax defrls - pay period',
+5,'415 - pay period',
+6,'415 excludes pre-tax defrls - pay period',
+7,'Comp used for pre-tax defrls - pay period',
+8,'Comp used for match #1 - pay period',
+9,'Comp used for match #2 - pay period',
+10,'Comp for emplyr (prft-shar) #1-pay period',
+11,'Comp for emplyr (prft-shar) #2 - pay period',
+12,'Comp for Ln Repay Amt edit - pay period',
+13,'Personalized Reports - pay period',
+14,'Comp for Dollar defrl edit - pay period',
+15,'3401(a) (W-2 comp) - ytd',
+16,'3401(a) w/ pre-tax defrls - ytd',
+17,'6041/6051 - ytd',
+18,'6041/6051 w/ pre-tax defrls - ytd',
+19,'415 - ytd',
+20,'415 excludes pre-tax defrls - ytd',
+21,'Comp used for pre-tax defrls - ytd',
+22,'Comp used for match #1 - ytd',
+23,'Comp used for match #2 - ytd',
+24,'Comp for emplyr (prft-shar) #1 - ytd',
+25,'Comp for emplyr (prft-shar) #2 - ytd',
+26,'Comp for Ln Repay Amt edit - ytd',
+27,'Personalized Reports - ytd',
+28,'Comp for Dollar deferral edit - ytd',
+29,'3401(a) (W-2 comp) - annual',
+30,'3401(a) w/ pre-tax defrls - annual',
+31,'6041/6051 - annual',
+32,'6041/6051 w/ pre-tax defrls - annual',
+33,'415 - annual',
+34,'415 excludes pre-tax defrls - annual',
+35,'Comp used for pre-tax defrls - annual',
+36,'Comp used for match #1 - annual',
+37,'Comp used for match #2 - annual',
+38,'Comp for emplyr (prft-shar) #1 - annual',
+39,'Comp for emplyr (prft-shar) #2 - annual',
+40,'Comp for Ln Repay Amt edit - annual',
+41,'Personalized Reports - annual',
+42,'Comp for Dollar defrl edit - annual',
+43,'Quarterly Management Reports - pay period',
+44,'415 Bonus Compensation - pay period',
+45,'Miscellaneous 1 - YTD'),
+
+
+sum(COMP_A) as Compensation ,substr(account_NO,1,instr(account_NO,' ')-1) as old_cont
+	,SUBSTR(account_NO,11,5) Old_Sub_id 
+
+--, CLASS_I, DIV_I, COMP_FREQ_C, COMP_PERIOD_TYP_C, 
+
+from pension.compensation_DATA
+WHERE ACCOUNT_NO  in (select case_no from session.terminating_sub_ids)
+AND PAY_PERIOD_END_D> cast(year(current date)||'-01-01' as date)
+
+group by ACCOUNT_NO ,  SOC_SEC_NO, COMP_TYP_C
+
+
+;
+
+--bene query
+SELECT '' as new_case_no,'' as new_sub_id
+	,substr(A.SOC_SEC_NO,1,3)||substr(A.SOC_SEC_NO,5,2)||substr(A.SOC_SEC_NO,8,4) as SSN
+	,COALESCE(D.LAST_NM, '') BENE_LAST_NM
+	,COALESCE(D.FST_MID_NM, '') BENE_FST_MID_NM
+	, a.BENE_TYP_c
+	,a.Bene_relat_c
+	,A.BENE_PRCDS_SHR_P
+	,A.BENE_DESIG_EFF_D
+,COALESCE(G.ADDR_LINE_1_T, '') ADDR_LINE_1_T
+	,COALESCE(G.ADDR_LINE_2_T, '') ADDR_LINE_2_T
+	,COALESCE(G.ST_C, '') ST_C
+	,COALESCE(G.CITY_NM, '') CITY_NM
+	,COALESCE(G.ZIP_C, '') ZIP_C
+	,D.SOC_SEC_NO BENE_SSN
+	,case
+when cast(D.BIRTH_D as varchar) is null then ''
+else cast(d.Birth_d as varchar) end as BENE_DOB 
+	,case when D.GENDER_C is null then '' else d.gender_c end as Gender
+,'' BENE_PHONE,'' BENE_EMAIL, substr(a.account_NO,1,instr(a.account_no,' ')-1) as old_cont,SUBSTR(A.ACCOUNT_NO,11,5) as old_sub_id
+FROM PENSION.BENE_HIST A
+
+LEFT JOIN PENSION.PERSON_SEARCH D ON A.PERSON_I = D.PERSON_I
+LEFT JOIN CORP.EMPLOYEE E ON A.ACCOUNT_NO = E.CASE_NO
+	AND A.SOC_SEC_NO = E.SOC_SEC_NO
+LEFT JOIN PENSION.ORG_SEARCH F ON A.PERSON_I = F.ORG_I
+	AND F.ROLE_C = 2
+LEFT JOIN PENSION.LE_ADDRESS G ON A.ADDRESS_I = G.CP_I
+LEFT JOIN PENSION.BENE_TRST_EXECUTOR H ON A.PERSON_I = H.PERSON_I
+
+WHERE A.ACCOUNT_NO  in (select case_no from session.terminating_sub_ids)
+	AND A.STATUS_C = 'A'
+--AND A.DATA_CH_ORIG_C = 'I'
+
+WITH UR		
+;	
+
+-- Deferrals for plans with auto-enrol
+
+
+WITH PLAN_LIST
+AS (
+	SELECT ACCOUNT_NO
+		,ENRL_PROV_GRP_I
+		,ENRL_STAT_C
+	FROM PENSION.PLAN_PROV_GRP
+	WHERE ACCOUNT_NO in  (select case_no from session.terminating_sub_ids)
+		AND RELATED_GRP_TYP_C = 361
+		and enrl_prov_grp_i in (select ENRL_PROV_GRP_I from pension.plan_provision a, pension.OUTSRC_DEFERRAL b
+where provision_i=outsrc_i and auto_enrl_c='1')
+	)
+
+SELECT 
+' ' as new_case_no,' ' as new_sub_id,
+substr(pdd.SOC_SEC_NO,1,3)||substr(pdd.SOC_SEC_NO,5,2)||substr(pdd.SOC_SEC_NO,8,4) as SSN,
+SUM(CASE WHEN DEF_GRP_TYP_C = 1 and def_grp_nm not like '%BONUS%' THEN DEF_A ELSE 0 END) PRETAX_DOLLAR,
+SUM(CASE WHEN DEF_GRP_TYP_C = 4 and def_grp_nm  like '%BONUS%'THEN DEF_A ELSE 0 END) PRETAX_DOLLAR_BONUS,
+SUM(CASE WHEN DEF_GRP_TYP_C = 1 and def_grp_nm not like '%BONUS%' THEN DEF_P ELSE 0 END) PRETAX_PERCENT,
+SUM(CASE WHEN DEF_GRP_TYP_C = 4 and def_grp_nm  like '%BONUS%' THEN DEF_P ELSE 0 END) PRETAX_PERCENT_BONUS,
+SUM(CASE WHEN DEF_GRP_TYP_C = 1 and def_grp_nm not like '%BONUS%' THEN CATCHUP_A ELSE 0 END) PRETAX_CATCHUP_A,
+SUM(CASE WHEN DEF_GRP_TYP_C = 1 and def_grp_nm not like '%BONUS%' THEN CATCHUP_P ELSE 0 END) PRETAX_CATCHUP_PERCENT,
+SUM(CASE WHEN DEF_GRP_TYP_C = 2 and def_grp_nm not like '%BONUS%' THEN DEF_A ELSE 0 END) ROTH_DOLLAR,
+SUM(CASE WHEN DEF_GRP_TYP_C = 5 and def_grp_nm like '%BONUS%' THEN DEF_A ELSE 0 END) ROTH_DOLLAR_BONUS,
+SUM(CASE WHEN DEF_GRP_TYP_C = 2 and def_grp_nm not like '%BONUS%' THEN DEF_P ELSE 0 END) ROTH_PERCENT,
+SUM(CASE WHEN DEF_GRP_TYP_C = 5 and def_grp_nm like '%BONUS%' THEN DEF_P ELSE 0 END) ROTH_PERCENT_BONUS,
+SUM(CASE WHEN DEF_GRP_TYP_C = 2 and def_grp_nm not like '%BONUS%' THEN CATCHUP_A ELSE 0 END) ROTH_CATCHUP_A,
+SUM(CASE WHEN DEF_GRP_TYP_C = 2 and def_grp_nm not like '%BONUS%' THEN CATCHUP_P ELSE 0 END) ROTH_CATCHUP_PERCENT,
+CASE WHEN default_stat_c=1 THEN cast(PPD.AUTO_ENRL_D as varchar)
+	 ELSE '' 
+	 END AUTO_ENRL_D,
+CASE DEFAULT_STAT_C WHEN 0 THEN 'N' ELSE 'Y' END DEFAULT,
+substr(pl.account_no,1,instr(pl.account_no,' ')-1) as old_cont,SUBSTR(PL.ACCOUNT_NO,11,5)as old_sub_id
+FROM PENSION.PART_DEF_DATA PDD
+JOIN PENSION.PLAN_PROV_GRP PPG ON PDD.ENRL_PROV_GRP_I = PPG.ENRL_PROV_GRP_I
+	AND RELATED_GRP_TYP_C = 361
+JOIN PLAN_LIST PL ON PPG.ACCOUNT_NO = PL.ACCOUNT_NO
+JOIN PENSION.PLAN_DEFERRAL_GRP PDG ON PDD.DEF_GRP_I = PDG.DEF_GRP_I
+JOIN PENSION.PART_PPA_DEFAULT PPD ON PL.ACCOUNT_NO = PPD.ACCOUNT_NO
+	AND PDD.SOC_SEC_NO = PPD.SOC_SEC_NO
+	AND ENRL_SERV_TYP_C = 1
+	AND PPD.STAT_C = 'A'
+WHERE PDD.STAT_C = 'A'
+
+GROUP BY PL.ACCOUNT_NO, 
+PDD.SOC_SEC_NO,
+CASE WHEN default_stat_c=1 THEN cast(PPD.AUTO_ENRL_D as varchar)
+	 ELSE '' 
+	 END,
+CASE DEFAULT_STAT_C WHEN 0 THEN 'N' ELSE 'Y' END	
+
+;
+
+--- deferrals for plans with NO auto enrol
+WITH PLAN_LIST
+AS (
+	SELECT ACCOUNT_NO
+		,ENRL_PROV_GRP_I
+		,ENRL_STAT_C
+	FROM PENSION.PLAN_PROV_GRP
+	WHERE ACCOUNT_NO in  (select case_no from session.terminating_sub_ids)
+--where enrl_prov_grp_i=81960657163386400
+		AND RELATED_GRP_TYP_C = 361
+and enrl_prov_grp_i in (select ENRL_PROV_GRP_I from pension.plan_provision a, pension.OUTSRC_DEFERRAL b
+where provision_i=outsrc_i and auto_enrl_c='0')
+	)
+
+SELECT 
+' ' as new_case_no,' ' as new_sub_id,
+substr(pdd.SOC_SEC_NO,1,3)||substr(pdd.SOC_SEC_NO,5,2)||substr(pdd.SOC_SEC_NO,8,4) as SSN,
+SUM(CASE WHEN DEF_GRP_TYP_C = 1 and def_grp_nm not like '%BONUS%' THEN DEF_A ELSE 0 END) PRETAX_DOLLAR,
+SUM(CASE WHEN DEF_GRP_TYP_C = 4 and def_grp_nm  like '%BONUS%'THEN DEF_A ELSE 0 END) PRETAX_DOLLAR_BONUS,
+SUM(CASE WHEN DEF_GRP_TYP_C = 1 and def_grp_nm not like '%BONUS%' THEN DEF_P ELSE 0 END) PRETAX_PERCENT,
+SUM(CASE WHEN DEF_GRP_TYP_C = 4 and def_grp_nm  like '%BONUS%' THEN DEF_P ELSE 0 END) PRETAX_PERCENT_BONUS,
+SUM(CASE WHEN DEF_GRP_TYP_C = 1 and def_grp_nm not like '%BONUS%' THEN CATCHUP_A ELSE 0 END) PRETAX_CATCHUP_A,
+SUM(CASE WHEN DEF_GRP_TYP_C = 1 and def_grp_nm not like '%BONUS%' THEN CATCHUP_P ELSE 0 END) PRETAX_CATCHUP_PERCENT,
+SUM(CASE WHEN DEF_GRP_TYP_C = 2 and def_grp_nm not like '%BONUS%' THEN DEF_A ELSE 0 END) ROTH_DOLLAR,
+SUM(CASE WHEN DEF_GRP_TYP_C = 5 and def_grp_nm like '%BONUS%' THEN DEF_A ELSE 0 END) ROTH_DOLLAR_BONUS,
+SUM(CASE WHEN DEF_GRP_TYP_C = 2 and def_grp_nm not like '%BONUS%' THEN DEF_P ELSE 0 END) ROTH_PERCENT,
+SUM(CASE WHEN DEF_GRP_TYP_C = 5 and def_grp_nm like '%BONUS%' THEN DEF_P ELSE 0 END) ROTH_PERCENT_BONUS,
+SUM(CASE WHEN DEF_GRP_TYP_C = 2 and def_grp_nm not like '%BONUS%' THEN CATCHUP_A ELSE 0 END) ROTH_CATCHUP_A,
+SUM(CASE WHEN DEF_GRP_TYP_C = 2 and def_grp_nm not like '%BONUS%' THEN CATCHUP_P ELSE 0 END) ROTH_CATCHUP_PERCENT,
+substr(pl.account_no,1,instr(pl.account_no,' ')-1) as old_cont,SUBSTR(PL.ACCOUNT_NO,11,5)as old_sub_id
+
+FROM PENSION.PART_DEF_DATA PDD
+JOIN PENSION.PLAN_PROV_GRP PPG ON PDD.ENRL_PROV_GRP_I = PPG.ENRL_PROV_GRP_I
+	AND RELATED_GRP_TYP_C = 361
+JOIN PLAN_LIST PL ON PPG.ACCOUNT_NO = PL.ACCOUNT_NO
+JOIN PENSION.PLAN_DEFERRAL_GRP PDG ON PDD.DEF_GRP_I = PDG.DEF_GRP_I
+
+where pdd.stat_c='A'
+
+GROUP BY PL.ACCOUNT_NO, 
+PDD.SOC_SEC_NO
+;
+
+---- HOLB
+
+
+WITH YEAR_BACK
+AS (
+	SELECT DATE (SUBSTR(HLP_VALUE, 1, 4) || '-' || SUBSTR(HLP_VALUE, 5, 2) || '-' || SUBSTR(HLP_VALUE, 7, 2)) - 1 MONTH AS BEGIN_DATE
+		,DATE (SUBSTR(HLP_VALUE, 1, 4) || '-' || SUBSTR(HLP_VALUE, 5, 2) || '-' || SUBSTR(HLP_VALUE, 7, 2)) AS END_DATE
+	FROM CORP.HELPER2
+	WHERE HLP_CODE = 'BUSDAYS' AND DATE (SUBSTR(HLP_VALUE, 1, 4) || '-' || SUBSTR(HLP_VALUE, 5, 2) || '-' || SUBSTR(HLP_VALUE, 7, 2)) BETWEEN CURRENT DATE - 12 MONTH AND CURRENT DATE AND SUBSTR(HLP_VALUE, 7, 2) = DAY(CURRENT DATE)
+	)
+	,PLAN_LIST
+AS (
+	SELECT ACCOUNT_NO
+		,ENRL_PROV_GRP_I
+		,ENRL_STAT_C
+	FROM PENSION.PLAN_PROV_GRP
+	WHERE ACCOUNT_NO in  (select case_no from session.terminating_sub_ids)
+		AND RELATED_GRP_TYP_C = 361
+		AND ENRL_STAT_C = 7
+		
+	)
+	,LOAN_PAYMENTS
+AS (
+	SELECT BEGIN_DATE
+		,END_DATE
+		,B.*
+	FROM YEAR_BACK AS A
+	LEFT JOIN (
+		SELECT A.CASE_NO
+			,A.SOC_SEC_NO
+			,B.LOAN_NO
+			,B.EFF_DT
+			,B.PRNC_BAL_DUE_AMT
+		FROM (
+			SELECT *
+			FROM CORP.LOAN_DETAIL A
+			JOIN PLAN_LIST B ON A.CASE_NO = B.ACCOUNT_NO
+			WHERE 1=1
+			AND LN_TR_STAT_CD NOT IN ('2', '3', '4', '5', '6')
+			) AS A
+		INNER JOIN (
+			SELECT CASE_NO
+				,SOC_SEC_NO
+				,LOAN_NO
+				,EFF_DT
+				,MIN(PRNC_BAL_DUE_AMT) AS PRNC_BAL_DUE_AMT
+			FROM (
+				SELECT CASE_NO
+					,SOC_SEC_NO
+					,LOAN_NO
+					,PRNC_BAL_DUE_AMT
+					,(CAST(SUBSTR(EFF_DT, 1, 4) || '-' || SUBSTR(EFF_DT, 5, 2) || '-' || SUBSTR(EFF_DT, 7, 2) AS DATE)) AS EFF_DT
+				FROM CORP.LOAN_REPAYMENT A
+				JOIN PLAN_LIST B ON A.CASE_NO = B.ACCOUNT_NO
+				
+				UNION
+				
+				SELECT CASE_NO
+					,SOC_SEC_NO
+					,LOAN_NO
+					,(INIT_LN_AMT) AS PRNC_BAL_DUE_AMT
+					,(CAST(SUBSTR(ORIG_LN_ISS_DT, 1, 4) || '-' || SUBSTR(ORIG_LN_ISS_DT, 5, 2) || '-' || SUBSTR(ORIG_LN_ISS_DT, 7, 2) AS DATE)) AS EFF_DT
+				FROM CORP.LOAN_DETAIL A
+				JOIN PLAN_LIST B ON A.CASE_NO = B.ACCOUNT_NO
+				
+				) AS A
+			WHERE EFF_DT BETWEEN CURRENT DATE - 14 MONTH AND CURRENT DATE
+			GROUP BY CASE_NO
+				,SOC_SEC_NO
+				,LOAN_NO
+				,EFF_DT
+			) AS B ON A.CASE_NO = B.CASE_NO AND A.SOC_SEC_NO = B.SOC_SEC_NO AND A.LOAN_NO = B.LOAN_NO
+		) AS B ON END_DATE >= B.EFF_DT
+	)
+	,WITH_PAYMENTS
+AS (
+	SELECT A.CASE_NO
+		,A.SOC_SEC_NO
+		,A.LOAN_NO
+		,A.END_DATE
+		,A.PRNC_BAL_DUE_AMT AS PRINC_BALANCE
+	FROM LOAN_PAYMENTS A
+	INNER JOIN (
+		SELECT A.CASE_NO
+			,A.SOC_SEC_NO
+			,A.LOAN_NO
+			,A.END_DATE
+			,MIN(A.EFF_DT) AS EFF_DT
+		FROM LOAN_PAYMENTS A
+			,YEAR_BACK B
+		WHERE A.EFF_DT BETWEEN B.BEGIN_DATE AND B.END_DATE AND A.END_DATE = B.END_DATE
+		GROUP BY A.CASE_NO
+			,A.SOC_SEC_NO
+			,A.LOAN_NO
+			,A.END_DATE
+		) AS B ON A.LOAN_NO = B.LOAN_NO AND A.END_DATE = B.END_DATE AND A.EFF_DT = B.EFF_DT
+	)
+	,NO_PAYMENT
+AS (
+	SELECT A.CASE_NO
+		,A.SOC_SEC_NO
+		,A.LOAN_NO
+		,A.END_DATE
+		,A.PRNC_BAL_DUE_AMT AS PRINC_BALANCE
+	FROM LOAN_PAYMENTS AS A
+	INNER JOIN (
+		SELECT A.BEGIN_DATE
+			,A.END_DATE
+			,A.LOAN_NO
+			,MAX(A.EFF_DT) AS EFF_DT
+		FROM LOAN_PAYMENTS A
+		WHERE BEGIN_DATE >= EFF_DT
+		GROUP BY A.BEGIN_DATE
+			,A.END_DATE
+			,A.LOAN_NO
+		) AS B ON A.LOAN_NO = B.LOAN_NO AND A.END_DATE = B.END_DATE AND A.EFF_DT = B.EFF_DT
+	WHERE NOT EXISTS (
+			SELECT ''
+			FROM WITH_PAYMENTS C
+			WHERE A.LOAN_NO = C.LOAN_NO AND A.END_DATE = C.END_DATE
+			)
+	)
+SELECT ' ' as new_case_no, ' ' as new_sub_id
+	,substr(a.SOC_SEC_NO,1,3)||substr(a.SOC_SEC_NO,5,2)||substr(a.SOC_SEC_NO,8,4) as SSN
+	,A.END_DATE AS EFF_DT
+	,SUM(A.PRINC_BALANCE) HOLB, substr(a.case_NO,1,instr(a.case_no,' ')-1) as old_cont,SUBSTR(a.CASE_NO,11,5) old_CASE_NO
+FROM (
+	SELECT A.CASE_NO
+		,A.SOC_SEC_NO
+		,A.LOAN_NO
+		,A.END_DATE
+		,A.PRINC_BALANCE
+	FROM NO_PAYMENT A
+	
+	UNION
+	
+	SELECT A.CASE_NO
+		,A.SOC_SEC_NO
+		,A.LOAN_NO
+		,A.END_DATE
+		,A.PRINC_BALANCE
+	FROM WITH_PAYMENTS A
+	) AS A
+GROUP BY SUBSTR(A.CASE_NO,11,5), A.SOC_SEC_NO, A.END_DATE,substr(a.case_NO,1,instr(a.case_no,' ')-1)
+
+FOR FETCH ONLY WITH UR
+;
+---
+--installments
+
+SELECT  distinct ' ' as new_case_no, ' ' as new_sub_id, substr(A.SOC_SEC_NO,1,3)||substr(A.SOC_SEC_NO,5,2)||substr(A.SOC_SEC_NO,8,4) as SSN , EE_DIV_NO, decode(SYS_WD_OPT_CD,'M','Minimum Distribution','L','LED','I','Interest Only','F','Fixed') as sys_wd_opt_cd,PAYMENT_AMT,FREQ_CD, START_DT, STOP_DT,PREV_PAYMENT_DT, NEXT_PAYMENT_DT, FED_TAX_PCT, STATE_TAX_PCT, LOCAL_TAX_PCT, C.EE_LAST_NM, C.EE_FST_MID_NM, B.INSTITUTION_NM, EFT_ACCT_NO, EFT_ACCT_TYP_C,
+ABA_ROUTING_NO, DIRECT_DEPOSIT_C, D.STREET_NM, D.CITY_NM, D.ST_CD, D.ZIP_CD,substr(a.case_NO,1,instr(a.case_no,' ')-1) as old_cont,SUBSTR(a.CASE_NO,11,5) old_CASE_NO
+FROM corp.SYS_WITHDRAW_DATA A, PENSION.PART_BANK_DATA B, corp.EMPLOYEE C, corp.EE_BEN_ADDRESS D
+WHERE  b.Account_no in (select case_no from session.terminating_sub_ids)
+AND A.CASE_NO = C.CASE_NO
+and a.case_no=account_no
+AND A.CASE_NO = D.CASE_NO
+AND A.SOC_SEC_NO = C.SOC_SEC_NO
+AND A.SOC_SEC_NO = B.SOC_SEC_NO
+AND A.SOC_SEC_NO = D.SOC_SEC_NO
+AND NEXT_PAYMENT_DT >= current date - 2 years 
+--AND C.EE_DIV_NO IN ('3700','3703')  -- HASH IN FOR DIVISIONAL
+--AND ROW_TYP_CD = 'A'
+AND D.PAYEE_TYP_CD = '1'
+
+WITH UR
+;
+-----
+-- auto increase data
+
+select '' as New_case_no, '' as new_sub_id,substr(SOC_SEC_NO,1,3)||substr(SOC_SEC_NO,5,2)||substr(SOC_SEC_NO,8,4) as SSN , a.EFF_D , DEF_ADJ_P , DEF_ADJ_A , STAT_C , '' as new_src ,    UPD_REASON_C ,  DEF_CAP_P, DEF_CAP_A,src_typ_c as old_source, trim(REPORT_1_NM)||' '||trim(REPORT_2_NM) as old_source_name,DEF_GRP_NM,substr(account_NO,1,instr(account_no,' ')-1) as old_cont,SUBSTR(account_NO,11,5) as old_sub_id
+from pension.PART_AUTO_DEF a,PENSION.PLAN_DEFERRAL_GRP B, pension.plan_src_Detail c
+where account_no in  (select case_no from session.terminating_sub_ids)
+and a.enrl_prov_grp_i=b.enrl_prov_grp_i
+and b.src_i=c.src_i
+and a.def_grp_i=b.def_grp_i
+and stat_c=0
+
+
+;
+---
+--event history
+
+select '' as New_case_no, '' as new_sub_id,substr(SOC_SEC_NO,1,3)||substr(SOC_SEC_NO,5,2)||substr(SOC_SEC_NO,8,4) as SSN, DATE_TYP_C, REHIRE_STORE_C, PART_D, date_stat_c,substr(account_NO,1,instr(account_no,' ')-1) as old_cont,SUBSTR(account_NO,11,5) as old_sub_id
+--distinct DATE_TYP_C, REHIRE_STORE_C
+from pension.part_dt_hist a,pension.part_enrl_xref b
+where account_no in  (select case_no from session.terminating_sub_ids)
+and a.enrl_prov_grp_i=b.enrl_prov_grp_i
+and b.part_enrl_i=a.part_enrl_i
+and date_stat_C='A'
+```

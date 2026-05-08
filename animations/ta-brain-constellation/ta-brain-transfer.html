@@ -1,0 +1,571 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>TA Brain — The Transfer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  html,body{margin:0;padding:0;height:100%;background:#08090C;overflow:hidden;}
+  #root{position:fixed;inset:0;}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin></script>
+
+<!-- ENGINE -->
+<script type="text/babel">
+const Easing={
+  linear:t=>t,
+  easeInQuad:t=>t*t,
+  easeOutQuad:t=>t*(2-t),
+  easeInCubic:t=>t*t*t,
+  easeOutCubic:t=>(--t)*t*t+1,
+  easeInOutCubic:t=>t<0.5?4*t*t*t:(t-1)*(2*t-2)*(2*t-2)+1,
+  easeInQuart:t=>t*t*t*t,
+  easeOutQuart:t=>1-(--t)*t*t*t,
+  easeOutExpo:t=>t===1?1:1-Math.pow(2,-10*t),
+  easeOutBack:t=>{const c1=1.70158,c3=c1+1;return 1+c3*Math.pow(t-1,3)+c1*Math.pow(t-1,2);},
+  easeInOutSine:t=>-(Math.cos(Math.PI*t)-1)/2,
+};
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+const lerp=(a,b,t)=>a+(b-a)*t;
+
+const TLCtx=React.createContext({time:0,duration:10,playing:false});
+const useTime=()=>React.useContext(TLCtx).time;
+const useTimeline=()=>React.useContext(TLCtx);
+const SpCtx=React.createContext({localTime:0,progress:0,duration:0});
+const useSprite=()=>React.useContext(SpCtx);
+
+function Sprite({start=0,end=Infinity,children}){
+  const{time}=useTimeline();
+  if(time<start||time>end)return null;
+  const duration=end-start,localTime=Math.max(0,time-start);
+  const progress=duration>0?clamp(localTime/duration,0,1):0;
+  const v={localTime,progress,duration,visible:true};
+  return <SpCtx.Provider value={v}>{typeof children==='function'?children(v):children}</SpCtx.Provider>;
+}
+
+function Stage({width=1280,height=720,duration=10,background='#08090C',loop=true,autoplay=true,persistKey='s',children}){
+  const[time,setTime]=React.useState(()=>{try{const v=parseFloat(localStorage.getItem(persistKey+':t')||'0');return isFinite(v)?clamp(v,0,duration):0;}catch{return 0;}});
+  const[playing,setPlaying]=React.useState(autoplay);
+  const[hover,setHover]=React.useState(null);
+  const[scale,setScale]=React.useState(1);
+  const ref=React.useRef(null),raf=React.useRef(null),last=React.useRef(null);
+  React.useEffect(()=>{try{localStorage.setItem(persistKey+':t',String(time));}catch{}},[time,persistKey]);
+  React.useEffect(()=>{
+    if(!ref.current)return;
+    const el=ref.current;
+    const m=()=>{const s=Math.min(el.clientWidth/width,(el.clientHeight-44)/height);setScale(Math.max(0.05,s));};
+    m();const ro=new ResizeObserver(m);ro.observe(el);window.addEventListener('resize',m);
+    return()=>{ro.disconnect();window.removeEventListener('resize',m);};
+  },[width,height]);
+  React.useEffect(()=>{
+    if(!playing){last.current=null;return;}
+    const step=ts=>{
+      if(last.current==null)last.current=ts;
+      const dt=(ts-last.current)/1000;last.current=ts;
+      setTime(t=>{let n=t+dt;if(n>=duration){if(loop)n=n%duration;else{n=duration;setPlaying(false);}}return n;});
+      raf.current=requestAnimationFrame(step);
+    };
+    raf.current=requestAnimationFrame(step);
+    return()=>{if(raf.current)cancelAnimationFrame(raf.current);last.current=null;};
+  },[playing,duration,loop]);
+  React.useEffect(()=>{
+    const k=e=>{
+      if(e.target?.tagName==='INPUT'||e.target?.tagName==='TEXTAREA')return;
+      if(e.code==='Space'){e.preventDefault();setPlaying(p=>!p);}
+      else if(e.code==='ArrowLeft')setTime(t=>clamp(t-(e.shiftKey?1:0.1),0,duration));
+      else if(e.code==='ArrowRight')setTime(t=>clamp(t+(e.shiftKey?1:0.1),0,duration));
+      else if(e.key==='0'||e.code==='Home')setTime(0);
+    };
+    window.addEventListener('keydown',k);return()=>window.removeEventListener('keydown',k);
+  },[duration]);
+  const dt=hover!=null?hover:time;
+  const ctx=React.useMemo(()=>({time:dt,duration,playing,setTime,setPlaying}),[dt,duration,playing]);
+  return(
+    <div ref={ref} style={{position:'absolute',inset:0,display:'flex',flexDirection:'column',alignItems:'center',background:'#0a0a0a'}}>
+      <div style={{flex:1,width:'100%',display:'flex',alignItems:'center',justifyContent:'center',overflow:'hidden',minHeight:0}}>
+        <div style={{width,height,background,position:'relative',transform:`scale(${scale})`,transformOrigin:'center',flexShrink:0,boxShadow:'0 20px 60px rgba(0,0,0,0.5)',overflow:'hidden'}}>
+          <TLCtx.Provider value={ctx}>{children}</TLCtx.Provider>
+        </div>
+      </div>
+      <Bar time={dt} duration={duration} playing={playing}
+        onPP={()=>setPlaying(p=>!p)} onReset={()=>setTime(0)}
+        onSeek={t=>setTime(t)} onHover={t=>setHover(t)}/>
+    </div>
+  );
+}
+function Bar({time,duration,playing,onPP,onReset,onSeek,onHover}){
+  const tr=React.useRef(null);const[drag,setDrag]=React.useState(false);
+  const tf=React.useCallback(e=>{const r=tr.current.getBoundingClientRect();return clamp((e.clientX-r.left)/r.width,0,1)*duration;},[duration]);
+  React.useEffect(()=>{
+    if(!drag)return;
+    const u=()=>setDrag(false),m=e=>{if(tr.current)onSeek(tf(e));};
+    window.addEventListener('mouseup',u);window.addEventListener('mousemove',m);
+    return()=>{window.removeEventListener('mouseup',u);window.removeEventListener('mousemove',m);};
+  },[drag,tf,onSeek]);
+  const p=duration>0?(time/duration)*100:0;
+  const fmt=t=>{const tot=Math.max(0,t),m=Math.floor(tot/60),s=Math.floor(tot%60),cs=Math.floor((tot*100)%100);return`${m}:${String(s).padStart(2,'0')}.${String(cs).padStart(2,'0')}`;};
+  const mono='JetBrains Mono,ui-monospace,monospace';
+  const Btn=({onClick,ch})=><button onClick={onClick} style={{width:28,height:28,display:'flex',alignItems:'center',justifyContent:'center',background:'rgba(255,255,255,0.04)',border:'1px solid rgba(255,255,255,0.1)',borderRadius:6,color:'#f6f4ef',cursor:'pointer',padding:0}}>{ch}</button>;
+  return(
+    <div style={{display:'flex',alignItems:'center',gap:12,padding:'8px 16px',background:'rgba(20,20,20,0.92)',borderTop:'1px solid rgba(255,255,255,0.08)',width:'100%',maxWidth:680,alignSelf:'center',borderRadius:8,color:'#f6f4ef',userSelect:'none',flexShrink:0}}>
+      <Btn onClick={onReset} ch={<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 2v10M12 2L5 7l7 5V2z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" strokeLinecap="round"/></svg>}/>
+      <Btn onClick={onPP} ch={playing?<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="3" y="2" width="3" height="10" fill="currentColor"/><rect x="8" y="2" width="3" height="10" fill="currentColor"/></svg>:<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 2l9 5-9 5V2z" fill="currentColor"/></svg>}/>
+      <div style={{fontFamily:mono,fontSize:12,fontVariantNumeric:'tabular-nums',width:64,textAlign:'right'}}>{fmt(time)}</div>
+      <div ref={tr} onMouseMove={e=>{const t=tf(e);drag?onSeek(t):onHover(t);}} onMouseLeave={()=>{if(!drag)onHover(null);}} onMouseDown={e=>{setDrag(true);onSeek(tf(e));onHover(null);}} style={{flex:1,height:22,position:'relative',cursor:'pointer',display:'flex',alignItems:'center'}}>
+        <div style={{position:'absolute',left:0,right:0,height:4,background:'rgba(255,255,255,0.12)',borderRadius:2}}/>
+        <div style={{position:'absolute',left:0,width:`${p}%`,height:4,background:'oklch(72% 0.12 250)',borderRadius:2}}/>
+        <div style={{position:'absolute',left:`${p}%`,top:'50%',width:12,height:12,marginLeft:-6,marginTop:-6,background:'#fff',borderRadius:6,boxShadow:'0 2px 4px rgba(0,0,0,0.4)'}}/>
+      </div>
+      <div style={{fontFamily:mono,fontSize:12,fontVariantNumeric:'tabular-nums',width:64,textAlign:'left',color:'rgba(246,244,239,0.55)'}}>{fmt(duration)}</div>
+    </div>
+  );
+}
+Object.assign(window,{Easing,clamp,lerp,TLCtx,useTime,useTimeline,Sprite,SpCtx,useSprite,Stage});
+</script>
+
+<!-- TOKENS -->
+<script type="text/babel">
+const FM={
+  TEXT:'oklch(96% 0.008 250)',DIM:'oklch(72% 0.015 250)',DIMMER:'oklch(50% 0.012 250)',
+  BORDER:'rgba(255,255,255,0.06)',BORDER_HI:'rgba(255,255,255,0.14)',
+  ACCENT:'oklch(72% 0.14 248)',ACCENT_S:'oklch(72% 0.14 248/0.16)',
+  SUCCESS:'oklch(76% 0.16 150)',SUCCESS_S:'oklch(76% 0.16 150/0.16)',
+  MONO:'JetBrains Mono,ui-monospace,monospace',SANS:'Inter,system-ui,sans-serif',
+};
+function Glow({x,y,size=500,color=FM.ACCENT,opacity=0.1}){
+  return <div style={{position:'absolute',left:x-size/2,top:y-size/2,width:size,height:size,background:`radial-gradient(circle,${color} 0%,transparent 65%)`,opacity,pointerEvents:'none',filter:'blur(28px)'}}/>;
+}
+function Chip({label,color=FM.ACCENT,soft=FM.ACCENT_S}){
+  return <div style={{display:'inline-flex',alignItems:'center',padding:'4px 12px',borderRadius:100,background:soft,border:`1px solid ${color}`,fontFamily:FM.MONO,fontSize:10,color,letterSpacing:'0.12em',textTransform:'uppercase',whiteSpace:'nowrap'}}>{label}</div>;
+}
+function Caption({n,total,t,label}){
+  const op=Easing.easeOutCubic(clamp(t/0.5,0,1));
+  return(
+    <div style={{position:'absolute',left:80,bottom:70,display:'flex',alignItems:'center',gap:14,opacity:op}}>
+      <div style={{fontFamily:FM.MONO,fontSize:10,color:FM.DIMMER,letterSpacing:'0.22em'}}>{String(n).padStart(2,'0')} / {String(total).padStart(2,'0')}</div>
+      <div style={{width:28,height:1,background:FM.BORDER_HI}}/>
+      <div style={{fontFamily:FM.SANS,fontSize:15,fontWeight:500,color:FM.TEXT}}>{label}</div>
+    </div>
+  );
+}
+Object.assign(window,{FM,Glow,Chip,Caption});
+</script>
+
+<!-- SCENES -->
+<script type="text/babel">
+const CX=640,CY=330;// hub center
+
+// Each knowledge source: role, subtitle, color, card position
+const SOURCES=[
+  {id:'DC',       role:'Data Consultant',    sub:'Conversions · EDS · Payroll',   color:'oklch(74% 0.16 248)', cx:148, cy:165},
+  {id:'COM',      role:'Conv. Ops Manager',  sub:'Onboarding · Wire Transfers',   color:'oklch(74% 0.16 295)', cx:1082,cy:155},
+  {id:'PAYROLL',  role:'Payroll Support',    sub:'Templates · Go-Live',           color:'oklch(74% 0.16 150)', cx:115, cy:385},
+  {id:'FTP',      role:'FTP Team',           sub:'File Receipts · Routing',       color:'oklch(74% 0.16 200)', cx:1100,cy:400},
+  {id:'CASHIERING',role:'Cashiering',        sub:'Wire Instructions · TOA',       color:'oklch(78% 0.15 75)',  cx:260, cy:570},
+  {id:'AQT',      role:'AQT',               sub:'Quality Checks · Audit',        color:'oklch(74% 0.16 320)', cx:640, cy:72 },
+  {id:'PROD',     role:'Prod Support',       sub:'Troubleshooting · Escalations', color:'oklch(74% 0.16 30)',  cx:148, cy:520},
+  {id:'NBI',      role:'NBI',               sub:'New Business · Scheduling',     color:'oklch(74% 0.16 180)', cx:1060,cy:555},
+  {id:'EDS',      role:'EDS',               sub:'Data Loads · Eligibility',      color:'oklch(72% 0.14 260)', cx:390, cy:608},
+  {id:'INFORMATICA',role:'Informatica',      sub:'Processing · Allocation',       color:'oklch(72% 0.14 340)', cx:880, cy:600},
+];
+
+// Card component — glass panel with role + subtitle
+function KnowledgeCard({source,opacity=1,scale=1,glow=0}){
+  const{id,role,sub,color,cx,cy}=source;
+  const soft=color.replace(')','/0.12)').replace('oklch(','oklch(');
+  return(
+    <div style={{
+      position:'absolute',
+      left:cx-88,top:cy-36,
+      width:176,height:72,
+      background:`rgba(14,15,20,0.82)`,
+      border:`1px solid ${color.replace(')','/0.35)').replace('oklch(','oklch(')}`,
+      borderRadius:10,
+      backdropFilter:'blur(8px)',
+      opacity,
+      transform:`scale(${scale})`,
+      transformOrigin:'center',
+      boxShadow:glow>0?`0 0 ${glow*28}px ${color.replace(')',`/${glow*0.5})`).replace('oklch(','oklch(')}`:undefined,
+      pointerEvents:'none',
+      overflow:'hidden',
+    }}>
+      {/* Color accent strip on left */}
+      <div style={{position:'absolute',left:0,top:0,width:3,height:'100%',background:color,borderRadius:'10px 0 0 10px',opacity:0.9}}/>
+      <div style={{paddingLeft:14,paddingTop:10}}>
+        <div style={{fontFamily:FM.MONO,fontSize:8.5,color,letterSpacing:'0.14em',textTransform:'uppercase',marginBottom:5}}>{id}</div>
+        <div style={{fontFamily:FM.SANS,fontSize:11.5,fontWeight:600,color:FM.TEXT,letterSpacing:'-0.01em',lineHeight:1.2}}>{role}</div>
+        <div style={{fontFamily:FM.MONO,fontSize:8,color:FM.DIMMER,letterSpacing:'0.06em',marginTop:4,lineHeight:1.3}}>{sub}</div>
+      </div>
+    </div>
+  );
+}
+
+// Traveling arc — bezier from card to hub, with bright dot
+function TransferArc({source,progress,color,opacity=1}){
+  if(progress<=0)return null;
+  const{cx,cy}=source;
+  const x1=cx,y1=cy,x2=CX,y2=CY;
+  const dx=x2-x1,dy=y2-y1;
+  // Control point: arc upward / outward
+  const perpLen=Math.hypot(dx,dy)*0.38;
+  const midX=(x1+x2)/2,midY=(y1+y2)/2;
+  // Perpendicular outward
+  const nx=-dy/Math.hypot(dx,dy),ny=dx/Math.hypot(dx,dy);
+  const cpx=midX+nx*perpLen,cpy=midY+ny*perpLen;
+
+  // Dot position on quadratic bezier
+  const t=progress;
+  const dotX=(1-t)*(1-t)*x1+2*(1-t)*t*cpx+t*t*x2;
+  const dotY=(1-t)*(1-t)*y1+2*(1-t)*t*cpy+t*t*y2;
+
+  const pathLen=Math.hypot(dx,dy)*1.3; // approx
+
+  return(
+    <svg style={{position:'absolute',inset:0,pointerEvents:'none',overflow:'visible'}} width="1280" height="720" viewBox="0 0 1280 720">
+      {/* Trail — dashes drawn so far */}
+      <path
+        d={`M ${x1} ${y1} Q ${cpx} ${cpy} ${x2} ${y2}`}
+        stroke={color} strokeWidth="1.5" fill="none"
+        opacity={opacity*0.4}
+        strokeDasharray={pathLen}
+        strokeDashoffset={pathLen*(1-progress)}
+      />
+      {/* Bright traveling dot */}
+      {progress>0.02&&progress<0.99&&(
+        <circle cx={dotX} cy={dotY} r="5" fill={color}
+          opacity={opacity*0.95}
+          style={{filter:`drop-shadow(0 0 8px ${color}) drop-shadow(0 0 16px ${color})`}}/>
+      )}
+      {/* Impact burst when dot arrives */}
+      {progress>0.97&&(
+        <circle cx={CX} cy={CY} r={(progress-0.97)*33*30} stroke={color} strokeWidth="1.2" fill="none"
+          opacity={(1-(progress-0.97)*33)*0.7}/>
+      )}
+    </svg>
+  );
+}
+
+// Hub — grows and brightens as knowledge lands
+function Hub({landed,totalSources,t=0}){
+  const frac=landed/totalSources;
+  const baseR=28+frac*32;
+  const pulse=1+0.04*Math.sin(t*2.5);
+  const ringCount=Math.min(landed,4);
+
+  return(
+    <svg style={{position:'absolute',inset:0,pointerEvents:'none'}} width="1280" height="720" viewBox="0 0 1280 720">
+      {/* Outer rings — one per landed source (up to 4) */}
+      {Array.from({length:ringCount}).map((_,i)=>(
+        <circle key={i} cx={CX} cy={CY}
+          r={(baseR+20+i*18)*pulse}
+          stroke={FM.ACCENT} strokeWidth="0.8" fill="none"
+          opacity={0.08+frac*0.07}
+          style={{filter:`drop-shadow(0 0 6px ${FM.ACCENT})`}}/>
+      ))}
+      {/* Mid ring */}
+      <circle cx={CX} cy={CY} r={baseR*1.5*pulse}
+        stroke={FM.ACCENT} strokeWidth="1.2" fill="none"
+        opacity={0.18+frac*0.18}
+        style={{filter:`drop-shadow(0 0 8px ${FM.ACCENT})`}}/>
+      {/* Core */}
+      <circle cx={CX} cy={CY} r={baseR*pulse}
+        fill={FM.ACCENT}
+        opacity={0.12+frac*0.22}
+        style={{filter:`drop-shadow(0 0 ${12+frac*20}px ${FM.ACCENT})`}}/>
+      <circle cx={CX} cy={CY} r={(baseR*0.55)*pulse}
+        fill={FM.ACCENT}
+        opacity={0.6+frac*0.35}
+        style={{filter:`drop-shadow(0 0 ${8+frac*16}px ${FM.ACCENT})`}}/>
+      {/* Center dot */}
+      <circle cx={CX} cy={CY} r={5}
+        fill="white"
+        opacity={0.5+frac*0.45}/>
+    </svg>
+  );
+}
+
+// ── SCENE 1 — The Knowledge Exists (0–5s) ─────────────────────────────────────
+// Cards appear one by one around the screen — each dimly glowing, isolated.
+function Scene1(){
+  const{localTime:t,duration}=useSprite();
+  const exitT=duration-0.7;
+  const out=t>exitT?1-Easing.easeInCubic(clamp((t-exitT)/0.7,0,1)):1;
+  const sceneIn=Easing.easeOutCubic(clamp(t/0.4,0,1));
+  const cardIn=i=>Easing.easeOutBack(clamp((t-0.2-i*0.35)/0.7,0,1));
+
+  return(
+    <div style={{position:'absolute',inset:0,opacity:sceneIn*out}}>
+      <Glow x={CX} y={CY} size={500} color={FM.ACCENT} opacity={0.04}/>
+      {/* Dim hub placeholder */}
+      <svg style={{position:'absolute',inset:0,pointerEvents:'none'}} width="1280" height="720" viewBox="0 0 1280 720">
+        <circle cx={CX} cy={CY} r="22" fill={FM.ACCENT} opacity={0.06}/>
+        <circle cx={CX} cy={CY} r="10" fill={FM.ACCENT} opacity={0.12}/>
+      </svg>
+      {SOURCES.map((s,i)=>(
+        <KnowledgeCard key={s.id} source={s}
+          opacity={cardIn(i)*0.72}
+          scale={0.88+0.12*cardIn(i)}
+          glow={0}/>
+      ))}
+      <Caption n={1} total={5} t={t} label="The knowledge exists — scattered"/>
+    </div>
+  );
+}
+
+// ── SCENE 2 — First Transfers (5–11s) ─────────────────────────────────────────
+// DC, COM, AQT launch their knowledge to the hub. Hub starts to glow.
+const WAVE1=[0,1,5]; // indices into SOURCES
+
+function Scene2(){
+  const{localTime:t,duration}=useSprite();
+  const exitT=duration-0.7;
+  const out=t>exitT?1-Easing.easeInCubic(clamp((t-exitT)/0.7,0,1)):1;
+  const sceneIn=Easing.easeOutCubic(clamp(t/0.4,0,1));
+
+  // Arc travels over 1.8s, starts at staggered delays
+  const arcProg=i=>Easing.easeInOutSine(clamp((t-0.3-i*1.1)/1.8,0,1));
+  const landed=WAVE1.filter((_,i)=>arcProg(i)>=0.99).length;
+
+  return(
+    <div style={{position:'absolute',inset:0,opacity:sceneIn*out}}>
+      <Glow x={CX} y={CY} size={600+landed*80} color={FM.ACCENT} opacity={0.05+landed*0.03}/>
+
+      {/* All cards — launching ones fade slightly */}
+      {SOURCES.map((s,i)=>{
+        const wi=WAVE1.indexOf(i);
+        const isLaunching=wi>=0;
+        const prog=isLaunching?arcProg(wi):0;
+        const hasLanded=prog>=0.99;
+        return(
+          <KnowledgeCard key={s.id} source={s}
+            opacity={hasLanded?0.28:isLaunching?(1-prog*0.5)*0.85:0.72}
+            scale={hasLanded?0.88:1}
+            glow={hasLanded?0:isLaunching&&prog>0.1?(1-prog)*0.4:0}/>
+        );
+      })}
+
+      {/* Arcs */}
+      {WAVE1.map((si,i)=>(
+        <TransferArc key={si} source={SOURCES[si]} progress={arcProg(i)} color={SOURCES[si].color} opacity={1}/>
+      ))}
+
+      {/* Hub */}
+      <Hub landed={landed} totalSources={SOURCES.length} t={t}/>
+
+      <Caption n={2} total={5} t={t} label="First minds reach the hub"/>
+    </div>
+  );
+}
+
+// ── SCENE 3 — The Flow Accelerates (11–17s) ───────────────────────────────────
+// Remaining 7 sources transfer in rapid stagger. Hub blazes.
+const WAVE2=[2,3,4,6,7,8,9];
+
+function Scene3(){
+  const{localTime:t,duration}=useSprite();
+  const exitT=duration-0.7;
+  const out=t>exitT?1-Easing.easeInCubic(clamp((t-exitT)/0.7,0,1)):1;
+  const sceneIn=Easing.easeOutCubic(clamp(t/0.4,0,1));
+
+  const arcProg=i=>Easing.easeInOutSine(clamp((t-0.1-i*0.55)/1.4,0,1));
+  const w1Landed=WAVE1.length;
+  const w2Landed=WAVE2.filter((_,i)=>arcProg(i)>=0.99).length;
+  const landed=w1Landed+w2Landed;
+
+  return(
+    <div style={{position:'absolute',inset:0,opacity:sceneIn*out}}>
+      <Glow x={CX} y={CY} size={700+w2Landed*60} color={FM.ACCENT} opacity={0.08+w2Landed*0.025}/>
+      {w2Landed>=3&&<Glow x={CX} y={CY} size={400} color={FM.SUCCESS} opacity={0.04}/>}
+
+      {/* Cards */}
+      {SOURCES.map((s,i)=>{
+        const w1i=WAVE1.indexOf(i),w2i=WAVE2.indexOf(i);
+        const w1done=w1i>=0;
+        const isLaunching=w2i>=0;
+        const prog=isLaunching?arcProg(w2i):0;
+        const hasLanded=w1done||(isLaunching&&prog>=0.99);
+        return(
+          <KnowledgeCard key={s.id} source={s}
+            opacity={hasLanded?0.22:isLaunching?(1-prog*0.55)*0.85:0.72}
+            scale={hasLanded?0.85:1}
+            glow={0}/>
+        );
+      })}
+
+      {/* Wave 1 arcs — persistent dim trails */}
+      {WAVE1.map(si=>(
+        <TransferArc key={si} source={SOURCES[si]} progress={1} color={SOURCES[si].color} opacity={0.18}/>
+      ))}
+
+      {/* Wave 2 arcs */}
+      {WAVE2.map((si,i)=>(
+        <TransferArc key={si} source={SOURCES[si]} progress={arcProg(i)} color={SOURCES[si].color} opacity={0.95}/>
+      ))}
+
+      <Hub landed={landed} totalSources={SOURCES.length} t={t}/>
+
+      <Caption n={3} total={5} t={t} label="Every mind adds to the whole"/>
+    </div>
+  );
+}
+
+// ── SCENE 4 — One Brain (17–21s) ──────────────────────────────────────────────
+// All 10 transferred. Hub at maximum. Arcs glow as living connections.
+// Cards dim to silhouettes. Hub breathes. "Stronger Together" emerges.
+function Scene4(){
+  const{localTime:t,duration}=useSprite();
+  const exitT=duration-0.7;
+  const out=t>exitT?1-Easing.easeInCubic(clamp((t-exitT)/0.7,0,1)):1;
+  const sceneIn=Easing.easeOutCubic(clamp(t/0.5,0,1));
+
+  const breath=1+0.055*Math.sin(t*1.8*Math.PI*2);
+  const glowB=0.16+0.08*Math.sin(t*0.9*Math.PI*2);
+  const wordIn=Easing.easeOutCubic(clamp((t-1.2)/0.9,0,1));
+
+  return(
+    <div style={{position:'absolute',inset:0,opacity:sceneIn*out}}>
+      <Glow x={CX} y={CY} size={1000} color={FM.ACCENT} opacity={glowB}/>
+      <Glow x={CX} y={CY} size={500}  color={FM.ACCENT} opacity={glowB*0.6}/>
+
+      {/* Ghost card silhouettes */}
+      {SOURCES.map(s=>(
+        <KnowledgeCard key={s.id} source={s} opacity={0.14} scale={0.88} glow={0}/>
+      ))}
+
+      {/* All dim trails still glowing */}
+      {SOURCES.map(s=>(
+        <TransferArc key={s.id} source={s} progress={1} color={s.color} opacity={0.22}/>
+      ))}
+
+      {/* Full blazing hub */}
+      <svg style={{position:'absolute',inset:0,pointerEvents:'none'}} width="1280" height="720" viewBox="0 0 1280 720">
+        {[120,90,62,42].map((r,i)=>(
+          <circle key={i} cx={CX} cy={CY} r={r*breath}
+            stroke={FM.ACCENT} strokeWidth={i===0?0.6:0.9} fill="none"
+            opacity={0.07+i*0.05}
+            style={{filter:`drop-shadow(0 0 6px ${FM.ACCENT})`}}/>
+        ))}
+        <circle cx={CX} cy={CY} r={32*breath} fill={FM.ACCENT} opacity={0.3}
+          style={{filter:`drop-shadow(0 0 24px ${FM.ACCENT})`}}/>
+        <circle cx={CX} cy={CY} r={18*breath} fill={FM.ACCENT} opacity={0.75}
+          style={{filter:`drop-shadow(0 0 16px ${FM.ACCENT})`}}/>
+        <circle cx={CX} cy={CY} r={7*breath} fill="white" opacity={0.9}/>
+      </svg>
+
+      {/* Word */}
+      <div style={{position:'absolute',left:'50%',top:'14%',transform:'translateX(-50%)',opacity:wordIn,pointerEvents:'none',textAlign:'center',whiteSpace:'nowrap'}}>
+        <div style={{fontFamily:FM.SANS,fontSize:22,fontWeight:600,color:FM.TEXT,letterSpacing:'-0.02em',background:'rgba(8,9,12,0.75)',padding:'12px 32px',borderRadius:10,border:`1px solid ${FM.BORDER_HI}`,backdropFilter:'blur(12px)'}}>
+          Stronger Together
+        </div>
+      </div>
+
+      <Caption n={4} total={5} t={t} label="One brain — every mind inside it"/>
+    </div>
+  );
+}
+
+// ── SCENE 5 — TA Brain (21–25s) ───────────────────────────────────────────────
+function Scene5(){
+  const{localTime:t}=useSprite();
+  const sceneIn=Easing.easeOutCubic(clamp(t/0.5,0,1));
+  const logoIn=Easing.easeOutCubic(clamp((t-0.3)/1.1,0,1));
+  const tagIn=Easing.easeOutCubic(clamp((t-1.1)/0.8,0,1));
+  const chipIn=Easing.easeOutCubic(clamp((t-1.9)/0.7,0,1));
+  const breath=1+0.035*Math.sin(t*1.8);
+  const gB=0.13+0.05*Math.sin(t*1.2);
+
+  return(
+    <div style={{position:'absolute',inset:0,opacity:sceneIn}}>
+      <Glow x={CX} y={CY} size={1000} color={FM.ACCENT} opacity={gB}/>
+      <Glow x={CX} y={CY} size={420}  color={FM.SUCCESS} opacity={chipIn*0.09}/>
+
+      {SOURCES.map(s=>(
+        <TransferArc key={s.id} source={s} progress={1} color={s.color} opacity={0.18}/>
+      ))}
+      {SOURCES.map(s=>(
+        <KnowledgeCard key={s.id} source={s} opacity={0.10} scale={0.85} glow={0}/>
+      ))}
+
+      <svg style={{position:'absolute',inset:0,pointerEvents:'none'}} width="1280" height="720" viewBox="0 0 1280 720">
+        {[110,78,52].map((r,i)=>(
+          <circle key={i} cx={CX} cy={CY} r={r*breath}
+            stroke={FM.ACCENT} strokeWidth="0.8" fill="none"
+            opacity={0.06+i*0.04}/>
+        ))}
+        <circle cx={CX} cy={CY} r={30*breath} fill={FM.ACCENT} opacity={0.28}
+          style={{filter:`drop-shadow(0 0 20px ${FM.ACCENT})`}}/>
+        <circle cx={CX} cy={CY} r={16*breath} fill={FM.ACCENT} opacity={0.72}
+          style={{filter:`drop-shadow(0 0 14px ${FM.ACCENT})`}}/>
+        <circle cx={CX} cy={CY} r={6} fill="white" opacity={0.88}/>
+      </svg>
+
+      {/* Logo */}
+      <div style={{position:'absolute',left:'50%',top:'50%',transform:`translate(-50%,-50%) translateY(${(1-logoIn)*16}px)`,opacity:logoIn,textAlign:'center',pointerEvents:'none'}}>
+        <div style={{background:'rgba(8,9,12,0.84)',border:`1px solid ${FM.BORDER_HI}`,borderRadius:16,backdropFilter:'blur(20px)',padding:'30px 56px 26px',display:'inline-flex',flexDirection:'column',alignItems:'center',gap:12,boxShadow:'0 28px 70px -18px rgba(0,0,0,0.9)'}}>
+          <div style={{fontFamily:FM.SANS,fontSize:42,fontWeight:600,color:FM.TEXT,letterSpacing:'-0.035em',lineHeight:1}}>
+            <span style={{color:FM.ACCENT}}>TA</span>{' '}Brain
+          </div>
+          <div style={{fontFamily:FM.MONO,fontSize:10,color:FM.DIMMER,letterSpacing:'0.20em',textTransform:'uppercase',opacity:tagIn}}>
+            Collective Intelligence
+          </div>
+          <div style={{opacity:chipIn,marginTop:4,transform:`scale(${0.82+0.18*chipIn})`}}>
+            <Chip label="✓  Knowledge Connected" color={FM.SUCCESS} soft={FM.SUCCESS_S}/>
+          </div>
+        </div>
+      </div>
+
+      <Caption n={5} total={5} t={t} label="TA Brain — Collective Intelligence"/>
+    </div>
+  );
+}
+Object.assign(window,{Scene1,Scene2,Scene3,Scene4,Scene5});
+</script>
+
+<!-- APP -->
+<script type="text/babel" data-presets="react">
+const SCENES=[
+  {n:1,s:0,  e:5,  label:'The knowledge exists — scattered'},
+  {n:2,s:5,  e:11, label:'First minds reach the hub'},
+  {n:3,s:11, e:17, label:'Every mind adds to the whole'},
+  {n:4,s:17, e:21, label:'One brain — every mind inside it'},
+  {n:5,s:21, e:25, label:'TA Brain — Collective Intelligence'},
+];
+const DUR=25;
+
+function Dots(){
+  const t=useTime();
+  return(
+    <div style={{position:'absolute',right:100,bottom:66,display:'flex',gap:5,alignItems:'center'}}>
+      {SCENES.map(s=>{
+        const active=t>=s.s&&t<s.e,done=t>=s.e;
+        return <div key={s.n} style={{height:5,borderRadius:3,width:active?18:5,background:active?FM.ACCENT:done?'rgba(232,234,240,0.42)':'rgba(232,234,240,0.13)',boxShadow:active?`0 0 10px ${FM.ACCENT.replace(')','/0.6)')}`:undefined,transition:'width 350ms cubic-bezier(0.4,0,0.2,1),background 250ms'}}/>;
+      })}
+    </div>
+  );
+}
+
+function App(){
+  return(
+    <Stage width={1280} height={720} duration={DUR} background="#08090C" persistKey="ta-brain-transfer" loop={true}>
+      <div style={{position:'absolute',inset:0,backgroundImage:`linear-gradient(rgba(255,255,255,0.011) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.011) 1px,transparent 1px)`,backgroundSize:'40px 40px',maskImage:'radial-gradient(ellipse at center,black 5%,transparent 70%)',WebkitMaskImage:'radial-gradient(ellipse at center,black 5%,transparent 70%)',pointerEvents:'none'}}/>
+      <div style={{position:'absolute',inset:0,background:'radial-gradient(ellipse at center,transparent 25%,rgba(0,0,0,0.65) 100%)',pointerEvents:'none'}}/>
+      <Sprite start={0}  end={5} ><Scene1/></Sprite>
+      <Sprite start={5}  end={11}><Scene2/></Sprite>
+      <Sprite start={11} end={17}><Scene3/></Sprite>
+      <Sprite start={17} end={21}><Scene4/></Sprite>
+      <Sprite start={21} end={25}><Scene5/></Sprite>
+      <Dots/>
+    </Stage>
+  );
+}
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>

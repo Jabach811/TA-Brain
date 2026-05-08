@@ -1,6 +1,6 @@
 ---
 title: "Transfer In Kind (TIK / Re-registration)"
-type: concept
+type: process
 tags: [tik, reregistration, fidelity, shares, conversion]
 created: 2026-04-14
 updated: 2026-04-14

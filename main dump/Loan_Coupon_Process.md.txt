@@ -1,0 +1,12 @@
+# Loan Coupon Process
+
+## Purpose
+- Generate and distribute loan repayment coupons.
+
+## Key Rules
+- Coupons only generated for loans with ln_coupon_cd = C
+- Exclude past maturity or defaulted loans
+
+## Fulfillment
+- PDFs saved to shared drive
+- Fulfillment handled by central mailing team

@@ -1,0 +1,8 @@
+# Pre-Conversion Loan Analysis Summary to Client (Version 2)
+
+## Purpose
+- Provide refined loan analysis with loans grouped by maturity status.
+
+## Tabs Explained
+- Loans Past Maturity
+- Loans Not Past Maturity

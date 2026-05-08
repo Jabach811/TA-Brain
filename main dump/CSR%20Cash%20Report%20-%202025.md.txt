@@ -1,0 +1,10 @@
+# CSR Cash Report – 2025
+
+## Purpose
+- Provide a sponsor-facing summary for cash conversions.
+
+## Contents
+- Asset transfer overview
+- Investment and contribution election handling
+- Fund, source, and suspense account summaries
+- Outstanding conversion items

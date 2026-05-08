@@ -1,0 +1,68 @@
+# source level info for Gamble report
+
+## Notes (from header comments)
+- DC Asset Allocation - Use for Single or Multiple Plans
+- AQT SETPARM,PARM=CASE,VALUE="'TA068919  00001'"
+- AQT SETPARM,PARM=Business_line,VALUE="TDA"
+- AQT SETPARM,PARM=Quarter2,VALUE="2022-03-31"
+
+## SQL
+```sql
+--DC Asset Allocation - Use for Single or Multiple Plans
+
+
+--AQT SETPARM,PARM=CASE,VALUE="'TA068919  00001'"
+--AQT SETPARM,PARM=Business_line,VALUE="TDA"
+
+--AQT SETPARM,PARM=Quarter2,VALUE="2022-03-31"
+
+
+with
+
+BUS_DAYS	AS	
+	(	
+SELECT DATE(SUBSTR(HLP_VALUE,1,4)||'-'||SUBSTR(HLP_VALUE,5,2)||'-'||SUBSTR(HLP_VALUE,7,2)) CURRENT_DAY,
+LAG(DATE(SUBSTR(HLP_VALUE,1,4)||'-'||SUBSTR(HLP_VALUE,5,2)||'-'||SUBSTR(HLP_VALUE,7,2))) OVER(ORDER BY HLP_VALUE) PRIOR_DAY
+FROM CORP.HELPER2
+WHERE HLP_CODE = 'BUSDAYS'
+AND HLP_TEXT LIKE 'OPEN%'
+AND HLP_VALUE >= '20191231')
+,
+
+end_balances as
+(
+select case_no,eff_d, src_i,sum(total_a) as tot_amt, count(distinct soc_Sec_no) as investors
+FROM $Business_line.ee_part_bal_header a, $Business_line.ee_part_balance b
+ 
+
+
+where  case_no in ($CASE)
+and a.transact_i=b.transact_i
+and soc_Sec_no not like '%F%'
+and soc_Sec_no not like '%S%'
+and a.enrl_prov_grp_i=b.enrl_prov_grp_i
+and a.eff_d=(select max(current_day) from bus_days where current_day<='$Quarter2')
+group by  case_no,A.EFF_D, src_i
+)
+,
+tot_end_bal as
+(
+select case_no,eff_d,sum(total_a) as total_amt, count(distinct soc_Sec_no) as tot_investors
+FROM $Business_line.ee_part_bal_header a, $Business_line.ee_part_balance b
+ where  case_no in ($CASE)
+and a.transact_i=b.transact_i
+and a.enrl_prov_grp_i=b.enrl_prov_grp_i
+and soc_Sec_no not like '%F%'
+and soc_Sec_no not like '%S%'
+and a.eff_d=(select max(current_day) from bus_days where current_day<='$Quarter2')
+group by  case_no,A.EFF_d
+)
+--select eff_d, src_i,tot_amt, investors
+--from end_balances
+
+select 'As of '||substring('$Quarter2',6,2)||'/'||right('$Quarter2',2)||'/'||left('$Quarter2',4) as period, a.src_i,trim(REPORT_1_NM)||' '||trim(REPORT_2_NM) as source , a.tot_amt, total_amt, round(float(float(a.tot_amt)/float(total_amt)),4) as percent, a.investors
+from end_balances a,tot_end_bal b, pension.plan_src_detail c
+where a.eff_d=b.eff_d
+and a.case_no=b.case_no
+and c.src_i=a.src_i
+```

@@ -1,0 +1,12 @@
+# Conversion Summary Report Procedures
+
+## Purpose
+- Produce the Conversion Summary Report (CSR) for plan sponsors.
+
+## Key Inputs
+- Final Plan Level Audit
+- Wire and re-registration totals
+- NBI and AQT statistics
+
+## Output
+- Financial summary, participant summary, loan summary, and asset breakdowns.

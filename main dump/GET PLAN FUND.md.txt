@@ -1,0 +1,42 @@
+# GET PLAN FUND
+
+## Notes (from header comments)
+- UPDATE
+- LIKE '932661_   00001%'
+
+## SQL
+```sql
+--UPDATE
+--LIKE '932661_   00001%'
+
+select  distinct case
+	when a.RELATED_GRP_TYP_C=361 then account_no
+	else (select account_no from pension.plan_prov_grp z where z.enrl_prov_grp_i=a.related_grp_i) end as account_no, c.FD_DESC_CD, trim(d.REPTG_1_FD_NM)||' '||trim(d.REPTG_2_FD_NM) as fd_fund_name, 
+case WHEN FD_ACTION_CD = '3' then 'RESTRICTED' 
+     WHEN FD_ACTION_CD = '0' THEN 'CONTRIBUTIONS ALLOWED'
+     WHEN FD_ACTION_CD = '1' THEN 'ER LEVEL ONLY' END AS  REMIT_ACTION_CODE,
+CASE WHEN C.STAT_C = '1' THEN 'INACTIVE'
+     WHEN C.STAT_C = '0' THEN 'ACTIVE' END AS FUND_STATUS, 
+c.FD_CLOSED_D 
+	from pension.plan_prov_grp a, pension.plan_provision b, pension.plan_fund c, corp.contract_fund_data d, corp.CASE_DATA F
+	where (ACCOUNT_NO LIKE '932661_   00001%'
+                 AND A.RELATED_GRP_TYP_C = 361 
+                  OR (RELATED_GRP_I in (SELECT ENRL_PROV_GRP_I 
+                                         FROM PENSION.PLAN_PROV_GRP  
+                                        WHERE ACCOUNT_NO LIKE '932661_   00001%'
+                                          AND RELATED_GRP_TYP_C = 361) 
+                      AND A.RELATED_GRP_TYP_C = 362))
+	and a.enrl_prov_grp_i=b.enrl_prov_grp_i and provision_i=fd_prov_i
+--	and fd_closed_d is null 
+--	and fd_action_cd^='1' 
+	and prov_typ_c=15
+	and account_no=case_no
+	and d.cont_no=F.cont_no
+	AND C.FD_DESC_CD=D.FD_dESC_CD
+
+
+
+--SELECT *
+--FROM PENSION.GET_PLAN_FUND
+--WHERE ACCOUNT_NO LIKE '932661_   00001%'
+```

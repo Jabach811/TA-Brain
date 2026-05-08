@@ -1,0 +1,10 @@
+# TA UI User Guide
+
+## Purpose
+- Guide users on executing stored procedures via the ROC Tool.
+
+## Key Sections
+- Process Request Screen (PRS)
+- Input, validation, and analysis steps
+- Execution and audit logging
+- Navigation, status states, and session behavior

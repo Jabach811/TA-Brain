@@ -1,6 +1,6 @@
 ---
 title: "Jen Curtin"
-type: entity
+type: person
 tags: [person, ftp, payroll, leadership]
 created: 2026-04-14
 updated: 2026-04-14
@@ -39,4 +39,3 @@ For day-to-day FTP setup confirmations, the DC typically works through [[eric-le
 - [[eric-leytem]]
 - [[ftp-connection]]
 - [[payroll-support]]
-- [[internal-teams]]

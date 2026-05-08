@@ -1,6 +1,6 @@
 ---
 title: "Balance Import"
-type: concept
+type: process
 tags: ["concept", "balance", "conversion", "informatica", "p3"]
 created: 2026-04-19
 updated: 2026-04-19

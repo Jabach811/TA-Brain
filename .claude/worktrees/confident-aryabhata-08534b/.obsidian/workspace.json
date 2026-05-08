@@ -1,0 +1,240 @@
+{
+  "main": {
+    "id": "eebd61206049d825",
+    "type": "split",
+    "children": [
+      {
+        "id": "3efb94ebb696c705",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "16385a36262edc11",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "wiki/entities/cashiering.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "cashiering"
+            }
+          },
+          {
+            "id": "49bf18dcbf76d615",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "wiki/concepts/base-file.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "base-file"
+            }
+          }
+        ],
+        "currentTab": 1
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "f9626d83204bf58e",
+    "type": "split",
+    "children": [
+      {
+        "id": "022c50954ac5339b",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "2a4fc94ead184962",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "25696d9532338516",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "42295908e91975d3",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "0d4051fc015913c3",
+    "type": "split",
+    "children": [
+      {
+        "id": "6103245e511d777c",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "d9a7a6b9c1c3a112",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "wiki/concepts/base-file.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks for base-file"
+            }
+          },
+          {
+            "id": "f4e9a362b4a887b8",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "wiki/concepts/base-file.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links from base-file"
+            }
+          },
+          {
+            "id": "62e78dcf623704a8",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "7cc14cfbffe6f2d6",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "All properties"
+            }
+          },
+          {
+            "id": "85e1fe130ba236ba",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "wiki/concepts/base-file.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Outline of base-file"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "bases:Create new base": false
+    }
+  },
+  "active": "49bf18dcbf76d615",
+  "lastOpenFiles": [
+    "wiki/roles/com.md.tmp.46388.1776365759652",
+    "wiki/glossary/aaa.md",
+    "wiki/glossary/pea.md",
+    "wiki/glossary/faa.md",
+    "wiki/entities/rich-lippoth.md",
+    "wiki/concepts/hours-procedure.md",
+    "wiki/concepts/faa-dc-data-requirements.md",
+    "wiki/concepts/eds-load-beneficiary-requirements.md",
+    "wiki/concepts/data-discovery-document.md",
+    "wiki/concepts/loading-ytd-contributions-eds.md",
+    "wiki/concepts/loading-basis-eds.md",
+    "wiki/concepts/informatica-basis-module.md",
+    "wiki/concepts/informatica-troubleshooting-guide.md",
+    "wiki/concepts/informatica-loan-module.md",
+    "wiki/concepts/informatica-balance-module.md",
+    "wiki/concepts/informatica-allocation-module.md",
+    "wiki/concepts/informatica-training-manual.md",
+    "wiki/concepts/cccs-submission-package.md",
+    "wiki/sources/subpack-cccs.md",
+    "wiki/concepts/loading-eligibility-eds.md",
+    "raw/new mds/Informatica%20Balance%20Module%20Functional%20Documentation%20v2.md.txt",
+    "raw/new mds/Informatica%20Allocation%20Module%20Functional%20Documentation.md.txt",
+    "raw/new mds/Hours%20procedure.md.txt",
+    "raw/new mds/FAA%20-%20DC%20Data%20Requirements%28Final%29.md.txt",
+    "raw/new mds/EDS%20LOAD%20BENEFICIARY%20REQUIREMENTS%2006-17-2011%28Autosaved%29.md.txt",
+    "raw/new mds/Data%20Discovery%20Document%20%28New%29.md.txt",
+    "raw/new mds/Using%20Informatica%20Basis%20Module.md.txt",
+    "raw/new mds/Sub_Pack_Raw_CCCS.txt",
+    "raw/new mds/Loading_Eligibility_through_EDS.md.txt",
+    "raw/new mds/Loading%20YTD%20Contributions%20through%20EDS.md.txt",
+    "wiki/entities/cashiering.md",
+    "wiki/sources/lmdc-training-notebook.md",
+    "wiki/glossary/tm.md",
+    "wiki/glossary/filespecrq.md",
+    "wiki/glossary/ssbt.md",
+    "wiki/glossary/ltpt.md"
+  ]
+}

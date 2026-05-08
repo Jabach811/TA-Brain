@@ -1,0 +1,619 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Profile Builder · morph mocks</title>
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=switzer@400,500,600,700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..700,0..100,0..1&family=JetBrains+Mono:wght@400;500&display=swap">
+
+<style>
+:root{
+  --bg:        #F5F1EB;
+  --bg-2:      #FAF8F3;
+  --bg-card:   #FBF8F2;
+  --ink:       #1F1B16;
+  --ink-2:     #3A342C;
+  --ink-dim:   #6B6457;
+  --ink-mute:  #9A9385;
+  --line:      rgba(31,27,22,.08);
+  --line-2:    rgba(31,27,22,.16);
+  --clay:      #D97757;
+  --clay-2:    #BF5C3F;
+  --clay-3:    #F2C7B3;
+  --moss:      #6F8160;
+  --ochre:     #C19A4D;
+
+  --ease:      cubic-bezier(.32,.72,0,1);
+  --ease-soft: cubic-bezier(.22,1,.36,1);
+
+  --serif: "Fraunces", ui-serif, Georgia, serif;
+  --sans:  "Switzer", ui-sans-serif, system-ui, sans-serif;
+  --mono:  "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+html{font-size:16px}
+
+body{
+  min-height:100vh;
+  background-image:
+    radial-gradient(45% 35% at 12% 8%,  rgba(217,119,87,.10), transparent 65%),
+    radial-gradient(40% 35% at 92% 28%, rgba(193,154,77,.08), transparent 70%),
+    radial-gradient(50% 40% at 50% 110%,rgba(111,129,96,.06), transparent 75%);
+  padding:64px clamp(20px,4vw,56px);
+}
+
+.head{
+  max-width:1280px;margin:0 auto 56px;
+  display:flex;justify-content:space-between;align-items:flex-end;gap:32px;flex-wrap:wrap;
+}
+.head .title{
+  font-family:var(--serif);
+  font-variation-settings:"opsz" 96, "wght" 380, "SOFT" 50, "WONK" 1;
+  font-size:clamp(36px,5vw,56px);letter-spacing:-.025em;line-height:1;
+}
+.head .title em{font-style:italic;color:var(--clay-2);font-variation-settings:"opsz" 96, "wght" 380, "SOFT" 80, "WONK" 1}
+.head .sub{
+  font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--ink-dim);max-width:48ch;line-height:1.7;
+}
+
+.grid{
+  max-width:1280px;margin:0 auto;
+  display:grid;grid-template-columns:repeat(3,1fr);gap:24px;
+}
+@media (max-width:1100px){.grid{grid-template-columns:1fr}}
+
+.mock{
+  position:relative;border-radius:24px;overflow:hidden;
+  background:var(--bg-card);
+  border:1px solid var(--line-2);
+  box-shadow:0 30px 60px rgba(31,27,22,.06), 0 1px 0 rgba(255,255,255,.7) inset;
+  display:flex;flex-direction:column;
+  min-height:560px;
+}
+.mock .label{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:20px 24px;border-bottom:1px solid var(--line);
+  font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-dim);
+}
+.mock .label .name{display:flex;align-items:center;gap:10px;color:var(--ink-2)}
+.mock .label .name .opt{
+  width:22px;height:22px;border-radius:6px;
+  display:inline-flex;align-items:center;justify-content:center;
+  background:var(--clay);color:#fff;font-weight:500;font-size:11px;letter-spacing:0;
+}
+.mock .desc{
+  padding:18px 24px 0;
+  font-family:var(--serif);font-variation-settings:"opsz" 36, "wght" 400;font-size:15px;line-height:1.5;color:var(--ink-2);
+}
+.mock .desc small{
+  display:block;margin-top:6px;
+  font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-mute);
+}
+.mock .stage{
+  flex:1;position:relative;margin:24px;
+  border-radius:16px;
+  background:linear-gradient(180deg, #FBF8F2, #F1EBDF);
+  border:1px solid var(--line);
+  overflow:hidden;min-height:340px;
+}
+.mock .footer{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:14px 24px 20px;
+  font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-mute);
+}
+.mock .footer .live{display:inline-flex;align-items:center;gap:8px;color:var(--clay-2)}
+.mock .footer .live::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--clay-2);box-shadow:0 0 10px var(--clay-2);animation:blink 1.6s var(--ease-soft) infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+
+/* shared bubble + tag styles =========================== */
+.b-bubble{
+  font-family:var(--serif);font-variation-settings:"opsz" 36, "wght" 400, "SOFT" 80;
+  font-style:italic;line-height:1.35;
+  color:var(--ink);
+  background:rgba(251,248,242,.95);
+  border:1px solid var(--line-2);
+  padding:12px 16px;border-radius:14px;
+  box-shadow:0 10px 28px rgba(31,27,22,.10), 0 1px 0 rgba(255,255,255,.7) inset;
+}
+.b-bubble::before{
+  content:"\201C";position:absolute;top:-4px;left:8px;color:var(--clay);font-size:24px;line-height:1;
+  font-family:var(--serif);font-variation-settings:"opsz" 144, "wght" 500;
+}
+
+.b-tag{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:7px 12px 7px 8px;border-radius:999px;
+  background:rgba(255,255,255,.85);
+  border:1px solid var(--line-2);
+  font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ink-2);
+  box-shadow:0 4px 14px rgba(31,27,22,.06);
+}
+.b-tag .ic{
+  width:18px;height:18px;border-radius:50%;
+  background:var(--clay);color:#fff;
+  display:inline-flex;align-items:center;justify-content:center;
+  flex:none;
+}
+.b-tag .ic svg{width:11px;height:11px;stroke:currentColor;stroke-width:1.6;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.b-tag.k-rule .ic{background:var(--clay-2)}
+.b-tag.k-person .ic{background:var(--moss)}
+.b-tag.k-process .ic{background:var(--ochre)}
+.b-tag.k-event .ic{background:var(--clay)}
+.b-tag .kicker{
+  color:var(--ink-mute);font-weight:400;
+  border-left:1px solid var(--line-2);padding-left:8px;margin-left:2px;
+  font-size:10px;letter-spacing:.16em;
+}
+
+/* ============================================================
+   MOCK A — DISTILL (solo spotlight)
+   one bubble center stage, compresses into a tag in place
+   ============================================================ */
+.distill-stage{display:grid;place-items:center}
+.distill{
+  position:relative;
+  display:inline-flex;align-items:center;justify-content:center;
+  max-width:80%;
+}
+.distill .quote{
+  position:relative;
+  font-family:var(--serif);font-variation-settings:"opsz" 36, "wght" 400, "SOFT" 80;
+  font-style:italic;font-size:18px;line-height:1.4;
+  color:var(--ink);
+  background:rgba(251,248,242,.95);
+  border:1px solid var(--line-2);
+  padding:16px 22px;border-radius:18px;
+  box-shadow:0 14px 32px rgba(31,27,22,.10), 0 1px 0 rgba(255,255,255,.7) inset;
+  white-space:nowrap;overflow:hidden;
+  transition:max-width .9s var(--ease), padding .9s var(--ease), border-radius .9s var(--ease), background .9s var(--ease);
+  max-width:520px;
+}
+.distill .quote::before{
+  content:"\201C";position:absolute;top:-6px;left:10px;color:var(--clay);font-size:28px;line-height:1;opacity:1;
+  transition:opacity .3s ease;
+}
+.distill .quote .text{
+  display:inline-block;
+  transition:opacity .35s ease, transform .5s var(--ease);
+}
+.distill .quote .pill{
+  position:absolute;inset:0;
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  font-family:var(--mono);font-style:normal;font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ink-2);
+  opacity:0;transform:scale(.94);
+  transition:opacity .4s ease .35s, transform .5s var(--ease) .3s;
+  white-space:nowrap;
+}
+.distill .quote .pill .ic{
+  width:20px;height:20px;border-radius:50%;
+  background:var(--clay);color:#fff;
+  display:inline-flex;align-items:center;justify-content:center;flex:none;
+}
+.distill .quote .pill .ic svg{width:12px;height:12px;stroke:currentColor;stroke-width:1.6;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.distill .quote .pill .kicker{
+  color:var(--ink-mute);
+  border-left:1px solid var(--line-2);padding-left:10px;margin-left:2px;
+  font-size:10px;letter-spacing:.16em;
+}
+
+.distill.is-tag .quote{
+  max-width:340px;
+  padding:9px 16px 9px 12px;
+  border-radius:999px;
+  background:rgba(255,255,255,.92);
+}
+.distill.is-tag .quote::before{opacity:0}
+.distill.is-tag .quote .text{opacity:0;transform:scale(.9)}
+.distill.is-tag .quote .pill{opacity:1;transform:scale(1)}
+
+.distill .caption{
+  position:absolute;left:0;right:0;bottom:-44px;text-align:center;
+  font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-mute);
+}
+.distill .caption b{color:var(--clay-2);font-weight:500}
+
+/* ============================================================
+   MOCK B — WEAVE (constellation, threads connect tags)
+   ============================================================ */
+.weave-stage{position:relative}
+.weave-svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1}
+.weave-svg path{
+  fill:none;stroke:var(--clay);stroke-width:1;stroke-dasharray:3 4;opacity:0;
+  transition:opacity .8s var(--ease-soft);
+}
+.weave-stage.threads-on .weave-svg path{opacity:.45}
+
+.weave-item{
+  position:absolute;z-index:2;
+  transition:transform .7s var(--ease), opacity .5s ease;
+}
+.weave-item .b-bubble,
+.weave-item .b-tag{
+  position:absolute;top:0;left:0;
+  transition:opacity .55s ease, transform .65s var(--ease);
+}
+.weave-item .b-bubble{
+  font-size:13px;max-width:200px;opacity:0;transform:translateY(8px) scale(.98);
+  white-space:normal;
+}
+.weave-item .b-tag{opacity:0;transform:translateY(8px) scale(.98)}
+
+.weave-item.show-bubble .b-bubble{opacity:1;transform:translateY(0) scale(1)}
+.weave-item.show-tag .b-tag{opacity:1;transform:translateY(0) scale(1)}
+
+.weave-item.w1{top:14%;left:6%}
+.weave-item.w2{top:8%;right:6%;left:auto}
+.weave-item.w3{bottom:18%;left:10%}
+.weave-item.w4{bottom:10%;right:8%;left:auto}
+.weave-item.w5{top:46%;left:38%}
+
+/* ============================================================
+   MOCK C — DECOMPOSE (one bubble splits into many tags)
+   ============================================================ */
+.decompose-stage{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;gap:24px}
+.decompose-bubble{
+  position:relative;max-width:88%;
+  font-family:var(--serif);font-variation-settings:"opsz" 36, "wght" 400, "SOFT" 80;
+  font-style:italic;font-size:16px;line-height:1.45;
+  color:var(--ink);
+  background:rgba(251,248,242,.95);
+  border:1px solid var(--line-2);
+  padding:16px 22px;border-radius:18px;
+  box-shadow:0 14px 32px rgba(31,27,22,.10), 0 1px 0 rgba(255,255,255,.7) inset;
+  opacity:0;transform:translateY(6px);
+  transition:opacity .5s ease,transform .6s var(--ease);
+}
+.decompose-bubble.show{opacity:1;transform:translateY(0)}
+.decompose-bubble::before{
+  content:"\201C";position:absolute;top:-6px;left:12px;color:var(--clay);font-size:26px;line-height:1;
+}
+.decompose-bubble .hl{
+  background:linear-gradient(180deg, transparent 60%, rgba(217,119,87,.28) 60%);
+  padding:0 3px;border-radius:2px;
+  transition:background .3s ease;
+}
+.decompose-bubble .hl.fly{background:linear-gradient(180deg, transparent 60%, rgba(217,119,87,.05) 60%)}
+
+.decompose-tags{
+  display:flex;flex-wrap:wrap;justify-content:center;gap:10px;
+  min-height:36px;width:100%;
+}
+.decompose-tags .b-tag{
+  opacity:0;transform:translateY(-8px) scale(.92);
+  transition:opacity .45s ease,transform .55s var(--ease);
+}
+.decompose-tags .b-tag.in{opacity:1;transform:translateY(0) scale(1)}
+
+.connector{
+  position:absolute;left:50%;top:100%;width:1px;height:24px;
+  background:linear-gradient(180deg,var(--clay),transparent);
+  transform:translateX(-50%) scaleY(0);transform-origin:top center;
+  transition:transform .5s var(--ease);
+}
+.decompose-bubble.show .connector{transform:translateX(-50%) scaleY(1)}
+
+/* legend at bottom of page ============================== */
+.notes{
+  max-width:1280px;margin:48px auto 0;
+  padding:24px;border-radius:18px;
+  background:rgba(255,255,255,.5);
+  border:1px solid var(--line);
+  font-family:var(--sans);font-size:14px;line-height:1.6;color:var(--ink-2);
+}
+.notes h3{
+  font-family:var(--serif);font-variation-settings:"opsz" 36, "wght" 480;
+  font-size:18px;margin-bottom:10px;color:var(--ink);
+}
+.notes ul{padding-left:20px}
+.notes li{margin-bottom:6px}
+.notes em{color:var(--clay-2);font-style:italic;font-family:var(--serif)}
+</style>
+</head>
+<body>
+
+<header class="head">
+  <div class="title">
+    Profile Builder &middot; <em>morph mocks</em>
+  </div>
+  <div class="sub">
+    Three takes on speech&rarr;structure. Each loops continuously. Pick the one that earns the section.
+  </div>
+</header>
+
+<div class="grid">
+
+  <!-- ====================================================
+       OPTION A — DISTILL
+       ==================================================== -->
+  <article class="mock">
+    <div class="label">
+      <span class="name"><span class="opt">A</span> Distill</span>
+      <span>solo &middot; in-place compress</span>
+    </div>
+    <p class="desc">
+      One sentence at a time, center stage. The italic quote contracts horizontally into a structured tag pill.
+      <small>reads as &mdash; every sentence becomes a node</small>
+    </p>
+    <div class="stage distill-stage">
+      <div class="distill" id="distill">
+        <div class="quote">
+          <span class="text" id="distillText">Pella is changing their wire date to next week</span>
+          <span class="pill">
+            <span class="ic" id="distillIcon">
+              <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4"/></svg>
+            </span>
+            <span id="distillLabel">wire-date &middot; pella</span>
+            <span class="kicker" id="distillKicker">event</span>
+          </span>
+        </div>
+        <div class="caption" id="distillCaption"><b>captured</b> &middot; written to brain</div>
+      </div>
+    </div>
+    <div class="footer">
+      <span>Profile Builder</span>
+      <span class="live">Recording</span>
+    </div>
+  </article>
+
+  <!-- ====================================================
+       OPTION B — WEAVE
+       ==================================================== -->
+  <article class="mock">
+    <div class="label">
+      <span class="name"><span class="opt">B</span> Weave</span>
+      <span>ambient &middot; threads form</span>
+    </div>
+    <p class="desc">
+      Multiple bubbles drift in the field, each morphing on its own timer. Faint clay threads connect the tags as they land.
+      <small>reads as &mdash; ambient capture, building a graph</small>
+    </p>
+    <div class="stage weave-stage" id="weaveStage">
+      <svg class="weave-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
+        <path d="M14,22 C30,30 60,40 88,18" />
+        <path d="M14,22 C20,55 35,70 18,82" />
+        <path d="M88,18 C85,55 75,70 90,86" />
+        <path d="M18,82 C40,75 60,80 90,86" />
+        <path d="M50,52 C30,50 22,40 14,22" />
+      </svg>
+      <div class="weave-item w1" id="w1">
+        <div class="b-bubble">Tom usually catches the cash discrepancy in audit</div>
+        <div class="b-tag k-person">
+          <span class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-7 8-7s8 3 8 7"/></svg></span>
+          tom &middot; audit<span class="kicker">person</span>
+        </div>
+      </div>
+      <div class="weave-item w2" id="w2">
+        <div class="b-bubble">If compliance flags it, we loop in client service first</div>
+        <div class="b-tag k-rule">
+          <span class="ic"><svg viewBox="0 0 24 24"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7l8-4z"/></svg></span>
+          escalation-path<span class="kicker">rule</span>
+        </div>
+      </div>
+      <div class="weave-item w3" id="w3">
+        <div class="b-bubble">The default code lives in two places, that's the gotcha</div>
+        <div class="b-tag k-process">
+          <span class="ic"><svg viewBox="0 0 24 24"><path d="M4 7h12M4 12h16M4 17h10"/></svg></span>
+          default-code<span class="kicker">process</span>
+        </div>
+      </div>
+      <div class="weave-item w4" id="w4">
+        <div class="b-bubble">Q2 we shifted the whole pipeline to the new mapping</div>
+        <div class="b-tag k-event">
+          <span class="ic"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4"/></svg></span>
+          q2-pipeline-shift<span class="kicker">event</span>
+        </div>
+      </div>
+      <div class="weave-item w5" id="w5">
+        <div class="b-bubble">When LM rolls over, re-map the default code first</div>
+        <div class="b-tag k-process">
+          <span class="ic"><svg viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 5v4h-4"/></svg></span>
+          lm-rollover<span class="kicker">process</span>
+        </div>
+      </div>
+    </div>
+    <div class="footer">
+      <span>Profile Builder</span>
+      <span class="live">Recording</span>
+    </div>
+  </article>
+
+  <!-- ====================================================
+       OPTION C — DECOMPOSE
+       ==================================================== -->
+  <article class="mock">
+    <div class="label">
+      <span class="name"><span class="opt">C</span> Decompose</span>
+      <span>1 sentence &rarr; many tags</span>
+    </div>
+    <p class="desc">
+      A single bubble appears with key phrases highlighted. The highlights detach and fly out as separate tags below it.
+      <small>reads as &mdash; one sentence yields many nodes</small>
+    </p>
+    <div class="stage decompose-stage">
+      <div class="decompose-bubble" id="decBubble">
+        <span id="decText"></span>
+        <span class="connector"></span>
+      </div>
+      <div class="decompose-tags" id="decTags"></div>
+    </div>
+    <div class="footer">
+      <span>Profile Builder</span>
+      <span class="live">Recording</span>
+    </div>
+  </article>
+
+</div>
+
+<section class="notes">
+  <h3>How to read these</h3>
+  <ul>
+    <li><em>A &middot; Distill</em> &mdash; quietest. One bubble in, one tag out. Good if this section needs to feel like a hero demo and the page already has plenty going on elsewhere.</li>
+    <li><em>B &middot; Weave</em> &mdash; closest in spirit to what you have now (multiple floating bubbles). Adds the morph and a network-forming feel. Good if you want this section to do double-duty: capture <em>and</em> hint at interconnectivity.</li>
+    <li><em>C &middot; Decompose</em> &mdash; most literal demo of the value (1 sentence &rarr; many structured nodes). Risk: the proof panel further down the page already shows transcript&rarr;nodes, so this could feel redundant.</li>
+  </ul>
+</section>
+
+<script>
+/* =========================================================
+   Shared icon set (returns an <svg> string for a key)
+   ========================================================= */
+const ICONS = {
+  event:   '<svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4"/></svg>',
+  person:  '<svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-7 8-7s8 3 8 7"/></svg>',
+  rule:    '<svg viewBox="0 0 24 24"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7l8-4z"/></svg>',
+  process: '<svg viewBox="0 0 24 24"><path d="M4 7h12M4 12h16M4 17h10"/></svg>',
+  flow:    '<svg viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 5v4h-4"/></svg>',
+  money:   '<svg viewBox="0 0 24 24"><path d="M12 2v20M17 6H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>',
+  org:     '<svg viewBox="0 0 24 24"><path d="M3 21V7l9-4 9 4v14"/><path d="M9 21V12h6v9"/></svg>',
+};
+
+/* =========================================================
+   MOCK A — Distill loop
+   ========================================================= */
+const distillData = [
+  {q:"Pella is changing their wire date to next week", label:"wire-date · pella", kicker:"event",   icon:"event"},
+  {q:"Tom usually catches the cash discrepancy in audit", label:"tom · audit",   kicker:"person",  icon:"person"},
+  {q:"If compliance flags it, we loop in client service first", label:"escalation-path", kicker:"rule",  icon:"rule"},
+  {q:"The default code lives in two places, that's the gotcha", label:"default-code",  kicker:"process", icon:"process"},
+  {q:"Q2 we shifted the whole pipeline to the new mapping", label:"q2-pipeline-shift", kicker:"event",   icon:"event"},
+];
+(function distillLoop(){
+  const el      = document.getElementById('distill');
+  const text    = document.getElementById('distillText');
+  const label   = document.getElementById('distillLabel');
+  const kicker  = document.getElementById('distillKicker');
+  const icon    = document.getElementById('distillIcon');
+  let i = 0;
+  function tick(){
+    const d = distillData[i % distillData.length];
+    el.classList.remove('is-tag');
+    text.textContent = d.q;
+    label.textContent = d.label;
+    kicker.textContent = d.kicker;
+    icon.innerHTML = ICONS[d.icon];
+    setTimeout(()=>{ el.classList.add('is-tag'); }, 1700);
+    setTimeout(()=>{ i++; tick(); }, 4400);
+  }
+  tick();
+})();
+
+/* =========================================================
+   MOCK B — Weave loop
+   each item independent, threads fade in once any 2 are tags
+   ========================================================= */
+(function weaveLoop(){
+  const stage = document.getElementById('weaveStage');
+  const items = ['w1','w2','w3','w4','w5'].map(id=>document.getElementById(id));
+  const offsets = [200, 1200, 2400, 3500, 4600]; // staggered start
+
+  items.forEach((it, idx)=>{
+    const period = 6800;
+    const start  = offsets[idx];
+    function cycle(){
+      it.classList.remove('show-tag');
+      it.classList.add('show-bubble');
+      setTimeout(()=>{
+        it.classList.remove('show-bubble');
+        it.classList.add('show-tag');
+        // once at least 2 items are showing tags, reveal threads
+        const tagged = items.filter(x=>x.classList.contains('show-tag')).length;
+        if (tagged >= 2) stage.classList.add('threads-on');
+      }, 2200);
+      setTimeout(()=>{
+        it.classList.remove('show-tag');
+        const tagged = items.filter(x=>x.classList.contains('show-tag')).length;
+        if (tagged < 2) stage.classList.remove('threads-on');
+      }, 5400);
+      setTimeout(cycle, period);
+    }
+    setTimeout(cycle, start);
+  });
+})();
+
+/* =========================================================
+   MOCK C — Decompose loop
+   highlighted phrases break out into tags
+   ========================================================= */
+const decomposeData = [
+  {
+    parts: [
+      {t:"If "},
+      {t:"compliance flags it", hl:true, tag:{label:"compliance-flag", kicker:"rule",    icon:"rule",    cls:"k-rule"}},
+      {t:", we loop in "},
+      {t:"client service",      hl:true, tag:{label:"client-service",  kicker:"team",    icon:"org",     cls:"k-process"}},
+      {t:" first."}
+    ]
+  },
+  {
+    parts: [
+      {t:""},
+      {t:"Pella",               hl:true, tag:{label:"pella",           kicker:"client",  icon:"org",     cls:"k-process"}},
+      {t:" is changing their "},
+      {t:"wire date",           hl:true, tag:{label:"wire-date",       kicker:"event",   icon:"money",   cls:"k-event"}},
+      {t:" to "},
+      {t:"next week",           hl:true, tag:{label:"next-week",       kicker:"date",    icon:"event",   cls:"k-event"}},
+      {t:"."}
+    ]
+  },
+  {
+    parts: [
+      {t:""},
+      {t:"Tom",                 hl:true, tag:{label:"tom",             kicker:"person",  icon:"person",  cls:"k-person"}},
+      {t:" usually catches the "},
+      {t:"cash discrepancy",    hl:true, tag:{label:"cash-discrepancy",kicker:"check",   icon:"money",   cls:"k-rule"}},
+      {t:" in "},
+      {t:"audit",               hl:true, tag:{label:"audit",           kicker:"team",    icon:"org",     cls:"k-process"}},
+      {t:"."}
+    ]
+  },
+];
+(function decomposeLoop(){
+  const bubble  = document.getElementById('decBubble');
+  const text    = document.getElementById('decText');
+  const tagsBox = document.getElementById('decTags');
+  let i = 0;
+
+  function render(d){
+    text.innerHTML = d.parts.map(p =>
+      p.hl ? `<span class="hl">${p.t}</span>` : p.t
+    ).join('');
+    tagsBox.innerHTML = d.parts.filter(p=>p.hl).map(p =>
+      `<span class="b-tag ${p.tag.cls}">
+         <span class="ic">${ICONS[p.tag.icon]}</span>
+         ${p.tag.label}
+         <span class="kicker">${p.tag.kicker}</span>
+       </span>`
+    ).join('');
+  }
+
+  function tick(){
+    const d = decomposeData[i % decomposeData.length];
+    bubble.classList.remove('show');
+    tagsBox.querySelectorAll('.b-tag').forEach(t=>t.classList.remove('in'));
+    render(d);
+    // bubble appears
+    setTimeout(()=> bubble.classList.add('show'), 200);
+    // highlights "fly" — fade their bg, tags pop in staggered
+    setTimeout(()=>{
+      text.querySelectorAll('.hl').forEach(h => h.classList.add('fly'));
+      const chips = tagsBox.querySelectorAll('.b-tag');
+      chips.forEach((c, idx)=> setTimeout(()=> c.classList.add('in'), idx*180));
+    }, 1800);
+    // hold then advance
+    setTimeout(()=>{ i++; tick(); }, 6000);
+  }
+  tick();
+})();
+</script>
+</body>
+</html>

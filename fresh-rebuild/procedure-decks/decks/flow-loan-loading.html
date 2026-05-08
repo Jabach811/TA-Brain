@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Loan Loading - Excalidraw Flow Deck</title>
+  <link rel="stylesheet" href="../assets/deck-styles.css">
+  <style>:root { --procedure-accent: #9a593f; }</style>
+</head>
+<body class="flow-page">
+  <header class="deck-nav">
+    <a href="../index.html">Procedure decks</a>
+    <span>Loan Loading</span>
+    <span>Excalidraw</span>
+  </header>
+  <main class="deck flow" data-deck>
+    <section class="slide flow-title">
+      <div class="title-grid">
+        <div>
+          <div class="sketch-tag">Loans / Excalidraw flow</div>
+          <h1>Loan Loading</h1>
+          <p>Set up P3 conversion records, run Informatica, then take over loans.</p>
+        </div>
+        <figure class="title-art sketch-art"><img src="../assets/icons/loan-loading.png" alt=""></figure>
+      </div>
+      <div class="sketch-route"><div class="flow-node"><b>1</b><span>In P3, open the plan, choose Conversions, add record keeper, enter vendor name, apply, and save.</span></div><div class="flow-node"><b>2</b><span>Create a new conversion with the case number, no affiliate, conversion date and assigned date three months before effective date, and effective date.</span></div><div class="flow-node"><b>3</b><span>Save and capture the generated conversion number.</span></div><div class="flow-node"><b>4</b><span>Validate loan header and loan source: outstanding balance in header must match source breakout.</span></div><div class="flow-node"><b>5</b><span>Run the Informatica loans workflow in test mode, then flip test to N and run production if clean.</span></div><div class="flow-node"><b>6</b><span>In P3, find the existing conversion, take over loans, handle HOLB upload/create, wait for email confirmation, and run verification queries.</span></div></div>
+    </section>
+<section class="slide image-slide sketch-image-slide">
+      <div class="sketch-tag">Generated whiteboard</div>
+      <h2>Multi-branch visual route</h2>
+      <figure class="image-frame sketch-frame"><img src="../assets/flow-loan-loading-detail.png" alt=""></figure>
+    </section>
+<section class="slide branch-slide">
+      <div class="sketch-tag">Branch map</div>
+      <h2>Decisions that change the route</h2>
+      <div class="branch-board"><div class="diamond"><span>1</span><p>Did P3 generate the conversion number?</p></div><div class="diamond"><span>2</span><p>Do loan header and loan source balances match?</p></div><div class="diamond"><span>3</span><p>Did the test run clear without errors?</p></div><div class="diamond"><span>4</span><p>Is there an HOLB file or should P3 create one?</p></div></div>
+    </section>
+<section class="slide swimlane-slide">
+      <div class="sketch-tag">Swimlane</div>
+      <h2>Inputs -> action -> output</h2>
+      <div class="swimlane">
+        <div class="lane-head">Input</div><div class="lane-head">Action</div><div class="lane-head">Output</div>
+        <div><p>Vendor name</p><p>Case number</p><p>Effective date</p><p>Loan header file</p></div>
+        <div><p>In P3, open the plan, choose Conversions, add record keeper, enter vendor name, apply, and save.</p><p>Create a new conversion with the case number, no affiliate, conversion date and assigned date three months before effective date, and effective date.</p><p>Save and capture the generated conversion number.</p><p>Validate loan header and loan source: outstanding balance in header must match source breakout.</p></div>
+        <div><p>P3 conversion number</p><p>Loaded loan records</p><p>HOLB upload/create confirmation</p><p>Email confirmation</p></div>
+      </div>
+    </section>
+<section class="slide systems-slide">
+      <div class="sketch-tag">System boxes</div>
+      <h2>Where the work happens</h2>
+      <div class="systems-map"><div class="system-box">P3</div><div class="system-box">Informatica loans workflow</div><div class="system-box">HOLB process</div><div class="system-box">AQT verification queries</div><div class="system-box">Audit pack</div></div>
+    </section>
+<section class="slide sticky-slide">
+      <div class="sketch-tag">Sticky notes</div>
+      <h2>Do not miss these</h2>
+      <div class="sticky-grid"><article class="sticky-note">Conversion and assigned dates are largely irrelevant but required; use three months prior to effective date.</article><article class="sticky-note">Header/source balance mismatch must be fixed before loading.</article><article class="sticky-note">Do not skip the test run before production.</article><article class="sticky-note">The audit pack needs loan evidence, often close to the loan header detail.</article></div>
+    </section>
+<section class="slide finish-slide">
+      <div class="sketch-tag">Done means done</div>
+      <h2>Closeout checklist</h2>
+      <div class="finish-list"><label><input type="checkbox"> Conversion number captured</label><label><input type="checkbox"> Test and production clean</label><label><input type="checkbox"> Loans taken over</label><label><input type="checkbox"> HOLB handled</label><label><input type="checkbox"> Queries verified</label></div>
+    </section>
+  </main>
+  <div class="deck-controls">
+    <button type="button" data-prev>Prev</button>
+    <span data-progress>1 / 7</span>
+    <button type="button" data-next>Next</button>
+  </div>
+  <script src="../assets/deck-player.js"></script>
+</body>
+</html>

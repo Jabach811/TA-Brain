@@ -1,6 +1,6 @@
 ---
 title: "Informatica Balance Module"
-type: concept
+type: process
 tags: [informatica, balance, system]
 created: 2026-04-16
 updated: 2026-04-16

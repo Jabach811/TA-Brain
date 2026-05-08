@@ -1,0 +1,18 @@
+# CTS Takeover Audit Process
+
+## Roles
+- Transition Manager
+- Transition Consultant
+- Quality Control Consultant
+- Data Consultant
+
+## Audit Phases
+- Pre-asset transfer audits
+- Day of Wire Audit
+- Day After Wire Audit
+- Final Takeover Audit
+
+## Additional Audits
+- Default analysis
+- Vesting override
+- Loan analysis

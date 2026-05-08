@@ -1,0 +1,650 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Same engine · section mocks</title>
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=switzer@400,500,600,700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..700,0..100,0..1&family=JetBrains+Mono:wght@400;500&display=swap">
+
+<style>
+:root{
+  --bg:        #F5F1EB;
+  --bg-card:   #FBF8F2;
+  --paper:     #FCFAF5;
+  --ink:       #1F1B16;
+  --ink-2:     #3A342C;
+  --ink-dim:   #6B6457;
+  --ink-mute:  #9A9385;
+  --line:      rgba(31,27,22,.08);
+  --line-2:    rgba(31,27,22,.16);
+  --clay:      #D97757;
+  --clay-2:    #BF5C3F;
+  --clay-3:    #F2C7B3;
+  --moss:      #6F8160;
+  --ochre:     #C19A4D;
+
+  --ease:      cubic-bezier(.32,.72,0,1);
+  --ease-soft: cubic-bezier(.22,1,.36,1);
+
+  --serif: "Fraunces", ui-serif, Georgia, serif;
+  --sans:  "Switzer", ui-sans-serif, system-ui, sans-serif;
+  --mono:  "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+html{font-size:16px}
+
+body{
+  min-height:100vh;
+  background-image:
+    radial-gradient(45% 35% at 12% 8%,  rgba(217,119,87,.10), transparent 65%),
+    radial-gradient(40% 35% at 92% 28%, rgba(193,154,77,.08), transparent 70%),
+    radial-gradient(50% 40% at 50% 110%,rgba(111,129,96,.06), transparent 75%);
+  padding:48px clamp(20px,4vw,56px);
+}
+
+.head{
+  max-width:1240px;margin:0 auto 36px;
+  display:flex;justify-content:space-between;align-items:flex-end;gap:32px;flex-wrap:wrap;
+}
+.head .title{
+  font-family:var(--serif);
+  font-variation-settings:"opsz" 96, "wght" 380, "SOFT" 50, "WONK" 1;
+  font-size:clamp(36px,5vw,56px);letter-spacing:-.025em;line-height:1;
+}
+.head .title em{font-style:italic;color:var(--clay-2)}
+.head .sub{
+  font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--ink-dim);max-width:46ch;line-height:1.7;
+}
+
+.mock{
+  position:relative;max-width:1240px;margin:0 auto 28px;
+  border-radius:24px;overflow:hidden;
+  background:var(--bg-card);
+  border:1px solid var(--line-2);
+  box-shadow:0 30px 60px rgba(31,27,22,.08), 0 1px 0 rgba(255,255,255,.7) inset;
+}
+.mock .label{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:18px 24px;border-bottom:1px solid var(--line);
+  font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-dim);
+}
+.mock .label .name{display:flex;align-items:center;gap:10px;color:var(--ink-2)}
+.mock .label .name .opt{
+  width:22px;height:22px;border-radius:6px;
+  display:inline-flex;align-items:center;justify-content:center;
+  background:var(--clay);color:#fff;font-weight:500;font-size:11px;letter-spacing:0;
+}
+.mock .desc{
+  padding:18px 24px 0;
+  font-family:var(--serif);font-variation-settings:"opsz" 36, "wght" 400;font-size:15px;line-height:1.55;color:var(--ink-2);
+  max-width:80ch;
+}
+.mock .desc small{
+  display:block;margin-top:6px;
+  font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-mute);
+}
+
+/* shared "profile card" miniature ============================== */
+.profile-card{
+  position:relative;
+  background:var(--paper);
+  border:1px solid var(--line-2);
+  border-radius:14px;
+  padding:14px 16px;
+  box-shadow:0 10px 24px rgba(31,27,22,.06), 0 1px 0 rgba(255,255,255,.7) inset;
+  display:flex;flex-direction:column;gap:10px;
+}
+.profile-card::before{
+  content:"";position:absolute;inset:0;border-radius:14px;pointer-events:none;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.12  0 0 0 0 0.10  0 0 0 0 0.08  0 0 0 0.85 0'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='.45'/></svg>");
+  opacity:.05; mix-blend-mode:multiply;
+}
+.profile-card .pc-h{
+  display:flex;align-items:baseline;justify-content:space-between;gap:8px;
+  padding-bottom:8px;border-bottom:1px solid var(--line);
+}
+.profile-card .pc-h .t{
+  font-family:var(--serif);font-variation-settings:"opsz" 36, "wght" 480;
+  font-size:14px;letter-spacing:-.01em;color:var(--ink);
+}
+.profile-card .pc-h .t small{
+  display:block;font-family:var(--mono);font-size:8.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-mute);font-weight:400;margin-top:2px;
+}
+.profile-card .pc-h .stamp{font-family:var(--mono);font-size:8.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-mute)}
+.profile-card .pc-tags{display:flex;flex-wrap:wrap;gap:4px}
+.profile-card .pc-tag{
+  display:inline-flex;align-items:center;gap:5px;
+  padding:3px 7px 3px 4px;border-radius:999px;
+  background:rgba(255,255,255,.95);
+  border:1px solid var(--line-2);
+  font-family:var(--mono);font-size:9px;letter-spacing:.10em;text-transform:uppercase;color:var(--ink-2);
+}
+.profile-card .pc-tag .d{width:5px;height:5px;border-radius:50%;background:var(--clay);flex:none}
+.profile-card .pc-tag.k-people    .d{background:var(--moss)}
+.profile-card .pc-tag.k-events    .d{background:var(--clay)}
+.profile-card .pc-tag.k-rules     .d{background:var(--clay-2)}
+.profile-card .pc-tag.k-processes .d{background:var(--ochre)}
+
+/* even smaller variant for grids of profiles =================== */
+.profile-card.tiny{padding:8px 10px;gap:6px;border-radius:10px}
+.profile-card.tiny::before{border-radius:10px}
+.profile-card.tiny .pc-h{padding-bottom:5px;gap:6px}
+.profile-card.tiny .pc-h .t{font-size:10.5px}
+.profile-card.tiny .pc-h .t small{display:none}
+.profile-card.tiny .pc-h .stamp{display:none}
+.profile-card.tiny .pc-tag{font-size:7.5px;padding:2px 5px 2px 3px;gap:3px}
+.profile-card.tiny .pc-tag .d{width:4px;height:4px}
+
+/* ============================================================
+   OPTION A — The Equation
+   ============================================================ */
+.eq-stage{
+  display:grid;grid-template-columns:300px 60px 1fr;
+  gap:24px;align-items:center;
+  margin:28px;padding:32px;
+  border-radius:18px;
+  background:linear-gradient(180deg, #FBF8F2, #F1EBDF);
+  border:1px solid var(--line);
+  min-height:460px;
+}
+@media (max-width:880px){.eq-stage{grid-template-columns:1fr;gap:16px}}
+
+.eq-stage .eq-left{display:flex;flex-direction:column;gap:14px;align-items:flex-start}
+.eq-stage .eq-left .lbl{
+  font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-mute);
+}
+.eq-stage .eq-left .lbl b{color:var(--clay-2);font-weight:500}
+.eq-stage .eq-left .profile-card{width:100%}
+
+.eq-stage .eq-mid{
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--serif);font-style:italic;font-size:48px;color:var(--clay-2);
+  font-variation-settings:"opsz" 144, "wght" 350;
+  line-height:1;
+}
+
+.eq-stage .eq-right{position:relative;min-height:380px}
+.eq-stage .eq-right .lbl{
+  position:absolute;top:0;left:0;
+  font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-mute);
+  z-index:5;
+}
+.eq-stage .eq-right .lbl b{color:var(--clay-2);font-weight:500}
+.eq-stage .eq-net{
+  position:absolute;inset:24px 0 0 0;
+}
+.eq-stage .eq-net svg.threads{
+  position:absolute;inset:0;width:100%;height:100%;
+  fill:none;stroke:var(--clay);stroke-width:.7;stroke-dasharray:2 3;opacity:.4;
+  pointer-events:none;
+}
+.eq-stage .eq-net .mini{
+  position:absolute;
+  width:130px;
+  opacity:0;transform:translateY(8px) scale(.92);
+  transition:opacity .55s ease, transform .65s var(--ease);
+}
+.eq-stage .eq-net .mini.in{opacity:1;transform:none}
+
+/* ============================================================
+   OPTION B — The Echo
+   ============================================================ */
+.echo-stage{
+  position:relative;
+  margin:28px;padding:32px;min-height:460px;
+  border-radius:18px;
+  background:linear-gradient(180deg, #FBF8F2, #F1EBDF);
+  border:1px solid var(--line);
+  overflow:hidden;
+  display:flex;align-items:center;justify-content:center;
+}
+.echo-stage .layer{
+  position:absolute;
+  display:flex;align-items:center;justify-content:center;
+  transition:opacity .8s ease;
+}
+.echo-stage .layer .profile-card{width:280px}
+.echo-stage .layer.l1{transform:scale(1)   translate(0,0);  z-index:5;opacity:1}
+.echo-stage .layer.l2{transform:scale(.78) translate(-220px,-90px); z-index:4;opacity:.7}
+.echo-stage .layer.l3{transform:scale(.78) translate( 220px,-90px); z-index:4;opacity:.7}
+.echo-stage .layer.l4{transform:scale(.6)  translate(-330px, 130px);z-index:3;opacity:.45}
+.echo-stage .layer.l5{transform:scale(.6)  translate( 330px, 130px);z-index:3;opacity:.45}
+.echo-stage .layer.l6{transform:scale(.45) translate(-430px,-220px);z-index:2;opacity:.28}
+.echo-stage .layer.l7{transform:scale(.45) translate( 430px,-220px);z-index:2;opacity:.28}
+.echo-stage .layer.l8{transform:scale(.45) translate(   0px, 220px);z-index:2;opacity:.28}
+
+.echo-stage .pulse{animation:echoPulse 5s var(--ease-soft) infinite}
+.echo-stage .layer.l2.pulse{animation-delay:.2s}
+.echo-stage .layer.l3.pulse{animation-delay:.4s}
+.echo-stage .layer.l4.pulse{animation-delay:.6s}
+.echo-stage .layer.l5.pulse{animation-delay:.8s}
+.echo-stage .layer.l6.pulse{animation-delay:1.0s}
+.echo-stage .layer.l7.pulse{animation-delay:1.2s}
+.echo-stage .layer.l8.pulse{animation-delay:1.4s}
+@keyframes echoPulse{
+  0%,100%{filter:none}
+  50%{filter:brightness(1.05)}
+}
+
+.echo-stage .echo-caption{
+  position:absolute;left:32px;bottom:24px;z-index:10;
+  font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-mute);
+  max-width:30ch;line-height:1.7;
+}
+.echo-stage .echo-caption b{color:var(--clay-2);font-weight:500}
+
+/* ============================================================
+   OPTION C — Two Looms (shared engine)
+   ============================================================ */
+.loom-stage{
+  display:grid;grid-template-columns:1fr;
+  gap:0;margin:28px;
+  border-radius:18px;
+  background:linear-gradient(180deg, #FBF8F2, #F1EBDF);
+  border:1px solid var(--line);
+  overflow:hidden;
+}
+.loom-row{
+  display:grid;grid-template-columns:200px 1fr 200px;
+  gap:24px;padding:28px 32px;
+  align-items:center;min-height:160px;
+  position:relative;
+}
+.loom-row + .loom-row{border-top:1px dashed var(--line-2)}
+.loom-row .loom-lbl{
+  font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-mute);line-height:1.7;
+}
+.loom-row .loom-lbl b{color:var(--clay-2);font-weight:500;display:block;font-size:11px;margin-bottom:4px}
+.loom-row .loom-input{
+  display:flex;flex-direction:column;gap:6px;align-items:flex-start;
+}
+.loom-row .voice-pill{
+  display:inline-flex;align-items:center;gap:7px;padding:5px 10px;border-radius:999px;
+  background:rgba(255,255,255,.85);border:1px solid var(--line-2);
+  font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);
+}
+.loom-row .voice-pill::before{
+  content:"";width:7px;height:7px;border-radius:50%;background:var(--clay-2);box-shadow:0 0 8px var(--clay-2);
+  animation:loomBlink 1.6s var(--ease-soft) infinite;
+}
+@keyframes loomBlink{0%,100%{opacity:1}50%{opacity:.3}}
+
+.loom-row .engine{
+  position:relative;
+  height:80px;
+  display:flex;align-items:center;justify-content:center;
+  border:1px solid var(--line-2);border-radius:14px;
+  background:linear-gradient(180deg, #FCFAF5, #F1EAD8);
+  overflow:hidden;
+}
+.loom-row .engine::before{
+  content:"PROFILE BUILDER · ENGINE";
+  position:absolute;top:8px;left:14px;
+  font-family:var(--mono);font-size:9px;letter-spacing:.2em;color:var(--ink-mute);
+}
+.loom-row .engine::after{
+  content:"";position:absolute;inset:0;border-radius:14px;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.12  0 0 0 0 0.10  0 0 0 0 0.08  0 0 0 0.85 0'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='.45'/></svg>");
+  opacity:.06; mix-blend-mode:multiply;pointer-events:none;
+}
+.loom-row .engine .wave{
+  display:flex;align-items:flex-end;gap:3px;height:36px;margin-top:14px;
+}
+.loom-row .engine .wave .bar{
+  width:3px;border-radius:3px;
+  background:linear-gradient(180deg,var(--clay),var(--clay-2));
+  animation:loomWave 1.4s var(--ease-soft) infinite;
+}
+@keyframes loomWave{
+  0%,100%{height:18%}
+  50%{height:90%}
+}
+.loom-row .engine .arrow-in,
+.loom-row .engine .arrow-out{
+  position:absolute;top:50%;width:38px;height:1px;background:linear-gradient(90deg,var(--clay) 30%,transparent);
+  transform:translateY(-50%);
+}
+.loom-row .engine .arrow-in {left:-38px}
+.loom-row .engine .arrow-out{right:-38px;background:linear-gradient(90deg,transparent,var(--clay) 70%)}
+.loom-row .engine .arrow-out::after{
+  content:"";position:absolute;right:-1px;top:-3px;border-left:5px solid var(--clay);border-top:3px solid transparent;border-bottom:3px solid transparent;
+}
+
+.loom-row .loom-output{display:flex;flex-direction:column;gap:8px;align-items:flex-end}
+
+/* row 1 — single profile output */
+.loom-row.r1 .loom-output .profile-card{width:200px}
+
+/* row 2 — many small profiles forming a brain */
+.loom-row.r2 .loom-input{flex-direction:row;flex-wrap:wrap;gap:4px}
+.loom-row.r2 .loom-input .voice-pill{padding:3px 7px;font-size:9px;gap:5px}
+.loom-row.r2 .brain{
+  position:relative;width:200px;height:120px;
+}
+.loom-row.r2 .brain svg{position:absolute;inset:0;width:100%;height:100%}
+.loom-row.r2 .brain .node{
+  position:absolute;width:14px;height:14px;border-radius:50%;
+  background:var(--clay);box-shadow:0 0 8px rgba(217,119,87,.4);
+  transform:translate(-50%,-50%);
+}
+.loom-row.r2 .brain .node.dept{background:var(--ink);width:10px;height:10px}
+.loom-row.r2 .brain .node.alt{background:var(--moss)}
+
+/* mock footer ================================================= */
+.mock .footer{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:14px 24px 20px;
+  font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-mute);
+}
+
+.notes{
+  max-width:1240px;margin:32px auto 0;
+  padding:24px;border-radius:18px;
+  background:rgba(255,255,255,.5);
+  border:1px solid var(--line);
+  font-family:var(--sans);font-size:14px;line-height:1.65;color:var(--ink-2);
+}
+.notes h3{font-family:var(--serif);font-variation-settings:"opsz" 36, "wght" 480;font-size:18px;margin-bottom:10px;color:var(--ink)}
+.notes em{color:var(--clay-2);font-style:italic;font-family:var(--serif)}
+.notes ul{padding-left:20px;margin-top:8px}
+.notes li{margin-bottom:6px}
+.notes pre{font-family:var(--serif);font-style:italic;color:var(--ink);background:rgba(255,255,255,.7);border:1px solid var(--line);border-radius:8px;padding:12px 16px;margin-top:8px;white-space:pre-wrap;font-size:14px}
+</style>
+</head>
+<body>
+
+<header class="head">
+  <div class="title">Same engine, <em>two scales</em></div>
+  <div class="sub">
+    Three takes on the section that sits after the dept grid &mdash; making the case that the brain is just <em>more profiles</em>.
+  </div>
+</header>
+
+<!-- ====================================================
+     OPTION A — The Equation
+     ==================================================== -->
+<article class="mock">
+  <div class="label">
+    <span class="name"><span class="opt">A</span> The Equation</span>
+    <span>side-by-side &middot; same shape &middot; multiplied</span>
+  </div>
+  <p class="desc">
+    Literal "this&nbsp;:&nbsp;that" composition. A single profile card on the left, a connected network of the same card on the right. The visual rhetoric is direct: <em>you've already seen the unit&mdash;the brain is just more of them.</em>
+    <small>strongest at making the structural argument</small>
+  </p>
+  <div class="eq-stage">
+    <div class="eq-left">
+      <div class="lbl"><b>One profile</b><br>One conversation &middot; one capture</div>
+      <div class="profile-card">
+        <div class="pc-h">
+          <div class="t">Pella &middot; rollover ops<small>profile · 14 nodes</small></div>
+          <div class="stamp">2:47</div>
+        </div>
+        <div class="pc-tags">
+          <span class="pc-tag k-people"><span class="d"></span>tom</span>
+          <span class="pc-tag k-events"><span class="d"></span>wire-date</span>
+          <span class="pc-tag k-events"><span class="d"></span>q2-shift</span>
+          <span class="pc-tag k-rules"><span class="d"></span>compliance-flag</span>
+          <span class="pc-tag k-processes"><span class="d"></span>default-code</span>
+          <span class="pc-tag k-processes"><span class="d"></span>audit</span>
+        </div>
+      </div>
+    </div>
+    <div class="eq-mid">=</div>
+    <div class="eq-right">
+      <div class="lbl"><b>The brain</b><br>Many conversations &middot; one network</div>
+      <div class="eq-net" id="eqNet">
+        <svg class="threads" viewBox="0 0 100 100" preserveAspectRatio="none">
+          <path d="M22,18 C40,30 60,28 78,16"/>
+          <path d="M22,18 C30,40 26,55 18,72"/>
+          <path d="M78,16 C72,40 78,55 84,74"/>
+          <path d="M18,72 C40,68 62,72 84,74"/>
+          <path d="M50,42 C36,50 32,60 22,18"/>
+          <path d="M50,42 C66,50 72,60 78,16"/>
+          <path d="M50,42 C46,60 40,68 18,72"/>
+          <path d="M50,42 C56,60 64,68 84,74"/>
+        </svg>
+        <!-- minis injected by JS -->
+      </div>
+    </div>
+  </div>
+  <div class="footer"><span>Same engine &middot; two scales</span><span>option A &middot; equation</span></div>
+</article>
+
+<!-- ====================================================
+     OPTION B — The Echo
+     ==================================================== -->
+<article class="mock">
+  <div class="label">
+    <span class="name"><span class="opt">B</span> The Echo</span>
+    <span>depth field &middot; receding copies</span>
+  </div>
+  <p class="desc">
+    A single profile card up close, with progressively smaller and dimmer copies receding into the background. Reads as <em>"zoom out far enough and it's profiles all the way down."</em>
+    <small>strongest at conveying scale &amp; self-similarity</small>
+  </p>
+  <div class="echo-stage">
+    <!-- back layers (smallest, most transparent) -->
+    <div class="layer l8 pulse"><div class="profile-card"><div class="pc-h"><div class="t">Compliance &middot; flag rules<small>profile · 9 nodes</small></div><div class="stamp">1:42</div></div><div class="pc-tags"><span class="pc-tag k-rules"><span class="d"></span>48-hr</span><span class="pc-tag k-people"><span class="d"></span>sarah</span></div></div></div>
+    <div class="layer l6 pulse"><div class="profile-card"><div class="pc-h"><div class="t">Audit &middot; cash recon<small>profile · 7 nodes</small></div><div class="stamp">2:01</div></div><div class="pc-tags"><span class="pc-tag k-rules"><span class="d"></span>discrepancy</span><span class="pc-tag k-people"><span class="d"></span>tom</span></div></div></div>
+    <div class="layer l7 pulse"><div class="profile-card"><div class="pc-h"><div class="t">Operations &middot; pipeline<small>profile · 11 nodes</small></div><div class="stamp">3:15</div></div><div class="pc-tags"><span class="pc-tag k-events"><span class="d"></span>q2-shift</span><span class="pc-tag k-processes"><span class="d"></span>mapping</span></div></div></div>
+
+    <!-- middle layers -->
+    <div class="layer l4 pulse"><div class="profile-card"><div class="pc-h"><div class="t">Client Service<small>profile · 6 nodes</small></div><div class="stamp">2:24</div></div><div class="pc-tags"><span class="pc-tag k-processes"><span class="d"></span>escalation</span><span class="pc-tag k-people"><span class="d"></span>jen</span></div></div></div>
+    <div class="layer l5 pulse"><div class="profile-card"><div class="pc-h"><div class="t">Conversions<small>profile · 12 nodes</small></div><div class="stamp">2:58</div></div><div class="pc-tags"><span class="pc-tag k-processes"><span class="d"></span>lm-rollover</span><span class="pc-tag k-events"><span class="d"></span>wire-date</span></div></div></div>
+
+    <!-- second-row (close echoes) -->
+    <div class="layer l2 pulse"><div class="profile-card"><div class="pc-h"><div class="t">Leadership<small>profile · 8 nodes</small></div><div class="stamp">2:11</div></div><div class="pc-tags"><span class="pc-tag k-rules"><span class="d"></span>q2-targets</span><span class="pc-tag k-people"><span class="d"></span>amir</span></div></div></div>
+    <div class="layer l3 pulse"><div class="profile-card"><div class="pc-h"><div class="t">Audit &middot; controls<small>profile · 10 nodes</small></div><div class="stamp">3:02</div></div><div class="pc-tags"><span class="pc-tag k-rules"><span class="d"></span>two-places</span><span class="pc-tag k-processes"><span class="d"></span>default-code</span></div></div></div>
+
+    <!-- foreground (the "one" profile) -->
+    <div class="layer l1">
+      <div class="profile-card">
+        <div class="pc-h">
+          <div class="t">Pella &middot; rollover ops<small>profile · 14 nodes</small></div>
+          <div class="stamp">2:47</div>
+        </div>
+        <div class="pc-tags">
+          <span class="pc-tag k-people"><span class="d"></span>tom</span>
+          <span class="pc-tag k-events"><span class="d"></span>wire-date</span>
+          <span class="pc-tag k-events"><span class="d"></span>q2-shift</span>
+          <span class="pc-tag k-rules"><span class="d"></span>compliance-flag</span>
+          <span class="pc-tag k-processes"><span class="d"></span>default-code</span>
+          <span class="pc-tag k-processes"><span class="d"></span>audit</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="echo-caption"><b>It's profiles all the way down.</b><br>One conversation builds a profile.<br>The brain is just more of them.</div>
+  </div>
+  <div class="footer"><span>Same engine &middot; two scales</span><span>option B &middot; echo</span></div>
+</article>
+
+<!-- ====================================================
+     OPTION C — Two Looms
+     ==================================================== -->
+<article class="mock">
+  <div class="label">
+    <span class="name"><span class="opt">C</span> Two Looms</span>
+    <span>diptych &middot; shared engine block</span>
+  </div>
+  <p class="desc">
+    Two parallel rows. Top: <em>voice → engine → 1 profile</em>. Bottom: <em>voices × team → same engine → entire brain</em>. The engine block is centered and shared, so the rhetoric is explicit.
+    <small>strongest at making the "same engine" claim literal</small>
+  </p>
+  <div class="loom-stage">
+    <div class="loom-row r1">
+      <div class="loom-input">
+        <div class="loom-lbl"><b>1 voice</b>1 conversation</div>
+        <span class="voice-pill">Recording · 02:47</span>
+      </div>
+      <div class="engine">
+        <span class="arrow-in"></span>
+        <div class="wave" id="loomWave1"></div>
+        <span class="arrow-out"></span>
+      </div>
+      <div class="loom-output">
+        <div class="loom-lbl" style="text-align:right"><b>1 profile</b>14 nodes captured</div>
+        <div class="profile-card">
+          <div class="pc-h">
+            <div class="t">Pella &middot; rollover<small>profile</small></div>
+            <div class="stamp">14n</div>
+          </div>
+          <div class="pc-tags">
+            <span class="pc-tag k-people"><span class="d"></span>tom</span>
+            <span class="pc-tag k-events"><span class="d"></span>wire-date</span>
+            <span class="pc-tag k-rules"><span class="d"></span>flag</span>
+            <span class="pc-tag k-processes"><span class="d"></span>default-code</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="loom-row r2">
+      <div class="loom-input">
+        <div class="loom-lbl" style="width:100%"><b>Many voices</b>Whole company contributes</div>
+        <span class="voice-pill">Conv · 02:47</span>
+        <span class="voice-pill">Audit · 03:12</span>
+        <span class="voice-pill">Ops · 02:38</span>
+        <span class="voice-pill">Comp · 04:05</span>
+        <span class="voice-pill">CS · 02:54</span>
+        <span class="voice-pill">Lead · 03:30</span>
+      </div>
+      <div class="engine">
+        <span class="arrow-in"></span>
+        <div class="wave" id="loomWave2"></div>
+        <span class="arrow-out"></span>
+      </div>
+      <div class="loom-output">
+        <div class="loom-lbl" style="text-align:right"><b>The brain</b>Hundreds of nodes &middot; cross-linked</div>
+        <div class="brain" id="loomBrain">
+          <svg viewBox="0 0 200 120" preserveAspectRatio="none">
+            <g stroke="rgba(217,119,87,.45)" stroke-width=".7" fill="none" stroke-dasharray="2 3">
+              <path d="M30,30 C60,40 90,30 100,60"/>
+              <path d="M170,30 C140,40 110,30 100,60"/>
+              <path d="M30,90 C60,80 80,80 100,60"/>
+              <path d="M170,90 C140,80 120,80 100,60"/>
+              <path d="M30,30 L30,90"/>
+              <path d="M170,30 L170,90"/>
+              <path d="M100,60 L60,15"/>
+              <path d="M100,60 L140,15"/>
+              <path d="M100,60 L60,108"/>
+              <path d="M100,60 L140,108"/>
+            </g>
+          </svg>
+          <span class="node dept" style="left:30px;top:30px"></span>
+          <span class="node dept" style="left:170px;top:30px"></span>
+          <span class="node dept" style="left:30px;top:90px"></span>
+          <span class="node dept" style="left:170px;top:90px"></span>
+          <span class="node" style="left:100px;top:60px;width:18px;height:18px"></span>
+          <span class="node alt" style="left:60px;top:15px"></span>
+          <span class="node alt" style="left:140px;top:15px"></span>
+          <span class="node" style="left:60px;top:108px"></span>
+          <span class="node" style="left:140px;top:108px"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer"><span>Same engine &middot; two scales</span><span>option C &middot; looms</span></div>
+</article>
+
+<section class="notes">
+  <h3>Draft copy I'd pair with the section (any option)</h3>
+  <p style="font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--clay-2)">eyebrow &middot; same engine &middot; two scales</p>
+  <pre>The brain is just <em>more profiles.</em>
+
+Profile Builder isn't a tool that <em>feeds</em> the brain. It IS the brain — at the smallest unit. One conversation builds a profile. A whole company building, every week, builds TA Brain. Same gesture, same structure, same engine. The only thing that changes is how many voices.</pre>
+
+  <h3 style="margin-top:18px">How to read these</h3>
+  <ul>
+    <li><em>A &middot; Equation</em> — most direct visual rhetoric. The "=" sign carries a lot of the meaning.</li>
+    <li><em>B &middot; Echo</em> — most poetic, most "feel-good." Doesn't make the structural argument as cleanly but is the most beautiful.</li>
+    <li><em>C &middot; Looms</em> — most explicit about the "same engine" claim because the engine block is literally drawn once and shared. Best if you think readers won't otherwise connect the dots.</li>
+  </ul>
+</section>
+
+<script>
+/* ============================================================
+   Option A — populate the right-hand network with mini profile cards
+   ============================================================ */
+(function eqLoop(){
+  const net = document.getElementById('eqNet');
+  if (!net) return;
+
+  const positions = [
+    {x:'10%', y:'4%'},
+    {x:'58%', y:'2%'},
+    {x:'4%',  y:'42%'},
+    {x:'62%', y:'40%'},
+    {x:'34%', y:'22%'},
+    {x:'2%',  y:'76%'},
+    {x:'58%', y:'74%'},
+    {x:'34%', y:'58%'},
+  ];
+
+  const profiles = [
+    {t:'Audit',         tags:[['k-people','tom'],['k-rules','disc.']]},
+    {t:'Compliance',    tags:[['k-rules','48-hr'],['k-rules','flag']]},
+    {t:'Conversions',   tags:[['k-events','wire'],['k-processes','remap']]},
+    {t:'Client Svc',    tags:[['k-people','jen'],['k-processes','esc']]},
+    {t:'Operations',    tags:[['k-events','q2'],['k-processes','pipeline']]},
+    {t:'Leadership',    tags:[['k-rules','target'],['k-people','amir']]},
+    {t:'Pella',         tags:[['k-events','wire-date'],['k-processes','default']]},
+    {t:'Rollover ops',  tags:[['k-processes','remap'],['k-rules','two-places']]},
+  ];
+
+  positions.forEach((p,i)=>{
+    const m = document.createElement('div');
+    m.className = 'mini';
+    m.style.left = p.x;
+    m.style.top  = p.y;
+    const pf = profiles[i];
+    m.innerHTML =
+      `<div class="profile-card tiny">
+         <div class="pc-h"><div class="t">${pf.t}</div></div>
+         <div class="pc-tags">
+           ${pf.tags.map(([k,l])=>`<span class="pc-tag ${k}"><span class="d"></span>${l}</span>`).join('')}
+         </div>
+       </div>`;
+    net.appendChild(m);
+  });
+
+  function loop(){
+    const minis = net.querySelectorAll('.mini');
+    minis.forEach(m => m.classList.remove('in'));
+    minis.forEach((m,i)=> setTimeout(()=> m.classList.add('in'), 200 + i*220));
+    setTimeout(loop, 200 + minis.length*220 + 4200);
+  }
+  loop();
+})();
+
+/* ============================================================
+   Option C — render the wave bars in the engine blocks
+   ============================================================ */
+(function loomWaves(){
+  ['loomWave1','loomWave2'].forEach(id => {
+    const w = document.getElementById(id);
+    if (!w) return;
+    const N = 14;
+    for (let i=0;i<N;i++){
+      const b = document.createElement('div');
+      b.className = 'bar';
+      const dist = Math.abs(i - N/2)/(N/2);
+      b.style.height = (20 + (1-dist)*70 + Math.random()*8) + '%';
+      b.style.animationDelay = (-Math.random()*1.4) + 's';
+      b.style.animationDuration = (1.1 + Math.random()*1.0) + 's';
+      b.style.opacity = (0.55 + Math.random()*0.45).toFixed(2);
+      w.appendChild(b);
+    }
+  });
+})();
+</script>
+</body>
+</html>

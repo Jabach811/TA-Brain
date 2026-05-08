@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fund Mapping - Excalidraw Flow Deck</title>
+  <link rel="stylesheet" href="../assets/deck-styles.css">
+  <style>:root { --procedure-accent: #7b5b9f; }</style>
+</head>
+<body class="flow-page">
+  <header class="deck-nav">
+    <a href="../index.html">Procedure decks</a>
+    <span>Fund Mapping</span>
+    <span>Excalidraw</span>
+  </header>
+  <main class="deck flow" data-deck>
+    <section class="slide flow-title">
+      <div class="title-grid">
+        <div>
+          <div class="sketch-tag">Mapping / Excalidraw flow</div>
+          <h1>Fund Mapping</h1>
+          <p>Turn the TOA fund map into a QA-ready purchase/ref-number file.</p>
+        </div>
+        <figure class="title-art sketch-art"><img src="../assets/icons/fund-mapping.png" alt=""></figure>
+      </div>
+      <div class="sketch-route"><div class="flow-node"><b>1</b><span>Copy the fund mapping section from the finalized TOA.</span></div><div class="flow-node"><b>2</b><span>Add the DC working header: prior fund code, total amount, ref number, and split indicator.</span></div><div class="flow-node"><b>3</b><span>Fill Transamerica fund descriptor details from the TOA.</span></div><div class="flow-node"><b>4</b><span>Document split funds with the correct allocation percentages.</span></div><div class="flow-node"><b>5</b><span>Resolve mismatches where vendor fund codes do not line up cleanly with the TOA.</span></div><div class="flow-node"><b>6</b><span>Send fund mapping to QA and update ref numbers when processing begins.</span></div></div>
+    </section>
+<section class="slide image-slide sketch-image-slide">
+      <div class="sketch-tag">Generated whiteboard</div>
+      <h2>Multi-branch visual route</h2>
+      <figure class="image-frame sketch-frame"><img src="../assets/flow-source-fund-mapping-detail.png" alt=""></figure>
+    </section>
+<section class="slide branch-slide">
+      <div class="sketch-tag">Branch map</div>
+      <h2>Decisions that change the route</h2>
+      <div class="branch-board"><div class="diamond"><span>1</span><p>Does the vendor fund code match the TOA fund code?</p></div><div class="diamond"><span>2</span><p>Is any fund split across two TA funds?</p></div><div class="diamond"><span>3</span><p>Are ref numbers ready yet or pending processing?</p></div><div class="diamond"><span>4</span><p>Can QA follow the work from prior fund to TA fund?</p></div></div>
+    </section>
+<section class="slide swimlane-slide">
+      <div class="sketch-tag">Swimlane</div>
+      <h2>Inputs -> action -> output</h2>
+      <div class="swimlane">
+        <div class="lane-head">Input</div><div class="lane-head">Action</div><div class="lane-head">Output</div>
+        <div><p>Finalized TOA</p><p>Prior record keeper fund codes</p><p>Fund totals</p><p>Split-fund percentages</p></div>
+        <div><p>Copy the fund mapping section from the finalized TOA.</p><p>Add the DC working header: prior fund code, total amount, ref number, and split indicator.</p><p>Fill Transamerica fund descriptor details from the TOA.</p><p>Document split funds with the correct allocation percentages.</p></div>
+        <div><p>QA-ready fund mapping file</p><p>Split-fund instructions</p><p>Ref-number-ready purchase file</p></div>
+      </div>
+    </section>
+<section class="slide systems-slide">
+      <div class="sketch-tag">System boxes</div>
+      <h2>Where the work happens</h2>
+      <div class="systems-map"><div class="system-box">TOA</div><div class="system-box">Fund mapping workbook</div><div class="system-box">P3 ref numbers</div><div class="system-box">QA review</div></div>
+    </section>
+<section class="slide sticky-slide">
+      <div class="sketch-tag">Sticky notes</div>
+      <h2>Do not miss these</h2>
+      <div class="sticky-grid"><article class="sticky-note">Fund mapping is only for mapping conversions, not cash conversions.</article><article class="sticky-note">Some vendor fund codes require two-step explanation; show the work.</article><article class="sticky-note">The mapping cannot be fully complete until ref numbers exist.</article></div>
+    </section>
+<section class="slide finish-slide">
+      <div class="sketch-tag">Done means done</div>
+      <h2>Closeout checklist</h2>
+      <div class="finish-list"><label><input type="checkbox"> TOA mapping copied</label><label><input type="checkbox"> Prior fund codes and totals filled</label><label><input type="checkbox"> Split funds documented</label><label><input type="checkbox"> QA review sent</label></div>
+    </section>
+  </main>
+  <div class="deck-controls">
+    <button type="button" data-prev>Prev</button>
+    <span data-progress>1 / 7</span>
+    <button type="button" data-next>Next</button>
+  </div>
+  <script src="../assets/deck-player.js"></script>
+</body>
+</html>

@@ -1,0 +1,11 @@
+# Client Guide Application Update Instructions
+
+## Word Template Updates
+- Show bookmarks.
+- Edit existing bookmarks carefully.
+- Add static or dynamic content appropriately.
+
+## Access Application Updates
+- Add bookmarks and controls.
+- Update backend tables.
+- Update forms in design mode.

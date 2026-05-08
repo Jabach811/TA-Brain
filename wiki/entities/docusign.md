@@ -1,6 +1,6 @@
 ---
 title: "DocuSign"
-type: entity
+type: system
 tags: [system, tool, com, e-signature, external]
 created: 2026-04-14
 updated: 2026-04-14

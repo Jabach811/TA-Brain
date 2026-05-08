@@ -1,6 +1,6 @@
 ---
 title: "Informatica Training Manual"
-type: concept
+type: process
 tags: [informatica, training, system]
 created: 2026-04-16
 updated: 2026-04-16

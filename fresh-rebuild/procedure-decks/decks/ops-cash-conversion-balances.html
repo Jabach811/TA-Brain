@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cash Conversion Balances - Ops Training Deck</title>
+  <link rel="stylesheet" href="../assets/deck-styles.css">
+  <style>:root { --procedure-accent: #8a6f2a; }</style>
+</head>
+<body class="ops-page">
+  <header class="deck-nav">
+    <a href="../index.html">Procedure decks</a>
+    <span>Cash Conversion Balances</span>
+    <span>Ops</span>
+  </header>
+  <main class="deck ops" data-deck>
+    <section class="slide title-slide">
+      <div class="title-grid">
+        <div>
+          <div class="kicker">Balances / Ops deck</div>
+          <h1>Cash Conversion Balances</h1>
+          <p class="slide-lede">Cash conversions revolve around wire readiness, cashiering confirmation, Advanced Employer handling, current elections, final records, fund management calendar entries, and status emails to QA, COM, and PC.</p>
+          <div class="lifecycle-rail"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span></div>
+        </div>
+        <figure class="title-art"><img src="../assets/icons/cash-conversion-balances.png" alt=""></figure>
+      </div>
+    </section>
+<section class="slide split-slide">
+      <div>
+        <div class="kicker">Inputs</div>
+        <h2>What has to be in hand</h2>
+        <ul class="check-list"><li>Wire instructions</li><li>Wire date and effective date</li><li>Cashiering estimate and final amount</li><li>P2 booking confirmation or email</li><li>Final records</li><li>Current elections</li></ul>
+      </div>
+      <aside class="callout-panel">
+        <h3>Systems touched</h3>
+        <div class="pill-grid"><span class="pill">P2</span><span class="pill">P3</span><span class="pill">Advanced Employer account</span><span class="pill">Fund management calendar</span><span class="pill">Informatica CIT balance workflow</span></div>
+      </aside>
+    </section>
+<section class="slide">
+      <div class="kicker">Run path</div>
+      <h2>Procedure sequence</h2>
+      <div class="step-grid">
+    <article class="step-card">
+      <div class="step-num">01</div>
+      <p>Send wire instructions early and re-send them the week before liquidation for confirmation.</p>
+    </article>
+  
+    <article class="step-card">
+      <div class="step-num">02</div>
+      <p>Keep vendor and cashiering communication open as the wire date approaches.</p>
+    </article>
+  
+    <article class="step-card">
+      <div class="step-num">03</div>
+      <p>Confirm the booked wire by cashiering email or by searching ref numbers in P2.</p>
+    </article>
+  
+    <article class="step-card">
+      <div class="step-num">04</div>
+      <p>If final records are not ready, move money to the Advanced Employer account.</p>
+    </article>
+  
+    <article class="step-card">
+      <div class="step-num">05</div>
+      <p>Send status email to QA, COM, and PC that the wire was booked and moved to Advanced Employer.</p>
+    </article>
+  
+    <article class="step-card">
+      <div class="step-num">06</div>
+      <p>When final records are ready, liquidate Advanced Employer, create the liquidation ref number, run CIT balance, and apply interest pro rata the next day.</p>
+    </article>
+  </div>
+    </section>
+<section class="slide matrix-slide">
+      <div class="kicker">Decision points</div>
+      <h2>What decides the path</h2>
+      <div class="decision-grid"><div class="decision-card">Are final records ready early enough to bypass Advanced Employer?</div><div class="decision-card">Are all participant elections present or defaulted?</div><div class="decision-card">Is the trade on the fund management calendar?</div><div class="decision-card">Did the booked amount match the expected amount?</div></div>
+    </section>
+<section class="slide warning-slide">
+      <div class="kicker">Watchouts</div>
+      <h2>Where this can bite</h2>
+      <div class="warning-grid"><article><span>!</span><p>Cash conversions do not need fund mapping, but they do need source mapping.</p></article><article><span>!</span><p>Fund management calendar entries are mandatory for big trades.</p></article><article><span>!</span><p>Trailing dividends do not need the calendar; main trades and AE liquidation do.</p></article><article><span>!</span><p>If the calendar is wrong or locked, notify the trade email groups immediately.</p></article></div>
+    </section>
+<section class="slide image-slide">
+      <div class="kicker">Visual map</div>
+      <h2>Use the flow when explaining the work</h2>
+      <figure class="image-frame"><img src="../assets/flow-balance-branches-detail.png" alt=""></figure>
+    </section>
+<section class="slide closeout-slide">
+      <div class="kicker">Closeout</div>
+      <h2>Proof that it is done</h2>
+      <div class="closeout-grid">
+        <div><h3>Outputs</h3><ul><li>Booked wire confirmation</li><li>Advanced Employer purchase and liquidation records</li><li>CIT balance posting</li><li>Participant purchases</li><li>Pro rata interest allocation</li></ul></div>
+        <div><h3>Final checks</h3><ul><li>Wire booked</li><li>AE status email sent</li><li>Calendar updated</li><li>Final records processed</li><li>Interest handled next day</li></ul></div>
+      </div>
+    </section>
+  </main>
+  <div class="deck-controls">
+    <button type="button" data-prev>Prev</button>
+    <span data-progress>1 / 7</span>
+    <button type="button" data-next>Next</button>
+  </div>
+  <script src="../assets/deck-player.js"></script>
+</body>
+</html>

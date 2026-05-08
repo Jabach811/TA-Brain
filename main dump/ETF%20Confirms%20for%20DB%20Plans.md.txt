@@ -1,0 +1,13 @@
+# EFT Confirms for DB Plans
+
+## Purpose
+- Enable generation and printing of EFT confirms for Defined Benefit (DB) plans when requested by the client.
+
+## Key Notes
+- Not mailed by default. Requires client request and manager approval.
+- TC submits request via Serena ticket.
+
+## Ticket Requirements
+- Project: Database Change
+- Application: Plus
+- Enable EFT Confirms effective with first payment.

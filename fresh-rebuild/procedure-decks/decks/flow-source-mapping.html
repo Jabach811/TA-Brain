@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Source Mapping - Excalidraw Flow Deck</title>
+  <link rel="stylesheet" href="../assets/deck-styles.css">
+  <style>:root { --procedure-accent: #2b6f89; }</style>
+</head>
+<body class="flow-page">
+  <header class="deck-nav">
+    <a href="../index.html">Procedure decks</a>
+    <span>Source Mapping</span>
+    <span>Excalidraw</span>
+  </header>
+  <main class="deck flow" data-deck>
+    <section class="slide flow-title">
+      <div class="title-grid">
+        <div>
+          <div class="sketch-tag">Mapping / Excalidraw flow</div>
+          <h1>Source Mapping</h1>
+          <p>Map vendor source codes to TA source IDs.</p>
+        </div>
+        <figure class="title-art sketch-art"><img src="../assets/icons/source-mapping.png" alt=""></figure>
+      </div>
+      <div class="sketch-route"><div class="flow-node"><b>1</b><span>Summarize vendor balances by source code and vendor source name.</span></div><div class="flow-node"><b>2</b><span>Ignore source codes that never carry money unless QA asks otherwise.</span></div><div class="flow-node"><b>3</b><span>Run the AQT query to retrieve the TA source IDs.</span></div><div class="flow-node"><b>4</b><span>Fill the mapping file with vendor source code, vendor source name, and TA source ID.</span></div><div class="flow-node"><b>5</b><span>Send source mapping to QA for review.</span></div><div class="flow-node"><b>6</b><span>Re-check final files for new source codes and rush any needed additions.</span></div></div>
+    </section>
+<section class="slide image-slide sketch-image-slide">
+      <div class="sketch-tag">Generated whiteboard</div>
+      <h2>Multi-branch visual route</h2>
+      <figure class="image-frame sketch-frame"><img src="../assets/flow-source-fund-mapping-detail.png" alt=""></figure>
+    </section>
+<section class="slide branch-slide">
+      <div class="sketch-tag">Branch map</div>
+      <h2>Decisions that change the route</h2>
+      <div class="branch-board"><div class="diamond"><span>1</span><p>Does the source have money?</p></div><div class="diamond"><span>2</span><p>Did final files introduce a new source?</p></div><div class="diamond"><span>3</span><p>Is QA approval complete before balance processing?</p></div><div class="diamond"><span>4</span><p>Are vendor codes and names preserved clearly enough to show work?</p></div></div>
+    </section>
+<section class="slide swimlane-slide">
+      <div class="sketch-tag">Swimlane</div>
+      <h2>Inputs -> action -> output</h2>
+      <div class="swimlane">
+        <div class="lane-head">Input</div><div class="lane-head">Action</div><div class="lane-head">Output</div>
+        <div><p>Test files</p><p>Final files</p><p>Vendor source code summaries</p><p>TA source ID query results</p></div>
+        <div><p>Summarize vendor balances by source code and vendor source name.</p><p>Ignore source codes that never carry money unless QA asks otherwise.</p><p>Run the AQT query to retrieve the TA source IDs.</p><p>Fill the mapping file with vendor source code, vendor source name, and TA source ID.</p></div>
+        <div><p>Approved source mapping file</p><p>Source IDs for balance workflows</p><p>Final-file source change list</p></div>
+      </div>
+    </section>
+<section class="slide systems-slide">
+      <div class="sketch-tag">System boxes</div>
+      <h2>Where the work happens</h2>
+      <div class="systems-map"><div class="system-box">AQT</div><div class="system-box">QA review</div><div class="system-box">Source mapping workbook</div></div>
+    </section>
+<section class="slide sticky-slide">
+      <div class="sketch-tag">Sticky notes</div>
+      <h2>Do not miss these</h2>
+      <div class="sticky-grid"><article class="sticky-note">Do not waste time mapping sources with no balances unless needed.</article><article class="sticky-note">Final files can introduce new sources, so re-check before processing.</article><article class="sticky-note">Show vendor code and vendor name together so QA can follow the mapping.</article></div>
+    </section>
+<section class="slide finish-slide">
+      <div class="sketch-tag">Done means done</div>
+      <h2>Closeout checklist</h2>
+      <div class="finish-list"><label><input type="checkbox"> QA approval received</label><label><input type="checkbox"> Final-file source check complete</label><label><input type="checkbox"> All balance-bearing sources mapped</label><label><input type="checkbox"> Mapping evidence retained</label></div>
+    </section>
+  </main>
+  <div class="deck-controls">
+    <button type="button" data-prev>Prev</button>
+    <span data-progress>1 / 7</span>
+    <button type="button" data-next>Next</button>
+  </div>
+  <script src="../assets/deck-player.js"></script>
+</body>
+</html>

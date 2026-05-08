@@ -1,0 +1,461 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Profile Builder · scatter &amp; organize</title>
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=switzer@400,500,600,700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..700,0..100,0..1&family=JetBrains+Mono:wght@400;500&display=swap">
+
+<style>
+:root{
+  --bg:        #F5F1EB;
+  --bg-2:      #FAF8F3;
+  --bg-card:   #FBF8F2;
+  --ink:       #1F1B16;
+  --ink-2:     #3A342C;
+  --ink-dim:   #6B6457;
+  --ink-mute:  #9A9385;
+  --line:      rgba(31,27,22,.08);
+  --line-2:    rgba(31,27,22,.16);
+  --clay:      #D97757;
+  --clay-2:    #BF5C3F;
+  --clay-3:    #F2C7B3;
+  --moss:      #6F8160;
+  --ochre:     #C19A4D;
+
+  --ease:      cubic-bezier(.32,.72,0,1);
+  --ease-soft: cubic-bezier(.22,1,.36,1);
+
+  --serif: "Fraunces", ui-serif, Georgia, serif;
+  --sans:  "Switzer", ui-sans-serif, system-ui, sans-serif;
+  --mono:  "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+html{font-size:16px}
+
+body{
+  min-height:100vh;
+  background-image:
+    radial-gradient(45% 35% at 12% 8%,  rgba(217,119,87,.10), transparent 65%),
+    radial-gradient(40% 35% at 92% 28%, rgba(193,154,77,.08), transparent 70%),
+    radial-gradient(50% 40% at 50% 110%,rgba(111,129,96,.06), transparent 75%);
+  padding:48px clamp(20px,4vw,56px);
+}
+
+.head{
+  max-width:1240px;margin:0 auto 36px;
+  display:flex;justify-content:space-between;align-items:flex-end;gap:32px;flex-wrap:wrap;
+}
+.head .title{
+  font-family:var(--serif);
+  font-variation-settings:"opsz" 96, "wght" 380, "SOFT" 50, "WONK" 1;
+  font-size:clamp(36px,5vw,56px);letter-spacing:-.025em;line-height:1;
+}
+.head .title em{font-style:italic;color:var(--clay-2);font-variation-settings:"opsz" 96, "wght" 380, "SOFT" 80, "WONK" 1}
+.head .sub{
+  font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--ink-dim);max-width:42ch;line-height:1.7;
+}
+
+/* mock card =================================================== */
+.mock{
+  position:relative;max-width:1240px;margin:0 auto;
+  border-radius:24px;overflow:hidden;
+  background:var(--bg-card);
+  border:1px solid var(--line-2);
+  box-shadow:0 30px 60px rgba(31,27,22,.08), 0 1px 0 rgba(255,255,255,.7) inset;
+}
+.mock .label{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:18px 24px;border-bottom:1px solid var(--line);
+  font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-dim);
+}
+.mock .label .name{display:flex;align-items:center;gap:10px;color:var(--ink-2)}
+.mock .label .live{display:inline-flex;align-items:center;gap:8px;color:var(--clay-2)}
+.mock .label .live::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--clay-2);box-shadow:0 0 10px var(--clay-2);animation:blink 1.6s var(--ease-soft) infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+
+/* stage: scatter on the left, organized panel on the right ==== */
+.stage{
+  position:relative;
+  display:grid;
+  grid-template-columns:1fr 340px;
+  min-height:640px;
+  background:linear-gradient(180deg, #FBF8F2, #F1EBDF);
+}
+@media (max-width:880px){
+  .stage{grid-template-columns:1fr;min-height:auto}
+  .stage .panel{border-left:none;border-top:1px solid var(--line)}
+}
+
+.scatter{
+  position:relative;overflow:hidden;
+  padding:24px;min-height:640px;
+}
+.scatter .hint{
+  position:absolute;left:24px;bottom:18px;
+  font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-mute);
+}
+
+/* bubbles ===================================================== */
+.b{
+  position:absolute;
+  font-family:var(--serif);font-variation-settings:"opsz" 36, "wght" 400, "SOFT" 80;
+  font-style:italic;font-size:14.5px;line-height:1.4;
+  color:var(--ink);
+  background:rgba(251,248,242,.96);
+  border:1px solid var(--line-2);
+  padding:12px 16px;border-radius:14px;
+  box-shadow:0 14px 32px rgba(31,27,22,.10), 0 1px 0 rgba(255,255,255,.7) inset;
+  max-width:280px;
+  opacity:0;transform:translateY(10px) scale(.96);
+  transition:opacity .55s ease, transform .65s var(--ease);
+  pointer-events:none;
+  z-index:2;
+}
+.b::before{
+  content:"\201C";position:absolute;top:-4px;left:10px;color:var(--clay);font-size:24px;line-height:1;
+  font-family:var(--serif);font-variation-settings:"opsz" 144, "wght" 500;
+}
+.b.in{opacity:1;transform:translateY(0) scale(1)}
+.b.out{opacity:0;transform:translateY(-6px) scale(.97)}
+
+.b .hl{
+  background:linear-gradient(180deg, transparent 60%, rgba(217,119,87,.28) 60%);
+  padding:0 3px;border-radius:2px;
+  transition:background .35s ease;
+}
+.b.morphing .hl{
+  background:linear-gradient(180deg, transparent 50%, rgba(217,119,87,.55) 50%);
+}
+
+/* explicit positions — kept inside safe area so nothing clips  */
+.b.p1{top:5%;  left:3%}
+.b.p2{top:8%;  left:46%}
+.b.p3{top:32%; left:18%}
+.b.p4{top:36%; left:54%}
+.b.p5{top:60%; left:5%}
+.b.p6{top:62%; left:44%}
+
+/* organized panel ============================================= */
+.panel{
+  border-left:1px solid var(--line);
+  background:rgba(255,255,255,.55);
+  backdrop-filter:blur(4px);
+  display:flex;flex-direction:column;
+  padding:24px 22px;gap:18px;
+}
+.panel .panel-head{
+  display:flex;justify-content:space-between;align-items:baseline;
+  padding-bottom:14px;border-bottom:1px solid var(--line);
+}
+.panel .panel-head .h{
+  font-family:var(--serif);font-variation-settings:"opsz" 36, "wght" 480;
+  font-size:18px;color:var(--ink);letter-spacing:-.01em;
+}
+.panel .panel-head .count{
+  font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-mute);
+}
+.panel .panel-head .count b{color:var(--clay-2);font-weight:500}
+
+.cat{display:flex;flex-direction:column;gap:8px}
+.cat .ch{
+  display:flex;align-items:center;justify-content:space-between;
+  font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-mute);
+}
+.cat .ch .sw{
+  display:inline-flex;align-items:center;gap:8px;
+}
+.cat .ch .sw .dot{width:7px;height:7px;border-radius:50%;background:var(--ink-mute)}
+.cat[data-cat="people"]   .ch .sw .dot{background:var(--moss)}
+.cat[data-cat="events"]   .ch .sw .dot{background:var(--clay)}
+.cat[data-cat="rules"]    .ch .sw .dot{background:var(--clay-2)}
+.cat[data-cat="processes"].ch .sw .dot{background:var(--ochre)}
+
+.cat .tags{display:flex;flex-wrap:wrap;gap:6px;min-height:28px}
+
+.tag{
+  display:inline-flex;align-items:center;gap:7px;
+  padding:5px 10px 5px 6px;border-radius:999px;
+  background:rgba(255,255,255,.95);
+  border:1px solid var(--line-2);
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.10em;text-transform:uppercase;
+  color:var(--ink-2);
+  box-shadow:0 3px 10px rgba(31,27,22,.05);
+  opacity:0;transform:translateY(-6px) scale(.92);
+  transition:opacity .45s ease, transform .55s var(--ease);
+}
+.tag.in{opacity:1;transform:translateY(0) scale(1)}
+.tag .ic{
+  width:16px;height:16px;border-radius:50%;
+  display:inline-flex;align-items:center;justify-content:center;
+  flex:none;color:#fff;background:var(--clay);
+}
+.tag .ic svg{width:10px;height:10px;stroke:currentColor;stroke-width:1.7;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.cat[data-cat="people"]    .tag .ic{background:var(--moss)}
+.cat[data-cat="events"]    .tag .ic{background:var(--clay)}
+.cat[data-cat="rules"]     .tag .ic{background:var(--clay-2)}
+.cat[data-cat="processes"] .tag .ic{background:var(--ochre)}
+
+/* notes under the mock ======================================== */
+.notes{
+  max-width:1240px;margin:32px auto 0;
+  padding:24px;border-radius:18px;
+  background:rgba(255,255,255,.5);
+  border:1px solid var(--line);
+  font-family:var(--sans);font-size:14px;line-height:1.65;color:var(--ink-2);
+}
+.notes h3{
+  font-family:var(--serif);font-variation-settings:"opsz" 36, "wght" 480;
+  font-size:18px;margin-bottom:10px;color:var(--ink);
+}
+.notes em{color:var(--clay-2);font-style:italic;font-family:var(--serif)}
+</style>
+</head>
+<body>
+
+<header class="head">
+  <div class="title">
+    Scatter, then <em>organize</em>
+  </div>
+  <div class="sub">
+    Bubbles pop up across the field. Each one decomposes &mdash;
+    its highlighted phrases land as structured tags in the captured panel.
+  </div>
+</header>
+
+<article class="mock">
+  <div class="label">
+    <span class="name">Profile Builder &middot; capture loop</span>
+    <span class="live">Recording &middot; 02:47</span>
+  </div>
+
+  <div class="stage">
+    <div class="scatter" id="scatter">
+      <!-- bubbles injected by JS -->
+      <div class="hint">ambient capture</div>
+    </div>
+
+    <aside class="panel" id="panel">
+      <div class="panel-head">
+        <div class="h">Captured</div>
+        <div class="count"><b id="countN">0</b> nodes &middot; written to brain</div>
+      </div>
+      <div class="cat" data-cat="people">
+        <div class="ch"><span class="sw"><span class="dot"></span>People</span><span id="cnt-people">0</span></div>
+        <div class="tags" id="tags-people"></div>
+      </div>
+      <div class="cat" data-cat="events">
+        <div class="ch"><span class="sw"><span class="dot"></span>Events</span><span id="cnt-events">0</span></div>
+        <div class="tags" id="tags-events"></div>
+      </div>
+      <div class="cat" data-cat="rules">
+        <div class="ch"><span class="sw"><span class="dot"></span>Rules</span><span id="cnt-rules">0</span></div>
+        <div class="tags" id="tags-rules"></div>
+      </div>
+      <div class="cat" data-cat="processes">
+        <div class="ch"><span class="sw"><span class="dot"></span>Processes</span><span id="cnt-processes">0</span></div>
+        <div class="tags" id="tags-processes"></div>
+      </div>
+    </aside>
+  </div>
+</article>
+
+<section class="notes">
+  <h3>How it reads</h3>
+  <p>
+    The left field is intentionally chaotic &mdash; speech happens everywhere, all the time.
+    The right panel is the payoff: the same words, structured, grouped, and ready to query.
+    The whole thing loops, so by mid-cycle the panel is visibly fuller than it was at the start &mdash;
+    that's the proof of <em>knowledge accumulating</em>.
+  </p>
+</section>
+
+<script>
+const ICONS = {
+  event:   '<svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4"/></svg>',
+  person:  '<svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-7 8-7s8 3 8 7"/></svg>',
+  rule:    '<svg viewBox="0 0 24 24"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7l8-4z"/></svg>',
+  process: '<svg viewBox="0 0 24 24"><path d="M4 7h12M4 12h16M4 17h10"/></svg>',
+  flow:    '<svg viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 5v4h-4"/></svg>',
+  money:   '<svg viewBox="0 0 24 24"><path d="M12 2v20M17 6H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>',
+  org:     '<svg viewBox="0 0 24 24"><path d="M3 21V7l9-4 9 4v14"/><path d="M9 21V12h6v9"/></svg>',
+  date:    '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
+};
+
+/* Each entry = one bubble that scatters in.
+   parts: text segments. hl=true means the segment becomes a tag.
+   Each tag has: label, cat (which group in the panel), icon. */
+const SCRIPT = [
+  {
+    pos: 'p1',
+    parts: [
+      {t:""},
+      {t:"Pella",          hl:true, tag:{label:"pella",       cat:"processes", icon:"org"}},
+      {t:" is changing their "},
+      {t:"wire date",      hl:true, tag:{label:"wire-date",   cat:"events",    icon:"money"}},
+      {t:" to "},
+      {t:"next week",      hl:true, tag:{label:"next-week",   cat:"events",    icon:"date"}},
+      {t:"."}
+    ]
+  },
+  {
+    pos: 'p2',
+    parts: [
+      {t:""},
+      {t:"Tom",            hl:true, tag:{label:"tom",         cat:"people",    icon:"person"}},
+      {t:" usually catches the "},
+      {t:"cash discrepancy", hl:true, tag:{label:"cash-discrepancy", cat:"rules", icon:"money"}},
+      {t:" in "},
+      {t:"audit",          hl:true, tag:{label:"audit",       cat:"processes", icon:"org"}},
+      {t:"."}
+    ]
+  },
+  {
+    pos: 'p3',
+    parts: [
+      {t:"If "},
+      {t:"compliance flags it", hl:true, tag:{label:"compliance-flag", cat:"rules", icon:"rule"}},
+      {t:", we loop in "},
+      {t:"client service", hl:true, tag:{label:"client-service", cat:"processes", icon:"org"}},
+      {t:" first."}
+    ]
+  },
+  {
+    pos: 'p4',
+    parts: [
+      {t:"Q2 we shifted the whole "},
+      {t:"pipeline mapping", hl:true, tag:{label:"pipeline-mapping", cat:"processes", icon:"flow"}},
+      {t:" &mdash; "},
+      {t:"Q2 shift",       hl:true, tag:{label:"q2-shift",    cat:"events",    icon:"event"}},
+      {t:"."}
+    ]
+  },
+  {
+    pos: 'p5',
+    parts: [
+      {t:"The "},
+      {t:"default code",   hl:true, tag:{label:"default-code",cat:"processes", icon:"process"}},
+      {t:" lives in "},
+      {t:"two places",     hl:true, tag:{label:"two-places-rule", cat:"rules", icon:"rule"}},
+      {t:" &mdash; that's the gotcha."}
+    ]
+  },
+  {
+    pos: 'p6',
+    parts: [
+      {t:"When "},
+      {t:"LM rolls over",  hl:true, tag:{label:"lm-rollover", cat:"events",    icon:"flow"}},
+      {t:", "},
+      {t:"Sarah",          hl:true, tag:{label:"sarah",       cat:"people",    icon:"person"}},
+      {t:" handles the remap."}
+    ]
+  },
+];
+
+const scatter = document.getElementById('scatter');
+const panels = {
+  people:    document.getElementById('tags-people'),
+  events:    document.getElementById('tags-events'),
+  rules:     document.getElementById('tags-rules'),
+  processes: document.getElementById('tags-processes'),
+};
+const counters = {
+  people:    document.getElementById('cnt-people'),
+  events:    document.getElementById('cnt-events'),
+  rules:     document.getElementById('cnt-rules'),
+  processes: document.getElementById('cnt-processes'),
+};
+const totalEl = document.getElementById('countN');
+
+function buildBubble(item){
+  const el = document.createElement('div');
+  el.className = `b ${item.pos}`;
+  el.innerHTML = item.parts
+    .map(p => p.hl ? `<span class="hl">${p.t}</span>` : p.t)
+    .join('');
+  return el;
+}
+
+function landTag(tag){
+  const el = document.createElement('span');
+  el.className = 'tag';
+  el.innerHTML = `<span class="ic">${ICONS[tag.icon]}</span>${tag.label}`;
+  panels[tag.cat].appendChild(el);
+  // force layout, then transition
+  requestAnimationFrame(()=> requestAnimationFrame(()=> el.classList.add('in')));
+  // bump category counter
+  const c = panels[tag.cat].querySelectorAll('.tag').length;
+  counters[tag.cat].textContent = c;
+  totalEl.textContent = parseInt(totalEl.textContent, 10) + 1;
+}
+
+function resetPanels(){
+  Object.values(panels).forEach(p => p.innerHTML = '');
+  Object.values(counters).forEach(c => c.textContent = '0');
+  totalEl.textContent = '0';
+}
+
+/* ----------------------------------------------------------
+   Loop: bubbles appear staggered. After each bubble fades,
+   its tags appear in the panel. When the cycle finishes,
+   pause briefly then reset and run again.
+   ---------------------------------------------------------- */
+const BUBBLE_LIFE  = 2600;   // bubble visible
+const STAGGER      = 1700;   // gap between bubble starts
+const HOLD_AT_END  = 3200;   // pause showing full panel
+const FADE_MS      = 600;
+
+let timers = [];
+
+function clearAllTimers(){
+  timers.forEach(t => clearTimeout(t));
+  timers = [];
+}
+
+function runCycle(){
+  clearAllTimers();
+  // remove any leftover bubbles
+  scatter.querySelectorAll('.b').forEach(b => b.remove());
+  resetPanels();
+
+  SCRIPT.forEach((item, idx)=>{
+    const start = idx * STAGGER;
+    timers.push(setTimeout(()=>{
+      const el = buildBubble(item);
+      scatter.appendChild(el);
+      requestAnimationFrame(()=> requestAnimationFrame(()=> el.classList.add('in')));
+
+      // mid-life: pulse highlights to signal "morphing"
+      timers.push(setTimeout(()=> el.classList.add('morphing'), BUBBLE_LIFE - 800));
+
+      // end of life: fade out + land tags into panel
+      timers.push(setTimeout(()=>{
+        el.classList.remove('in');
+        el.classList.add('out');
+        // land tags one by one
+        const tags = item.parts.filter(p=>p.hl).map(p=>p.tag);
+        tags.forEach((tg, i) => {
+          timers.push(setTimeout(()=> landTag(tg), i * 140));
+        });
+        timers.push(setTimeout(()=> el.remove(), FADE_MS + 200));
+      }, BUBBLE_LIFE));
+    }, start));
+  });
+
+  // schedule next cycle
+  const total = (SCRIPT.length - 1) * STAGGER + BUBBLE_LIFE + HOLD_AT_END;
+  timers.push(setTimeout(runCycle, total));
+}
+
+runCycle();
+</script>
+</body>
+</html>

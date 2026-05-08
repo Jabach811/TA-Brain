@@ -1,0 +1,9 @@
+# Incentive Compensation – Direct Sales Process
+
+## Overview
+- Monthly incentive compensation workflow.
+
+## Key Controls
+- Manual calculations and reviews
+- Management approvals
+- Restricted system access

@@ -1,6 +1,6 @@
 ---
 title: "EDS"
-type: entity
+type: system
 tags: [system, file-processing, validation]
 created: 2026-04-14
 updated: 2026-04-14
@@ -49,7 +49,7 @@ Every EDS run produces output emails and/or logs. These **must be read carefully
 2. DC receives test file from payroll vendor
 3. DC validates file in EDS — reviews output
 4. If issues: feedback to vendor → new test file → repeat
-5. Once clean: DC sends file to [[internal-teams|Payroll Support Team]] for deeper validation
+5. Once clean: DC sends file to [[payroll-support|Payroll Support Team]] for deeper validation
 6. Payroll Support runs in live-equivalent environment, catches different errors
 7. Green light from Payroll Support → payroll setup complete
 
@@ -73,4 +73,3 @@ Yes — **many layouts can be set up per plan simultaneously**. Each data type (
 - [[payroll-template]]
 - [[base-file]]
 - [[final-files-processing]]
-- [[internal-teams]]

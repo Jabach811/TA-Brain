@@ -1,6 +1,6 @@
 ---
 title: "Subpack — Submission Package"
-type: concept
+type: document
 tags: [document, subpack, submission, transamerica-details]
 created: 2026-04-14
 updated: 2026-04-14
@@ -59,5 +59,4 @@ Not a blocker. The information exists somewhere — in the [[prd]], [[onboarding
 - [[prd]]
 - [[onboarding-package]]
 - [[conversion-types]]
-- [[internal-teams]]
 - [[dc-onboarding-workflow]]

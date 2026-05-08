@@ -1,10 +1,10 @@
 ---
 title: "Source Mapping"
-type: concept
+type: document
 tags: [mapping, sources, aqt, test-files, conversion]
 created: 2026-04-14
-updated: 2026-04-14
-sources: 2
+updated: 2026-05-03
+sources: 3
 ---
 
 # Source Mapping
@@ -22,6 +22,15 @@ Only map sources that actually have money — sourced from test file summaries. 
 **As soon as test files arrive from the prior record keeper.** Unlike [[fund-mapping]], source mapping requires test files because you need to know which sources actually have balances.
 
 > Get source mapping done ASAP after test files arrive. This is a blocking dependency for QA and TC to do their part. Don't sit on it.
+
+## Test Files vs. Final Files
+
+Source mapping is finalized in two passes:
+
+1. **Test files** — first pass. Map every source that has a balance on the test file. Don't bother with empty sources.
+2. **Final files** — confirm every test-file source is still present and add any **new** sources that appear. Late-arriving sources need to be added immediately so the balance import doesn't fail on an unmapped source.
+
+Sources that show up only on final files are common — get them in fast, re-route through QA/TC/COM for sign-off, and move on.
 
 ## Process
 
@@ -41,6 +50,8 @@ Only map sources that actually have money — sourced from test file summaries. 
 | Prior vendor source description/name | Test file |
 | TA Source ID | AQT query |
 | Total balance | Test file summary |
+
+![Source mapping table — prior vendor source codes mapped to TA Source IDs with test-file totals.](SS/Source Mapping.jpg)
 
 ## AQT
 
@@ -75,4 +86,3 @@ The specific AQT query for source IDs is too complex to document here — it wil
 - [[prior-record-keeper]]
 - [[conversion-types]]
 - [[dc-onboarding-workflow]]
-- [[internal-teams]]

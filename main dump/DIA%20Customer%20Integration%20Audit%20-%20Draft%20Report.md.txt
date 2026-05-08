@@ -1,0 +1,8 @@
+# DIA Customer Integration Audit – Draft Report
+
+## Purpose
+- Evaluate customer integration control environment.
+
+## Findings
+- Access to sensitive participant data
+- Conversion risk mitigation controls

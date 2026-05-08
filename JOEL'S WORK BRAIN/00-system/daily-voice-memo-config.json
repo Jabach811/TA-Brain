@@ -1,0 +1,30 @@
+{
+  "status": "local-drive-paths-configured",
+  "drive_intake_folder_url": "",
+  "drive_outbox_folder_url": "",
+  "local_drive_intake_path": "G:\\My Drive\\Codex Brain Dumps",
+  "local_drive_outbox_path": "G:\\My Drive\\Codex Output",
+  "notification_email": "jabach811@gmail.com",
+  "local_inbox_path": "00-inbox",
+  "daily_run_preference": "after-work-before-next-day",
+  "default_run_time_local": "18:30",
+  "timezone": "America/Los_Angeles",
+  "input_naming_convention": "YYYY-MM-DD_HHMM_work-brain_voice-memo_###.ext",
+  "transcript_requirement": "Readable text is required before ingest. Audio-only files should be captured and flagged as needs-transcript.",
+  "visual_reference_folder": "C:\\Users\\mabac\\.codex\\generated_images\\019df9f9-d220-7ed1-99dd-7c24f4bc3321",
+  "visual_packaging_script": "00-system/package-automation-visual-pngs.ps1",
+  "visual_packaging_rule": "Generate two new current-run raster poster PNGs using the canonical reference folder, then package those generated files only; never use old copied references or code-drawn approximations for current-run reports.",
+  "daily_rundown_reference_png": "ig_04da2c11e31614000169fa68cd9ce88198bbaa05d1b98495dc.png",
+  "daily_rundown_reference_label": "daily-work-map.png",
+  "open_items_reference_png": "ig_04da2c11e31614000169fa6b012a2881989624dad99798fb75.png",
+  "open_items_reference_label": "open-reminder-snapshot.png",
+  "outbound_files": [
+    "daily-rundown-png",
+    "open-items-png",
+    "dated-daily-rundown-png",
+    "dated-open-items-png",
+    "daily-rundown-md",
+    "brief-sheet-source-md",
+    "visual-report-image-when-available"
+  ]
+}

@@ -1,0 +1,9 @@
+# Data Consultant – New Business Process
+
+## Role
+- Coordinate data and asset conversion.
+
+## Key Responsibilities
+- File transformation and reconciliation
+- EDS uploads
+- Audit package preparation

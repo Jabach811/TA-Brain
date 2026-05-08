@@ -1,10 +1,10 @@
 ---
 title: "Fund Management Calendar"
-type: concept
+type: reference
 tags: [fund-management-calendar, trades, cutoff, liquidation, critical, fmc]
 created: 2026-04-14
-updated: 2026-04-15
-sources: 3
+updated: 2026-05-03
+sources: 4
 ---
 
 # Fund Management Calendar
@@ -66,6 +66,30 @@ If the wire does not arrive by cut-off and the FMC is moved to the next business
 | Participant Balance Processing | No (see note below) |
 | Transfer In Kind — Day of Wire | No (shares only, no trades) |
 | Transfer In Kind — balance posting | No |
+| AE interest distribution, dividends, uncashed checks, other small late cash | No — small-money exclusion (see below) |
+
+## Cash Conversion: Three Trading Events
+
+For a cash conversion, the FMC has to capture **three separate trading events** across different days — not just one. Forgetting any of them is the same problem as not entering anything at all.
+
+| Event | Trades? | Day | FMC Entry Required |
+|-------|---------|-----|--------------------|
+| Wire booked → Advanced Employer purchase | Yes (AE buy) | Liquidation Day | Yes |
+| AE liquidation (final files arrive) | Yes (AE sell) | Final Files Day | Yes |
+| Subsequent fund purchases (participant balances post) | Yes (fund buys) | Same as AE liquidation, or shortly after | Yes |
+
+Each event is a real trade hitting fund companies. Each one needs its own FMC entry on the right day.
+
+## Small-Money Exclusion
+
+Not every cash movement requires an FMC entry. The rule is **big money only**. The following do **not** need FMC entries:
+
+- AE interest distributions (see [[subsequent-cash-imports]])
+- Trailing dividends from prior-RK funds
+- Uncashed check reissues
+- Any other small late-arriving cash applied to participants
+
+The threshold is judgment-based, not a hard dollar number. If it would make a fund company raise an eyebrow when the trade hit, it goes on the FMC.
 
 **Participant Balance Processing (special case):** No FMC action for the Day of Wire / initial wire step. However, when participant balance posting is run via the Informatica Balance Workflow, the FMC **must be updated with the FMC Estimate from the Informatica Balance Workflow output by 4:00 PM** on the day of processing. If Vanguard (VG) funds are involved, this must be done by **2:00 PM EST** — or approval must be obtained from Rich Lippoth via email (followed up by IM or phone).
 
@@ -114,6 +138,21 @@ The FMC is a shared file and gets locked when multiple people access it simultan
 3. Update the file as soon as access is restored
 
 > The email provides the information to internal teams even when the file cannot be updated.
+
+## Trade-Slip Notification Groups
+
+Separate from the four FMC update addresses above, there are **three internal email groups** used to notify when trades are not going as planned — for example, when the FMC couldn't be updated in time, when a wire didn't arrive that was expected, or when something has to push to the next day.
+
+> **Placeholder — fill in actual addresses:**
+> - `<TRADE-SLIP-LIST-1@transamerica.com>`
+> - `<TRADE-SLIP-LIST-2@transamerica.com>`
+> - `<TRADE-SLIP-LIST-3@transamerica.com>`
+
+Standard wording is short:
+
+> "Heads up — I had trades for [Plan Name] expected today but [the wire didn't arrive / I couldn't access the FMC / etc.]. I'll handle it tomorrow when [condition] is resolved. Will update FMC then."
+
+This is distinct from the FMC update emails — those announce trades; the trade-slip emails announce *non-trades* or *delayed* trades.
 
 ## Core Rule on Timing
 

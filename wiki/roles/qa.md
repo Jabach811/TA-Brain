@@ -50,7 +50,6 @@ QA provides a verification layer on data imported during conversions. They audit
 ## See Also
 
 - [[lm-dc]]
-- [[internal-teams]]
 - [[fund-mapping]]
 - [[source-mapping]]
 - [[eligibility-and-deferrals]]

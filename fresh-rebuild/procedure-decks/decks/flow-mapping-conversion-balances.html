@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mapping Conversion Balances - Excalidraw Flow Deck</title>
+  <link rel="stylesheet" href="../assets/deck-styles.css">
+  <style>:root { --procedure-accent: #5b6f94; }</style>
+</head>
+<body class="flow-page">
+  <header class="deck-nav">
+    <a href="../index.html">Procedure decks</a>
+    <span>Mapping Conversion Balances</span>
+    <span>Excalidraw</span>
+  </header>
+  <main class="deck flow" data-deck>
+    <section class="slide flow-title">
+      <div class="title-grid">
+        <div>
+          <div class="sketch-tag">Balances / Excalidraw flow</div>
+          <h1>Mapping Conversion Balances</h1>
+          <p>Use CONV and a dummy participant to hold fund-level purchases until final records arrive.</p>
+        </div>
+        <figure class="title-art sketch-art"><img src="../assets/icons/mapping-conversion-balances.png" alt=""></figure>
+      </div>
+      <div class="sketch-route"><div class="flow-node"><b>1</b><span>Create the dummy participant before running the mapping workflow.</span></div><div class="flow-node"><b>2</b><span>Build the CONV file with case number, prior fund code, TA fund code, ref number, amount, and TIK indicator N.</span></div><div class="flow-node"><b>3</b><span>Run the day-of-wire workflow to load fund-level detail to the dummy participant.</span></div><div class="flow-node"><b>4</b><span>Process in P3 using batch no-hold and process immediate so trades go out.</span></div><div class="flow-node"><b>5</b><span>When final files arrive, run CIT balance with cash conversion wire set to N.</span></div><div class="flow-node"><b>6</b><span>Reverse the dummy participant in P3 ROC so only real participant balances remain.</span></div></div>
+    </section>
+<section class="slide image-slide sketch-image-slide">
+      <div class="sketch-tag">Generated whiteboard</div>
+      <h2>Multi-branch visual route</h2>
+      <figure class="image-frame sketch-frame"><img src="../assets/flow-balance-branches-detail.png" alt=""></figure>
+    </section>
+<section class="slide branch-slide">
+      <div class="sketch-tag">Branch map</div>
+      <h2>Decisions that change the route</h2>
+      <div class="branch-board"><div class="diamond"><span>1</span><p>Is the dummy participant loaded before workflow execution?</p></div><div class="diamond"><span>2</span><p>Are ref numbers present in fund mapping?</p></div><div class="diamond"><span>3</span><p>Is the cash-conversion parameter set to N?</p></div><div class="diamond"><span>4</span><p>Do participant balances match the original fund-level purchases?</p></div></div>
+    </section>
+<section class="slide swimlane-slide">
+      <div class="sketch-tag">Swimlane</div>
+      <h2>Inputs -> action -> output</h2>
+      <div class="swimlane">
+        <div class="lane-head">Input</div><div class="lane-head">Action</div><div class="lane-head">Output</div>
+        <div><p>CONV file</p><p>Fund mapping file</p><p>P3 ref numbers</p><p>Dummy participant</p></div>
+        <div><p>Create the dummy participant before running the mapping workflow.</p><p>Build the CONV file with case number, prior fund code, TA fund code, ref number, amount, and TIK indicator N.</p><p>Run the day-of-wire workflow to load fund-level detail to the dummy participant.</p><p>Process in P3 using batch no-hold and process immediate so trades go out.</p></div>
+        <div><p>Dummy participant fund-level balances</p><p>Real participant balance records</p><p>ROC dummy reversal</p><p>Final transaction detail</p></div>
+      </div>
+    </section>
+<section class="slide systems-slide">
+      <div class="sketch-tag">System boxes</div>
+      <h2>Where the work happens</h2>
+      <div class="systems-map"><div class="system-box">Informatica day-of-wire workflow</div><div class="system-box">P3</div><div class="system-box">ROC</div><div class="system-box">CIT balance workflow</div></div>
+    </section>
+<section class="slide sticky-slide">
+      <div class="sketch-tag">Sticky notes</div>
+      <h2>Do not miss these</h2>
+      <div class="sticky-grid"><article class="sticky-note">The dummy participant SSN is 999-00-0000.</article><article class="sticky-note">If the dummy participant is missing, the workflow can be painful to untangle.</article><article class="sticky-note">Mapping uses the ref numbers from the fund mapping file, not a single cash wire ref number.</article></div>
+    </section>
+<section class="slide finish-slide">
+      <div class="sketch-tag">Done means done</div>
+      <h2>Closeout checklist</h2>
+      <div class="finish-list"><label><input type="checkbox"> Dummy loaded</label><label><input type="checkbox"> Day-of-wire workflow processed</label><label><input type="checkbox"> CIT balance processed</label><label><input type="checkbox"> Dummy reversed</label><label><input type="checkbox"> Transaction detail verified</label></div>
+    </section>
+  </main>
+  <div class="deck-controls">
+    <button type="button" data-prev>Prev</button>
+    <span data-progress>1 / 7</span>
+    <button type="button" data-next>Next</button>
+  </div>
+  <script src="../assets/deck-player.js"></script>
+</body>
+</html>

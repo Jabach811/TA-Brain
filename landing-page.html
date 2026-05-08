@@ -1,0 +1,984 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>TA Brain · A Second Brain for the Whole Company</title>
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="description" content="Two systems. One connected mind. TA Brain + Profile Builder turn a few minutes of natural speech into living, interconnected intelligence the whole company can use." />
+
+<!-- Premium type from Fontshare (Clash Display + General Sans) + Google Fonts (JetBrains Mono accents) -->
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=clash-display@500,600,700&f[]=general-sans@400,500,600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap">
+
+<style>
+/* ============================================================
+   TA BRAIN — One-page landing
+   Aesthetic: Ethereal Glass · OLED black · violet + electric-blue mesh
+   Layout:    Asymmetrical Bento + Z-axis cascades, section-by-section
+   Motion:    Custom cubic-beziers · IntersectionObserver reveals
+   ============================================================ */
+
+:root{
+  --bg:        #050507;
+  --bg-2:      #0a0a10;
+  --bg-3:      #11111a;
+  --ink:       #f4f3ee;
+  --ink-dim:   #a8a6b8;
+  --ink-mute:  #5b596d;
+  --line:      rgba(255,255,255,.08);
+  --line-2:    rgba(255,255,255,.14);
+  --violet:    #a277ff;
+  --violet-2:  #7c4dff;
+  --azure:     #7aa2f7;
+  --cyan:      #5eead4;
+  --amber:     #f5c97b;
+  --rose:      #ff7eb6;
+  --grad-brand: linear-gradient(100deg,#a277ff 0%, #7aa2f7 55%, #5eead4 100%);
+  --grad-text:  linear-gradient(180deg,#ffffff 0%, #c8c3df 100%);
+  --grad-faint: linear-gradient(180deg,rgba(162,119,255,.08), rgba(122,162,247,.02));
+  --ease:      cubic-bezier(.32,.72,0,1);
+  --ease-soft: cubic-bezier(.22,1,.36,1);
+  --display:   "Clash Display", ui-sans-serif, system-ui, sans-serif;
+  --sans:      "General Sans", ui-sans-serif, system-ui, sans-serif;
+  --mono:      "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;scroll-behavior:smooth}
+html{font-size:16px}
+body{overflow-x:hidden;letter-spacing:-0.005em}
+::selection{background:rgba(162,119,255,.35);color:#fff}
+img,svg{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+
+/* fixed background field — radial mesh + film grain */
+.bg-field{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.bg-field::before{
+  content:"";position:absolute;inset:-20%;
+  background:
+    radial-gradient(60% 50% at 18% 12%, rgba(162,119,255,.22), transparent 60%),
+    radial-gradient(50% 40% at 92% 22%, rgba(122,162,247,.18), transparent 65%),
+    radial-gradient(40% 35% at 50% 110%, rgba(94,234,212,.10), transparent 70%),
+    radial-gradient(80% 60% at 80% 80%, rgba(124,77,255,.10), transparent 70%);
+  filter:saturate(1.15);
+  animation:drift 38s var(--ease-soft) infinite alternate;
+}
+.bg-field::after{
+  content:"";position:absolute;inset:0;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .55 0'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='.5'/></svg>");
+  opacity:.06; mix-blend-mode:overlay;
+}
+@keyframes drift{
+  0%   {transform:translate3d(0,0,0) rotate(0deg)}
+  100% {transform:translate3d(-3%,-2%,0) rotate(2deg)}
+}
+
+/* lightweight scanlines on hero canvas only */
+.scan{position:absolute;inset:0;background:repeating-linear-gradient(180deg, rgba(255,255,255,.012) 0 1px, transparent 1px 3px);pointer-events:none}
+
+/* layout containers */
+main{position:relative;z-index:1}
+.section{position:relative;padding:clamp(96px,14vw,200px) clamp(20px,5vw,72px);max-width:1440px;margin:0 auto}
+.section-tight{padding:clamp(72px,10vw,140px) clamp(20px,5vw,72px)}
+
+/* eyebrow tag (per design system) */
+.eyebrow{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:6px 12px 6px 10px;
+  border:1px solid var(--line-2);
+  border-radius:999px;
+  font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--ink-dim);
+  background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.01));
+  backdrop-filter:blur(8px);
+}
+.eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--violet);box-shadow:0 0 12px var(--violet)}
+
+/* display headings */
+h1,h2,h3{font-family:var(--display);font-weight:600;letter-spacing:-0.03em;line-height:.98}
+h1{font-size:clamp(56px,9vw,144px);letter-spacing:-0.045em;line-height:.92}
+h2{font-size:clamp(42px,6.4vw,96px)}
+h3{font-size:clamp(22px,2.4vw,32px);letter-spacing:-0.02em;line-height:1.05}
+
+.text-grad{background:var(--grad-text);-webkit-background-clip:text;background-clip:text;color:transparent}
+.brand-grad{background:var(--grad-brand);-webkit-background-clip:text;background-clip:text;color:transparent}
+
+p.lead{font-size:clamp(17px,1.4vw,21px);line-height:1.55;color:var(--ink-dim);max-width:60ch}
+p.body{font-size:15px;line-height:1.6;color:var(--ink-dim)}
+
+/* ===== Reveal system ===== */
+.r{opacity:0;transform:translate3d(0,28px,0);filter:blur(8px);transition:opacity 1.1s var(--ease), transform 1.1s var(--ease), filter 1.1s var(--ease)}
+.r.in{opacity:1;transform:none;filter:none}
+.r-d1{transition-delay:.08s} .r-d2{transition-delay:.16s} .r-d3{transition-delay:.24s} .r-d4{transition-delay:.32s} .r-d5{transition-delay:.40s} .r-d6{transition-delay:.48s}
+
+/* ============================================================
+   NAV — Floating glass island
+   ============================================================ */
+.nav{
+  position:fixed;top:18px;left:50%;transform:translateX(-50%);
+  z-index:80;display:flex;align-items:center;gap:8px;
+  padding:8px 8px 8px 18px;
+  border:1px solid var(--line-2);
+  border-radius:999px;
+  background:rgba(10,10,16,.55);
+  backdrop-filter:blur(22px) saturate(140%);
+  -webkit-backdrop-filter:blur(22px) saturate(140%);
+  box-shadow:0 18px 50px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.06);
+  transition:transform .8s var(--ease), opacity .8s var(--ease);
+}
+.nav .brand{font-family:var(--display);font-weight:600;font-size:15px;letter-spacing:-.02em;display:flex;align-items:center;gap:10px}
+.nav .brand .glyph{width:18px;height:18px;border-radius:6px;background:var(--grad-brand);box-shadow:0 0 16px rgba(162,119,255,.55)}
+.nav ul{display:flex;list-style:none;gap:2px;padding:0 6px;margin:0 6px;border-left:1px solid var(--line-2);border-right:1px solid var(--line-2)}
+.nav ul a{padding:8px 12px;font-size:13px;color:var(--ink-dim);border-radius:999px;transition:color .4s var(--ease), background .4s var(--ease)}
+.nav ul a:hover{color:#fff;background:rgba(255,255,255,.05)}
+.nav .cta{
+  display:inline-flex;align-items:center;gap:10px;
+  background:#fff;color:#0a0a10;padding:8px 6px 8px 14px;border-radius:999px;
+  font-size:13px;font-weight:500;
+  transition:transform .5s var(--ease);
+}
+.nav .cta .arrow{
+  width:28px;height:28px;border-radius:999px;background:#0a0a10;color:#fff;
+  display:inline-flex;align-items:center;justify-content:center;
+  transition:transform .5s var(--ease);
+}
+.nav .cta:hover{transform:scale(.98)}
+.nav .cta:hover .arrow{transform:translate(2px,-1px) scale(1.05)}
+
+@media (max-width:780px){
+  .nav ul{display:none}
+  .nav{padding:6px 6px 6px 14px}
+}
+
+/* ============================================================
+   1. HERO
+   ============================================================ */
+.hero{position:relative;min-height:100dvh;padding:clamp(140px,20vh,200px) clamp(20px,5vw,72px) clamp(80px,10vh,120px);display:flex;flex-direction:column;justify-content:center;overflow:hidden;max-width:1440px;margin:0 auto}
+.hero-canvas{position:absolute;inset:0;z-index:0}
+.hero-canvas canvas{width:100%;height:100%;display:block}
+.hero-inner{position:relative;z-index:2}
+
+.hero h1 .ln{display:block;overflow:hidden}
+.hero h1 .ln span{display:inline-block;transform:translateY(110%);transition:transform 1.4s var(--ease)}
+.hero.in h1 .ln span{transform:none}
+.hero h1 .ln:nth-child(2) span{transition-delay:.12s}
+.hero h1 .ln:nth-child(3) span{transition-delay:.24s}
+
+.hero .sub{display:flex;flex-wrap:wrap;align-items:flex-end;gap:36px;margin-top:36px}
+.hero .sub p{max-width:48ch}
+
+.hero .cluster{display:flex;gap:14px;flex-wrap:wrap;margin-top:42px}
+.btn{
+  position:relative;display:inline-flex;align-items:center;gap:14px;
+  padding:14px 8px 14px 22px;border-radius:999px;
+  font-size:14px;letter-spacing:.005em;font-weight:500;
+  transition:transform .55s var(--ease);
+}
+.btn .arrow{
+  width:34px;height:34px;border-radius:999px;
+  display:inline-flex;align-items:center;justify-content:center;
+  transition:transform .55s var(--ease), background .55s var(--ease);
+}
+.btn:hover{transform:scale(.985)}
+.btn:hover .arrow{transform:translate(3px,-2px) scale(1.06)}
+.btn-primary{background:#fff;color:#0a0a10}
+.btn-primary .arrow{background:#0a0a10;color:#fff}
+.btn-ghost{background:rgba(255,255,255,.04);color:#fff;border:1px solid var(--line-2)}
+.btn-ghost .arrow{background:rgba(255,255,255,.06);color:#fff;border:1px solid var(--line-2)}
+.btn svg{width:14px;height:14px}
+
+/* hero meta strip at bottom */
+.hero-meta{position:relative;z-index:2;margin-top:auto;padding-top:80px;display:grid;grid-template-columns:repeat(4,1fr);gap:24px;border-top:1px solid var(--line)}
+.hero-meta .cell{padding:24px 0}
+.hero-meta .k{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-mute);margin-bottom:10px}
+.hero-meta .v{font-family:var(--display);font-weight:500;font-size:clamp(20px,2vw,28px);letter-spacing:-.02em;color:var(--ink)}
+.hero-meta .v small{font-family:var(--sans);font-size:13px;color:var(--ink-dim);margin-left:6px;font-weight:400}
+@media (max-width:780px){.hero-meta{grid-template-columns:repeat(2,1fr)}}
+
+/* ============================================================
+   2. PROBLEM — Disconnected
+   ============================================================ */
+.problem{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(32px,6vw,96px);align-items:center}
+@media (max-width:900px){.problem{grid-template-columns:1fr}}
+
+.silo-grid{
+  position:relative;
+  display:grid;grid-template-columns:repeat(3,1fr);grid-auto-rows:120px;gap:14px;
+  perspective:1200px;
+}
+.silo{
+  position:relative;
+  border-radius:18px;
+  background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.01));
+  border:1px solid var(--line);
+  padding:14px 16px;
+  display:flex;flex-direction:column;justify-content:space-between;
+  font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-mute);
+  transition:transform .9s var(--ease), border-color .9s var(--ease);
+  overflow:hidden;
+}
+.silo::before{content:"";position:absolute;inset:0;background:radial-gradient(120% 80% at 0% 0%, rgba(255,255,255,.05), transparent 60%);pointer-events:none}
+.silo .lock{font-family:var(--display);font-weight:600;font-size:24px;letter-spacing:-.02em;color:var(--ink);text-transform:none}
+.silo:nth-child(1){transform:rotate(-3deg) translateY(8px)}
+.silo:nth-child(2){transform:rotate(2deg)}
+.silo:nth-child(3){transform:rotate(-1deg) translateY(-6px)}
+.silo:nth-child(4){transform:rotate(1deg) translateY(4px)}
+.silo:nth-child(5){transform:rotate(-2deg)}
+.silo:nth-child(6){transform:rotate(3deg) translateY(-8px)}
+.silo:hover{border-color:var(--line-2);transform:translateY(-4px) rotate(0deg)}
+
+@media (max-width:600px){.silo-grid{grid-template-columns:repeat(2,1fr)}}
+
+/* ============================================================
+   3. TWO SYSTEMS — Bento
+   ============================================================ */
+.two-systems{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:64px}
+@media (max-width:900px){.two-systems{grid-template-columns:1fr}}
+
+.bezel{
+  padding:8px;border-radius:32px;
+  background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.015));
+  border:1px solid var(--line-2);
+  box-shadow:0 30px 80px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.05);
+}
+.bezel-inner{
+  position:relative;border-radius:calc(32px - 8px);overflow:hidden;
+  background:linear-gradient(180deg,#0c0c14, #07070c);
+  border:1px solid var(--line);
+  box-shadow:inset 0 1px 1px rgba(255,255,255,.05);
+  min-height:520px;display:flex;flex-direction:column;
+}
+
+.system-card .head{padding:30px 30px 24px;display:flex;justify-content:space-between;align-items:flex-start;gap:24px}
+.system-card .head .name{font-family:var(--display);font-weight:600;font-size:28px;letter-spacing:-.02em}
+.system-card .head .name small{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-mute);font-weight:400;margin-bottom:8px}
+.system-card .badge{font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--cyan);padding:4px 10px;border:1px solid rgba(94,234,212,.3);border-radius:999px;background:rgba(94,234,212,.05)}
+
+.system-card p.body{padding:0 30px}
+
+.system-card .vis{flex:1;position:relative;margin:24px 30px 30px;border-radius:18px;overflow:hidden;background:radial-gradient(120% 100% at 50% 0%, rgba(162,119,255,.10), transparent 60%), #07070c;border:1px solid var(--line)}
+
+/* TA Brain mini constellation */
+.constellation-mini{position:absolute;inset:0}
+
+/* Profile builder waveform */
+.waveform{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:4px}
+.waveform .bar{width:4px;border-radius:4px;background:linear-gradient(180deg,var(--violet),var(--azure));animation:wave 1.6s var(--ease-soft) infinite}
+@keyframes wave{
+  0%,100%{height:12%}
+  50%{height:80%}
+}
+
+.system-card .row{padding:0 30px 24px;display:flex;flex-wrap:wrap;gap:8px}
+.chip{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-dim);padding:5px 10px;border-radius:999px;background:rgba(255,255,255,.04);border:1px solid var(--line)}
+
+/* ============================================================
+   4. SPEAK NATURALLY — Voice → everything
+   ============================================================ */
+.speak{display:grid;grid-template-columns:.85fr 1.15fr;gap:clamp(32px,6vw,96px);align-items:center}
+@media (max-width:900px){.speak{grid-template-columns:1fr}}
+
+.voice-stage{
+  position:relative;aspect-ratio:1/1;max-width:560px;margin:0 auto;
+  border-radius:32px;overflow:hidden;
+  background:radial-gradient(circle at 50% 50%, rgba(162,119,255,.25), transparent 60%), #07070c;
+  border:1px solid var(--line-2);
+  box-shadow:0 40px 100px rgba(0,0,0,.6), inset 0 1px 0 rgba(255,255,255,.06);
+}
+.voice-stage .rings{position:absolute;inset:0;display:grid;place-items:center}
+.voice-stage .ring{position:absolute;border:1px solid rgba(162,119,255,.25);border-radius:50%;animation:ring 4s var(--ease-soft) infinite}
+.voice-stage .ring:nth-child(1){width:18%;height:18%}
+.voice-stage .ring:nth-child(2){width:36%;height:36%;animation-delay:.4s}
+.voice-stage .ring:nth-child(3){width:54%;height:54%;animation-delay:.8s}
+.voice-stage .ring:nth-child(4){width:72%;height:72%;animation-delay:1.2s}
+.voice-stage .ring:nth-child(5){width:90%;height:90%;animation-delay:1.6s}
+@keyframes ring{
+  0%{opacity:.05;transform:scale(.9)}
+  50%{opacity:.6}
+  100%{opacity:0;transform:scale(1.05)}
+}
+.voice-stage .core{
+  width:96px;height:96px;border-radius:50%;
+  background:radial-gradient(circle at 35% 35%, #fff, var(--violet) 60%, var(--violet-2) 100%);
+  box-shadow:0 0 80px rgba(162,119,255,.6), inset 0 0 30px rgba(255,255,255,.4);
+  position:relative;z-index:2;
+}
+.voice-stage .label{position:absolute;bottom:24px;left:24px;right:24px;display:flex;justify-content:space-between;align-items:end;font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-dim)}
+.voice-stage .label .rec{display:flex;align-items:center;gap:8px;color:var(--rose)}
+.voice-stage .label .rec::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--rose);box-shadow:0 0 12px var(--rose);animation:blink 1.6s var(--ease-soft) infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+
+.speak-steps{display:flex;flex-direction:column;gap:14px;margin-top:42px}
+.step{
+  display:grid;grid-template-columns:auto 1fr auto;gap:18px;align-items:center;
+  padding:18px 22px;border-radius:18px;
+  background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.01));
+  border:1px solid var(--line);
+  transition:transform .6s var(--ease), border-color .6s var(--ease), background .6s var(--ease);
+}
+.step:hover{transform:translateX(4px);border-color:var(--line-2);background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.02))}
+.step .n{font-family:var(--display);font-weight:500;font-size:22px;color:var(--violet);width:36px}
+.step .t{font-family:var(--display);font-weight:500;font-size:18px;letter-spacing:-.01em;color:#fff}
+.step .t small{display:block;font-family:var(--sans);font-weight:400;font-size:13.5px;color:var(--ink-dim);margin-top:4px;letter-spacing:0}
+.step .time{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-mute)}
+
+/* ============================================================
+   5. INTERCONNECTIVITY — full network canvas
+   ============================================================ */
+.network{position:relative;border-radius:32px;overflow:hidden;background:linear-gradient(180deg,#0a0a12,#06060b);border:1px solid var(--line-2);min-height:680px;margin-top:64px}
+.network canvas{position:absolute;inset:0;width:100%;height:100%}
+.network .legend{position:absolute;left:28px;bottom:28px;right:28px;display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:24px;z-index:2}
+.legend .keys{display:flex;flex-wrap:wrap;gap:16px}
+.legend .key{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-dim)}
+.legend .key .sw{width:10px;height:10px;border-radius:3px}
+.legend .quote{font-family:var(--display);font-weight:500;font-size:clamp(18px,1.6vw,22px);letter-spacing:-.015em;max-width:42ch;color:#fff;line-height:1.25}
+
+.dept-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:14px;margin-top:36px}
+@media (max-width:900px){.dept-grid{grid-template-columns:repeat(3,1fr)}}
+@media (max-width:520px){.dept-grid{grid-template-columns:repeat(2,1fr)}}
+.dept{
+  position:relative;padding:18px 16px;border-radius:14px;
+  background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.01));
+  border:1px solid var(--line);
+  font-family:var(--display);font-weight:500;font-size:15px;letter-spacing:-.01em;
+  display:flex;flex-direction:column;justify-content:space-between;min-height:96px;
+  transition:transform .5s var(--ease), border-color .5s var(--ease), background .5s var(--ease);
+}
+.dept small{font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-mute);font-weight:400;margin-bottom:auto}
+.dept:hover{transform:translateY(-3px);border-color:var(--violet);background:linear-gradient(180deg,rgba(162,119,255,.08),rgba(255,255,255,.01))}
+
+/* ============================================================
+   6. CUSTOM DEMAND REPORTS — terminal/report mock
+   ============================================================ */
+.report-stage{display:grid;grid-template-columns:.95fr 1.05fr;gap:clamp(32px,5vw,72px);align-items:center;margin-top:56px}
+@media (max-width:900px){.report-stage{grid-template-columns:1fr}}
+
+.terminal{
+  border-radius:24px;overflow:hidden;
+  background:linear-gradient(180deg,#0c0c14,#07070c);
+  border:1px solid var(--line-2);
+  box-shadow:0 40px 100px rgba(0,0,0,.6), inset 0 1px 0 rgba(255,255,255,.05);
+}
+.terminal .bar{display:flex;align-items:center;gap:8px;padding:12px 16px;border-bottom:1px solid var(--line);background:rgba(255,255,255,.02)}
+.terminal .bar .dot{width:10px;height:10px;border-radius:50%}
+.terminal .bar .dot.r{background:#ff5f57}.terminal .bar .dot.y{background:#febc2e}.terminal .bar .dot.g{background:#28c840}
+.terminal .bar .file{margin-left:14px;font-family:var(--mono);font-size:12px;color:var(--ink-mute)}
+.terminal .body-t{padding:22px 24px;font-family:var(--mono);font-size:13px;line-height:1.85;color:var(--ink-dim);min-height:380px}
+.terminal .body-t .you{color:#fff}
+.terminal .body-t .ai{color:var(--violet)}
+.terminal .body-t .ok{color:var(--cyan)}
+.terminal .body-t .dim{color:var(--ink-mute)}
+.terminal .body-t .caret{display:inline-block;width:8px;height:14px;background:var(--violet);margin-left:2px;vertical-align:-2px;animation:caret 1s steps(1) infinite}
+@keyframes caret{50%{opacity:0}}
+
+.report-stage .copy h2{margin-bottom:18px}
+.report-stage .copy p.lead{margin-bottom:24px}
+
+.feature-list{margin-top:28px;display:grid;grid-template-columns:1fr 1fr;gap:18px 28px}
+@media (max-width:600px){.feature-list{grid-template-columns:1fr}}
+.feature-list .ft{display:flex;gap:14px;align-items:flex-start}
+.feature-list .ft .ic{
+  width:34px;height:34px;flex:none;border-radius:10px;
+  background:linear-gradient(180deg,rgba(162,119,255,.2),rgba(122,162,247,.05));
+  border:1px solid rgba(162,119,255,.25);
+  display:grid;place-items:center;color:var(--violet);
+}
+.feature-list .ft strong{display:block;font-family:var(--display);font-weight:500;font-size:15px;letter-spacing:-.01em;color:#fff;margin-bottom:4px}
+.feature-list .ft span{font-size:13.5px;color:var(--ink-dim);line-height:1.5}
+
+/* ============================================================
+   7. CTA — get on board
+   ============================================================ */
+.cta{
+  position:relative;border-radius:36px;overflow:hidden;
+  padding:clamp(64px,9vw,140px) clamp(28px,5vw,80px);
+  background:
+    radial-gradient(60% 80% at 18% 0%, rgba(162,119,255,.35), transparent 60%),
+    radial-gradient(50% 70% at 90% 100%, rgba(122,162,247,.28), transparent 60%),
+    linear-gradient(180deg,#0a0a14,#06060b);
+  border:1px solid var(--line-2);
+  box-shadow:0 60px 140px rgba(0,0,0,.65), inset 0 1px 0 rgba(255,255,255,.06);
+  text-align:center;
+}
+.cta::before{
+  content:"";position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px);
+  background-size:48px 48px;
+  mask-image:radial-gradient(60% 60% at 50% 50%, #000 30%, transparent 75%);
+  -webkit-mask-image:radial-gradient(60% 60% at 50% 50%, #000 30%, transparent 75%);
+  pointer-events:none;
+}
+.cta-inner{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;gap:32px}
+.cta h2{max-width:18ch}
+.cta p.lead{margin-inline:auto;text-align:center}
+.cta .actions{display:flex;flex-wrap:wrap;justify-content:center;gap:14px;margin-top:8px}
+
+/* footer */
+footer{padding:48px 5vw 64px;border-top:1px solid var(--line);margin-top:80px;color:var(--ink-mute);display:flex;justify-content:space-between;flex-wrap:wrap;gap:18px;font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase}
+footer .links{display:flex;gap:22px}
+
+/* reduced motion */
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001s !important;animation-iteration-count:1 !important;transition-duration:.001s !important}
+  .r{opacity:1;transform:none;filter:none}
+}
+</style>
+</head>
+<body>
+
+<!-- atmospheric background field -->
+<div class="bg-field" aria-hidden="true"></div>
+
+<!-- ============================================================
+     FLOATING NAV
+     ============================================================ -->
+<nav class="nav" aria-label="Primary">
+  <div class="brand"><span class="glyph"></span> TA Brain</div>
+  <ul>
+    <li><a href="#problem">Problem</a></li>
+    <li><a href="#systems">Systems</a></li>
+    <li><a href="#voice">Voice</a></li>
+    <li><a href="#network">Network</a></li>
+    <li><a href="#reports">Reports</a></li>
+  </ul>
+  <a class="cta" href="#get-on-board">
+    Get on board
+    <span class="arrow" aria-hidden="true">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M7 17L17 7M17 7H9M17 7V15" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </span>
+  </a>
+</nav>
+
+<main>
+
+<!-- ============================================================
+     1 · HERO
+     ============================================================ -->
+<section class="hero" id="hero">
+  <div class="hero-canvas" aria-hidden="true">
+    <canvas id="hero-net"></canvas>
+    <div class="scan"></div>
+  </div>
+
+  <div class="hero-inner">
+    <div class="eyebrow r"><span class="dot"></span> A second brain · for the whole company</div>
+
+    <h1 style="margin-top:32px">
+      <span class="ln"><span class="text-grad">Two systems.</span></span>
+      <span class="ln"><span class="brand-grad">One connected mind.</span></span>
+      <span class="ln"><span class="text-grad" style="opacity:.55">For every department.</span></span>
+    </h1>
+
+    <div class="sub r r-d3">
+      <p class="lead">
+        TA Brain and Profile Builder turn a few minutes of natural speech into a living, interconnected network of knowledge — one your whole company can plug into, query, and ship from.
+      </p>
+      <div class="cluster">
+        <a class="btn btn-primary" href="#get-on-board">
+          Get the team on board
+          <span class="arrow"><svg viewBox="0 0 24 24" fill="none"><path d="M7 17L17 7M17 7H9M17 7V15" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </a>
+        <a class="btn btn-ghost" href="#systems">
+          See the systems
+          <span class="arrow"><svg viewBox="0 0 24 24" fill="none"><path d="M12 5v14m0 0l-6-6m6 6l6-6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-meta">
+    <div class="cell r r-d4"><div class="k">Time to value</div><div class="v">~3<small>min of speaking</small></div></div>
+    <div class="cell r r-d5"><div class="k">Surface area</div><div class="v">All departments<small>connected</small></div></div>
+    <div class="cell r r-d6"><div class="k">Output</div><div class="v">Custom reports<small>on demand</small></div></div>
+    <div class="cell r r-d6"><div class="k">Status</div><div class="v" style="color:var(--cyan)">● Ready to launch</div></div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     2 · PROBLEM
+     ============================================================ -->
+<section class="section problem" id="problem">
+  <div>
+    <div class="eyebrow r"><span class="dot"></span> The current state</div>
+    <h2 class="r r-d1" style="margin-top:24px">
+      <span class="text-grad">Six departments.</span><br>
+      <span class="brand-grad">Six different brains.</span>
+    </h2>
+    <p class="lead r r-d2" style="margin-top:28px">
+      Knowledge lives in inboxes, decks, DMs, and the heads of two senior people. Every demand report is a fresh excavation. Every onboarding starts from zero.
+    </p>
+    <p class="body r r-d3" style="margin-top:18px;max-width:50ch">
+      What if every system, every process, every piece of tribal knowledge fed one shared cortex — and your team could query it like a colleague?
+    </p>
+  </div>
+
+  <div class="silo-grid r r-d2">
+    <div class="silo"><span>Conversions</span><span class="lock">↯ siloed</span></div>
+    <div class="silo"><span>Audit</span><span class="lock">↯ siloed</span></div>
+    <div class="silo"><span>Operations</span><span class="lock">↯ siloed</span></div>
+    <div class="silo"><span>Client svc</span><span class="lock">↯ siloed</span></div>
+    <div class="silo"><span>Compliance</span><span class="lock">↯ siloed</span></div>
+    <div class="silo"><span>Leadership</span><span class="lock">↯ siloed</span></div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     3 · TWO SYSTEMS
+     ============================================================ -->
+<section class="section" id="systems">
+  <div class="eyebrow r"><span class="dot"></span> The architecture</div>
+  <h2 class="r r-d1" style="margin-top:24px;max-width:18ch">
+    <span class="text-grad">Two apps.</span> <span class="brand-grad">Built to feed each other.</span>
+  </h2>
+  <p class="lead r r-d2" style="margin-top:24px">
+    TA Brain holds the company's collective memory. Profile Builder fills it — one natural-language conversation at a time. Together they form a self-reinforcing loop where every voice in the company strengthens the whole.
+  </p>
+
+  <div class="two-systems">
+    <!-- TA Brain -->
+    <div class="bezel r r-d2">
+      <div class="bezel-inner system-card">
+        <div class="head">
+          <div class="name">
+            <small>System 01</small>
+            TA Brain
+          </div>
+          <div class="badge">Live · ready</div>
+        </div>
+        <p class="body">A graph-based second brain. Every process, person, audit, and edge case lives as a connected node — searchable, theme-able, and visible at a glance.</p>
+        <div class="vis"><canvas class="constellation-mini" id="mini-1"></canvas></div>
+        <div class="row">
+          <span class="chip">Knowledge graph</span>
+          <span class="chip">Themes · dark</span>
+          <span class="chip">Inline editing</span>
+          <span class="chip">Search</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Profile Builder -->
+    <div class="bezel r r-d3">
+      <div class="bezel-inner system-card">
+        <div class="head">
+          <div class="name">
+            <small>System 02</small>
+            Profile Builder
+          </div>
+          <div class="badge">Live · ready</div>
+        </div>
+        <p class="body">Speak naturally for a few minutes. Profile Builder transcribes, structures, and writes back into the brain — turning ambient knowledge into queryable nodes.</p>
+        <div class="vis">
+          <div class="waveform" id="wave-1"></div>
+        </div>
+        <div class="row">
+          <span class="chip">Voice → graph</span>
+          <span class="chip">Auto-structure</span>
+          <span class="chip">Co-worker sync</span>
+          <span class="chip">Demand reports</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     4 · SPEAK NATURALLY
+     ============================================================ -->
+<section class="section speak" id="voice">
+  <div class="voice-stage r" aria-hidden="true">
+    <div class="rings">
+      <div class="ring"></div><div class="ring"></div><div class="ring"></div><div class="ring"></div><div class="ring"></div>
+      <div class="core"></div>
+    </div>
+    <div class="label">
+      <span>Profile Builder</span>
+      <span class="rec">Recording · 02:47</span>
+    </div>
+  </div>
+
+  <div>
+    <div class="eyebrow r"><span class="dot"></span> The unlock</div>
+    <h2 class="r r-d1" style="margin-top:24px;max-width:14ch">
+      <span class="text-grad">A few minutes</span><br>
+      <span class="brand-grad">of just talking.</span>
+    </h2>
+    <p class="lead r r-d2" style="margin-top:24px">
+      That's the entire input. Speak the way you'd brief a new hire. Profile Builder handles structure, vocabulary, and the connections back to everything else.
+    </p>
+
+    <div class="speak-steps">
+      <div class="step r r-d3">
+        <div class="n">01</div>
+        <div class="t">Open Profile Builder<small>One tap. No template to fill out, no fields to fight.</small></div>
+        <div class="time">~10s</div>
+      </div>
+      <div class="step r r-d4">
+        <div class="n">02</div>
+        <div class="t">Talk like a person<small>Walk through the process, the edge cases, the people involved.</small></div>
+        <div class="time">~3 min</div>
+      </div>
+      <div class="step r r-d5">
+        <div class="n">03</div>
+        <div class="t">Watch it land in the brain<small>Structured nodes, linked relationships, searchable themes.</small></div>
+        <div class="time">~20s</div>
+      </div>
+      <div class="step r r-d6">
+        <div class="n">04</div>
+        <div class="t">Your team queries it<small>From any department. Fresh, connected, kept up to date.</small></div>
+        <div class="time">forever</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     5 · INTERCONNECTIVITY
+     ============================================================ -->
+<section class="section" id="network">
+  <div class="eyebrow r"><span class="dot"></span> The interconnection</div>
+  <h2 class="r r-d1" style="margin-top:24px;max-width:18ch">
+    <span class="text-grad">Every department</span><br>
+    <span class="brand-grad">on the same nervous system.</span>
+  </h2>
+  <p class="lead r r-d2" style="margin-top:24px;max-width:64ch">
+    Conversions feeds Compliance. Operations feeds Audit. Client Service feeds Leadership. The brain stops being a wiki and starts being a network — where insight in one corner instantly becomes leverage everywhere else.
+  </p>
+
+  <div class="network r r-d3">
+    <canvas id="big-net"></canvas>
+    <div class="legend">
+      <div class="keys">
+        <span class="key"><span class="sw" style="background:var(--violet)"></span> Knowledge node</span>
+        <span class="key"><span class="sw" style="background:var(--azure)"></span> Department</span>
+        <span class="key"><span class="sw" style="background:var(--cyan)"></span> Live link</span>
+        <span class="key"><span class="sw" style="background:var(--amber)"></span> Active query</span>
+      </div>
+      <div class="quote">"The same answer, no matter which seat you're sitting in."</div>
+    </div>
+  </div>
+
+  <div class="dept-grid">
+    <div class="dept r r-d2"><small>01</small>Conversions</div>
+    <div class="dept r r-d2"><small>02</small>Operations</div>
+    <div class="dept r r-d3"><small>03</small>Audit</div>
+    <div class="dept r r-d3"><small>04</small>Compliance</div>
+    <div class="dept r r-d4"><small>05</small>Client Service</div>
+    <div class="dept r r-d4"><small>06</small>Leadership</div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     6 · CUSTOM DEMAND REPORTS
+     ============================================================ -->
+<section class="section" id="reports">
+  <div class="eyebrow r"><span class="dot"></span> The output</div>
+  <h2 class="r r-d1" style="margin-top:24px;max-width:18ch">
+    <span class="text-grad">Custom demand reports.</span><br>
+    <span class="brand-grad">Generated, not assembled.</span>
+  </h2>
+  <p class="lead r r-d2" style="margin-top:24px;max-width:60ch">
+    Because the brain already knows the shape of the company, building a one-off report stops being a project. Describe what you need. Get something stunning, granularly customizable, and ready to ship.
+  </p>
+
+  <div class="report-stage">
+    <div class="terminal r r-d2" aria-hidden="true">
+      <div class="bar">
+        <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+        <span class="file">~/ta-brain · demand-report.md</span>
+      </div>
+      <div class="body-t">
+        <span class="dim">›</span> <span class="you">build me a Q2 conversion-readiness report for Leadership</span><br>
+        <span class="ai">⟶ pulling 14 nodes across Conversions, Audit, Compliance...</span><br>
+        <span class="ai">⟶ resolving 41 cross-references...</span><br>
+        <span class="ai">⟶ formatting executive summary + appendix...</span><br>
+        <span class="ok">✓ generated · 6 sections · 1,840 words · 4 visuals</span><br>
+        <br>
+        <span class="dim"># Q2 Conversion Readiness</span><br>
+        <span class="dim">## Where we stand</span><br>
+        <span class="ai">Conversion volume up 18%. Three audit findings remain open</span><br>
+        <span class="ai">across the LM/DC pipeline. See <u>§3 — Open items</u>...</span><span class="caret"></span>
+      </div>
+    </div>
+
+    <div class="copy">
+      <div class="feature-list">
+        <div class="ft r r-d2">
+          <div class="ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M3 5h18M3 12h12M3 19h18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+          <div><strong>Granular customization</strong><span>Tone, depth, audience, length, format — every dial exposed.</span></div>
+        </div>
+        <div class="ft r r-d3">
+          <div class="ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5"/><path d="M12 7v5l3 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+          <div><strong>Stays current</strong><span>Pulls from the live brain — never from a stale snapshot.</span></div>
+        </div>
+        <div class="ft r r-d4">
+          <div class="ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M4 7l8-4 8 4-8 4-8-4z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M4 12l8 4 8-4M4 17l8 4 8-4" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
+          <div><strong>Beautiful by default</strong><span>The visual system is already there. No designer required.</span></div>
+        </div>
+        <div class="ft r r-d5">
+          <div class="ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 3v18M3 12h18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+          <div><strong>Self-extending</strong><span>Each new report becomes a node — feeding the next one.</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     7 · CTA — get on board
+     ============================================================ -->
+<section class="section section-tight" id="get-on-board">
+  <div class="cta">
+    <div class="cta-inner">
+      <div class="eyebrow r"><span class="dot"></span> Both systems · ready to launch</div>
+      <h2 class="r r-d1">
+        <span class="text-grad">Let's give the company</span><br>
+        <span class="brand-grad">a brain it can share.</span>
+      </h2>
+      <p class="lead r r-d2">
+        TA Brain and Profile Builder are built, tested, and waiting. All it takes from your team is a few minutes of natural conversation — the system does the rest.
+      </p>
+      <div class="actions r r-d3">
+        <a class="btn btn-primary" href="mailto:abacherlijoel@yahoo.com?subject=TA%20Brain%20%2B%20Profile%20Builder%20%E2%80%94%20let%27s%20launch">
+          Schedule the rollout
+          <span class="arrow"><svg viewBox="0 0 24 24" fill="none"><path d="M7 17L17 7M17 7H9M17 7V15" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </a>
+        <a class="btn btn-ghost" href="#systems">
+          Walk me through it again
+          <span class="arrow"><svg viewBox="0 0 24 24" fill="none"><path d="M12 19V5m0 0l-6 6m6-6l6 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div>TA Brain · Profile Builder · 2026</div>
+  <div class="links">
+    <span>Built for the whole company</span>
+    <span>● ready to launch</span>
+  </div>
+</footer>
+
+</main>
+
+<script>
+/* ============================================================
+   Reveal-on-scroll (IntersectionObserver — no scroll listeners)
+   ============================================================ */
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.classList.add('in');
+      io.unobserve(e.target);
+    }
+  });
+},{rootMargin:'-8% 0px -8% 0px', threshold:0.05});
+document.querySelectorAll('.r').forEach(el=>io.observe(el));
+
+/* trigger hero typo lift on load */
+requestAnimationFrame(()=>document.querySelector('.hero').classList.add('in'));
+
+/* build profile-builder waveform bars */
+(function buildWave(){
+  const w = document.getElementById('wave-1');
+  if(!w) return;
+  const N = 38;
+  for(let i=0;i<N;i++){
+    const b = document.createElement('div');
+    b.className = 'bar';
+    const dist = Math.abs(i - N/2)/(N/2);            // 0 center → 1 edges
+    const base = 12 + (1-dist)*68 + Math.random()*10; // taller in middle
+    b.style.height = base + '%';
+    b.style.animationDelay = (-Math.random()*1.6) + 's';
+    b.style.animationDuration = (1.2 + Math.random()*1.2) + 's';
+    b.style.opacity = (0.55 + Math.random()*0.45).toFixed(2);
+    w.appendChild(b);
+  }
+})();
+
+/* ============================================================
+   Constellation networks (canvas) — hero, mini, big
+   ============================================================ */
+function makeNetwork(canvas, opts){
+  const ctx = canvas.getContext('2d');
+  let w=0, h=0, dpr=Math.min(window.devicePixelRatio||1, 2);
+  let nodes = [], links = [], pulse = [];
+  let mouse = {x:-9999,y:-9999};
+  const cfg = Object.assign({
+    count: 50,
+    linkDist: 150,
+    speed: 0.18,
+    nodeR: 1.6,
+    color: 'rgba(162,119,255,1)',
+    color2: 'rgba(122,162,247,1)',
+    accent: 'rgba(94,234,212,1)',
+    pulses: true,
+    haloMouse: true,
+    bigNodes: 0,           // number of bigger labeled nodes
+    labels: [],
+  }, opts||{});
+
+  function size(){
+    const r = canvas.getBoundingClientRect();
+    w = canvas.width  = Math.max(1, Math.floor(r.width  * dpr));
+    h = canvas.height = Math.max(1, Math.floor(r.height * dpr));
+    canvas.style.width  = r.width + 'px';
+    canvas.style.height = r.height + 'px';
+  }
+  function rand(min,max){return min + Math.random()*(max-min)}
+
+  function build(){
+    nodes = [];
+    for(let i=0;i<cfg.count;i++){
+      nodes.push({
+        x: Math.random()*w, y: Math.random()*h,
+        vx: rand(-cfg.speed, cfg.speed)*dpr,
+        vy: rand(-cfg.speed, cfg.speed)*dpr,
+        r: (cfg.nodeR + Math.random()*0.8)*dpr,
+        c: Math.random()<0.5 ? cfg.color : cfg.color2,
+        big: false,
+        label: null,
+      });
+    }
+    // promote N nodes to "big" labeled department nodes
+    for(let i=0;i<cfg.bigNodes && i<nodes.length;i++){
+      const n = nodes[i];
+      n.big = true;
+      n.r = 5*dpr;
+      n.c = cfg.accent;
+      n.label = cfg.labels[i] || '';
+      // spread bigs out
+      n.x = (i+0.5) * (w / cfg.bigNodes);
+      n.y = h/2 + (Math.sin(i*1.7) * h*0.25);
+    }
+  }
+
+  function step(){
+    // background fade for trail
+    ctx.fillStyle = 'rgba(7,7,12,0.18)';
+    ctx.fillRect(0,0,w,h);
+
+    // move
+    for(const n of nodes){
+      n.x += n.vx; n.y += n.vy;
+      if(n.x < 0 || n.x > w) n.vx *= -1;
+      if(n.y < 0 || n.y > h) n.vy *= -1;
+
+      if(cfg.haloMouse){
+        const dx = n.x - mouse.x, dy = n.y - mouse.y;
+        const d2 = dx*dx + dy*dy;
+        const R = 140*dpr;
+        if(d2 < R*R){
+          const f = 1 - Math.sqrt(d2)/R;
+          n.x += dx/Math.sqrt(d2+0.01) * f * 0.6;
+          n.y += dy/Math.sqrt(d2+0.01) * f * 0.6;
+        }
+      }
+    }
+
+    // draw links
+    const LD = cfg.linkDist*dpr;
+    for(let i=0;i<nodes.length;i++){
+      for(let j=i+1;j<nodes.length;j++){
+        const a=nodes[i], b=nodes[j];
+        const dx=a.x-b.x, dy=a.y-b.y;
+        const d = Math.sqrt(dx*dx+dy*dy);
+        if(d < LD){
+          const alpha = (1 - d/LD) * 0.35;
+          ctx.strokeStyle = `rgba(162,119,255,${alpha})`;
+          ctx.lineWidth = 1*dpr;
+          ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke();
+        }
+      }
+    }
+
+    // pulses travel along nearby links
+    if(cfg.pulses && Math.random() < 0.06){
+      const a = nodes[(Math.random()*nodes.length)|0];
+      const candidates = nodes.filter(n=>n!==a && Math.hypot(n.x-a.x,n.y-a.y) < LD);
+      if(candidates.length){
+        const b = candidates[(Math.random()*candidates.length)|0];
+        pulse.push({a,b,t:0,life: 70 + Math.random()*40});
+      }
+    }
+    for(let i=pulse.length-1;i>=0;i--){
+      const p=pulse[i]; p.t++;
+      const k = p.t/p.life;
+      if(k>=1){pulse.splice(i,1); continue}
+      const x = p.a.x + (p.b.x-p.a.x)*k;
+      const y = p.a.y + (p.b.y-p.a.y)*k;
+      ctx.fillStyle = `rgba(94,234,212,${1-k})`;
+      ctx.beginPath(); ctx.arc(x,y, 2.2*dpr, 0, Math.PI*2); ctx.fill();
+    }
+
+    // draw nodes
+    for(const n of nodes){
+      ctx.fillStyle = n.c;
+      ctx.shadowColor = n.c;
+      ctx.shadowBlur = (n.big ? 18 : 6)*dpr;
+      ctx.beginPath(); ctx.arc(n.x,n.y, n.r, 0, Math.PI*2); ctx.fill();
+      ctx.shadowBlur = 0;
+
+      if(n.big && n.label){
+        ctx.fillStyle = 'rgba(244,243,238,0.85)';
+        ctx.font = `${11*dpr}px "JetBrains Mono", monospace`;
+        ctx.textAlign = 'center';
+        ctx.fillText(n.label.toUpperCase(), n.x, n.y - 14*dpr);
+      }
+    }
+
+    requestAnimationFrame(step);
+  }
+
+  function onMove(e){
+    const r = canvas.getBoundingClientRect();
+    mouse.x = (e.clientX - r.left)*dpr;
+    mouse.y = (e.clientY - r.top )*dpr;
+  }
+  function onLeave(){mouse.x=-9999;mouse.y=-9999}
+
+  size(); build();
+  window.addEventListener('resize', ()=>{size();build()});
+  canvas.addEventListener('pointermove', onMove);
+  canvas.addEventListener('pointerleave', onLeave);
+  step();
+}
+
+/* HERO — large dense network */
+makeNetwork(document.getElementById('hero-net'), {
+  count: 90, linkDist: 170, speed: 0.18,
+});
+
+/* MINI — TA Brain card constellation */
+makeNetwork(document.getElementById('mini-1'), {
+  count: 36, linkDist: 110, speed: 0.14, nodeR: 1.4, pulses: true, haloMouse: false,
+});
+
+/* BIG — interconnected departments network */
+makeNetwork(document.getElementById('big-net'), {
+  count: 70, linkDist: 160, speed: 0.16,
+  bigNodes: 6,
+  labels: ['Conversions','Operations','Audit','Compliance','Client Svc','Leadership'],
+});
+
+/* hide nav on scroll-down, show on scroll-up — buttery */
+let lastY = 0, navEl = document.querySelector('.nav');
+window.addEventListener('scroll', ()=>{
+  const y = window.scrollY;
+  if(y > 200 && y > lastY){ navEl.style.transform = 'translateX(-50%) translateY(-120%)'; }
+  else { navEl.style.transform = 'translateX(-50%) translateY(0)'; }
+  lastY = y;
+}, {passive:true});
+</script>
+</body>
+</html>

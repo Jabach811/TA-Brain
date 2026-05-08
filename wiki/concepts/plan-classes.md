@@ -1,6 +1,6 @@
 ---
 title: "Plan Classes"
-type: concept
+type: reference
 tags: [classes, p3, plan-setup, doc-ops]
 created: 2026-04-14
 updated: 2026-04-14
@@ -59,5 +59,4 @@ Classes are identified during the [[prd]] / [[onboarding-package]] review. By th
 - [[p3]]
 - [[prd]]
 - [[onboarding-package]]
-- [[internal-teams]]
 - [[dc-onboarding-workflow]]

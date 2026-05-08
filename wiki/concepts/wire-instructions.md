@@ -1,6 +1,6 @@
 ---
 title: "Wire Instructions"
-type: concept
+type: document
 tags: [wire, liquidation, prior-record-keeper, cashiering]
 created: 2026-04-14
 updated: 2026-04-14
@@ -63,5 +63,4 @@ Same applies if the prior RK sends to the wrong account entirely. Process is the
 - [[prior-record-keeper]]
 - [[liquidation-day]]
 - [[p3]]
-- [[internal-teams]]
 - [[dc-onboarding-workflow]]

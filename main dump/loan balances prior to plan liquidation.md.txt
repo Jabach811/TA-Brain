@@ -1,0 +1,102 @@
+# loan balances prior to plan liquidation
+
+## SQL
+```sql
+SELECT DISTINCT A.CASE_NO,SUBSTR(A.CASE_NO,11,5),   ln_tr_stat_cd,  ln_default_dt,                         
+       A.SOC_SEC_NO,EE_LAST_NM,EE_FST_MID_NM,B.LOAN_NO,B.INIT_LN_AMT           
+       ,BAS_BLENDED_LN_PCT,LN_REPAY_AMT,TYP_1_ORIG_LN_AMT,TYP_2_ORIG_LN_AMT,   
+TYP_3_ORIG_LN_AMT,                                                             
+       TYP_4_ORIG_LN_AMT,TYP_5_ORIG_LN_AMT,TYP_6_ORIG_LN_AMT,TYP_7_ORIG_LN_AMT,
+       TYP_8_ORIG_LN_AMT,orig_ln_iss_dt, FST_LN_REPAY_DT,FINAL_LN_REPAY_DT,   
+       LN_REPAY_FREQ_CD,LN_REPAY_CT,                                           
+   B.INIT_LN_AMT-  SUM(TYP1_LN_PRNC_AMT+TYP2_LN_PRNC_AMT+TYP4_LN_PRNC_AMT+     
+                       TYP3_LN_PRNC_AMT+                                       
+                       TYP5_LN_PRNC_AMT+TYP6_LN_PRNC_AMT+TYP7_LN_PRNC_AMT+     
+                       TYP8_LN_PRNC_AMT) as curr_bal                                   
+  ,B.TYP_1_ORIG_LN_AMT - SUM(TYP1_LN_PRNC_AMT) AS TYPE_1
+  ,B.TYP_2_ORIG_LN_AMT - SUM(TYP2_LN_PRNC_AMT) AS TYPE_2
+  ,B.TYP_3_ORIG_LN_AMT - SUM(TYP3_LN_PRNC_AMT) AS TYPE_3                       
+  ,B.TYP_4_ORIG_LN_AMT - SUM(TYP4_LN_PRNC_AMT) AS TYPE_4                       
+  ,B.TYP_5_ORIG_LN_AMT - SUM(TYP5_LN_PRNC_AMT) AS TYPE_5                       
+  ,B.TYP_6_ORIG_LN_AMT - SUM(TYP6_LN_PRNC_AMT) AS TYPE_6                       
+  ,B.TYP_7_ORIG_LN_AMT - SUM(TYP7_LN_PRNC_AMT) AS TYPE_7                       
+  ,B.TYP_8_ORIG_LN_AMT - SUM(TYP8_LN_PRNC_AMT) AS TYPE_8,                                
+  LN_DEEMED_DEF_DT, MAX(LN_AMORTIZATION_DT) AS LAST_PAYMENT_MADE                             
+                                                                               
+FROM CORP.EMPLOYEE A,CORP.LOAN_DETAIL B,CORP.LOAN_REPAYMENT C                                                                                   
+WHERE A.CASE_NO = B.CASE_NO AND A.SOC_SEC_NO=B.SOC_SEC_NO                      
+ AND  A.CASE_NO = C.CASE_NO AND A.SOC_SEC_NO=C.SOC_SEC_NO  
+
+ --AND A.EE_DIV_NO = 'COGS'                    
+ AND   A.CASE_NO = 'QK62235   00001'               AND B.LOAN_NO=C.LOAN_NO              
+AND B.LN_TR_STAT_CD not in ('3','4','E')                                                     
+--  AND B.LN_DEFAULT_DT = '20060710'                                                
+--  AND C.LN_AMORTIZATION_DT �= '20060710'
+
+GROUP  BY A.SOC_SEC_NO,EE_LAST_NM,EE_FST_MID_NM,B.LOAN_NO,B.INIT_LN_AMT        ,ln_default_Dt
+,BAS_BLENDED_LN_PCT,LN_REPAY_AMT,TYP_1_ORIG_LN_AMT,TYP_2_ORIG_LN_AMT,          
+       TYP_4_ORIG_LN_AMT,TYP_5_ORIG_LN_AMT,TYP_6_ORIG_LN_AMT,TYP_7_ORIG_LN_AMT,
+       TYP_8_ORIG_LN_AMT,ORIG_LN_ISS_DT,FST_LN_REPAY_DT,FINAL_LN_REPAY_DT,     
+       LN_REPAY_FREQ_CD,LN_REPAY_CT,A.CASE_NO   ,ln_tr_stat_cd                                
+,B.TYP_1_ORIG_LN_AMT                                                           
+,B.TYP_2_ORIG_LN_AMT                                                           
+,B.TYP_3_ORIG_LN_AMT                                                           
+,B.TYP_4_ORIG_LN_AMT                                                           
+,B.TYP_5_ORIG_LN_AMT                                                           
+,B.TYP_6_ORIG_LN_AMT                                                           
+,B.TYP_7_ORIG_LN_AMT                                                           
+,B.TYP_8_ORIG_LN_AMT                                                           
+,LN_DEEMED_DEF_DT                                                              
+                                                                               
+HAVING  B.INIT_LN_AMT-  SUM(TYP1_LN_PRNC_AMT+TYP2_LN_PRNC_AMT+TYP4_LN_PRNC_AMT+
+                       TYP5_LN_PRNC_AMT+TYP6_LN_PRNC_AMT+TYP7_LN_PRNC_AMT+     
+                       TYP8_LN_PRNC_AMT)>0                                     
+                                                                               
+UNION ALL                                                                      
+                                                                               
+SELECT DISTINCT A.CASE_NO,SUBSTR(A.CASE_NO,11,5),      ln_tr_stat_cd,     ln_default_dt ,                    
+       A.SOC_SEC_NO,EE_LAST_NM,EE_FST_MID_NM,B.LOAN_NO,B.INIT_LN_AMT           
+       ,BAS_BLENDED_LN_PCT,LN_REPAY_AMT,TYP_1_ORIG_LN_AMT,TYP_2_ORIG_LN_AMT,   
+TYP_3_ORIG_LN_AMT,                                                             
+       TYP_4_ORIG_LN_AMT,TYP_5_ORIG_LN_AMT,TYP_6_ORIG_LN_AMT,TYP_7_ORIG_LN_AMT,
+       TYP_8_ORIG_LN_AMT,orig_ln_iss_dt, FST_LN_REPAY_DT,FINAL_LN_REPAY_DT,       
+       LN_REPAY_FREQ_CD,LN_REPAY_CT,                                           
+   B.INIT_LN_AMT as curr_bal, B.TYP_1_ORIG_LN_AMT, B.TYP_2_ORIG_LN_AMT,                    
+   B.TYP_3_ORIG_LN_AMT, B.TYP_4_ORIG_LN_AMT, B.TYP_5_ORIG_LN_AMT,              
+   B.TYP_6_ORIG_LN_AMT, B.TYP_7_ORIG_LN_AMT, B.TYP_8_ORIG_LN_AMT,              
+   LN_DEEMED_DEF_DT, 'NO PAYMENTS'                                             
+                                                                               
+FROM CORP.EMPLOYEE A,CORP.LOAN_DETAIL B                                
+                                                                               
+WHERE A.CASE_NO = B.CASE_NO AND A.SOC_SEC_NO=B.SOC_SEC_NO
+
+--AND A.EE_DIV_NO = 'COGS'
+ AND   A.CASE_NO = 'QK62235   00001'  
+AND B.LN_TR_STAT_CD not in ('3','4','E')                                                   
+-- AND B.LN_DEFAULT_DT = '20060710'                                                
+ AND NOT EXISTS (SELECT * FROM CORP.LOAN_REPAYMENT C                      
+                  WHERE A.CASE_NO = C.CASE_NO                                  
+                  AND A.SOC_SEC_NO = C.SOC_SEC_NO                              
+                  AND B.LOAN_NO = C.LOAN_NO )
+                  
+
+                                   
+--                  AND LN_AMORTIZATION_DT �= '20060710')                           
+                                                                               
+GROUP  BY A.SOC_SEC_NO,EE_LAST_NM,EE_FST_MID_NM,B.LOAN_NO,B.INIT_LN_AMT   ,ln_tr_stat_cd     ,ln_default_dt
+,BAS_BLENDED_LN_PCT,LN_REPAY_AMT,TYP_1_ORIG_LN_AMT,TYP_2_ORIG_LN_AMT,          
+       TYP_4_ORIG_LN_AMT,TYP_5_ORIG_LN_AMT,TYP_6_ORIG_LN_AMT,TYP_7_ORIG_LN_AMT,
+       TYP_8_ORIG_LN_AMT,ORIG_LN_ISS_DT,FST_LN_REPAY_DT,FINAL_LN_REPAY_DT,     
+       LN_REPAY_FREQ_CD,LN_REPAY_CT,A.CASE_NO                                  
+,B.TYP_1_ORIG_LN_AMT                                                           
+,B.TYP_2_ORIG_LN_AMT                                                           
+,B.TYP_3_ORIG_LN_AMT                                                           
+,B.TYP_4_ORIG_LN_AMT                                                           
+,B.TYP_5_ORIG_LN_AMT                                                           
+,B.TYP_6_ORIG_LN_AMT                                                           
+,B.TYP_7_ORIG_LN_AMT                                                           
+,B.TYP_8_ORIG_LN_AMT                                                           
+,LN_DEEMED_DEF_DT                                                              
+                                                                               
+  ORDER BY 1,3,6
+```

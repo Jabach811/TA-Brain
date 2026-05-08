@@ -1,6 +1,6 @@
 ---
 title: "Informatica Allocation Module"
-type: concept
+type: process
 tags: [informatica, allocation, system]
 created: 2026-04-16
 updated: 2026-04-16

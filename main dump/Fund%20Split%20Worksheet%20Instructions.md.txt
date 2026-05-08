@@ -1,0 +1,19 @@
+# Fund Split Worksheet Instructions
+
+## Purpose
+- Balances fund splits without manual FAA review.
+
+## Inputs
+- Source Mapping
+- Fund Mapping
+- Prior Vendor Balances
+- TRS Balances
+
+## Key Rules
+- Sort Prior Vendor Balances by Identifier.
+- Enter split funds alphabetically.
+
+## Common Errors
+- Identifier not sorted
+- Source name mismatches
+- Rounding issues

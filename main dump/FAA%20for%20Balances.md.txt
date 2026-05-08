@@ -1,0 +1,12 @@
+# FAA for Balances
+
+## Purpose
+- Compare participant balances by fund and source.
+
+## Inputs
+- Fund mapping
+- Source mapping
+- Prior vendor balance file
+
+## Notes
+- Fund splits may generate expected errors.

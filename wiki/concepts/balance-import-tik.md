@@ -1,10 +1,10 @@
 ---
 title: "Balance Import — Transfer In-Kind"
-type: concept
+type: process
 tags: ["concept", "balance", "tik", "conversion", "informatica", "re-registration", "day-of-wire"]
 created: 2026-04-19
-updated: 2026-04-19
-sources: 1
+updated: 2026-05-03
+sources: 2
 ---
 
 # Balance Import — Transfer In-Kind
@@ -63,6 +63,13 @@ Step 18 — Run all associated queries for backup
 2. **Never use Process Immediate** — TIK is Online, backdated; Process Immediate would apply incorrectly
 3. **Wait for in-kind spreadsheet confirmation** — do not run Day of Wire until Matt O'Connell's team confirms shares arrived
 4. **4-week lead time** — if the re-registration template is submitted late, the whole TIK path may fail
+
+## Share-Count Tolerance
+
+Once the CIT balance file runs and participant balances are whole, compare the actual shares received against the expected shares from the in-kind spreadsheet:
+
+- **Off by a tiny amount** (fractional shares) — acceptable; close out and move on
+- **Off by more than one full share** — escalate. Run it up to the prior record keeper, and loop in the chain of command. Don't paper over it.
 
 ## See Also
 - [[balance-import]]

@@ -1,0 +1,6 @@
+# Setting Up Informatica
+
+## Steps
+- Open PowerCenter Workflow Manager.
+- Add repository with provided domain details.
+- Open Workflow Designer.

@@ -1,0 +1,13 @@
+# Takeover Audit Process (Internal)
+
+## Philosophy
+- Audit assets and data against prior vendor information proactively.
+
+## Key Audit Steps
+- Pre-asset transfer audits
+- Day of and Day After Wire audits
+- Record load audits
+
+## Governance
+- Audit Control Checklist
+- Pre Go-Live and Post Go-Live meetings

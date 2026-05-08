@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Joel: The Builder's Weather Map</title>
+  <style>
+    :root {
+      --ink: #15130f;
+      --paper: #f2eadb;
+      --paper-2: #fff8ea;
+      --charcoal: #24211b;
+      --blue: #2b5d83;
+      --blue-dark: #12354f;
+      --red: #bb3d2f;
+      --gold: #d0a13c;
+      --green: #486f55;
+      --shadow: 0 22px 60px rgba(21, 19, 15, .22);
+      --line: rgba(21, 19, 15, .18);
+      --slide-w: min(92vw, 1320px);
+      --slide-h: min(82vh, 760px);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 14% 12%, rgba(208, 161, 60, .22), transparent 30%),
+        radial-gradient(circle at 88% 18%, rgba(43, 93, 131, .2), transparent 28%),
+        linear-gradient(135deg, #efe4cf 0%, #f9f0df 38%, #d9e0d4 100%);
+      font-family: "Georgia", "Times New Roman", serif;
+      overflow: hidden;
+    }
+
+    .slide::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    .slide::-webkit-scrollbar-thumb {
+      border-radius: 999px;
+      background: rgba(21, 19, 15, .3);
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: .22;
+      background-image:
+        linear-gradient(rgba(21, 19, 15, .08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(21, 19, 15, .06) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black, transparent 82%);
+    }
+
+    .deck-shell {
+      height: 100vh;
+      display: grid;
+      grid-template-rows: 1fr auto;
+      padding: 24px;
+      gap: 16px;
+    }
+
+    .stage {
+      position: relative;
+      width: var(--slide-w);
+      height: var(--slide-h);
+      margin: auto;
+      perspective: 1200px;
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 20px;
+      padding: clamp(28px, 4.2vw, 58px);
+      border: 2px solid rgba(21, 19, 15, .28);
+      border-radius: 18px;
+      background:
+        linear-gradient(135deg, rgba(255, 248, 234, .96), rgba(238, 227, 206, .94)),
+        var(--paper);
+      box-shadow: var(--shadow);
+      opacity: 0;
+      transform: translateX(54px) rotateY(-7deg) scale(.97);
+      pointer-events: none;
+      transition: opacity .42s ease, transform .42s ease;
+      overflow-x: hidden;
+      overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(21, 19, 15, .34) transparent;
+    }
+
+    .slide.active {
+      opacity: 1;
+      transform: translateX(0) rotateY(0) scale(1);
+      pointer-events: auto;
+      z-index: 2;
+    }
+
+    .slide.prev {
+      opacity: 0;
+      transform: translateX(-54px) rotateY(7deg) scale(.97);
+    }
+
+    .slide::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(90deg, transparent 0 96%, rgba(21, 19, 15, .05) 96% 96.4%, transparent 96.4%),
+        radial-gradient(circle at 8% 92%, rgba(187, 61, 47, .12), transparent 28%);
+      mix-blend-mode: multiply;
+    }
+
+    .kicker {
+      margin: 0 0 14px;
+      color: var(--blue-dark);
+      font: 700 12px/1.1 "Trebuchet MS", Verdana, sans-serif;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+    }
+
+    h1, h2, h3, p {
+      margin-top: 0;
+    }
+
+    h1 {
+      max-width: 980px;
+      margin-bottom: 18px;
+      font-size: clamp(50px, 7vw, 104px);
+      line-height: .9;
+      letter-spacing: 0;
+    }
+
+    h2 {
+      max-width: 900px;
+      margin-bottom: 18px;
+      font-size: clamp(36px, 5.4vw, 76px);
+      line-height: .92;
+      letter-spacing: 0;
+    }
+
+    h3 {
+      font-size: clamp(22px, 2.6vw, 38px);
+      line-height: 1;
+    }
+
+    p, li {
+      font-size: clamp(17px, 1.55vw, 24px);
+      line-height: 1.34;
+    }
+
+    .lead {
+      max-width: 780px;
+      font-size: clamp(21px, 2.2vw, 31px);
+      line-height: 1.18;
+    }
+
+    .small {
+      font: 700 13px/1.45 "Trebuchet MS", Verdana, sans-serif;
+      color: rgba(21, 19, 15, .68);
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: minmax(0, 1.08fr) minmax(320px, .92fr);
+      gap: clamp(24px, 4vw, 56px);
+      align-items: center;
+      height: 100%;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .panel {
+      position: relative;
+      border: 2px solid rgba(21, 19, 15, .22);
+      border-radius: 14px;
+      padding: 22px;
+      background: rgba(255, 248, 234, .68);
+      box-shadow: 8px 8px 0 rgba(21, 19, 15, .1);
+    }
+
+    .metric {
+      display: flex;
+      min-height: 152px;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .metric b {
+      font-size: clamp(42px, 5vw, 72px);
+      line-height: .9;
+    }
+
+    .metric span {
+      font: 800 13px/1.3 "Trebuchet MS", Verdana, sans-serif;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .weather-map {
+      position: relative;
+      min-height: 430px;
+      border: 2px solid rgba(21, 19, 15, .22);
+      border-radius: 20px;
+      background:
+        radial-gradient(circle at 28% 30%, rgba(187, 61, 47, .24), transparent 20%),
+        radial-gradient(circle at 70% 24%, rgba(43, 93, 131, .25), transparent 22%),
+        radial-gradient(circle at 56% 75%, rgba(72, 111, 85, .24), transparent 24%),
+        repeating-linear-gradient(35deg, rgba(21, 19, 15, .06) 0 2px, transparent 2px 18px),
+        rgba(255, 248, 234, .56);
+      overflow: hidden;
+    }
+
+    .weather-map svg,
+    .systems svg,
+    .arc svg,
+    .constellation svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .badge {
+      position: absolute;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 12px;
+      border: 2px solid var(--ink);
+      border-radius: 999px;
+      background: var(--paper-2);
+      box-shadow: 4px 4px 0 rgba(21, 19, 15, .16);
+      font: 800 12px/1 "Trebuchet MS", Verdana, sans-serif;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+
+    .badge.one { left: 7%; top: 12%; }
+    .badge.two { right: 8%; top: 22%; }
+    .badge.three { left: 38%; bottom: 12%; }
+
+    .quote {
+      position: relative;
+      max-width: 900px;
+      font-size: clamp(32px, 4.3vw, 66px);
+      line-height: .98;
+    }
+
+    .quote::before {
+      content: "";
+      position: absolute;
+      width: 88px;
+      height: 88px;
+      left: -26px;
+      top: -24px;
+      border: 3px solid var(--red);
+      border-radius: 50%;
+      opacity: .28;
+    }
+
+    .rail {
+      width: min(92vw, 1320px);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 18px;
+      font: 800 13px/1 "Trebuchet MS", Verdana, sans-serif;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: rgba(21, 19, 15, .72);
+    }
+
+    .buttons {
+      display: flex;
+      gap: 10px;
+    }
+
+    button {
+      width: 44px;
+      height: 44px;
+      border: 2px solid rgba(21, 19, 15, .72);
+      border-radius: 50%;
+      background: var(--paper-2);
+      color: var(--ink);
+      cursor: pointer;
+      font-size: 22px;
+      box-shadow: 4px 4px 0 rgba(21, 19, 15, .16);
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+      background: #fff;
+    }
+
+    .progress {
+      height: 12px;
+      border: 2px solid rgba(21, 19, 15, .32);
+      border-radius: 999px;
+      overflow: hidden;
+      background: rgba(255, 248, 234, .7);
+    }
+
+    .bar {
+      height: 100%;
+      width: 0;
+      background: linear-gradient(90deg, var(--red), var(--gold), var(--blue));
+      transition: width .3s ease;
+    }
+
+    .stamp {
+      position: absolute;
+      right: clamp(22px, 3.5vw, 52px);
+      bottom: clamp(20px, 3vw, 42px);
+      width: 142px;
+      height: 142px;
+      display: grid;
+      place-items: center;
+      border: 3px solid var(--red);
+      border-radius: 50%;
+      color: var(--red);
+      font: 900 15px/1.1 "Trebuchet MS", Verdana, sans-serif;
+      text-align: center;
+      text-transform: uppercase;
+      transform: rotate(-11deg);
+      opacity: .76;
+    }
+
+    .slide-no {
+      position: absolute;
+      top: 22px;
+      right: 26px;
+      color: rgba(21, 19, 15, .42);
+      font: 800 13px/1 "Trebuchet MS", Verdana, sans-serif;
+    }
+
+    .portrait-stack {
+      position: relative;
+      min-height: 500px;
+    }
+
+    .portrait-card {
+      position: absolute;
+      width: min(90%, 460px);
+      border: 2px solid rgba(21, 19, 15, .3);
+      border-radius: 14px;
+      padding: 18px;
+      background: #fff8ea;
+      box-shadow: 13px 13px 0 rgba(21, 19, 15, .12);
+      transform: rotate(-4deg);
+    }
+
+    .portrait-card img {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      border-radius: 10px;
+      filter: saturate(.82) contrast(1.04);
+    }
+
+    .portrait-card:nth-child(2) {
+      right: 0;
+      top: 150px;
+      transform: rotate(5deg);
+    }
+
+    .word-cloud {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    .word-cloud span {
+      padding: 12px 14px;
+      border: 2px solid rgba(21, 19, 15, .26);
+      border-radius: 999px;
+      background: rgba(255, 248, 234, .74);
+      font: 900 clamp(13px, 1.25vw, 17px)/1 "Trebuchet MS", Verdana, sans-serif;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+    }
+
+    .timeline {
+      display: grid;
+      gap: 14px;
+      max-width: 900px;
+    }
+
+    .moment {
+      display: grid;
+      grid-template-columns: 140px minmax(0, 1fr);
+      gap: 18px;
+      align-items: start;
+      padding-bottom: 14px;
+      border-bottom: 2px dashed rgba(21, 19, 15, .2);
+    }
+
+    .moment strong {
+      color: var(--blue-dark);
+      font: 900 14px/1.2 "Trebuchet MS", Verdana, sans-serif;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+
+    .moment p {
+      margin: 0;
+      font-size: clamp(17px, 1.45vw, 22px);
+    }
+
+    .systems {
+      min-height: 430px;
+      border: 2px solid rgba(21, 19, 15, .22);
+      border-radius: 18px;
+      background: rgba(255, 248, 234, .48);
+    }
+
+    .list {
+      display: grid;
+      gap: 12px;
+      padding: 0;
+      list-style: none;
+    }
+
+    .list li {
+      position: relative;
+      padding-left: 34px;
+    }
+
+    .list li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: .35em;
+      width: 16px;
+      height: 16px;
+      border: 2px solid var(--ink);
+      background: var(--gold);
+      transform: rotate(-8deg);
+    }
+
+    .image-strip {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+      align-items: stretch;
+    }
+
+    .image-strip figure {
+      margin: 0;
+      min-height: 310px;
+      padding: 12px;
+      border: 2px solid rgba(21, 19, 15, .24);
+      border-radius: 14px;
+      background: #fff8ea;
+      box-shadow: 8px 8px 0 rgba(21, 19, 15, .1);
+    }
+
+    .image-strip img {
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+      border-radius: 10px;
+      border: 1px solid rgba(21, 19, 15, .18);
+    }
+
+    figcaption {
+      padding-top: 10px;
+      font: 800 12px/1.2 "Trebuchet MS", Verdana, sans-serif;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: rgba(21, 19, 15, .68);
+    }
+
+    .split-head {
+      display: grid;
+      grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr);
+      gap: 38px;
+      align-items: end;
+    }
+
+    .arc {
+      min-height: 460px;
+    }
+
+    .note-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .note {
+      min-height: 142px;
+      padding: 18px;
+      border: 2px solid rgba(21, 19, 15, .25);
+      border-radius: 12px;
+      background: rgba(255, 248, 234, .72);
+      box-shadow: 7px 7px 0 rgba(21, 19, 15, .11);
+    }
+
+    .note h3 {
+      margin-bottom: 8px;
+      font-size: clamp(20px, 2.1vw, 28px);
+    }
+
+    .note p {
+      margin: 0;
+      font-size: clamp(16px, 1.35vw, 20px);
+    }
+
+    .constellation {
+      min-height: 520px;
+      border-radius: 24px;
+      background: #181a19;
+      color: #fff8ea;
+      overflow: hidden;
+      border: 2px solid rgba(21, 19, 15, .34);
+    }
+
+    .constellation svg text {
+      font-family: "Trebuchet MS", Verdana, sans-serif;
+      font-weight: 900;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    @media (max-width: 860px) {
+      body {
+        overflow: auto;
+      }
+
+      .deck-shell {
+        min-height: 100vh;
+        height: auto;
+        padding: 12px;
+      }
+
+      .stage {
+        width: 100%;
+        height: auto;
+        min-height: 720px;
+      }
+
+      .slide {
+        position: relative;
+        display: none;
+        min-height: 720px;
+        padding: 26px;
+      }
+
+      .slide.active {
+        display: grid;
+      }
+
+      .grid-2,
+      .split-head,
+      .image-strip,
+      .grid-3,
+      .note-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .portrait-stack {
+        min-height: 560px;
+      }
+
+      .moment {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media print {
+      body {
+        overflow: visible;
+        background: #fff;
+      }
+
+      .deck-shell {
+        display: block;
+        padding: 0;
+      }
+
+      .stage {
+        width: 100%;
+        height: auto;
+      }
+
+      .slide,
+      .slide.active,
+      .slide.prev {
+        position: relative;
+        opacity: 1;
+        transform: none;
+        pointer-events: auto;
+        page-break-after: always;
+        width: 100vw;
+        height: 100vh;
+        border-radius: 0;
+      }
+
+      .rail {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="deck-shell">
+    <section class="stage" aria-live="polite">
+      <article class="slide active" data-title="Title">
+        <span class="slide-no">01 / 14</span>
+        <div class="grid-2">
+          <div>
+            <p class="kicker">A visual profile built from the Work Brain</p>
+            <h1>Joel: The Builder's Weather Map</h1>
+            <p class="lead">A deck about the pressure, the craft, the wins, the dips, and the weirdly powerful instinct to turn messy work into systems that other people can actually use.</p>
+            <div class="word-cloud" aria-label="Themes">
+              <span>Systems</span><span>Pressure</span><span>Curiosity</span><span>Visuals</span>
+            </div>
+          </div>
+          <div class="weather-map" aria-hidden="true">
+            <span class="badge one">High pressure</span>
+            <span class="badge two">Build front</span>
+            <span class="badge three">Clarity zone</span>
+            <svg viewBox="0 0 520 430" role="img">
+              <path d="M20 300 C110 220 145 300 230 212 S390 104 500 168" fill="none" stroke="#15130f" stroke-width="4" stroke-dasharray="12 10"/>
+              <path d="M28 92 C116 124 144 52 224 88 S332 166 492 92" fill="none" stroke="#bb3d2f" stroke-width="5"/>
+              <path d="M54 356 C144 292 218 376 282 310 S404 264 484 326" fill="none" stroke="#2b5d83" stroke-width="5"/>
+              <g fill="none" stroke="#15130f" stroke-width="2" opacity=".7">
+                <circle cx="158" cy="196" r="55"/>
+                <circle cx="158" cy="196" r="90"/>
+                <circle cx="355" cy="246" r="46"/>
+                <circle cx="355" cy="246" r="78"/>
+              </g>
+              <g fill="#15130f">
+                <circle cx="158" cy="196" r="7"/>
+                <circle cx="355" cy="246" r="7"/>
+                <circle cx="260" cy="120" r="5"/>
+              </g>
+            </svg>
+          </div>
+        </div>
+        <div class="stamp">Built from real context</div>
+      </article>
+
+      <article class="slide" data-title="Premise">
+        <span class="slide-no">02 / 14</span>
+        <p class="kicker">The operating pattern</p>
+        <h2>You do not just want to get work done. You want the work to teach the system.</h2>
+        <p class="lead">That is the signal underneath the TA Brain, Joel's Work Brain, daily rundowns, visual reports, reminder ledgers, and automation experiments. You keep building a second brain around the work so the next version is less dependent on memory and more dependent on structure.</p>
+        <div class="grid-3">
+          <div class="panel metric"><b>01</b><span>Capture the mess</span></div>
+          <div class="panel metric"><b>02</b><span>Find the pattern</span></div>
+          <div class="panel metric"><b>03</b><span>Turn it into a tool</span></div>
+        </div>
+      </article>
+
+      <article class="slide" data-title="Snapshot">
+        <span class="slide-no">03 / 14</span>
+        <div class="split-head">
+          <div>
+            <p class="kicker">Current snapshot</p>
+            <h2>The work has two engines.</h2>
+          </div>
+          <p class="lead">One engine handles real conversion pressure: plans, wires, files, cleanup, people, dates, and blockers. The other engine turns that work into reusable knowledge, visuals, and automation.</p>
+        </div>
+        <div class="image-strip">
+          <figure>
+            <img src="image-samples/current-caseload-snapshot.png" alt="Current caseload snapshot visual sample">
+            <figcaption>Operational load</figcaption>
+          </figure>
+          <figure>
+            <img src="image-samples/open-reminder-snapshot.png" alt="Open reminder snapshot visual sample">
+            <figcaption>Risk radar</figcaption>
+          </figure>
+          <figure>
+            <img src="image-samples/leadership-demo-pack.png" alt="Leadership demo pack visual sample">
+            <figcaption>Show-the-work layer</figcaption>
+          </figure>
+        </div>
+      </article>
+
+      <article class="slide" data-title="Strengths">
+        <span class="slide-no">04 / 14</span>
+        <div class="grid-2">
+          <div>
+            <p class="kicker">Strength profile</p>
+            <h2>Your unfair advantage is translation.</h2>
+            <p class="lead">You can move between messy human context, operational detail, visual explanation, and repeatable tooling. That combination is rare because most people pick one lane and stay there.</p>
+          </div>
+          <div class="note-grid">
+            <div class="note"><h3>Pattern Finder</h3><p>You notice the repeatable move hiding inside a one-off problem.</p></div>
+            <div class="note"><h3>Visual Operator</h3><p>You care whether a thing can be understood at a glance, not just whether it exists.</p></div>
+            <div class="note"><h3>Pressure Handler</h3><p>You keep moving while plans, people, dates, files, and exceptions pull in different directions.</p></div>
+            <div class="note"><h3>System Builder</h3><p>You build ledgers, guides, dashboards, reports, and automations so future work has rails.</p></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="slide" data-title="Ups">
+        <span class="slide-no">05 / 14</span>
+        <p class="kicker">The ups</p>
+        <h2>The high points are not just outputs. They are compounding moves.</h2>
+        <div class="timeline">
+          <div class="moment"><strong>TA Brain</strong><p>You turned lived conversion knowledge into a growing institutional knowledge base with roles, processes, entities, onboarding paths, and visual procedure layers.</p></div>
+          <div class="moment"><strong>Work Brain</strong><p>You created a personal operating system for plans, projects, people, processes, reminders, reports, and daily dumps.</p></div>
+          <div class="moment"><strong>Report Factory</strong><p>You pushed past plain notes into daily briefs, snapshots, boss-ready one-pagers, image outputs, and leadership demo packs.</p></div>
+          <div class="moment"><strong>Automation</strong><p>You are wiring voice/text capture, Gmail/Drive intake, daily summaries, exports, and reminders into a lower-friction workflow.</p></div>
+        </div>
+      </article>
+
+      <article class="slide" data-title="Downs">
+        <span class="slide-no">06 / 14</span>
+        <div class="grid-2">
+          <div>
+            <p class="kicker">The downs</p>
+            <h2>The hard part is not ability. It is carrying too many open loops at once.</h2>
+            <p class="lead">The pattern I see: the work can become heavy when everything is alive at the same time: client plans, urgent cleanup, side projects, automation tests, training material, people follow-ups, and the wish to make all of it elegant.</p>
+          </div>
+          <ul class="list">
+            <li>Silence becomes risk because follow-ups disappear unless the system surfaces them.</li>
+            <li>Resolved issues can keep haunting the list unless the record is aggressively cleaned.</li>
+            <li>Side projects compete with active plan pressure unless they get their own lane.</li>
+            <li>The bar for visual quality can make early versions feel unsatisfying until the layout really changes.</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="slide" data-title="Recovery">
+        <span class="slide-no">07 / 14</span>
+        <p class="kicker">Recovery loop</p>
+        <h2>Your comeback pattern is operational: capture, sort, clarify, ship.</h2>
+        <div class="systems">
+          <svg viewBox="0 0 920 430" role="img" aria-label="Recovery loop diagram">
+            <defs>
+              <marker id="arrow" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto">
+                <path d="M0,0 L0,6 L8,3 z" fill="#15130f"/>
+              </marker>
+            </defs>
+            <path d="M160 215 C160 88 760 88 760 215 C760 342 160 342 160 215" fill="none" stroke="#15130f" stroke-width="4" stroke-dasharray="10 10" marker-end="url(#arrow)"/>
+            <g>
+              <rect x="62" y="168" width="190" height="96" rx="18" fill="#fff8ea" stroke="#15130f" stroke-width="3"/>
+              <text x="157" y="208" text-anchor="middle" font-size="20" font-weight="900">CAPTURE</text>
+              <text x="157" y="238" text-anchor="middle" font-size="15">brain dump</text>
+            </g>
+            <g>
+              <rect x="270" y="76" width="190" height="96" rx="18" fill="#ead89d" stroke="#15130f" stroke-width="3"/>
+              <text x="365" y="116" text-anchor="middle" font-size="20" font-weight="900">SORT</text>
+              <text x="365" y="146" text-anchor="middle" font-size="15">plans / people</text>
+            </g>
+            <g>
+              <rect x="480" y="258" width="190" height="96" rx="18" fill="#cdd9ca" stroke="#15130f" stroke-width="3"/>
+              <text x="575" y="298" text-anchor="middle" font-size="20" font-weight="900">CLARIFY</text>
+              <text x="575" y="328" text-anchor="middle" font-size="15">open vs resolved</text>
+            </g>
+            <g>
+              <rect x="682" y="168" width="190" height="96" rx="18" fill="#bed0dc" stroke="#15130f" stroke-width="3"/>
+              <text x="777" y="208" text-anchor="middle" font-size="20" font-weight="900">SHIP</text>
+              <text x="777" y="238" text-anchor="middle" font-size="15">brief / deck / tool</text>
+            </g>
+          </svg>
+        </div>
+      </article>
+
+      <article class="slide" data-title="Achievements">
+        <span class="slide-no">08 / 14</span>
+        <div class="grid-2">
+          <div>
+            <p class="kicker">Achievement wall</p>
+            <h2>Stuff that actually exists now.</h2>
+            <ul class="list">
+              <li>A 122-page TA Brain wiki with roles, processes, concepts, entities, sources, and onboarding structure.</li>
+              <li>A personal Work Brain with a durable object model and report factory.</li>
+              <li>Visual deliverables, pitch decks, procedure pages, animations, and standalone HTML tools.</li>
+              <li>Automation paths for daily summaries, brain dump intake, email movement, and balance-query export ideas.</li>
+            </ul>
+          </div>
+          <div class="portrait-stack">
+            <div class="portrait-card">
+              <img src="image-samples/boss-ready-one-pager.png" alt="Boss-ready one-pager sample">
+              <figcaption>Boss-ready one-pager</figcaption>
+            </div>
+            <div class="portrait-card">
+              <img src="image-samples/project-profile-ta-brain-onboarding-program.png" alt="TA Brain onboarding program project profile sample">
+              <figcaption>TA Brain onboarding program</figcaption>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="slide" data-title="Work Style">
+        <span class="slide-no">09 / 14</span>
+        <p class="kicker">Work style</p>
+        <h2>You are at your best when the work surface is alive.</h2>
+        <p class="lead">Static docs are useful, but you seem to light up when information becomes something you can move through: a deck, a map, a flow, a prototype, a one-pager, a tool, a wiki that behaves like a network.</p>
+        <div class="image-strip">
+          <figure>
+            <img src="image-samples/daily-work-map.png" alt="Daily work map sample">
+            <figcaption>Map the day</figcaption>
+          </figure>
+          <figure>
+            <img src="image-samples/weekly-plan.png" alt="Weekly plan sample">
+            <figcaption>Plan the week</figcaption>
+          </figure>
+          <figure>
+            <img src="image-samples/profile-builder-canonical.png" alt="Profile builder canonical sample">
+            <figcaption>Build the profile</figcaption>
+          </figure>
+        </div>
+      </article>
+
+      <article class="slide" data-title="Pressure">
+        <span class="slide-no">10 / 14</span>
+        <div class="grid-2">
+          <div>
+            <p class="kicker">Pressure map</p>
+            <h2>The danger zone is half-cleaned work.</h2>
+            <p class="lead">Your notes repeatedly show that the scary part is not the big obvious deadline. It is the almost-done thing: duplicate refs, missing fund links, stale follow-ups, unresolved file paths, quiet contacts, and tasks that look handled but still have one hidden hook.</p>
+          </div>
+          <div class="weather-map">
+            <svg viewBox="0 0 520 430" role="img" aria-label="Pressure map showing hidden operational risks">
+              <g fill="none" stroke="#15130f" stroke-width="3">
+                <path d="M64 82 H456 V342 H64 Z"/>
+                <path d="M112 126 H402"/>
+                <path d="M112 178 H402"/>
+                <path d="M112 230 H402"/>
+                <path d="M112 282 H402"/>
+              </g>
+              <g fill="#bb3d2f">
+                <circle cx="406" cy="126" r="12"/>
+                <circle cx="284" cy="230" r="12"/>
+                <circle cx="352" cy="282" r="12"/>
+              </g>
+              <g fill="#486f55">
+                <circle cx="112" cy="126" r="10"/>
+                <circle cx="112" cy="178" r="10"/>
+                <circle cx="112" cy="230" r="10"/>
+                <circle cx="112" cy="282" r="10"/>
+              </g>
+              <text x="260" y="385" text-anchor="middle" font-size="22" font-weight="900">CLEANUP IS THE REAL FINISH LINE</text>
+            </svg>
+          </div>
+        </div>
+      </article>
+
+      <article class="slide" data-title="People">
+        <span class="slide-no">11 / 14</span>
+        <p class="kicker">People pattern</p>
+        <h2>You treat people as part of the system, not as footnotes.</h2>
+        <p class="lead">The Work Brain keeps contacts, asks, ownership, mention history, and relationship context because execution is rarely just a task list. It is a network of who knows what, who can unblock what, and who needs the clean handoff.</p>
+        <div class="constellation">
+          <svg viewBox="0 0 920 520" role="img" aria-label="Relationship constellation">
+            <rect width="920" height="520" fill="#181a19"/>
+            <g stroke="#fff8ea" stroke-width="2" opacity=".55">
+              <path d="M458 250 L220 148 L166 350 L458 250 L690 146 L760 352 L458 250"/>
+              <path d="M220 148 L690 146"/>
+              <path d="M166 350 L760 352"/>
+              <path d="M458 250 L462 90"/>
+            </g>
+            <g>
+              <circle cx="458" cy="250" r="42" fill="#d0a13c"/>
+              <circle cx="220" cy="148" r="26" fill="#bed0dc"/>
+              <circle cx="690" cy="146" r="26" fill="#bed0dc"/>
+              <circle cx="166" cy="350" r="26" fill="#cdd9ca"/>
+              <circle cx="760" cy="352" r="26" fill="#cdd9ca"/>
+              <circle cx="462" cy="90" r="26" fill="#bb3d2f"/>
+            </g>
+            <text x="458" y="256" text-anchor="middle" font-size="18" fill="#15130f">JOEL</text>
+            <text x="220" y="102" text-anchor="middle" font-size="14" fill="#fff8ea">CLIENTS</text>
+            <text x="690" y="100" text-anchor="middle" font-size="14" fill="#fff8ea">TEAM</text>
+            <text x="166" y="406" text-anchor="middle" font-size="14" fill="#fff8ea">SMEs</text>
+            <text x="760" y="408" text-anchor="middle" font-size="14" fill="#fff8ea">SYSTEMS</text>
+            <text x="462" y="46" text-anchor="middle" font-size="14" fill="#fff8ea">LEADERSHIP</text>
+          </svg>
+        </div>
+      </article>
+
+      <article class="slide" data-title="Blind Spots">
+        <span class="slide-no">12 / 14</span>
+        <p class="kicker">Useful honesty</p>
+        <h2>The same strengths have sharp edges.</h2>
+        <div class="note-grid">
+          <div class="note"><h3>High standards</h3><p>Great for quality. Risky when a useful first pass gets judged like a final artifact.</p></div>
+          <div class="note"><h3>Many live systems</h3><p>Great for compounding. Risky when each tool creates another maintenance surface.</p></div>
+          <div class="note"><h3>Big visual taste</h3><p>Great for leadership buy-in. Risky when polish starts competing with operational clarity.</p></div>
+          <div class="note"><h3>Fast pattern jumps</h3><p>Great for invention. Risky when a page, file, or automation needs boring exactness.</p></div>
+        </div>
+        <p class="lead" style="margin-top:24px;">The fix is already in your system: clear lanes, severity, status, reminders, resolved sections, and small repeatable outputs.</p>
+      </article>
+
+      <article class="slide" data-title="Future">
+        <span class="slide-no">13 / 14</span>
+        <div class="grid-2">
+          <div>
+            <p class="kicker">What comes next</p>
+            <h2>The next level is not more notes. It is an operating layer.</h2>
+            <p class="lead">The obvious future is a loop where daily capture feeds the Work Brain, the Work Brain feeds reports, reports feed decisions, and the best decisions feed reusable TA Brain procedures.</p>
+          </div>
+          <div class="arc">
+            <svg viewBox="0 0 520 460" role="img" aria-label="Future operating layer">
+              <path d="M260 42 C380 70 468 166 468 282 C468 382 386 426 260 426 C134 426 52 382 52 282 C52 166 140 70 260 42Z" fill="#fff8ea" stroke="#15130f" stroke-width="4"/>
+              <path d="M102 284 C160 178 212 142 260 90 C310 144 360 178 418 284" fill="none" stroke="#2b5d83" stroke-width="5"/>
+              <path d="M116 322 C200 284 318 284 404 322" fill="none" stroke="#bb3d2f" stroke-width="5"/>
+              <g fill="#d0a13c" stroke="#15130f" stroke-width="3">
+                <circle cx="260" cy="92" r="26"/>
+                <circle cx="128" cy="314" r="26"/>
+                <circle cx="392" cy="314" r="26"/>
+                <circle cx="260" cy="392" r="26"/>
+              </g>
+              <text x="260" y="98" text-anchor="middle" font-size="14" font-weight="900">CAPTURE</text>
+              <text x="128" y="320" text-anchor="middle" font-size="14" font-weight="900">REPORT</text>
+              <text x="392" y="320" text-anchor="middle" font-size="14" font-weight="900">DECIDE</text>
+              <text x="260" y="398" text-anchor="middle" font-size="14" font-weight="900">REUSE</text>
+            </svg>
+          </div>
+        </div>
+      </article>
+
+      <article class="slide" data-title="Close">
+        <span class="slide-no">14 / 14</span>
+        <p class="kicker">The read</p>
+        <p class="quote">You are building proof that the messy middle can become a map.</p>
+        <p class="lead">That is the through-line: not perfection, not fake calm, not pretending the downs are not real. The win is that you keep converting pressure into structure, structure into visuals, and visuals into tools people can actually understand.</p>
+        <div class="word-cloud">
+          <span>Keep capturing</span><span>Keep clearing</span><span>Keep shipping</span><span>Keep making it visible</span>
+        </div>
+        <div class="stamp">End deck</div>
+      </article>
+    </section>
+
+    <nav class="rail" aria-label="Slide controls">
+      <div class="buttons">
+        <button type="button" id="prev" aria-label="Previous slide">&#8592;</button>
+        <button type="button" id="next" aria-label="Next slide">&#8594;</button>
+      </div>
+      <div class="progress" aria-hidden="true"><div class="bar" id="bar"></div></div>
+      <div id="counter">01 / 14</div>
+    </nav>
+  </main>
+
+  <script>
+    const slides = [...document.querySelectorAll(".slide")];
+    const next = document.querySelector("#next");
+    const prev = document.querySelector("#prev");
+    const counter = document.querySelector("#counter");
+    const bar = document.querySelector("#bar");
+    let index = 0;
+
+    function pad(n) {
+      return String(n).padStart(2, "0");
+    }
+
+    function show(nextIndex) {
+      const last = index;
+      index = (nextIndex + slides.length) % slides.length;
+      slides.forEach((slide, i) => {
+        slide.classList.toggle("active", i === index);
+        slide.classList.toggle("prev", i < index || (index === 0 && i === slides.length - 1 && last === 0));
+      });
+      counter.textContent = `${pad(index + 1)} / ${pad(slides.length)}`;
+      bar.style.width = `${((index + 1) / slides.length) * 100}%`;
+      document.title = `${slides[index].dataset.title} - Joel: The Builder's Weather Map`;
+    }
+
+    next.addEventListener("click", () => show(index + 1));
+    prev.addEventListener("click", () => show(index - 1));
+    window.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowRight" || event.key === "PageDown" || event.key === " ") show(index + 1);
+      if (event.key === "ArrowLeft" || event.key === "PageUp") show(index - 1);
+      if (event.key === "Home") show(0);
+      if (event.key === "End") show(slides.length - 1);
+    });
+
+    show(0);
+  </script>
+</body>
+</html>

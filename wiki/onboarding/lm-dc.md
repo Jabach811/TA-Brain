@@ -25,7 +25,7 @@ New hires or transfers into the Large Market Data Consultant role. Also useful f
 
 4. **[[plan-conversion-handoffs]]** — How work moves between teams. Read this alongside the workflow so you understand not just your steps, but where things come from and where they go.
 
-5. **[[internal-teams]]** — Who everyone is and how they relate to you. Know these names before your first kickoff meeting.
+5. **** — Who everyone is and how they relate to you. Know these names before your first kickoff meeting.
 
 6. **[[nbi]]** — The universal plan checklist. You will live in this system. Understand what it tracks and when to update it.
 

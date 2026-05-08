@@ -1,0 +1,10 @@
+# Updating Deferrals for Terminated Participants to Zero
+
+## Purpose
+- Deactivate existing deferral rows and insert zero-percent deferrals.
+
+## Process Summary
+- Temporarily flag participants.
+- Move active deferrals to history.
+- Insert zero deferral rows.
+- Verify and remove flags.

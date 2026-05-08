@@ -1,6 +1,6 @@
 ---
 title: "Conversion Types"
-type: concept
+type: reference
 tags: [conversion, cash, mapping, transfer-in-kind, core]
 created: 2026-04-14
 updated: 2026-04-14

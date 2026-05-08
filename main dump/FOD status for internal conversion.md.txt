@@ -1,0 +1,20 @@
+# FOD status for internal conversion
+
+## SQL
+```sql
+select soC_sec_no, ee_last_nm, ee_fst_mid_nm, ee_hire_dt, ee_term_dt,ee_disb_stat_cd
+from corp.employee
+where case_no='GP61992   00001' ---(old case)
+and ee_disb_stat_cd='1'
+
+
+-----------------------------
+
+update corp.employee
+set ee_disb_stat_cd='1'
+where case_no='QK62519   00001'  ---(new case)
+and soc_Sec_no in (select soC_sec_no
+from corp.employee
+where case_no='GP61992   00001'  ---(old case)
+and ee_disb_stat_cd='1')
+```

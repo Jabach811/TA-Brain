@@ -1,0 +1,267 @@
+<h2>Where does the animation live?</h2>
+<p class="subtitle">Three layout approaches — click one to pick it</p>
+
+<style>
+  .layout-grid { display: flex; flex-direction: column; gap: 24px; max-width: 900px; margin: 0 auto; }
+  .layout-card {
+    border: 2px solid #30303c;
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    background: #16161c;
+  }
+  .layout-card:hover { border-color: #a277ff88; }
+  .layout-card.selected { border-color: #a277ff; box-shadow: 0 0 0 3px #a277ff33; }
+
+  .layout-label {
+    padding: 14px 20px 10px;
+    border-bottom: 1px solid #30303c;
+    display: flex; align-items: baseline; gap: 12px;
+  }
+  .layout-label .letter {
+    background: #a277ff22;
+    color: #a277ff;
+    font-weight: 700;
+    font-size: 13px;
+    padding: 3px 10px;
+    border-radius: 6px;
+    border: 1px solid #a277ff44;
+  }
+  .layout-label .name { font-weight: 600; font-size: 15px; color: #dcddde; }
+  .layout-label .desc { font-size: 13px; color: #9a9aa8; margin-left: auto; }
+
+  .diagram-wrap { padding: 20px; background: #0d0d14; }
+
+  /* Wiki shell */
+  .wiki-shell {
+    border: 1px solid #30303c;
+    border-radius: 8px;
+    overflow: hidden;
+    font-family: system-ui, sans-serif;
+  }
+  .wiki-topbar {
+    height: 32px;
+    background: #16161c;
+    border-bottom: 1px solid #30303c;
+    display: flex; align-items: center; gap: 8px; padding: 0 12px;
+  }
+  .wiki-topbar .dot { width: 8px; height: 8px; border-radius: 50%; }
+  .wiki-topbar .brand { font-size: 11px; font-weight: 700; color: #a277ff; margin-left: 4px; }
+  .wiki-body { display: flex; min-height: 300px; }
+  .wiki-sidebar-l { width: 80px; background: #16161c; border-right: 1px solid #30303c; padding: 8px 6px; flex-shrink: 0; }
+  .wiki-sidebar-r { width: 70px; background: #16161c; border-left: 1px solid #30303c; padding: 8px 6px; flex-shrink: 0; }
+  .sb-item { height: 6px; background: #30303c; border-radius: 2px; margin-bottom: 5px; }
+  .wiki-main { flex: 1; padding: 16px; overflow: hidden; }
+
+  /* Anim block */
+  .anim-block {
+    background: linear-gradient(135deg, #1e1030 0%, #0d1a30 100%);
+    border: 1px solid #a277ff55;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    color: #a277ff;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+  .anim-block::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 40% 50%, #a277ff18, transparent 65%),
+                radial-gradient(ellipse at 75% 50%, #7aa2f712, transparent 65%);
+  }
+  .anim-block .anim-label { position: relative; z-index: 1; display: flex; align-items: center; gap: 6px; }
+  .anim-block .play-dot { width: 20px; height: 20px; border-radius: 50%; background: #a277ff22; border: 1px solid #a277ff66; display: flex; align-items: center; justify-content: center; font-size: 8px; }
+  .anim-progress { position: absolute; bottom: 6px; left: 12px; right: 12px; height: 3px; background: #ffffff18; border-radius: 2px; z-index: 1; }
+  .anim-progress-fill { height: 100%; width: 40%; background: linear-gradient(90deg, #a277ff, #7aa2f7); border-radius: 2px; }
+
+  /* Text block */
+  .text-lines { }
+  .tl { height: 5px; background: #2a2a38; border-radius: 2px; margin-bottom: 6px; }
+  .tl.w100 { width: 100%; }
+  .tl.w90 { width: 90%; }
+  .tl.w80 { width: 80%; }
+  .tl.w70 { width: 70%; }
+  .tl.w60 { width: 60%; }
+  .tl.title { height: 14px; background: #e0e0e8; width: 55%; margin-bottom: 14px; border-radius: 3px; }
+  .tl.sub { height: 8px; background: #3a3a50; width: 75%; margin-bottom: 12px; }
+
+  /* Tags row */
+  .tags { display: flex; gap: 6px; margin-bottom: 12px; }
+  .tag { height: 16px; width: 48px; background: #2b2538; border-radius: 10px; border: 1px solid #a277ff33; }
+
+  .prose-detail { font-size: 11px; color: #6d6d7a; margin-top: 8px; text-align: center; font-style: italic; }
+</style>
+
+<div class="layout-grid">
+
+  <!-- Option A: Cinematic Hero -->
+  <div class="layout-card" data-choice="hero" onclick="toggleSelect(this)">
+    <div class="layout-label">
+      <span class="letter">A</span>
+      <span class="name">Cinematic Hero</span>
+      <span class="desc">Full-width animation banner → title → text below</span>
+    </div>
+    <div class="diagram-wrap">
+      <div class="wiki-shell">
+        <div class="wiki-topbar">
+          <div class="dot" style="background:#ff5f57"></div>
+          <div class="dot" style="background:#febc2e"></div>
+          <div class="dot" style="background:#28c840"></div>
+          <span class="brand">TA Brain</span>
+        </div>
+        <div class="wiki-body">
+          <div class="wiki-sidebar-l">
+            <div class="sb-item" style="width:90%"></div>
+            <div class="sb-item" style="width:70%"></div>
+            <div class="sb-item" style="width:80%"></div>
+            <div class="sb-item" style="width:60%"></div>
+            <div class="sb-item" style="width:75%"></div>
+          </div>
+          <div class="wiki-main">
+            <!-- Animation hero — FIRST thing, full width -->
+            <div class="anim-block" style="height:160px; margin-bottom:16px;">
+              <div class="anim-label">
+                <div class="play-dot">▶</div>
+                Animation auto-playing
+              </div>
+              <div class="anim-progress"><div class="anim-progress-fill"></div></div>
+            </div>
+            <!-- Title and tags after animation -->
+            <div class="tl title"></div>
+            <div class="tags"><div class="tag"></div><div class="tag"></div><div class="tag"></div></div>
+            <div class="tl w100"></div>
+            <div class="tl w90"></div>
+            <div class="tl w80"></div>
+            <div class="tl w70"></div>
+          </div>
+          <div class="wiki-sidebar-r">
+            <div class="sb-item" style="width:80%"></div>
+            <div class="sb-item" style="width:60%"></div>
+            <div class="sb-item" style="width:90%"></div>
+          </div>
+        </div>
+      </div>
+      <p class="prose-detail">Animation is the first thing you see. Page title and content scroll below after the animation ends.</p>
+    </div>
+  </div>
+
+  <!-- Option B: Inline Theater -->
+  <div class="layout-card" data-choice="inline" onclick="toggleSelect(this)">
+    <div class="layout-label">
+      <span class="letter">B</span>
+      <span class="name">Inline Theater</span>
+      <span class="desc">Title → intro text → animation mid-page → rest of content</span>
+    </div>
+    <div class="diagram-wrap">
+      <div class="wiki-shell">
+        <div class="wiki-topbar">
+          <div class="dot" style="background:#ff5f57"></div>
+          <div class="dot" style="background:#febc2e"></div>
+          <div class="dot" style="background:#28c840"></div>
+          <span class="brand">TA Brain</span>
+        </div>
+        <div class="wiki-body">
+          <div class="wiki-sidebar-l">
+            <div class="sb-item" style="width:90%"></div>
+            <div class="sb-item" style="width:70%"></div>
+            <div class="sb-item" style="width:80%"></div>
+            <div class="sb-item" style="width:60%"></div>
+            <div class="sb-item" style="width:75%"></div>
+          </div>
+          <div class="wiki-main">
+            <!-- Title first -->
+            <div class="tl title"></div>
+            <div class="tags"><div class="tag"></div><div class="tag"></div><div class="tag"></div></div>
+            <!-- Brief intro text -->
+            <div class="tl w100"></div>
+            <div class="tl w90"></div>
+            <div class="tl w80" style="margin-bottom:14px;"></div>
+            <!-- Animation inline as a section -->
+            <div class="anim-block" style="height:120px; margin-bottom:14px;">
+              <div class="anim-label">
+                <div class="play-dot">▶</div>
+                Animation auto-playing
+              </div>
+              <div class="anim-progress"><div class="anim-progress-fill"></div></div>
+            </div>
+            <!-- More content below -->
+            <div class="tl w100"></div>
+            <div class="tl w90"></div>
+            <div class="tl w70"></div>
+          </div>
+          <div class="wiki-sidebar-r">
+            <div class="sb-item" style="width:80%"></div>
+            <div class="sb-item" style="width:60%"></div>
+            <div class="sb-item" style="width:90%"></div>
+          </div>
+        </div>
+      </div>
+      <p class="prose-detail">Text introduces the concept first. Animation plays as a section when you scroll to it. More text continues after.</p>
+    </div>
+  </div>
+
+  <!-- Option C: Split Stage -->
+  <div class="layout-card" data-choice="split" onclick="toggleSelect(this)">
+    <div class="layout-label">
+      <span class="letter">C</span>
+      <span class="name">Persistent Stage</span>
+      <span class="desc">Animation sticky on right — text scrolls on left — both visible at once</span>
+    </div>
+    <div class="diagram-wrap">
+      <div class="wiki-shell">
+        <div class="wiki-topbar">
+          <div class="dot" style="background:#ff5f57"></div>
+          <div class="dot" style="background:#febc2e"></div>
+          <div class="dot" style="background:#28c840"></div>
+          <span class="brand">TA Brain</span>
+        </div>
+        <div class="wiki-body">
+          <div class="wiki-sidebar-l">
+            <div class="sb-item" style="width:90%"></div>
+            <div class="sb-item" style="width:70%"></div>
+            <div class="sb-item" style="width:80%"></div>
+            <div class="sb-item" style="width:60%"></div>
+          </div>
+          <!-- Main area split: text left + anim right -->
+          <div class="wiki-main" style="display:flex; gap:12px; padding:16px;">
+            <!-- Text column -->
+            <div style="flex:1;">
+              <div class="tl title"></div>
+              <div class="tags"><div class="tag"></div><div class="tag"></div></div>
+              <div class="tl w100"></div>
+              <div class="tl w90"></div>
+              <div class="tl w80"></div>
+              <div class="tl w100"></div>
+              <div class="tl w70"></div>
+              <div class="tl w90"></div>
+              <div class="tl w80"></div>
+              <div class="tl w60"></div>
+            </div>
+            <!-- Animation sticky panel -->
+            <div class="anim-block" style="width:45%; flex-shrink:0; min-height:220px; align-self:flex-start; position:sticky; top:0;">
+              <div class="anim-label" style="flex-direction:column; gap:4px;">
+                <div class="play-dot" style="width:28px;height:28px;font-size:10px;">▶</div>
+                <span>Auto-playing</span>
+              </div>
+              <div class="anim-progress" style="bottom:10px;"><div class="anim-progress-fill"></div></div>
+            </div>
+          </div>
+          <div class="wiki-sidebar-r">
+            <div class="sb-item" style="width:80%"></div>
+            <div class="sb-item" style="width:60%"></div>
+            <div class="sb-item" style="width:90%"></div>
+          </div>
+        </div>
+      </div>
+      <p class="prose-detail">Animation stays fixed on the right while you read. Read and watch at the same time. Replaces the right sidebar on animated pages.</p>
+    </div>
+  </div>
+
+</div>

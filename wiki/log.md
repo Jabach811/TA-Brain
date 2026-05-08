@@ -343,3 +343,9 @@
   - `index` — page count 111 → 113; added `processes/loan-setup` and `concepts/loan-setup` rows; refreshed `concepts/informatica-loan-module` summary
 - Animation: registered `LoanSetupScene` in `wiki-v2.html` `PROCESS_ANIMS` for slug `loan-setup` (31s, 1280×720). Full 6-scene component embedded with LS_-prefixed primitives to avoid namespace collision with TIK/Cash/Census/FundMap scenes.
 - Notes: Source content drawn from `Data_Consultant_Website_v2_12.html` Loan Import Workflow (lines ~8700–9100). Loans subdomain now matches Census/FundMap/TIK depth.
+
+## [2026-05-05] edit | Loan Setup diagram added to lifecycle wiki
+- Asset added: `fresh-rebuild/diagrams/loan-loading-detail.png`
+- Pages updated: `concepts/loan-setup`, `index`
+- App builder updated: PNGs with `diagrams`, `flow`, `map`, or `diagram` in the path/caption now render as Diagram media instead of Screenshot media; the media jump chip uses a diagram icon when the first media item is a diagram.
+- Notes: First pass in the new diagram-media track. Existing screenshot wiring remains intact.

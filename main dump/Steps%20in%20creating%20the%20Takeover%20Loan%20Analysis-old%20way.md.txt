@@ -1,0 +1,10 @@
+# Steps in Creating the Takeover Loan Analysis (Legacy Method)
+
+## Purpose
+- Document manual steps for takeover loan analysis prior to automation.
+
+## Key Steps
+- Add effective date to loan worksheet
+- Calculate payments until maturity and catch-up amounts
+- Retrieve termination dates via AQT
+- Validate loan status

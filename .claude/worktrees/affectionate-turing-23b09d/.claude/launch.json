@@ -1,0 +1,23 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "marp-balance",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["@marp-team/marp-cli", "--html", "-s", "."],
+      "port": 8080
+    },
+    {
+      "name": "wiki",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "8765"],
+      "port": 8765
+    },
+    {
+      "name": "app",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "8777"],
+      "port": 8777
+    }
+  ]
+}

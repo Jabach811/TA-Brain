@@ -1,0 +1,10 @@
+# Auto Enrollment Setup and Logic
+
+## Components
+- Sources Tab
+- Payroll Deduction (Outsourcing) Tab
+- Auto Escalation setup
+
+## Key Dates
+- Auto Enroll Effective Date (eligibility logic)
+- Auto Escalation Effective and Increase Dates

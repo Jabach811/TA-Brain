@@ -1,6 +1,6 @@
 ---
 title: "Data Discovery Document"
-type: concept
+type: document
 tags: [data, discovery, document, prior-rk, process]
 created: 2026-04-16
 updated: 2026-04-16

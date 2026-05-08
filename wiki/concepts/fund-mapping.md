@@ -1,10 +1,10 @@
 ---
 title: "Fund Mapping"
-type: concept
+type: document
 tags: [mapping, funds, toa, conversion]
 created: 2026-04-14
-updated: 2026-04-14
-sources: 2
+updated: 2026-05-03
+sources: 3
 ---
 
 # Fund Mapping
@@ -49,9 +49,26 @@ Based on TOA data plus internal TA fields:
 | **Split Code** | DC fills in (TA internal) |
 | **Total** | DC fills in (TA internal) |
 
+![Fund mapping template — TOA columns on the left, TA-internal fields on the right.](SS/Fund Mapping.jpg)
+
 ## Scope
 
 Fund mapping is **plan-wide** — not per source. One mapping covers all sources in the plan.
+
+## Fund Splits (Rare)
+
+About **1 in 25 mapping plans** has a fund split: a single prior-RK fund that maps to **two** TA funds rather than one. When this happens, the template's split fields come into play:
+
+- **Split Code** — flags the row as a split
+- **Split Ratio** — how the prior fund's balance divides between the two destination funds (e.g., 50/50, 75/25)
+
+A second row in the template captures the second destination fund and its share of the ratio. Both rows reference the same prior fund.
+
+Splits are rare but real — verify the ratios against whatever the TOA or client documentation specifies, and don't guess.
+
+## Codes Don't Always Match the TOA
+
+Sometimes the prior-fund codes that show up on the actual test or final files don't match what the TOA listed. When this happens you may have to **map two ways** — the file-side code in one column, the TOA code in another, both pointing to the same TA fund. **Show your work** in the template so QA can follow it.
 
 ## Cash Conversion Exception
 
@@ -79,4 +96,3 @@ Both are needed for mapping/TIK plans. Source mapping requires test files; fund 
 - [[source-mapping]]
 - [[conversion-types]]
 - [[dc-onboarding-workflow]]
-- [[internal-teams]]

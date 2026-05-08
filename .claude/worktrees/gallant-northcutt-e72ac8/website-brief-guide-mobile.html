@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Planning Your Website — A Plain-English Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Raleway:wght@100;200;300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --accent: #ff6b1a;
+    --accent-hover: #ff8c4a;
+    --dark: #000;
+    --card: #0a0a0a;
+    --card-2: #111;
+    --border: #1a1a1a;
+    --body: #b8b8b8;
+    --body-2: #999;
+    --label: #777;
+    --muted: #555;
+    --light: #fff;
+    --green: #22c55e;
+    --red: #ef4444;
+    --yellow: #f5a623;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--dark);
+    color: var(--light);
+    font-family: 'Raleway', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-weight: 300;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    padding: 0;
+    overflow-x: hidden;
+  }
+
+  .wrap {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 40px 22px 80px;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: 'Outfit', sans-serif;
+    color: var(--light);
+    margin: 0;
+    line-height: 1.15;
+  }
+
+  h1 {
+    font-weight: 800;
+    font-size: 2.2em;
+    letter-spacing: -0.02em;
+  }
+
+  h2 {
+    font-weight: 700;
+    font-size: 1.55em;
+    margin-bottom: 6px;
+  }
+
+  h3 {
+    font-family: 'Outfit';
+    font-weight: 600;
+    font-size: 0.72em;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    margin-bottom: 10px;
+  }
+
+  h4 {
+    font-weight: 600;
+    font-size: 1em;
+    color: var(--light);
+    margin-bottom: 4px;
+  }
+
+  p { margin: 0 0 12px; color: var(--body); font-size: 1em; }
+
+  strong { color: var(--accent); font-weight: 400; }
+  em { color: var(--light); font-style: normal; font-weight: 400; }
+
+  .hero {
+    text-align: center;
+    padding: 30px 0 10px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 40px;
+  }
+  .hero svg { margin-bottom: 16px; }
+  .hero h1 { font-size: 2.4em; margin-bottom: 12px; }
+  .hero .sub {
+    color: var(--body);
+    font-size: 1.05em;
+    max-width: 420px;
+    margin: 0 auto 22px;
+    line-height: 1.5;
+  }
+  .divider { width: 48px; height: 2px; background: var(--accent); border-radius: 2px; margin: 14px auto; }
+
+  .pill {
+    display: inline-block;
+    font-family: 'Outfit';
+    font-weight: 600;
+    font-size: 0.68em;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border-radius: 980px;
+    border: 1px solid var(--border);
+    color: var(--body);
+    background: var(--card);
+    margin-bottom: 8px;
+  }
+
+  section.block {
+    padding: 32px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  section.block:last-of-type { border-bottom: none; }
+
+  .kicker {
+    font-family: 'Outfit';
+    font-weight: 700;
+    font-size: 0.72em;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    margin-bottom: 10px;
+  }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px 20px;
+    margin-bottom: 12px;
+    position: relative;
+    overflow: hidden;
+  }
+  .card::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), transparent);
+  }
+  .card.plain::before { display: none; }
+
+  .card .idx {
+    font-family: 'Outfit';
+    font-weight: 600;
+    font-size: 0.72em;
+    color: var(--muted);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+  .card .ttl {
+    font-family: 'Outfit';
+    font-weight: 700;
+    font-size: 1.1em;
+    color: var(--light);
+    margin: 4px 0 6px;
+  }
+  .card .sub {
+    color: var(--body);
+    font-size: 0.95em;
+    line-height: 1.5;
+  }
+
+  .grid-9 {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    margin-top: 14px;
+  }
+  @media (min-width: 560px) {
+    .grid-9 { grid-template-columns: 1fr 1fr; }
+  }
+  @media (min-width: 820px) {
+    .grid-9 { grid-template-columns: 1fr 1fr 1fr; }
+  }
+
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  @media (min-width: 640px) {
+    .two-col { grid-template-columns: 1fr 1fr; }
+  }
+
+  .q-block {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+    margin-bottom: 8px;
+    color: var(--body);
+    font-size: 0.98em;
+    line-height: 1.5;
+  }
+  .q-block strong { color: var(--light); font-weight: 600; }
+
+  .compare {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    margin-top: 12px;
+  }
+  .compare > div {
+    padding: 14px 16px;
+    border-radius: 10px;
+    font-size: 0.95em;
+    line-height: 1.5;
+  }
+  .compare .vague { background: #1a0a0a; border: 1px solid #3a1010; color: #e5c9b0; }
+  .compare .clear { background: #0a1a0a; border: 1px solid #103a10; color: #c9e5c9; }
+
+  .sitemap {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px 22px;
+    font-family: 'Outfit';
+    font-size: 1em;
+    line-height: 2;
+  }
+  .sitemap .top { color: var(--accent); }
+  .sitemap .mid { color: var(--body); margin-left: 14px; }
+  .sitemap .low { color: var(--label); margin-left: 28px; font-size: 0.92em; }
+
+  .rule-list { list-style: none; padding: 0; margin: 0; }
+  .rule-list li {
+    padding: 8px 0;
+    font-size: 0.98em;
+    color: var(--body);
+    border-bottom: 1px solid var(--border);
+  }
+  .rule-list li:last-child { border-bottom: none; }
+  .rule-list li strong { color: var(--light); font-weight: 600; }
+
+  .card-good { border-top: 2px solid var(--green); }
+  .card-bad  { border-top: 2px solid var(--red); }
+  .card-warn { border-top: 2px solid var(--yellow); }
+  .card-good::before, .card-bad::before, .card-warn::before { display: none; }
+  .card-good .idx { color: var(--green); }
+  .card-bad  .idx { color: var(--red); }
+  .card-warn .idx { color: var(--yellow); }
+
+  .stat-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 1px solid var(--border);
+    padding: 10px 0;
+    font-size: 0.95em;
+  }
+  .stat-row:last-child { border-bottom: none; }
+  .stat-row .k {
+    color: var(--label);
+    font-family: 'Outfit';
+    font-weight: 600;
+    font-size: 0.85em;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    flex-shrink: 0;
+  }
+  .stat-row .v {
+    color: var(--light);
+    font-weight: 400;
+    text-align: right;
+  }
+
+  details {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin-bottom: 10px;
+  }
+  details summary {
+    color: var(--accent);
+    font-family: 'Outfit';
+    font-weight: 600;
+    font-size: 0.92em;
+    cursor: pointer;
+    letter-spacing: 0.06em;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  details summary::-webkit-details-marker { display: none; }
+  details summary::before {
+    content: "+";
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    line-height: 18px;
+    border: 1px solid var(--accent);
+    border-radius: 50%;
+    font-size: 0.9em;
+    transition: transform 0.2s;
+    flex-shrink: 0;
+  }
+  details[open] summary::before { content: "−"; }
+  details p {
+    color: var(--body);
+    font-size: 0.96em;
+    margin-top: 10px;
+    line-height: 1.6;
+  }
+
+  .checklist {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+  @media (min-width: 640px) {
+    .checklist { grid-template-columns: 1fr 1fr; gap: 6px 20px; }
+  }
+  .check-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 8px 0;
+    font-size: 0.95em;
+    color: var(--body);
+    line-height: 1.45;
+  }
+  .check-item input {
+    accent-color: var(--accent);
+    margin-top: 3px;
+    flex-shrink: 0;
+    width: 18px;
+    height: 18px;
+  }
+
+  .section-title {
+    margin-bottom: 8px;
+  }
+  .section-lede {
+    color: var(--body-2);
+    font-size: 1em;
+    margin-bottom: 18px;
+    line-height: 1.5;
+  }
+
+  .big-idea {
+    text-align: center;
+    padding: 60px 0 40px;
+    border-top: 1px solid var(--border);
+    margin-top: 30px;
+  }
+  .big-idea h2 {
+    font-family: 'Outfit';
+    font-weight: 800;
+    font-size: 2em;
+    margin-bottom: 16px;
+  }
+  .big-idea p {
+    max-width: 460px;
+    margin: 0 auto;
+    color: var(--body);
+    font-size: 1.05em;
+  }
+
+  ul.plain { list-style: none; padding: 0; margin: 0; }
+  ul.plain li {
+    padding: 6px 0;
+    padding-left: 22px;
+    position: relative;
+    color: var(--body);
+    font-size: 0.98em;
+    line-height: 1.5;
+  }
+  ul.plain li::before {
+    content: "";
+    position: absolute;
+    left: 4px;
+    top: 14px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+
+  .footer-note {
+    font-size: 0.88em;
+    color: var(--label);
+    margin-top: 14px;
+    line-height: 1.6;
+    font-style: normal;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hero">
+    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#ff6b1a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="2" y="3" width="20" height="14" rx="2"/>
+      <line x1="8" y1="21" x2="16" y2="21"/>
+      <line x1="12" y1="17" x2="12" y2="21"/>
+      <line x1="2" y1="8" x2="22" y2="8"/>
+      <circle cx="5" cy="5.5" r="0.6" fill="#ff6b1a"/>
+      <circle cx="7" cy="5.5" r="0.6" fill="#ff6b1a"/>
+    </svg>
+    <h1>Planning Your Website</h1>
+    <div class="divider"></div>
+    <p class="sub">A plain-English guide to telling the person building your site what you actually want.</p>
+    <span class="pill">Start here</span>
+  </div>
+
+  <section class="block">
+    <div class="kicker">Why this matters</div>
+    <h2 class="section-title">Think of it like building a house</h2>
+    <p class="section-lede">You wouldn't tell a builder "just build me a house" and walk away.</p>
+
+    <div class="card">
+      <div class="idx" style="color:var(--red);">If you don't tell them</div>
+      <div class="ttl" style="color:var(--red);">They'll guess</div>
+      <div class="sub">And their guess probably isn't what was in your head. You end up redoing rooms you never wanted.</div>
+    </div>
+
+    <div class="card">
+      <div class="idx" style="color:var(--green);">If you do tell them</div>
+      <div class="ttl" style="color:var(--green);">They'll build it</div>
+      <div class="sub">You get what you pictured because you said what you pictured.</div>
+    </div>
+
+    <div class="card">
+      <div class="idx">The simple rule</div>
+      <div class="ttl">Say more up front</div>
+      <div class="sub">Every answer you give before building saves you from ten "wait, what about…" moments later.</div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="kicker">The framework</div>
+    <h2 class="section-title">The 9 things to tell them</h2>
+    <p class="section-lede">Answer all nine and you'll get a great website.</p>
+
+    <div class="grid-9">
+      <div class="card"><div class="idx">01</div><div class="ttl">What it's for</div><div class="sub">Why do you need this website at all?</div></div>
+      <div class="card"><div class="idx">02</div><div class="ttl">Who it's for</div><div class="sub">Who's going to visit, and what do they want?</div></div>
+      <div class="card"><div class="idx">03</div><div class="ttl">How it looks</div><div class="sub">Your logo, colors, photos, and overall vibe.</div></div>
+      <div class="card"><div class="idx">04</div><div class="ttl">What it says</div><div class="sub">The actual words and pictures on the site.</div></div>
+      <div class="card"><div class="idx">05</div><div class="ttl">The pages</div><div class="sub">A list of every page you want.</div></div>
+      <div class="card"><div class="idx">06</div><div class="ttl">What it does</div><div class="sub">Buttons, forms, booking, payments — anything clickable.</div></div>
+      <div class="card"><div class="idx">07</div><div class="ttl">Examples</div><div class="sub">Websites you love. Websites you don't.</div></div>
+      <div class="card"><div class="idx">08</div><div class="ttl">The basics</div><div class="sub">Your web address, the other tools you use.</div></div>
+      <div class="card"><div class="idx">09</div><div class="ttl">What "done" means</div><div class="sub">How will you know it's working?</div></div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="kicker">01 · What it's for</div>
+    <h2 class="section-title">Finish this sentence</h2>
+    <p class="section-lede">"I want people to ___ on my website."</p>
+
+    <h3>Pick the one main thing</h3>
+    <div class="q-block"><strong>Buy something</strong> — a product or a service</div>
+    <div class="q-block"><strong>Book something</strong> — an appointment, a table, a call</div>
+    <div class="q-block"><strong>Contact you</strong> — fill out a form, email, or call</div>
+    <div class="q-block"><strong>Learn something</strong> — about you, or what you do</div>
+    <div class="q-block"><strong>Sign up</strong> — for a newsletter or an account</div>
+
+    <h3 style="margin-top:22px;">Fuzzy vs. clear</h3>
+    <div class="compare">
+      <div class="vague"><strong style="color:#ff8880;">Fuzzy:</strong> "I want a website for my coffee shop."</div>
+      <div class="clear"><strong style="color:#7fd67f;">Clear:</strong> "I want people nearby to see our menu and book a table."</div>
+    </div>
+    <p class="footer-note">If you can't say what one thing visitors should do, figure that out first. Everything else depends on it.</p>
+  </section>
+
+  <section class="block">
+    <div class="kicker">02 · Who it's for</div>
+    <h2 class="section-title">Picture one real person</h2>
+    <p class="section-lede">Describe the main visitor like you'd describe a friend.</p>
+
+    <div class="two-col">
+      <div class="card">
+        <div class="idx">Tell them</div>
+        <div class="ttl">About this person</div>
+        <ul class="plain">
+          <li>Roughly how old they are</li>
+          <li>Where they live — local or anywhere?</li>
+          <li>What they already know about you</li>
+          <li>Phone user or computer user?</li>
+          <li>In a hurry, or browsing casually?</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="idx">Tell them</div>
+        <div class="ttl">Why they're visiting</div>
+        <ul class="plain">
+          <li>What brought them to the site</li>
+          <li>What they're hoping to find</li>
+          <li>What would make them trust you</li>
+          <li>What would make them leave</li>
+          <li>Who else they might compare you to</li>
+        </ul>
+      </div>
+    </div>
+    <p class="footer-note">A little story helps a lot. <em>"Sarah, 34, planning her sister's wedding, looking at venues on her phone during her lunch break"</em> tells someone more than any list of numbers.</p>
+  </section>
+
+  <section class="block">
+    <div class="kicker">03 · How it looks</div>
+    <h2 class="section-title">The look and feel</h2>
+    <p class="section-lede">The first thing visitors notice.</p>
+
+    <h3>The visual stuff</h3>
+    <div class="q-block"><strong>Your logo.</strong> Send the original file your designer made — not a screenshot or photo of it.</div>
+    <div class="q-block"><strong>Your colors.</strong> Which colors are "you"? Send examples, or say "pick some that fit."</div>
+    <div class="q-block"><strong>Photos.</strong> Bright and cheerful? Calm and moody? Professional? Homey?</div>
+    <div class="q-block"><strong>Feel.</strong> Modern? Classic? Playful? Serious?</div>
+
+    <h3 style="margin-top:22px;">The tone</h3>
+    <div class="q-block"><strong>How do you sound?</strong> Friendly, formal, expert, warm? Pick a few words.</div>
+    <div class="q-block"><strong>Your tagline.</strong> The short line that sums up what you do.</div>
+    <div class="q-block"><strong>Avoid this.</strong> Styles, colors, or cheesy stock photos you really don't want.</div>
+    <div class="q-block"><strong>Not like them.</strong> Competitors you want to look different from.</div>
+  </section>
+
+  <section class="block">
+    <div class="kicker">04 · What it says</div>
+    <h2 class="section-title">The actual words and pictures</h2>
+    <p class="section-lede">The hardest part — and the most often skipped.</p>
+
+    <div class="card">
+      <div class="idx">Send</div>
+      <div class="ttl">Real writing</div>
+      <div class="sub">Every headline, paragraph, product description, team bio, and FAQ answer — written out the way you want it to read.</div>
+    </div>
+    <div class="card">
+      <div class="idx">Send</div>
+      <div class="ttl">Good photos</div>
+      <div class="sub">The biggest, clearest versions you have. Phone photos are fine if they're good. Fuzzy or tiny pictures look bad on a website.</div>
+    </div>
+    <div class="card">
+      <div class="idx">Send</div>
+      <div class="ttl">Permission to use them</div>
+      <div class="sub">Who took the photo? Who wrote the quote? If it's not yours, you need permission before it goes online.</div>
+    </div>
+
+    <details>
+      <summary>The big one</summary>
+      <p>This is the step most people skip — and it causes the most headaches later. A designer can't know how much room to leave for your "About Us" if you haven't written it yet. When the real words show up later, the whole page often has to be rearranged.</p>
+    </details>
+  </section>
+
+  <section class="block">
+    <div class="kicker">05 · The pages</div>
+    <h2 class="section-title">List every page</h2>
+    <p class="section-lede">Write them out like a table of contents.</p>
+
+    <div class="sitemap">
+      <div class="top">Home</div>
+      <div class="mid">About Us</div>
+      <div class="low">↳ Our Team</div>
+      <div class="low">↳ Our Story</div>
+      <div class="mid">What We Do</div>
+      <div class="low">↳ Service A</div>
+      <div class="low">↳ Service B</div>
+      <div class="mid">Our Work</div>
+      <div class="mid">Blog</div>
+      <div class="mid">Contact</div>
+    </div>
+
+    <h3 style="margin-top:22px;">For every page, answer</h3>
+    <ul class="plain">
+      <li><strong style="color:var(--light); font-weight:600;">Why is this page here?</strong></li>
+      <li><strong style="color:var(--light); font-weight:600;">Who lands on it?</strong></li>
+      <li><strong style="color:var(--light); font-weight:600;">What should they click next?</strong></li>
+      <li><strong style="color:var(--light); font-weight:600;">Is it needed now, or can it wait?</strong></li>
+    </ul>
+    <p class="footer-note">A list of 8 actual pages beats "a normal website" every single time.</p>
+  </section>
+
+  <section class="block">
+    <div class="kicker">06 · What it does</div>
+    <h2 class="section-title">The clickable stuff</h2>
+    <p class="section-lede">Anything more than just reading.</p>
+
+    <h3>Common things people ask for</h3>
+    <div class="q-block"><strong>Contact forms.</strong> What should people fill in? Where should the message go?</div>
+    <div class="q-block"><strong>Online store.</strong> How many products? How do people pay?</div>
+    <div class="q-block"><strong>Booking.</strong> Appointments, reservations, classes — how does it work?</div>
+    <div class="q-block"><strong>Accounts.</strong> Do visitors log in? What can they do once they're in?</div>
+
+    <h3 style="margin-top:22px;">For each thing, describe</h3>
+    <div class="q-block"><strong>What the visitor puts in.</strong> Their name, email, date, etc.</div>
+    <div class="q-block"><strong>What happens next.</strong> They see a thank-you page, get an email, etc.</div>
+    <div class="q-block"><strong>What if something goes wrong.</strong> What do they see if they mess up?</div>
+    <div class="q-block"><strong>What you see on your end.</strong> An email? A list in a dashboard?</div>
+    <p class="footer-note">Say it like a little story: <em>"A customer fills in their name, email, and message, then they get a confirmation email, and I get a notification."</em></p>
+  </section>
+
+  <section class="block">
+    <div class="kicker">07 · Examples</div>
+    <h2 class="section-title">Sites you love, sites you don't</h2>
+    <p class="section-lede">And why for both.</p>
+
+    <div class="card card-good">
+      <div class="idx">Love</div>
+      <div class="ttl">Three sites you like</div>
+      <ul class="plain">
+        <li>Send the actual web addresses</li>
+        <li>Say exactly what you like — the colors? The layout? The photos?</li>
+        <li>Be specific. "The homepage" is better than "the whole thing"</li>
+      </ul>
+    </div>
+
+    <div class="card card-bad">
+      <div class="idx">Dislike</div>
+      <div class="ttl">Three sites you don't</div>
+      <ul class="plain">
+        <li>What made you close the tab?</li>
+        <li>Too busy? Too plain? Hard to read? Confusing?</li>
+        <li>What you don't want is just as useful to know</li>
+      </ul>
+    </div>
+
+    <div class="card card-warn">
+      <div class="idx">Surprising</div>
+      <div class="ttl">A site from a different field</div>
+      <ul class="plain">
+        <li>Run a bakery but love a law firm's site? Say so</li>
+        <li>It helps your site stand out</li>
+        <li>Often the most useful example you'll give</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="kicker">08 · The basics</div>
+    <h2 class="section-title">Behind-the-scenes stuff</h2>
+    <p class="section-lede">The person building will ask about these.</p>
+
+    <div class="card">
+      <div class="idx">The setup</div>
+      <div class="ttl">Where it lives online</div>
+      <div class="stat-row"><span class="k">Web address</span><span class="v">Do you own one already?</span></div>
+      <div class="stat-row"><span class="k">Current site</span><span class="v">Is there one to replace?</span></div>
+      <div class="stat-row"><span class="k">Who hosts it</span><span class="v">Or need help setting up?</span></div>
+      <div class="stat-row"><span class="k">Your email</span><span class="v">Same as the web address?</span></div>
+    </div>
+
+    <div class="card">
+      <div class="idx">Other tools</div>
+      <div class="ttl">Things to connect</div>
+      <div class="stat-row"><span class="k">Email list</span><span class="v">Mailchimp, etc.?</span></div>
+      <div class="stat-row"><span class="k">Payments</span><span class="v">How do people pay now?</span></div>
+      <div class="stat-row"><span class="k">Calendar</span><span class="v">Bookings, appointments</span></div>
+      <div class="stat-row"><span class="k">Social</span><span class="v">Facebook, Instagram, etc.</span></div>
+    </div>
+
+    <p class="footer-note">Also mention: <em>when you need it done</em>, <em>how much you can spend</em>, and anyone else who has to approve things.</p>
+  </section>
+
+  <section class="block">
+    <div class="kicker">09 · What "done" means</div>
+    <h2 class="section-title">Know your finish line</h2>
+    <p class="section-lede">What has to happen for the website to count as a win?</p>
+
+    <h3>Pick something you can check</h3>
+    <div class="q-block"><strong>Number of calls or emails</strong> coming in each week</div>
+    <div class="q-block"><strong>Bookings or sales</strong> made through the site</div>
+    <div class="q-block"><strong>New sign-ups</strong> to your mailing list</div>
+    <div class="q-block"><strong>Where you are today</strong> so you can see the change</div>
+
+    <h3 style="margin-top:22px;">Or just be honest</h3>
+    <p>Sometimes the goal isn't a number. Sometimes it's:</p>
+    <p><em>"I need a site I'm not embarrassed to share."</em></p>
+    <p><em>"I want to look legit when I hand out business cards."</em></p>
+    <p class="footer-note">That totally counts. Just say it out loud. A clear reason beats a made-up number.</p>
+  </section>
+
+  <section class="block">
+    <div class="kicker">Watch out</div>
+    <h2 class="section-title">Things that go wrong</h2>
+    <p class="section-lede">The stuff that slows projects down over and over. Tap to expand.</p>
+
+    <details>
+      <summary>01 · "Make it look like [famous company]"</summary>
+      <p>Big companies have huge teams working on their sites for years. Instead of pointing to the whole thing, pick the one specific part you like — the colors, the photos, the way the menu works. That's something someone can actually build.</p>
+    </details>
+
+    <details>
+      <summary>02 · "We'll figure out the words later"</summary>
+      <p>The words shape how everything looks. If they show up after the site is designed, whole sections usually have to be rebuilt. Write them first. It feels slower but actually saves time.</p>
+    </details>
+
+    <details>
+      <summary>03 · Adding new things halfway through</summary>
+      <p>"Oh, can we also add a blog? And a newsletter? And a chat thing?" Every addition after the plan is set costs more than if it had been there from the start. Put everything on the list up front. Then cut what you don't need.</p>
+    </details>
+
+    <details>
+      <summary>04 · Too many people giving opinions</summary>
+      <p>When five people give feedback, they usually disagree with each other. Pick one person to make final decisions. Others can weigh in, but only one voice says "yes, ship it."</p>
+    </details>
+  </section>
+
+  <section class="block">
+    <div class="kicker">Final check</div>
+    <h2 class="section-title">The checklist</h2>
+    <p class="section-lede">Tick all of these and you're ready to go.</p>
+
+    <div class="checklist">
+      <label class="check-item"><input type="checkbox"><span>I can say what the site is for in one sentence</span></label>
+      <label class="check-item"><input type="checkbox"><span>I've described my main visitor</span></label>
+      <label class="check-item"><input type="checkbox"><span>I have my logo file ready</span></label>
+      <label class="check-item"><input type="checkbox"><span>I picked my colors</span></label>
+      <label class="check-item"><input type="checkbox"><span>I know the tone I want</span></label>
+      <label class="check-item"><input type="checkbox"><span>I wrote the words for every page</span></label>
+      <label class="check-item"><input type="checkbox"><span>I have good photos ready</span></label>
+      <label class="check-item"><input type="checkbox"><span>I listed every page</span></label>
+      <label class="check-item"><input type="checkbox"><span>I described each clickable feature</span></label>
+      <label class="check-item"><input type="checkbox"><span>I shared 3 sites I like, 3 I don't</span></label>
+      <label class="check-item"><input type="checkbox"><span>I know my web address situation</span></label>
+      <label class="check-item"><input type="checkbox"><span>I listed my other tools</span></label>
+      <label class="check-item"><input type="checkbox"><span>I know what success looks like</span></label>
+      <label class="check-item"><input type="checkbox"><span>One person has the final say</span></label>
+      <label class="check-item"><input type="checkbox"><span>I shared my timeline and budget</span></label>
+      <label class="check-item"><input type="checkbox"><span>I'm ready to answer questions</span></label>
+    </div>
+  </section>
+
+  <div class="big-idea">
+    <div class="kicker" style="color:var(--accent); margin-bottom:18px;">The big idea</div>
+    <h2>The more you say, the better it'll be</h2>
+    <p>A website is only as good as the instructions behind it. The clearer you are up front, the closer the finished site will be to what you imagined.</p>
+    <div class="divider"></div>
+    <span class="pill">You've got this</span>
+  </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>TA Brain — Lattice fill mocks</title>
+
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=switzer@400,500,600,700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..700,0..100,0..1&family=JetBrains+Mono:wght@400;500&display=swap">
+
+<style>
+:root{
+  --bg:        #F5F1EB;
+  --bg-2:      #FAF8F3;
+  --bg-3:      #EBE5DA;
+  --bg-card:   #FBF8F2;
+  --paper:     #FBF5EA;
+  --ink:       #1F1B16;
+  --ink-2:     #3A342C;
+  --ink-dim:   #6B6457;
+  --ink-mute:  #9A9385;
+  --line:      rgba(31,27,22,.08);
+  --line-2:    rgba(31,27,22,.16);
+  --line-3:    rgba(31,27,22,.32);
+  --clay:      #D97757;
+  --clay-2:    #BF5C3F;
+  --clay-3:    #F2C7B3;
+  --ochre:     #C19A4D;
+  --moss:      #6F8160;
+  --rust:      #A24D2C;
+  --ease:      cubic-bezier(.32,.72,0,1);
+  --ease-soft: cubic-bezier(.22,1,.36,1);
+  --serif:     "Fraunces", ui-serif, Georgia, serif;
+  --sans:      "Switzer", ui-sans-serif, system-ui, sans-serif;
+  --mono:      "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+a{color:inherit;text-decoration:none}
+::selection{background:rgba(217,119,87,.28);color:var(--ink)}
+
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:1;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .12  0 0 0 0 .10  0 0 0 0 .08  0 0 0 0 .55  0'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='.45'/></svg>");
+  opacity:.05;mix-blend-mode:multiply;
+}
+
+.mock-bar{
+  position:sticky;top:0;z-index:50;
+  display:flex;align-items:center;gap:14px;
+  padding:10px 22px;background:rgba(245,241,235,.86);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);
+  font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-dim);
+}
+.mock-bar .dot{width:6px;height:6px;border-radius:50%;background:var(--clay);box-shadow:0 0 8px rgba(217,119,87,.5)}
+.mock-bar nav{display:flex;gap:6px;margin-left:auto;flex-wrap:wrap}
+.mock-bar nav a{padding:4px 10px;border-radius:6px;transition:background .3s var(--ease), color .3s var(--ease)}
+.mock-bar nav a:hover{background:rgba(31,27,22,.06);color:var(--ink)}
+
+.mock{
+  position:relative;
+  padding:48px clamp(20px,5vw,72px) 96px;
+  border-bottom:1px dashed var(--line-2);
+}
+.mock-head{
+  display:flex;align-items:baseline;gap:18px;flex-wrap:wrap;
+  margin-bottom:22px;
+  font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-mute);
+}
+.mock-head .tag{
+  display:inline-flex;align-items:center;gap:8px;padding:4px 10px 4px 8px;border:1px solid var(--line-2);border-radius:999px;
+  background:var(--bg-card);color:var(--ink-2);
+}
+.mock-head .tag b{font-family:var(--serif);font-variation-settings:"opsz" 36, "wght" 500;font-size:13px;letter-spacing:-.005em;text-transform:none;color:var(--ink);font-weight:500}
+.mock-head .desc{color:var(--ink-dim);text-transform:none;letter-spacing:0;font-family:var(--sans);font-size:13px;max-width:62ch}
+
+.eyebrow{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:7px 14px;border-radius:999px;
+  background:var(--bg-card);border:1px solid var(--line-2);
+  font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-dim);
+}
+.eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--clay);box-shadow:0 0 10px rgba(217,119,87,.45)}
+
+.cap-pair{
+  position:relative;height:34px;margin-top:24px;text-align:center;
+}
+.cap-pair span{
+  position:absolute;left:0;right:0;top:0;
+  font-family:var(--serif);font-variation-settings:"opsz" 36, "wght" 380;
+  font-size:18px;color:var(--ink-2);letter-spacing:-.005em;
+  opacity:0;transition:opacity .9s var(--ease-soft);
+}
+.cap-pair span em{font-style:italic;color:var(--clay-2);font-variation-settings:"opsz" 36, "wght" 380, "SOFT" 100, "WONK" 1}
+.cap-pair .cap-one{opacity:1}
+.filled .cap-pair .cap-one{opacity:0}
+.filled .cap-pair .cap-many{opacity:1}
+
+.stage-shell{
+  position:relative;width:min(1100px, 100%);margin:0 auto;
+  background:
+    radial-gradient(60% 80% at 12% 6%,  rgba(217,119,87,.10), transparent 60%),
+    radial-gradient(50% 70% at 92% 96%, rgba(193,154,77,.08), transparent 60%),
+    linear-gradient(180deg, var(--bg-2), #ECE2D0);
+  border:1px solid var(--line-2);border-radius:28px;
+  padding:48px clamp(24px,5vw,64px) 32px;
+  box-shadow:0 24px 60px rgba(31,27,22,.06), 0 1px 0 rgba(255,255,255,.6) inset;
+  overflow:hidden;
+}
+.stage-shell .eyebrow{margin-bottom:18px}
+.stage-shell h3{
+  font-family:var(--serif);font-variation-settings:"opsz" 144, "wght" 360;
+  font-size:clamp(28px, 3.5vw, 44px);line-height:1.05;letter-spacing:-.02em;
+  color:var(--ink);margin-bottom:24px;max-width:22ch;
+}
+.stage-shell h3 em{font-style:italic;color:var(--clay-2);font-variation-settings:"opsz" 144, "wght" 380, "SOFT" 100, "WONK" 1}
+
+.engine-stage{
+  position:relative;width:100%;
+  min-height:480px;max-height:70vh;height:520px;
+  display:flex;align-items:center;justify-content:center;
+}
+
+/* ===== shared lattice styling — every variant uses these classes ===== */
+.lat svg{ width:100%; height:100%; display:block; overflow:visible; }
+
+.lat .edge{
+  stroke: rgba(31,27,22,.18);
+  fill:none;
+  stroke-width:1;
+  stroke-linecap:round;
+  /* dasharray + offset are set per-edge in JS based on length */
+  transition: stroke .8s var(--ease), opacity .8s var(--ease);
+}
+.lat .edge.on{
+  /* offset transition is applied inline so duration scales with length */
+  stroke: rgba(217,119,87,.55);
+}
+
+.lat .node{
+  fill: rgba(31,27,22,.18);
+  transform-origin:center;transform-box:fill-box;
+  transform: scale(.55);
+  opacity:.6;
+  transition: fill .5s var(--ease), transform .5s var(--ease-soft), opacity .5s var(--ease), filter .5s var(--ease);
+}
+.lat .node.lit{
+  fill: var(--clay);
+  transform: scale(1);
+  opacity:1;
+  filter: drop-shadow(0 0 8px rgba(217,119,87,.55));
+}
+.lat .node.seed{
+  fill: var(--clay-2);
+  transform: scale(1.5);
+  opacity:1;
+  filter: drop-shadow(0 0 14px rgba(217,119,87,.7));
+}
+
+/* "comet head" — a small glow that rides the leading end of an edge as it draws */
+.lat .comet{
+  fill: var(--clay);
+  opacity:0;
+  filter: drop-shadow(0 0 6px rgba(217,119,87,.7));
+  pointer-events:none;
+}
+
+/* ===== variant-specific tweaks ===== */
+.va .lat .edge{ stroke-width:1.2 }
+.va .lat .node{ }
+
+.vb .lat .edge{ stroke-width:.7; stroke: rgba(31,27,22,.14); }
+.vb .lat .edge.on{ stroke: rgba(217,119,87,.5); }
+
+.vc .lat{ perspective:1400px; }
+.vc .lat .stage3d{
+  width:100%;height:100%;
+  transform-style:preserve-3d;
+  animation: cubeRotate 28s linear infinite;
+}
+@keyframes cubeRotate{
+  0%   { transform: rotateX(-18deg) rotateY(-22deg); }
+  50%  { transform: rotateX(-12deg) rotateY(22deg); }
+  100% { transform: rotateX(-18deg) rotateY(-22deg); }
+}
+.vc .lat .edge{ stroke-width:1; stroke: rgba(31,27,22,.22) }
+.vc .lat .edge.on{ stroke: rgba(217,119,87,.55) }
+
+.vd .lat .edge{ stroke-width:1; stroke: rgba(31,27,22,.18) }
+.vd .lat .edge.on{ stroke: rgba(111,129,96,.55) }
+.vd .lat .node.lit{ fill: var(--moss); filter: drop-shadow(0 0 8px rgba(111,129,96,.5)) }
+.vd .lat .node.seed{ fill: var(--clay-2) }
+
+.ve .lat .edge{ stroke-width:.8; stroke: rgba(31,27,22,.15) }
+.ve .lat .edge.on{ stroke: rgba(193,154,77,.6) }
+.ve .lat .node.lit{ fill: var(--ochre); filter: drop-shadow(0 0 8px rgba(193,154,77,.5)) }
+.ve .lat .node.seed{ fill: var(--clay-2) }
+
+@media (prefers-reduced-motion: reduce){
+  .vc .lat .stage3d{ animation:none !important }
+  .lat .edge, .lat .node, .lat .comet{ transition:none !important; animation:none !important }
+}
+</style>
+</head>
+<body>
+
+<header class="mock-bar">
+  <span class="dot"></span>
+  <span>Lattice fill · seed → cascade · mocks</span>
+  <nav>
+    <a href="#va">A · Flat 6×4</a>
+    <a href="#vb">B · Flat dense</a>
+    <a href="#vc">C · 3D cube</a>
+    <a href="#vd">D · Hex grid</a>
+    <a href="#ve">E · Radial web</a>
+  </nav>
+</header>
+
+<!-- ============== A — Flat 6×4 (classic) ============== -->
+<section class="mock va" id="va">
+  <div class="mock-head">
+    <span class="tag"><b>A</b> Flat lattice · 6×4</span>
+    <span class="desc">Classic orthogonal grid. Seed dispatches in BFS waves; each edge draws as a comet runs along it; endpoint lights when the comet arrives.</span>
+  </div>
+  <div class="stage-shell">
+    <span class="eyebrow"><span class="dot"></span> Same engine · two scales</span>
+    <h3>One seed. <em>Whole lattice.</em></h3>
+    <div class="engine-stage"><div class="lat" data-variant="flat" data-cols="6" data-rows="4"></div></div>
+    <div class="cap-pair">
+      <span class="cap-one">One conversation seeds the same engine</span>
+      <span class="cap-many">Many conversations <em>build the same brain</em></span>
+    </div>
+  </div>
+</section>
+
+<!-- ============== B — Flat dense ============== -->
+<section class="mock vb" id="vb">
+  <div class="mock-head">
+    <span class="tag"><b>B</b> Flat lattice · dense</span>
+    <span class="desc">Same mechanic, finer grid (10×6) and hairline strokes. Reads as a delicate wireframe being inked in by the seed.</span>
+  </div>
+  <div class="stage-shell">
+    <span class="eyebrow"><span class="dot"></span> Same engine · two scales</span>
+    <h3>One seed. <em>Whole lattice.</em></h3>
+    <div class="engine-stage"><div class="lat" data-variant="flat" data-cols="10" data-rows="6"></div></div>
+    <div class="cap-pair">
+      <span class="cap-one">One conversation seeds the same engine</span>
+      <span class="cap-many">Many conversations <em>build the same brain</em></span>
+    </div>
+  </div>
+</section>
+
+<!-- ============== C — 3D cube wireframe ============== -->
+<section class="mock vc" id="vc">
+  <div class="mock-head">
+    <span class="tag"><b>C</b> 3D cube · 3×3×3</span>
+    <span class="desc">Isometric projection of a 27-node cubic lattice. Slow rotation gives the structure depth; cascade still runs in BFS from the cube center.</span>
+  </div>
+  <div class="stage-shell">
+    <span class="eyebrow"><span class="dot"></span> Same engine · two scales</span>
+    <h3>One seed. <em>Whole structure.</em></h3>
+    <div class="engine-stage"><div class="lat" data-variant="cube" data-n="3"></div></div>
+    <div class="cap-pair">
+      <span class="cap-one">One conversation seeds the same engine</span>
+      <span class="cap-many">Many conversations <em>build the same brain</em></span>
+    </div>
+  </div>
+</section>
+
+<!-- ============== D — Hex grid ============== -->
+<section class="mock vd" id="vd">
+  <div class="mock-head">
+    <span class="tag"><b>D</b> Hex grid · honeycomb</span>
+    <span class="desc">Triangular lattice (each node has 6 neighbors). Cascade fans out hexagonally — feels organic, biological.</span>
+  </div>
+  <div class="stage-shell">
+    <span class="eyebrow"><span class="dot"></span> Same engine · two scales</span>
+    <h3>One seed. <em>Whole hive.</em></h3>
+    <div class="engine-stage"><div class="lat" data-variant="hex" data-cols="9" data-rows="6"></div></div>
+    <div class="cap-pair">
+      <span class="cap-one">One conversation seeds the same engine</span>
+      <span class="cap-many">Many conversations <em>build the same brain</em></span>
+    </div>
+  </div>
+</section>
+
+<!-- ============== E — Radial web ============== -->
+<section class="mock ve" id="ve">
+  <div class="mock-head">
+    <span class="tag"><b>E</b> Radial web · spider</span>
+    <span class="desc">Center seed + 4 concentric rings × 12 spokes. Cascade radiates outward ring-by-ring while ring chords fill in along the way.</span>
+  </div>
+  <div class="stage-shell">
+    <span class="eyebrow"><span class="dot"></span> Same engine · two scales</span>
+    <h3>One seed. <em>Whole web.</em></h3>
+    <div class="engine-stage"><div class="lat" data-variant="web" data-rings="4" data-spokes="12"></div></div>
+    <div class="cap-pair">
+      <span class="cap-one">One conversation seeds the same engine</span>
+      <span class="cap-many">Many conversations <em>build the same brain</em></span>
+    </div>
+  </div>
+</section>
+
+<script>
+const SVG_NS = 'http://www.w3.org/2000/svg';
+
+/* ============================================================
+   Topology builders — each returns { nodes, edges, viewBox, seedIdx, wrap3d }
+   nodes: [{x,y,id}]
+   edges: [{a,b}]  (indices into nodes)
+   ============================================================ */
+
+function buildFlat(cols, rows){
+  const stepX = 80, stepY = 80;
+  const w = (cols-1) * stepX;
+  const h = (rows-1) * stepY;
+  const nodes = [];
+  for(let r=0;r<rows;r++){
+    for(let c=0;c<cols;c++){
+      nodes.push({ x: c*stepX, y: r*stepY });
+    }
+  }
+  const edges = [];
+  for(let r=0;r<rows;r++){
+    for(let c=0;c<cols;c++){
+      const i = r*cols + c;
+      if(c<cols-1) edges.push({a:i, b:i+1});
+      if(r<rows-1) edges.push({a:i, b:i+cols});
+    }
+  }
+  // seed at center
+  const seedR = Math.floor(rows/2);
+  const seedC = Math.floor(cols/2);
+  const seedIdx = seedR*cols + seedC;
+  const pad = 30;
+  return { nodes, edges, seedIdx, viewBox: `${-pad} ${-pad} ${w+pad*2} ${h+pad*2}` };
+}
+
+function buildCube(n){
+  // n^3 nodes, edges along each axis between adjacent
+  const step = 90;
+  const nodes3d = [];
+  for(let z=0;z<n;z++){
+    for(let y=0;y<n;y++){
+      for(let x=0;x<n;x++){
+        nodes3d.push({ x: x*step, y: y*step, z: z*step });
+      }
+    }
+  }
+  // isometric projection
+  const ang = Math.PI/6; // 30deg
+  const cos = Math.cos(ang), sin = Math.sin(ang);
+  const nodes = nodes3d.map(p => ({
+    x: (p.x - p.z) * cos,
+    y: (p.x + p.z) * sin - p.y
+  }));
+  const idx = (x,y,z) => z*n*n + y*n + x;
+  const edges = [];
+  for(let z=0;z<n;z++){
+    for(let y=0;y<n;y++){
+      for(let x=0;x<n;x++){
+        if(x<n-1) edges.push({a:idx(x,y,z), b:idx(x+1,y,z)});
+        if(y<n-1) edges.push({a:idx(x,y,z), b:idx(x,y+1,z)});
+        if(z<n-1) edges.push({a:idx(x,y,z), b:idx(x,y,z+1)});
+      }
+    }
+  }
+  // bounds
+  const xs = nodes.map(p=>p.x), ys = nodes.map(p=>p.y);
+  const minX = Math.min(...xs), maxX = Math.max(...xs);
+  const minY = Math.min(...ys), maxY = Math.max(...ys);
+  const pad = 40;
+  // seed = center cube node
+  const c = Math.floor(n/2);
+  const seedIdx = idx(c,c,c);
+  return {
+    nodes, edges, seedIdx,
+    viewBox: `${minX-pad} ${minY-pad} ${maxX-minX+pad*2} ${maxY-minY+pad*2}`,
+    wrap3d: true
+  };
+}
+
+function buildHex(cols, rows){
+  // triangular lattice — node at (c,r) with offset rows
+  const stepX = 70;
+  const stepY = stepX * Math.sqrt(3) / 2; // ≈60.6
+  const nodes = [];
+  for(let r=0;r<rows;r++){
+    for(let c=0;c<cols;c++){
+      const offX = (r%2) ? stepX/2 : 0;
+      nodes.push({ x: c*stepX + offX, y: r*stepY });
+    }
+  }
+  const edges = [];
+  const idx = (c,r) => r*cols + c;
+  for(let r=0;r<rows;r++){
+    for(let c=0;c<cols;c++){
+      // east neighbor
+      if(c<cols-1) edges.push({a:idx(c,r), b:idx(c+1,r)});
+      // north-east + north-west
+      if(r<rows-1){
+        const odd = (r%2)===1;
+        // NE
+        const neC = odd ? c+1 : c;
+        if(neC<cols) edges.push({a:idx(c,r), b:idx(neC, r+1)});
+        // NW
+        const nwC = odd ? c : c-1;
+        if(nwC>=0) edges.push({a:idx(c,r), b:idx(nwC, r+1)});
+      }
+    }
+  }
+  const xs = nodes.map(p=>p.x), ys = nodes.map(p=>p.y);
+  const minX = Math.min(...xs), maxX = Math.max(...xs);
+  const minY = Math.min(...ys), maxY = Math.max(...ys);
+  const pad = 30;
+  // seed = center
+  const seedR = Math.floor(rows/2);
+  const seedC = Math.floor(cols/2);
+  const seedIdx = idx(seedC, seedR);
+  return {
+    nodes, edges, seedIdx,
+    viewBox: `${minX-pad} ${minY-pad} ${maxX-minX+pad*2} ${maxY-minY+pad*2}`
+  };
+}
+
+function buildWeb(rings, spokes){
+  const ringStep = 65;
+  const nodes = [{ x:0, y:0 }]; // center is index 0
+  for(let r=1;r<=rings;r++){
+    for(let s=0;s<spokes;s++){
+      const a = (s/spokes) * Math.PI * 2 - Math.PI/2;
+      nodes.push({ x: Math.cos(a)*r*ringStep, y: Math.sin(a)*r*ringStep });
+    }
+  }
+  const idx = (r,s) => 1 + (r-1)*spokes + ((s+spokes)%spokes);
+  const edges = [];
+  // spokes: center → ring1, ring1 → ring2, etc
+  for(let s=0;s<spokes;s++){
+    edges.push({ a:0, b: idx(1,s) });
+    for(let r=1;r<rings;r++){
+      edges.push({ a: idx(r,s), b: idx(r+1,s) });
+    }
+  }
+  // ring chords (between adjacent spokes on the same ring)
+  for(let r=1;r<=rings;r++){
+    for(let s=0;s<spokes;s++){
+      edges.push({ a: idx(r,s), b: idx(r,s+1) });
+    }
+  }
+  const max = rings*ringStep;
+  const pad = 30;
+  return {
+    nodes, edges, seedIdx: 0,
+    viewBox: `${-max-pad} ${-max-pad} ${(max+pad)*2} ${(max+pad)*2}`
+  };
+}
+
+/* ============================================================
+   Renderer + cascade engine
+   ============================================================ */
+function makeLattice(host){
+  const variant = host.dataset.variant;
+  let topo;
+  if(variant === 'flat'){
+    topo = buildFlat(+host.dataset.cols, +host.dataset.rows);
+  } else if(variant === 'cube'){
+    topo = buildCube(+host.dataset.n);
+  } else if(variant === 'hex'){
+    topo = buildHex(+host.dataset.cols, +host.dataset.rows);
+  } else if(variant === 'web'){
+    topo = buildWeb(+host.dataset.rings, +host.dataset.spokes);
+  }
+
+  const svg = document.createElementNS(SVG_NS,'svg');
+  svg.setAttribute('viewBox', topo.viewBox);
+  svg.setAttribute('preserveAspectRatio','xMidYMid meet');
+
+  // optional 3D wrapper
+  let parent = svg;
+  if(topo.wrap3d){
+    const wrap = document.createElement('div');
+    wrap.className = 'stage3d';
+    wrap.appendChild(svg);
+    host.appendChild(wrap);
+  } else {
+    host.appendChild(svg);
+  }
+
+  // build edges first so nodes sit on top
+  const edgeEls = topo.edges.map(e => {
+    const a = topo.nodes[e.a], b = topo.nodes[e.b];
+    const ln = document.createElementNS(SVG_NS,'line');
+    ln.setAttribute('x1', a.x); ln.setAttribute('y1', a.y);
+    ln.setAttribute('x2', b.x); ln.setAttribute('y2', b.y);
+    ln.setAttribute('class','edge');
+    ln.setAttribute('vector-effect','non-scaling-stroke');
+    const len = Math.hypot(b.x-a.x, b.y-a.y);
+    ln.setAttribute('stroke-dasharray', len);
+    ln.setAttribute('stroke-dashoffset', len);
+    ln.style.transition = `stroke-dashoffset ${Math.max(0.45, len/220)}s linear, stroke .8s ease`;
+    ln.dataset.len = len;
+    svg.appendChild(ln);
+    return { el: ln, a: e.a, b: e.b, len };
+  });
+
+  // nodes
+  const nodeEls = topo.nodes.map((n,i) => {
+    const c = document.createElementNS(SVG_NS,'circle');
+    c.setAttribute('cx', n.x); c.setAttribute('cy', n.y);
+    c.setAttribute('r', 4);
+    c.setAttribute('class','node');
+    if(i === topo.seedIdx) c.classList.add('seed');
+    svg.appendChild(c);
+    return c;
+  });
+
+  // BFS from seed, organize edges by depth
+  const adj = new Map();
+  topo.edges.forEach((e, i) => {
+    if(!adj.has(e.a)) adj.set(e.a, []);
+    if(!adj.has(e.b)) adj.set(e.b, []);
+    adj.get(e.a).push({ to: e.b, ei: i });
+    adj.get(e.b).push({ to: e.a, ei: i });
+  });
+  const visitedNode = new Set([topo.seedIdx]);
+  const visitedEdge = new Set();
+  let frontier = [topo.seedIdx];
+  const waves = []; // each wave: array of edge indices
+  while(frontier.length){
+    const next = new Set();
+    const waveEdges = [];
+    frontier.forEach(n => {
+      (adj.get(n) || []).forEach(({to, ei}) => {
+        if(visitedEdge.has(ei)) return;
+        visitedEdge.add(ei);
+        waveEdges.push(ei);
+        if(!visitedNode.has(to)){
+          visitedNode.add(to);
+          next.add(to);
+        }
+      });
+    });
+    if(waveEdges.length) waves.push(waveEdges);
+    frontier = [...next];
+  }
+
+  return {
+    host, svg, edgeEls, nodeEls, waves, topo,
+    fired: false
+  };
+}
+
+function fireCascade(lat){
+  if(lat.fired) return;
+  lat.fired = true;
+  const { edgeEls, nodeEls, waves, topo, host } = lat;
+  // light seed immediately
+  // already styled .seed via CSS; ensure its lit class is present too
+  nodeEls[topo.seedIdx].classList.add('lit');
+
+  const WAVE_GAP = 380; // ms between waves
+  const EDGE_STAGGER = 50; // ms between edges within a wave
+
+  waves.forEach((wave, wi) => {
+    wave.forEach((ei, i) => {
+      const { el, a, b, len } = edgeEls[ei];
+      const delay = wi*WAVE_GAP + i*EDGE_STAGGER;
+      setTimeout(() => {
+        el.classList.add('on');
+        el.setAttribute('stroke-dashoffset', 0);
+        // light up the far endpoint when the draw completes
+        const drawMs = Math.max(450, len/220 * 1000);
+        // figure out which endpoint to light: prefer the one not yet lit
+        const endpointIdx = nodeEls[b].classList.contains('lit') ? a : b;
+        setTimeout(() => {
+          nodeEls[endpointIdx].classList.add('lit');
+        }, drawMs);
+      }, delay);
+    });
+  });
+
+  // when everything's done, swap the caption
+  const total = waves.length * WAVE_GAP + 800;
+  setTimeout(() => host.closest('.mock').classList.add('filled'), total);
+}
+
+/* ============================================================
+   Wire up — build all lattices, observe sections, fire once on enter
+   ============================================================ */
+const lats = [...document.querySelectorAll('.lat')].map(makeLattice);
+const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+if(reduced){
+  // light everything immediately
+  lats.forEach(lat => {
+    lat.edgeEls.forEach(e => { e.el.classList.add('on'); e.el.setAttribute('stroke-dashoffset', 0); });
+    lat.nodeEls.forEach(n => n.classList.add('lit'));
+    lat.host.closest('.mock').classList.add('filled');
+  });
+} else {
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if(!e.isIntersecting) return;
+      const lat = lats.find(l => l.host === e.target.querySelector('.lat'));
+      if(lat) fireCascade(lat);
+    });
+  }, { threshold: 0.3 });
+  document.querySelectorAll('.mock').forEach(m => io.observe(m));
+}
+</script>
+
+</body>
+</html>

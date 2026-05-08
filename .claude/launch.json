@@ -18,6 +18,12 @@
       "runtimeExecutable": "python",
       "runtimeArgs": ["-m", "http.server", "8766", "--directory", "C:/Users/mabac/OneDrive/Desktop/TA Brain/animations/balance-import"],
       "port": 8766
+    },
+    {
+      "name": "ta-brain-landing",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "8770", "--directory", "C:/Users/mabac/OneDrive/Desktop/TA Brain"],
+      "port": 8770
     }
   ]
 }

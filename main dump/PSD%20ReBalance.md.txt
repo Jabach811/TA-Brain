@@ -1,0 +1,12 @@
+# PSD Re-Balance
+
+## When to Request
+- After final takeover audit completion.
+
+## Process
+- Create AWD work item.
+- Prod Support schedules rebalance.
+
+## Validation
+- Compare PSD balances to final audit totals.
+- Ensure variance within acceptable range.

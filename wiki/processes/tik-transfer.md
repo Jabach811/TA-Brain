@@ -55,7 +55,7 @@ The Day of Wire workflow creates a **placeholder** in P3 for each TIK fund. No t
 After final files, the CIT balance workflow fills the placeholder.
 - P3 processing mode: **Online + No Hold** (never Process Immediate).
 - No trades — shares already sit at Fidelity. Posting only updates the books.
-See [[final-files-posting]] for the full balance-posting flow.
+See [[final-files-processing]] for the full balance-posting flow.
 
 ### 8. Monitor the TIK Tracker Spreadsheet — DC + Matt O'Connell's team
 Separate from the re-registration form. The DC maintains expected share amounts per fund; Matt's team updates the sheet as shares arrive. When every row is populated, all shares have landed and the DC can process.
@@ -91,7 +91,7 @@ Separate from the re-registration form. The DC maintains expected share amounts 
 - [[toa]]
 - [[matt-oconnell]]
 - [[liquidation-day]]
-- [[final-files-posting]]
+- [[final-files-processing]]
 - [[conversion-types]]
 - [[plan-conversion-handoffs]]
 - [[lm-dc]]

@@ -1,0 +1,55 @@
+# Pataluma update
+
+## SQL
+```sql
+SELECT *--SOC_SEC_NO , EE_LAST_NM, EE_FST_MID_NM,  EE_BRTH_DT, EE_HIRE_DT  , EE_TERM_DT, EE_DIV_NO,  CLASS_I                                       
+from
+--Update
+    tdaV.VEMPLOYEE                             
+
+
+SET ACCESS_CD = '1'                             
+--SET ELIG_PRC_STAT_C                                
+--EE_EDP_IND_CD = '1'    
+where                            
+CASE_NO='TA080198  00001'        
+--and Class_I = 0            
+ --    and EE_TERM_DT ^='00000000'                                                
+--AND SOC_SEC_no in('410-41-9831','585-25-3384','251-49-7833')                    
+--AND PART_STAT_CD='14'                              
+--AND FILE_INPUT_SRC_CD LIKE 'QK61850   020220NT%'   
+--D EE_DEF_EFF_DT='2003-10-23'                       
+--ORDER BY FILE_INPUT_SRC_CDELIGELIG                 
+--ORDER BY EE_LAST_NM,EE_FST_MID_NMPRC PRC           
+--ORDER BY SOC_SEC_NOSTATSTAT                        
+--AND SOC_SEC_NO IN(SELECT SOC_SEC_NO C   C          
+--FROM TDA.VTAPEIN_FILES                             
+--WHERE FILE_NM= 'LENO41022A')    
+--and ee_cyc_dt= '20050421'
+--group by soc_Sec_no                   
+
+
+
+AND SOC_SEC_NO in           
+(SELECT SOC_SEC_NO               
+FROM SOC_SEC_NO)               
+
+-----------------------
+SELECT     SOC_SEC_NO,    TR_PRNC_AMT,  CTRB_TYP_CD  
+FROM TDAV.VTRANSACT_DETAIL      
+WHERE CASE_NO='TT069238  00001'
+AND SOC_SEC_NO in           
+(SELECT SOC_SEC_NO   
+                                     
+FROM     tdaV.VEMPLOYEE                             
+ 
+where                            
+CASE_NO='TT069238  00001'        
+and Class_I = 0   )
+
+
+
+
+Create table soc_sec_no
+(soc_Sec_no char(11))
+```

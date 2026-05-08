@@ -1,0 +1,10 @@
+# Default Allocation Analysis
+
+## Purpose
+- Report participants in default for allocations with balances and elections.
+
+## Data Elements
+- Default status
+- Allocation percentage
+- Fund descriptor
+- Participant balances

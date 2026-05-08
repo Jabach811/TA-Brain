@@ -1,0 +1,13 @@
+# Default Deferral Analysis (Pre-Tax Only)
+
+## Purpose
+- Identify participants in default for pre-tax deferrals only.
+
+## Output
+- Default status
+- Deferral percentage
+- Transmit code
+- Balances and plan entry dates
+
+## Use
+- Validate default population prior to go-live.

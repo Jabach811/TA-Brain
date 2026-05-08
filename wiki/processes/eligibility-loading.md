@@ -15,7 +15,7 @@ How eligibility data for plan participants is loaded into [[p3]] using [[eds]] �
 
 The EDS eligibility data type handles both eligible participants (direct insert) and non-eligible participants (routed through the nightly batch). It uses a fixed, pre-defined layout with automatic data elements. Sources can load independently — they do not need to arrive together.
 
-This process is a subprocess of [[final-files-posting]] but also runs on its own whenever eligibility data needs to be refreshed.
+This process is a subprocess of [[final-files-processing]] but also runs on its own whenever eligibility data needs to be refreshed.
 
 ## Trigger
 
@@ -84,7 +84,7 @@ Full edit list lives in the Functional Requirements document. Review every warni
 
 - **Deferrals must load first.** See [[eligibility-and-deferrals]] — posting eligibility before deferrals breaks the enrollment logic.
 - **Enrollment data loaded first.** Hard pre-requisite.
-- **Balance posting loaded first.** Part of the final-files sequence — see [[final-files-posting]].
+- **Balance posting loaded first.** Part of the final-files sequence — see [[final-files-processing]].
 
 ## Failure Modes
 
@@ -100,7 +100,7 @@ Full edit list lives in the Functional Requirements document. Review every warni
 - [[eds]]
 - [[eligibility]]
 - [[eligibility-and-deferrals]]
-- [[final-files-posting]]
+- [[final-files-processing]]
 - [[loading-basis-eds]]
 - [[loading-ytd-contributions-eds]]
 - [[lm-dc]]

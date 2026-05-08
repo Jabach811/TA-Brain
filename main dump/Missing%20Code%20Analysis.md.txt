@@ -1,0 +1,9 @@
+# Missing Code Analysis
+
+## Purpose
+- Identify missing division, marital status, or sub-location codes.
+
+## Process
+- Run FAA Census queries.
+- Export and review results.
+- Provide reports to TC.

@@ -1,0 +1,13 @@
+# Informatica Loan Module
+
+## Purpose
+- Replace legacy Access-based loan audit process.
+
+## Key Audits
+- Loans past maturity
+- Loans behind (subject / not subject to default)
+- Loans to terminated participants
+
+## Output
+- Participant identifiers
+- Loan terms, balances, maturity, and default indicators

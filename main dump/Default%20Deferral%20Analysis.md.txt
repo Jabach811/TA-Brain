@@ -1,0 +1,18 @@
+# Default Deferral Analysis
+
+## Purpose
+- Identifies participants in default for deferrals.
+
+## Key Fields
+- Deferral percent
+- Transmit code (A, T, S)
+
+## Prerequisites
+- Eligibility and auto-enroll setup complete.
+
+## Analysis
+- Validate population and deferral rates.
+- Review transmit codes.
+
+## Remedy
+- Correct deferral or transmit code issues.

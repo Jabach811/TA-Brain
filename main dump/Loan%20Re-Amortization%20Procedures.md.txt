@@ -1,0 +1,9 @@
+# Loan Re-Amortization Procedures
+
+## Purpose
+- Re-amortize participant loans in PARIS III.
+
+## Process Summary
+- Locate loan via Plan Sponsor view
+- Select reason and repayment frequency
+- Submit re-amortization request

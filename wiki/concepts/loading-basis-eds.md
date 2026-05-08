@@ -1,6 +1,6 @@
 ---
 title: "Loading Basis through EDS"
-type: concept
+type: process
 tags: [eds, basis, process, system]
 created: 2026-04-16
 updated: 2026-04-20

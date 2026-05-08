@@ -1,0 +1,15 @@
+# Default Allocation Analysis
+
+## Purpose
+- Identifies participants in default for investment allocations.
+
+## Prerequisites
+- Allocations loaded.
+- Default setup complete.
+
+## Analysis
+- Validate default population vs conversion strategy.
+- Confirm default fund and percentages.
+
+## Remedy
+- Remove or add participants to default as needed.

@@ -1,6 +1,6 @@
 ---
 title: "Contribution Monitoring Form"
-type: concept
+type: document
 tags: [concept, document, com, tc, payroll, tfs]
 created: 2026-04-14
 updated: 2026-04-14

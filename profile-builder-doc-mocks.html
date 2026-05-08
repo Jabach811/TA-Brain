@@ -1,0 +1,691 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Profile Builder · doc-frame mocks</title>
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=switzer@400,500,600,700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..700,0..100,0..1&family=JetBrains+Mono:wght@400;500&display=swap">
+
+<style>
+:root{
+  --bg:        #F5F1EB;
+  --bg-2:      #FAF8F3;
+  --bg-card:   #FBF8F2;
+  --paper:     #FCFAF5;
+  --ink:       #1F1B16;
+  --ink-2:     #3A342C;
+  --ink-dim:   #6B6457;
+  --ink-mute:  #9A9385;
+  --line:      rgba(31,27,22,.08);
+  --line-2:    rgba(31,27,22,.16);
+  --clay:      #D97757;
+  --clay-2:    #BF5C3F;
+  --clay-3:    #F2C7B3;
+  --moss:      #6F8160;
+  --ochre:     #C19A4D;
+
+  --ease:      cubic-bezier(.32,.72,0,1);
+  --ease-soft: cubic-bezier(.22,1,.36,1);
+
+  --serif: "Fraunces", ui-serif, Georgia, serif;
+  --sans:  "Switzer", ui-sans-serif, system-ui, sans-serif;
+  --mono:  "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+html{font-size:16px}
+
+body{
+  min-height:100vh;
+  background-image:
+    radial-gradient(45% 35% at 12% 8%,  rgba(217,119,87,.10), transparent 65%),
+    radial-gradient(40% 35% at 92% 28%, rgba(193,154,77,.08), transparent 70%),
+    radial-gradient(50% 40% at 50% 110%,rgba(111,129,96,.06), transparent 75%);
+  padding:48px clamp(20px,4vw,56px);
+}
+
+.head{
+  max-width:1240px;margin:0 auto 36px;
+  display:flex;justify-content:space-between;align-items:flex-end;gap:32px;flex-wrap:wrap;
+}
+.head .title{
+  font-family:var(--serif);
+  font-variation-settings:"opsz" 96, "wght" 380, "SOFT" 50, "WONK" 1;
+  font-size:clamp(36px,5vw,56px);letter-spacing:-.025em;line-height:1;
+}
+.head .title em{font-style:italic;color:var(--clay-2)}
+.head .sub{
+  font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--ink-dim);max-width:46ch;line-height:1.7;
+}
+
+/* common mock card =========================================== */
+.mock{
+  position:relative;max-width:1240px;margin:0 auto 28px;
+  border-radius:24px;overflow:hidden;
+  background:var(--bg-card);
+  border:1px solid var(--line-2);
+  box-shadow:0 30px 60px rgba(31,27,22,.08), 0 1px 0 rgba(255,255,255,.7) inset;
+}
+.mock .label{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:18px 24px;border-bottom:1px solid var(--line);
+  font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-dim);
+}
+.mock .label .name{display:flex;align-items:center;gap:10px;color:var(--ink-2)}
+.mock .label .name .opt{
+  width:22px;height:22px;border-radius:6px;
+  display:inline-flex;align-items:center;justify-content:center;
+  background:var(--clay);color:#fff;font-weight:500;font-size:11px;letter-spacing:0;
+}
+.mock .desc{
+  padding:18px 24px 0;
+  font-family:var(--serif);font-variation-settings:"opsz" 36, "wght" 400;font-size:15px;line-height:1.5;color:var(--ink-2);
+  max-width:80ch;
+}
+.mock .desc small{
+  display:block;margin-top:6px;
+  font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-mute);
+}
+
+/* stage layout: panel | doc area =============================== */
+.stage{
+  position:relative;
+  display:grid;
+  grid-template-columns:300px 1fr;
+  gap:0;
+  margin:24px;
+  border-radius:18px;overflow:hidden;
+  background:linear-gradient(180deg, #FBF8F2, #F1EBDF);
+  border:1px solid var(--line);
+  min-height:520px;
+}
+@media (max-width:880px){
+  .stage{grid-template-columns:1fr;min-height:auto}
+}
+
+/* source panel ================================================ */
+.panel{
+  padding:22px 20px;display:flex;flex-direction:column;gap:16px;
+  background:rgba(255,255,255,.55);
+  border-right:1px solid var(--line);
+  position:relative;
+}
+.panel-head{display:flex;justify-content:space-between;align-items:baseline;padding-bottom:12px;border-bottom:1px solid var(--line)}
+.panel-head .h{font-family:var(--serif);font-variation-settings:"opsz" 36, "wght" 480;font-size:16px;color:var(--ink);letter-spacing:-.01em}
+.panel-head .count{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-mute)}
+.panel-head .count b{color:var(--clay-2);font-weight:500}
+
+.cat{display:flex;flex-direction:column;gap:6px}
+.cat .ch{display:flex;align-items:center;justify-content:space-between;font-family:var(--mono);font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-mute)}
+.cat .ch .sw{display:inline-flex;align-items:center;gap:8px}
+.cat .ch .sw .dot{width:6px;height:6px;border-radius:50%;background:var(--ink-mute)}
+.cat[data-cat="people"]    .ch .sw .dot{background:var(--moss)}
+.cat[data-cat="events"]    .ch .sw .dot{background:var(--clay)}
+.cat[data-cat="rules"]     .ch .sw .dot{background:var(--clay-2)}
+.cat[data-cat="processes"] .ch .sw .dot{background:var(--ochre)}
+.cat .tags{display:flex;flex-wrap:wrap;gap:5px;min-height:24px}
+
+.tag{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:4px 9px 4px 5px;border-radius:999px;
+  background:rgba(255,255,255,.95);
+  border:1px solid var(--line-2);
+  font-family:var(--mono);font-size:10px;letter-spacing:.10em;text-transform:uppercase;
+  color:var(--ink-2);
+  box-shadow:0 3px 10px rgba(31,27,22,.05);
+  transition:opacity .35s ease, transform .45s var(--ease);
+}
+.tag.gone{opacity:0;transform:scale(.85);pointer-events:none}
+.tag .ic{
+  width:14px;height:14px;border-radius:50%;
+  display:inline-flex;align-items:center;justify-content:center;
+  flex:none;color:#fff;background:var(--clay);
+}
+.tag .ic svg{width:9px;height:9px;stroke:currentColor;stroke-width:1.7;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.cat[data-cat="people"]    .tag .ic{background:var(--moss)}
+.cat[data-cat="events"]    .tag .ic{background:var(--clay)}
+.cat[data-cat="rules"]     .tag .ic{background:var(--clay-2)}
+.cat[data-cat="processes"] .tag .ic{background:var(--ochre)}
+
+/* flying clone ================================================ */
+.fly-clone{
+  position:fixed;z-index:50;pointer-events:none;
+  transition:transform .85s var(--ease-soft), opacity .25s ease;
+  will-change:transform,opacity;
+}
+
+/* doc area (common) =========================================== */
+.doc{
+  position:relative;padding:28px;
+  display:flex;flex-direction:column;gap:18px;
+  overflow:auto;
+}
+
+/* doc landed-tag — the resting target style for variants A & B  */
+.doc .tag{opacity:0;transform:translateY(-6px) scale(.92)}
+.doc .tag.in{opacity:1;transform:translateY(0) scale(1)}
+
+.doc-paper{
+  position:relative;
+  background:var(--paper);
+  border:1px solid var(--line-2);
+  border-radius:14px;
+  padding:24px 28px;
+  box-shadow:0 14px 32px rgba(31,27,22,.08), 0 1px 0 rgba(255,255,255,.7) inset;
+  flex:1;
+  /* subtle paper grain */
+}
+.doc-paper::before{
+  content:"";position:absolute;inset:0;border-radius:14px;pointer-events:none;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.12  0 0 0 0 0.10  0 0 0 0 0.08  0 0 0 0.85 0'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='.45'/></svg>");
+  opacity:.045; mix-blend-mode:multiply;
+}
+
+/* ============================================================
+   OPTION A — Capture Brief (memo)
+   ============================================================ */
+.brief-head{
+  display:flex;justify-content:space-between;align-items:flex-start;gap:24px;
+  padding-bottom:14px;border-bottom:1px solid var(--line-2);
+}
+.brief-head .t{
+  font-family:var(--serif);font-variation-settings:"opsz" 96, "wght" 380, "SOFT" 60;
+  font-size:26px;letter-spacing:-.02em;line-height:1.05;color:var(--ink);
+}
+.brief-head .t small{
+  display:block;margin-top:6px;
+  font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-mute);font-weight:400;
+}
+.brief-head .meta{
+  text-align:right;font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-mute);line-height:1.7;
+}
+.brief-head .meta b{color:var(--clay-2);font-weight:500}
+
+.brief-body{display:flex;flex-direction:column;gap:18px;padding-top:18px}
+.brief-section{display:flex;flex-direction:column;gap:8px}
+.brief-section .sh{
+  display:flex;align-items:baseline;justify-content:space-between;gap:12px;
+}
+.brief-section .sh .name{
+  font-family:var(--serif);font-variation-settings:"opsz" 36, "wght" 480;
+  font-size:17px;color:var(--ink);letter-spacing:-.01em;
+}
+.brief-section .sh .meta{
+  font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-mute);
+}
+.brief-section .row{display:flex;flex-wrap:wrap;gap:6px;padding-left:14px;border-left:1px dashed var(--line-2);min-height:30px}
+.brief-foot{
+  margin-top:auto;padding-top:18px;border-top:1px dashed var(--line);
+  display:flex;justify-content:space-between;align-items:center;
+  font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-mute);
+}
+.brief-foot .link{color:var(--clay-2);display:inline-flex;align-items:center;gap:6px}
+
+/* ============================================================
+   OPTION B — Knowledge Card (wiki/Notion)
+   ============================================================ */
+.kc{display:flex;flex-direction:column;gap:18px;flex:1}
+.kc-meta{
+  display:flex;flex-wrap:wrap;gap:18px;align-items:center;
+  font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-mute);
+  padding-bottom:14px;border-bottom:1px solid var(--line);
+}
+.kc-meta .who{display:flex;align-items:center;gap:8px;color:var(--ink-2)}
+.kc-meta .who .av{
+  width:22px;height:22px;border-radius:50%;
+  background:linear-gradient(135deg,var(--clay),var(--clay-2));
+  color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-weight:500;letter-spacing:0;
+}
+.kc-meta .pill{padding:3px 8px;border-radius:999px;background:rgba(31,27,22,.04);border:1px solid var(--line)}
+.kc-meta .pill b{color:var(--clay-2);font-weight:500}
+
+.kc-title{
+  font-family:var(--serif);font-variation-settings:"opsz" 96, "wght" 380, "SOFT" 60;
+  font-size:24px;letter-spacing:-.02em;line-height:1.1;color:var(--ink);
+}
+.kc-title em{font-style:italic;color:var(--clay-2)}
+
+.kc-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media (max-width:1100px){.kc-grid{grid-template-columns:1fr}}
+.kc-block{
+  background:rgba(255,255,255,.6);
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:14px 16px;
+  display:flex;flex-direction:column;gap:10px;min-height:120px;
+}
+.kc-block .bh{display:flex;align-items:center;justify-content:space-between;font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-mute)}
+.kc-block .bh .lab{display:inline-flex;align-items:center;gap:8px;color:var(--ink-2)}
+.kc-block .bh .lab .dot{width:6px;height:6px;border-radius:50%;background:var(--ink-mute)}
+.kc-block[data-cat="people"]    .bh .lab .dot{background:var(--moss)}
+.kc-block[data-cat="events"]    .bh .lab .dot{background:var(--clay)}
+.kc-block[data-cat="rules"]     .bh .lab .dot{background:var(--clay-2)}
+.kc-block[data-cat="processes"] .bh .lab .dot{background:var(--ochre)}
+.kc-block .row{display:flex;flex-wrap:wrap;gap:5px;min-height:24px}
+
+.kc-foot{
+  margin-top:auto;padding-top:14px;border-top:1px dashed var(--line);
+  font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-mute);
+  display:flex;justify-content:space-between;align-items:center;
+}
+.kc-foot b{color:var(--moss);font-weight:500}
+
+/* ============================================================
+   OPTION C — Data Sheet (table)
+   ============================================================ */
+.ds{display:flex;flex-direction:column;gap:14px;flex:1}
+.ds-head{
+  display:flex;justify-content:space-between;align-items:flex-end;gap:12px;
+  padding-bottom:12px;border-bottom:1px solid var(--line-2);
+}
+.ds-head .t{
+  font-family:var(--mono);font-size:14px;letter-spacing:.05em;color:var(--ink);
+}
+.ds-head .t small{
+  display:block;font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-mute);margin-top:4px;
+}
+.ds-head .stamp{
+  font-family:var(--mono);font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-mute);text-align:right;line-height:1.7;
+}
+.ds-head .stamp b{color:var(--clay-2);font-weight:500}
+
+.ds-table{
+  display:grid;grid-template-columns:120px 1fr 100px;
+  font-family:var(--mono);font-size:11px;
+  border-top:1px solid var(--line);
+}
+.ds-table .col-h{
+  padding:10px 12px;background:rgba(31,27,22,.03);
+  font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-mute);
+  border-bottom:1px solid var(--line-2);
+}
+.ds-row{
+  display:contents;
+}
+.ds-row .cell{
+  padding:9px 12px;border-bottom:1px solid var(--line);
+  display:flex;align-items:center;gap:8px;
+  opacity:0;transform:translateY(-4px);
+  transition:opacity .35s ease, transform .4s var(--ease);
+}
+.ds-row.in .cell{opacity:1;transform:translateY(0)}
+.ds-row .cat-cell{color:var(--ink-2);text-transform:uppercase;letter-spacing:.16em;font-size:10px}
+.ds-row .cat-cell .dot{width:6px;height:6px;border-radius:50%;background:var(--ink-mute);flex:none}
+.ds-row[data-cat="people"]    .cat-cell .dot{background:var(--moss)}
+.ds-row[data-cat="events"]    .cat-cell .dot{background:var(--clay)}
+.ds-row[data-cat="rules"]     .cat-cell .dot{background:var(--clay-2)}
+.ds-row[data-cat="processes"] .cat-cell .dot{background:var(--ochre)}
+.ds-row .node-cell{color:var(--ink);font-weight:500;letter-spacing:.04em}
+.ds-row .type-cell{color:var(--ink-mute);font-size:10px;letter-spacing:.16em;text-transform:uppercase}
+
+.ds-foot{
+  margin-top:auto;padding-top:14px;
+  display:flex;justify-content:space-between;align-items:center;
+  font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-mute);
+}
+.ds-foot b{color:var(--clay-2);font-weight:500}
+
+/* mock footer ================================================= */
+.mock .footer{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:14px 24px 20px;
+  font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-mute);
+}
+
+/* notes box =================================================== */
+.notes{
+  max-width:1240px;margin:32px auto 0;
+  padding:24px;border-radius:18px;
+  background:rgba(255,255,255,.5);
+  border:1px solid var(--line);
+  font-family:var(--sans);font-size:14px;line-height:1.65;color:var(--ink-2);
+}
+.notes h3{font-family:var(--serif);font-variation-settings:"opsz" 36, "wght" 480;font-size:18px;margin-bottom:10px;color:var(--ink)}
+.notes em{color:var(--clay-2);font-style:italic;font-family:var(--serif)}
+.notes ul{padding-left:20px;margin-top:8px}
+.notes li{margin-bottom:6px}
+</style>
+</head>
+<body>
+
+<header class="head">
+  <div class="title">End frame &middot; <em>document</em></div>
+  <div class="sub">
+    Captured tags fly out of the panel and land in an organized doc.
+    Three takes on what that doc looks like. Each loops on its own.
+  </div>
+</header>
+
+<!-- ====================================================
+     OPTION A — Capture Brief
+     ==================================================== -->
+<article class="mock">
+  <div class="label">
+    <span class="name"><span class="opt">A</span> Capture Brief</span>
+    <span>memo &middot; serif headings &middot; bordered paper</span>
+  </div>
+  <p class="desc">
+    Formal internal-memo treatment. Title, dateline, then sections per category.
+    Reads like a real document the company would file.
+    <small>strongest "official record" feel</small>
+  </p>
+  <div class="stage" data-mock="A">
+    <aside class="panel">
+      <div class="panel-head"><div class="h">Captured</div><div class="count"><b>14</b> nodes</div></div>
+      <!-- categories injected -->
+    </aside>
+    <div class="doc">
+      <div class="doc-paper">
+        <div class="brief-head">
+          <div class="t">Capture Brief<small>Profile Builder &middot; rollover ops walk-through</small></div>
+          <div class="meta">25 Apr 2026<br>Source · voice · 02:47<br><b>14 nodes</b> &middot; written to brain</div>
+        </div>
+        <div class="brief-body">
+          <div class="brief-section" data-cat="people"><div class="sh"><span class="name">People</span><span class="meta"></span></div><div class="row"></div></div>
+          <div class="brief-section" data-cat="events"><div class="sh"><span class="name">Events</span><span class="meta"></span></div><div class="row"></div></div>
+          <div class="brief-section" data-cat="rules"><div class="sh"><span class="name">Rules</span><span class="meta"></span></div><div class="row"></div></div>
+          <div class="brief-section" data-cat="processes"><div class="sh"><span class="name">Processes</span><span class="meta"></span></div><div class="row"></div></div>
+        </div>
+        <div class="brief-foot">
+          <span>TA Brain &middot; auto-filed</span>
+          <span class="link">Open in Brain &rarr;</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer"><span>Profile Builder</span><span>loop &middot; 16s</span></div>
+</article>
+
+<!-- ====================================================
+     OPTION B — Knowledge Card
+     ==================================================== -->
+<article class="mock">
+  <div class="label">
+    <span class="name"><span class="opt">B</span> Knowledge Card</span>
+    <span>wiki &middot; metadata strip &middot; 2-col blocks</span>
+  </div>
+  <p class="desc">
+    Notion/wiki-style card. Metadata strip up top (date, contributor, link count), then a 2-column grid of category blocks.
+    Tighter, more "structured database entry" feel.
+    <small>strongest "queryable knowledge" feel</small>
+  </p>
+  <div class="stage" data-mock="B">
+    <aside class="panel">
+      <div class="panel-head"><div class="h">Captured</div><div class="count"><b>14</b> nodes</div></div>
+    </aside>
+    <div class="doc">
+      <div class="doc-paper">
+        <div class="kc">
+          <div class="kc-meta">
+            <span class="who"><span class="av">JA</span>Joel A.</span>
+            <span>25 Apr 2026 &middot; 02:47</span>
+            <span class="pill"><b>14</b> nodes</span>
+            <span class="pill">linked to <b>+12</b> existing</span>
+          </div>
+          <h3 class="kc-title">Rollover ops &mdash; <em>default-code remap</em></h3>
+          <div class="kc-grid">
+            <div class="kc-block" data-cat="people"><div class="bh"><span class="lab"><span class="dot"></span>People</span><span class="ct"></span></div><div class="row"></div></div>
+            <div class="kc-block" data-cat="events"><div class="bh"><span class="lab"><span class="dot"></span>Events</span><span class="ct"></span></div><div class="row"></div></div>
+            <div class="kc-block" data-cat="rules"><div class="bh"><span class="lab"><span class="dot"></span>Rules</span><span class="ct"></span></div><div class="row"></div></div>
+            <div class="kc-block" data-cat="processes"><div class="bh"><span class="lab"><span class="dot"></span>Processes</span><span class="ct"></span></div><div class="row"></div></div>
+          </div>
+          <div class="kc-foot"><span>TA Brain &middot; #conversions #ops</span><span><b>+ written to brain</b></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer"><span>Profile Builder</span><span>loop &middot; 16s</span></div>
+</article>
+
+<!-- ====================================================
+     OPTION C — Data Sheet
+     ==================================================== -->
+<article class="mock">
+  <div class="label">
+    <span class="name"><span class="opt">C</span> Data Sheet</span>
+    <span>table &middot; mono &middot; rows fill in</span>
+  </div>
+  <p class="desc">
+    Tabular: Category | Node | Type rows. Each tag becomes a row that fills in.
+    Reads as "this is structured data now."
+    <small>strongest "machine-queryable" feel</small>
+  </p>
+  <div class="stage" data-mock="C">
+    <aside class="panel">
+      <div class="panel-head"><div class="h">Captured</div><div class="count"><b>14</b> nodes</div></div>
+    </aside>
+    <div class="doc">
+      <div class="doc-paper">
+        <div class="ds">
+          <div class="ds-head">
+            <div class="t">capture_2026-04-25.tsv<small>Profile Builder &middot; voice 02:47</small></div>
+            <div class="stamp">25 Apr 2026<br><b>14 rows</b> &middot; 4 categories</div>
+          </div>
+          <div class="ds-table" id="dsTable">
+            <div class="col-h">Category</div><div class="col-h">Node</div><div class="col-h">Type</div>
+          </div>
+          <div class="ds-foot"><span>auto-indexed &middot; written to brain</span><span><b>+12 cross-links</b></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer"><span>Profile Builder</span><span>loop &middot; 16s</span></div>
+</article>
+
+<section class="notes">
+  <h3>How to read these</h3>
+  <ul>
+    <li><em>A &middot; Capture Brief</em> &mdash; the closest match for the page's editorial/serif voice. Best if the section is meant to feel like the company actually has a paper trail now.</li>
+    <li><em>B &middot; Knowledge Card</em> &mdash; closer to how the captured data will actually live in the brain (a record with metadata and links). Best if you want the frame to feel like the data is now queryable, not just filed.</li>
+    <li><em>C &middot; Data Sheet</em> &mdash; most stark, most "you can hand this to a system." Risk: feels colder than the rest of the page.</li>
+  </ul>
+  <p style="margin-top:12px">All three use the same migration motion: tags fly from the panel one-by-one (~80ms apart) and land in the doc. Cycle: panel fills (instant) &rarr; pause 0.6s &rarr; tags migrate &rarr; doc holds full state ~3.2s &rarr; reset.</p>
+</section>
+
+<script>
+const ICONS = {
+  event:   '<svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4"/></svg>',
+  person:  '<svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-7 8-7s8 3 8 7"/></svg>',
+  rule:    '<svg viewBox="0 0 24 24"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7l8-4z"/></svg>',
+  process: '<svg viewBox="0 0 24 24"><path d="M4 7h12M4 12h16M4 17h10"/></svg>',
+  flow:    '<svg viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 5v4h-4"/></svg>',
+  money:   '<svg viewBox="0 0 24 24"><path d="M12 2v20M17 6H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>',
+  org:     '<svg viewBox="0 0 24 24"><path d="M3 21V7l9-4 9 4v14"/><path d="M9 21V12h6v9"/></svg>',
+  date:    '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
+};
+
+const DATA = {
+  people: [
+    {label:"tom",     icon:"person", type:"person"},
+    {label:"sarah",   icon:"person", type:"person"},
+  ],
+  events: [
+    {label:"wire-date",  icon:"money", type:"event"},
+    {label:"next-week",  icon:"date",  type:"event"},
+    {label:"q2-shift",   icon:"event", type:"event"},
+    {label:"lm-rollover",icon:"flow",  type:"event"},
+  ],
+  rules: [
+    {label:"cash-discrepancy", icon:"money", type:"rule"},
+    {label:"compliance-flag",  icon:"rule",  type:"rule"},
+    {label:"two-places-rule",  icon:"rule",  type:"rule"},
+  ],
+  processes: [
+    {label:"pella",            icon:"org",     type:"process"},
+    {label:"audit",            icon:"org",     type:"process"},
+    {label:"client-service",   icon:"org",     type:"process"},
+    {label:"pipeline-mapping", icon:"flow",    type:"process"},
+    {label:"default-code",     icon:"process", type:"process"},
+  ],
+};
+
+function tagHTML(t){
+  return `<span class="tag" data-label="${t.label}"><span class="ic">${ICONS[t.icon]}</span>${t.label}</span>`;
+}
+
+/* ----------------------------------------------------------
+   Build the source panel inside a stage
+   ---------------------------------------------------------- */
+function buildPanel(stage){
+  const panel = stage.querySelector('.panel');
+  const order = ['people','events','rules','processes'];
+  order.forEach(cat=>{
+    const wrap = document.createElement('div');
+    wrap.className = 'cat';
+    wrap.dataset.cat = cat;
+    wrap.innerHTML = `
+      <div class="ch">
+        <span class="sw"><span class="dot"></span>${cat[0].toUpperCase()+cat.slice(1)}</span>
+        <span class="cnt">${DATA[cat].length}</span>
+      </div>
+      <div class="tags">${DATA[cat].map(tagHTML).join('')}</div>`;
+    panel.appendChild(wrap);
+  });
+}
+
+/* ----------------------------------------------------------
+   Locate the destination element for a tag based on mock variant
+   Returns: {targetEl, render(tag)}
+   ---------------------------------------------------------- */
+function destInfo(stage, cat, tag){
+  const variant = stage.dataset.mock;
+  if (variant === 'A'){
+    const sec = stage.querySelector(`.brief-section[data-cat="${cat}"] .row`);
+    const el = document.createElement('span');
+    el.className = 'tag';
+    el.innerHTML = `<span class="ic">${ICONS[tag.icon]}</span>${tag.label}`;
+    sec.appendChild(el);
+    // make the section icon color follow category
+    el.classList.add(`k-${cat}`);
+    return el;
+  }
+  if (variant === 'B'){
+    const block = stage.querySelector(`.kc-block[data-cat="${cat}"] .row`);
+    const el = document.createElement('span');
+    el.className = 'tag';
+    el.innerHTML = `<span class="ic">${ICONS[tag.icon]}</span>${tag.label}`;
+    // tag inherits category color via parent CSS scoping; mirror cat color manually too
+    if (cat==='people')    el.querySelector('.ic').style.background = 'var(--moss)';
+    if (cat==='events')    el.querySelector('.ic').style.background = 'var(--clay)';
+    if (cat==='rules')     el.querySelector('.ic').style.background = 'var(--clay-2)';
+    if (cat==='processes') el.querySelector('.ic').style.background = 'var(--ochre)';
+    block.appendChild(el);
+    return el;
+  }
+  if (variant === 'C'){
+    const table = stage.querySelector('.ds-table');
+    const row = document.createElement('div');
+    row.className = 'ds-row';
+    row.dataset.cat = cat;
+    row.innerHTML = `
+      <div class="cell cat-cell"><span class="dot"></span>${cat}</div>
+      <div class="cell node-cell">${tag.label}</div>
+      <div class="cell type-cell">${tag.type}</div>`;
+    table.appendChild(row);
+    return row;
+  }
+}
+
+/* ----------------------------------------------------------
+   FLIP-style fly: clone the source tag, animate to dest position,
+   then reveal the resting dest element and remove the clone.
+   ---------------------------------------------------------- */
+function fly(sourceEl, destEl, variant){
+  const sRect = sourceEl.getBoundingClientRect();
+  const clone = sourceEl.cloneNode(true);
+  clone.classList.add('fly-clone');
+  clone.style.left = sRect.left + 'px';
+  clone.style.top  = sRect.top + 'px';
+  clone.style.width = sRect.width + 'px';
+  clone.style.height = sRect.height + 'px';
+  clone.style.transform = 'translate(0,0)';
+  document.body.appendChild(clone);
+  sourceEl.classList.add('gone');
+
+  // determine the "anchor" inside the dest element (for variant C, target the row's row-area)
+  const dRect = destEl.getBoundingClientRect();
+  const dx = dRect.left - sRect.left;
+  const dy = dRect.top  - sRect.top;
+
+  requestAnimationFrame(()=>{
+    requestAnimationFrame(()=>{
+      clone.style.transform = `translate(${dx}px, ${dy}px) scale(.95)`;
+      clone.style.opacity = '0.85';
+    });
+  });
+
+  // when the flight finishes, reveal the dest element and drop the clone
+  setTimeout(()=>{
+    if (variant === 'C'){
+      destEl.classList.add('in');
+    } else {
+      destEl.classList.add('in');
+    }
+    clone.style.opacity = '0';
+    setTimeout(()=> clone.remove(), 280);
+  }, 850);
+}
+
+/* ----------------------------------------------------------
+   Per-stage migration loop
+   ---------------------------------------------------------- */
+function runStage(stage){
+  buildPanel(stage);
+  const variant = stage.dataset.mock;
+
+  function reset(){
+    // clear doc destinations
+    if (variant === 'A'){
+      stage.querySelectorAll('.brief-section .row').forEach(r => r.innerHTML = '');
+    } else if (variant === 'B'){
+      stage.querySelectorAll('.kc-block .row').forEach(r => r.innerHTML = '');
+    } else {
+      const tbl = stage.querySelector('.ds-table');
+      tbl.querySelectorAll('.ds-row').forEach(r => r.remove());
+    }
+    // restore panel tags
+    stage.querySelectorAll('.panel .tag').forEach(t => t.classList.remove('gone'));
+  }
+
+  function fillDoc(){
+    const order = ['people','events','rules','processes'];
+    let i = 0;
+    const flat = [];
+    order.forEach(cat => DATA[cat].forEach(tag => flat.push({cat, tag})));
+
+    flat.forEach((item, idx)=>{
+      setTimeout(()=>{
+        const src = stage.querySelector(`.panel .cat[data-cat="${item.cat}"] .tag[data-label="${item.tag.label}"]`);
+        const dest = destInfo(stage, item.cat, item.tag);
+        if (src && dest) fly(src, dest, variant);
+      }, idx * 90);
+    });
+  }
+
+  function loop(){
+    reset();
+    setTimeout(fillDoc, 600);
+    // total: 0.6s pause + (14*90)ms migration + 0.85s flight + 3200ms hold ≈ 5.9s + 3.2s = ~9.1s
+    setTimeout(loop, 600 + (14*90) + 850 + 3200);
+  }
+
+  /* start when stage is in view */
+  const io = new IntersectionObserver((entries, obs)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){ loop(); obs.unobserve(e.target); }
+    });
+  }, {threshold:0.2});
+  io.observe(stage);
+}
+
+document.querySelectorAll('.stage').forEach(runStage);
+</script>
+</body>
+</html>

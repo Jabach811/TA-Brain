@@ -1,0 +1,41 @@
+# Interest Rates for Gamble
+
+## Notes (from header comments)
+- AQT SETPARM,PARM=CASE,VALUE="'TA068919  00001'"
+- AQT SETPARM,PARM=Business_line,VALUE="TDA"
+- AQT SETPARM,PARM=Quarter2,VALUE="'2022-06-09'"
+
+## SQL
+```sql
+
+--AQT SETPARM,PARM=CASE,VALUE="'TA068919  00001'"
+--AQT SETPARM,PARM=Business_line,VALUE="TDA"
+
+--AQT SETPARM,PARM=Quarter2,VALUE="'2022-06-09'"
+
+
+
+select fd_descr_cd, sum(total_a) as tot_amt,CREDITED_RATE_P, GUAR_RATE_P
+
+FROM $Business_line.ee_part_bal_header a, $Business_line.ee_part_balance b
+ join $Business_line.guar_Cr_int_rates c on account_no=case_no and b.bkt_no=c.bkt_no and fd_descr_cd= FD_DESC_CD and a.eff_d=c.eff_d
+
+where  a.case_no in ($CASE)
+and a.transact_i=b.transact_i
+and a.enrl_prov_grp_i=b.enrl_prov_grp_i
+and a.eff_d=$Quarter2
+
+--and not soc_Sec_no like '%F%'
+and not soc_Sec_no like '%S%'
+group by  A.EFF_D, fd_descr_cd,  CREDITED_RATE_END_D, GUAR_RATE_END_D, CREDITED_RATE_P, GUAR_RATE_P
+
+order by 1 desc
+
+
+--select *
+--from tda.BUCKET_DATA
+--where  case_no in ($CASE)
+
+
+--from tda.guar_Cr_int_rates
+```

@@ -1,0 +1,9 @@
+# FAA Allocation Procedures
+
+## Purpose
+- Execute FAA allocation audits using Informatica.
+
+## Key Components
+- Parameter file setup
+- Allocation and FAA modules
+- Error reports and default analysis outputs

@@ -1,6 +1,6 @@
 ---
 title: "Early Access"
-type: concept
+type: process
 tags: [concept, process, com, tc, lm-dc, participant]
 created: 2026-04-14
 updated: 2026-04-14

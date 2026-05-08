@@ -1,0 +1,141 @@
+# Internal Conversion - Balances (Riverside)
+
+## Notes (from header comments)
+- ***************UPDATE*****************
+- REGION = TDA.
+- CASE_NO LIKE 'TT069214%'
+- EFF_DT = '20090123'
+- CONT YR = '2009'
+- SYS WD DT = '2009-01-23'
+- HIGH LN DT1 = '20080123'
+- HIGH LN DT2 = '20090123'
+- CONT NO = 'TT069214'
+- EE_DIV_NO = 'COGS'
+- YPRDSUGR.TERMCC   ***PROVIDES BALANCE BY SOURCE ONCE RUN
+- PIVOT BY SOURCE
+
+## SQL
+```sql
+--***************UPDATE*****************
+--REGION = TDA.
+--CASE_NO LIKE 'TT069214%'
+--EFF_DT = '20090123'
+--CONT YR = '2009'
+--SYS WD DT = '2009-01-23'
+--HIGH LN DT1 = '20080123'
+--HIGH LN DT2 = '20090123'
+--CONT NO = 'TT069214'
+--EE_DIV_NO = 'COGS'
+
+--YPRDSUGR.TERMCC   ***PROVIDES BALANCE BY SOURCE ONCE RUN
+--PIVOT BY SOURCE
+SELECT SOC_SEC_NO, TR_REF_NO, CTRB_TYP_CD,SUM(TR_AMT*-1)
+                    
+FROM TDA.VTRANSACT_DETAIL                                                
+WHERE CASE_NO LIKE 'TT069214%'                                                   
+  AND TR_NO BETWEEN '3000' AND '5999'                                       
+  AND TR_REVSL_DISP_CD = '0'                                                
+  AND EFF_DT >= '20090123'                                                     
+GROUP BY  SOC_SEC_NO, TR_REF_NO,CTRB_TYP_CD                                                                          
+ORDER BY SOC_SEC_NO                                                                                                                                   
+  WITH UR       
+;
+--YPRDSUGR.FUND_BAL   ***PROVIDES BALANCE BY FUND
+SELECT SUM(TR_AMT*-1), EFF_DT, A.FD_DESC_CD, D.FD_FUND_NAME, tr_no                  
+                                                                        
+FROM TDA.VTRANSACT_DETAIL A, TDA.VCONTRACT_FUNDDATA B,          
+     TDA.VCASE_DATA C, TDA.VFUNDDESC D                                                                                                  
+WHERE A.CASE_NO LIKE 'TT069214%'                                             
+  AND A.CASE_NO = C.CASE_NO                                             
+  AND B.CONT_NO = C.CONT_NO                                             
+  AND D.FD_DESCR_CODE = B.FD_DESC_CD                                    
+  AND ((A.FD_NO IN ('01','02','03','04','05','06','07','08','09')       
+  AND B.FD_NO=SUBSTR(A.FD_NO,2,1))                                      
+  OR A.FD_NO=B.FD_NO)                                                   
+  AND TR_NO BETWEEN '3000' AND '5999'                                   
+  AND TR_REVSL_DISP_CD = '0'                                            
+  AND EFF_DT >= '20090123'                                                 
+GROUP BY EFF_DT, A.FD_DESC_CD, D.FD_FUND_NAME, tr_no                                                                                                
+ORDER BY FD_DESC_CD, EFF_DT, tr_no                                                  
+WITH UR
+;
+
+
+
+--YPRDSUGR.QPAYOUT   ***PROVIDES PARTICIPANT BY FUND AND
+--SOURCE  ONCE RUN PIVOT BY FUND
+SELECT  B.CASE_NO, B.SOC_SEC_NO, B.EE_LAST_NM, B.EE_FST_MID_NM, A.CTRB_TYP_CD, A.FD_DESC_CD, SUM(A.TR_AMT)*-1 AS AMOUNT 
+FROM  TDA.TRANSACT_DETAIL A,
+   TDA.EMPLOYEE B
+WHERE  A.SOC_SEC_NO = B.SOC_SEC_NO
+AND   B.CASE_NO = 'TT069214  00001'
+AND   A.CASE_NO LIKE 'TT069214_  00001%'
+--AND   B.EE_DIV_NO = 'COGS'
+AND   A.TR_REVSL_DISP_CD = '0'
+AND   A.TR_REVSL_DT = ''
+AND   A.EFF_DT = '20090123'
+AND   A.TR_NO BETWEEN '3000' AND '5999'
+GROUP BY B.CASE_NO, B.SOC_SEC_NO, B.EE_LAST_NM, B.EE_FST_MID_NM, A.CTRB_TYP_CD, A.FD_DESC_CD
+FOR FETCH ONLY WITH UR
+ ;
+
+
+
+--YPRDSUGR.YTDCONT    ***PROVIDE YTD CONTRIBUTION ONCE RUN
+--PIVOT BY SOURCE
+  SELECT A.CASE_NO, A.SOC_SEC_NO,EE_FST_MID_NM,EE_LAST_NM,SUM(TR_AMT),         
+         CTRB_TYP_CD                                                                                                                              
+  FROM TDA.VTRANSACT_DETAIL A, TDA.VEMPLOYEE B                                                                                                      
+  WHERE A.CASE_NO LIKE 'TT069214%'                                                   
+  AND A.CASE_NO = B.CASE_NO                                                    
+  AND A.SOC_SEC_NO = B.SOC_SEC_NO                                              
+  AND A.SOC_SEC_NO LIKE '%-%-%' 
+  --AND B.EE_DIV_NO = 'COGS'                                               
+  AND TR_REVSL_DISP_CD = '0'                                                   
+  AND TR_TYP_CD = '1'                                                          
+  AND PLAN_YR_DT = '2009'                                            
+  AND TR_NO = '1001'                                                                                                                                        
+  GROUP BY A.CASE_NO, A.SOC_SEC_NO,EE_FST_MID_NM,EE_LAST_NM,CTRB_TYP_CD
+;
+
+
+
+
+---PROVIDES FIXED FUND BUCKET BALANCE BY PLAN
+
+SELECT SUM(TR_AMT*-1), EFF_DT, A.FD_NO, A.BKT_NO, D.FD_FUND_NAME, tr_no                                                                                        
+FROM TDA.VTRANSACT_DETAIL A, TDA.VCONTRACT_FUNDDATA B,          
+     TDA.VCASE_DATA C, TDA.VFUNDDESC D                                                                                                
+WHERE A.CASE_NO = 'TT069214  00001'                                              
+  AND A.CASE_NO = C.CASE_NO                                             
+  AND B.CONT_NO = C.CONT_NO                                             
+  AND D.FD_DESCR_CODE = B.FD_DESC_CD                                    
+  AND ((A.FD_NO IN ('01','02','03','04','05','06','07','08','09','10','11','12','13','14','15','16')       
+  AND B.FD_NO=SUBSTR(A.FD_NO,2,1))                                      
+  OR A.FD_NO=B.FD_NO)                                                   
+  AND TR_NO BETWEEN '3000' AND '5999'                                   
+  AND TR_REVSL_DISP_CD = '0'                                            
+  AND EFF_DT >= '20090123' 
+  AND A.FD_NO = '01'                                                
+GROUP BY EFF_DT, A.FD_NO, A.BKT_NO, D.FD_FUND_NAME, tr_no                         
+                                                                        
+ORDER BY FD_NO, EFF_DT, tr_no                                                  
+WITH UR;
+
+--YPRDSUGR.QPAYOUT  ***PROVIDES FIXED FUND BUCKET BALANCE
+--BY PARTICIPANT  PIVOT BY BUCKET ONCE QUERY RUN
+SELECT SUBSTR(A.CASE_NO,11,5),A.SOC_SEC_NO, B.EE_LAST_NM, B.EE_FST_MID_NM, CTRB_TYP_CD,FD_NO, A.BKT_NO, SUM(TR_AMT)*-1                                               
+FROM TDA.VTRANSACT_DETAIL A, TDA.VEMPLOYEE B     
+WHERE A.CASE_NO = 'TT069214  00001'                                                     
+AND A.EFF_DT='20090123'                                                           
+AND A.CASE_NO=B.CASE_NO                                                        
+AND A.SOC_SEC_NO=B.SOC_SEC_NO                                                  
+  AND TR_NO BETWEEN '3000' AND '5999'                                                      
+  AND TR_REVSL_DISP_CD = '0' 
+  AND A.FD_NO = '01'                                                  
+                                              
+GROUP BY A.CASE_NO,A.SOC_SEC_NO,B.EE_LAST_NM,B.EE_FST_MID_NM,CTRB_TYP_CD,FD_NO, BKT_NO
+ORDER BY A.SOC_SEC_NO,CTRB_TYP_CD                                      
+WITH UR        
+;
+```

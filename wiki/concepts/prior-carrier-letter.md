@@ -1,6 +1,6 @@
 ---
 title: "Prior Carrier Letter"
-type: concept
+type: document
 tags: [concept, document, com, prior-record-keeper, conversion]
 created: 2026-04-14
 updated: 2026-04-14

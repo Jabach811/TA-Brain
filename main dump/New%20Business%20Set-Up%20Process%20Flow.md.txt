@@ -1,0 +1,16 @@
+# New Business Set-Up Process Flow
+
+## Purpose
+- Define plan participant set-up responsibilities within the New Business process.
+
+## Key Roles
+- Plan Consultant (PLC)
+- Transition Manager (TM)
+- Data Consultant (DC)
+- Communications Consultant (CC)
+
+## Core Activities
+- Prior Plan Review (PPR) preparation and review
+- PARIS III system setup
+- Plan Service Checklist completion and sign-off
+- Funding document processing and authorization

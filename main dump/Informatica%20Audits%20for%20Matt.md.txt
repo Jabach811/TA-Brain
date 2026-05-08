@@ -1,0 +1,6 @@
+# Informatica Audits Summary
+
+## Audit Types
+- Balance audits (plan and participant level)
+- Allocation audits
+- Vesting comparisons

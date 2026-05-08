@@ -1,0 +1,7 @@
+# Client Guide Application
+
+## Logic
+- Word template uses bookmarks for optional/alternative sections.
+- Access tables queried: `tbl_Services`, `tbl_Bookmarks`, `tbl_Contacts`.
+- Bookmarks are kept or deleted based on control values.
+- Cover page populated with plan names, case numbers, and client logo.

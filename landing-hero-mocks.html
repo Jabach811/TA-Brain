@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>TA Brain — Hero bottom mocks</title>
+
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=switzer@400,500,600,700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..700,0..100,0..1&family=JetBrains+Mono:wght@400;500&display=swap">
+
+<style>
+:root{
+  --bg:        #F5F1EB;
+  --bg-2:      #FAF8F3;
+  --bg-3:      #EBE5DA;
+  --bg-card:   #FBF8F2;
+  --ink:       #1F1B16;
+  --ink-2:     #3A342C;
+  --ink-dim:   #6B6457;
+  --ink-mute:  #9A9385;
+  --line:      rgba(31,27,22,.08);
+  --line-2:    rgba(31,27,22,.16);
+  --line-3:    rgba(31,27,22,.32);
+  --clay:      #D97757;
+  --clay-2:    #BF5C3F;
+  --clay-3:    #F2C7B3;
+  --ochre:     #C19A4D;
+  --moss:      #6F8160;
+  --rust:      #A24D2C;
+  --ease:      cubic-bezier(.32,.72,0,1);
+  --ease-soft: cubic-bezier(.22,1,.36,1);
+  --serif:     "Fraunces", ui-serif, Georgia, serif;
+  --sans:      "Switzer", ui-sans-serif, system-ui, sans-serif;
+  --mono:      "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+a{color:inherit;text-decoration:none}
+::selection{background:rgba(217,119,87,.28);color:var(--ink)}
+
+/* paper grain */
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:1;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .12  0 0 0 0 .10  0 0 0 0 .08  0 0 0 0 .55  0'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='.45'/></svg>");
+  opacity:.05;mix-blend-mode:multiply;
+}
+
+/* mock chrome */
+.mock-bar{
+  position:sticky;top:0;z-index:50;
+  display:flex;align-items:center;gap:14px;
+  padding:10px 22px;background:rgba(245,241,235,.86);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);
+  font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-dim);
+}
+.mock-bar .dot{width:6px;height:6px;border-radius:50%;background:var(--clay);box-shadow:0 0 8px rgba(217,119,87,.5)}
+.mock-bar nav{display:flex;gap:14px;margin-left:auto}
+.mock-bar nav a{padding:4px 8px;border-radius:6px;transition:background .3s var(--ease), color .3s var(--ease)}
+.mock-bar nav a:hover{background:rgba(31,27,22,.06);color:var(--ink)}
+
+.mock{
+  position:relative;
+  padding:48px clamp(20px,5vw,72px) 96px;
+  border-bottom:1px dashed var(--line-2);
+}
+.mock-head{
+  display:flex;align-items:baseline;gap:18px;flex-wrap:wrap;
+  margin-bottom:22px;
+  font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-mute);
+}
+.mock-head .tag{
+  display:inline-flex;align-items:center;gap:8px;padding:4px 10px 4px 8px;border:1px solid var(--line-2);border-radius:999px;
+  background:var(--bg-card);color:var(--ink-2);
+}
+.mock-head .tag b{font-family:var(--serif);font-variation-settings:"opsz" 36, "wght" 500;font-size:13px;letter-spacing:-.005em;text-transform:none;color:var(--ink);font-weight:500}
+.mock-head .desc{color:var(--ink-dim);text-transform:none;letter-spacing:0;font-family:var(--sans);font-size:13px;max-width:62ch}
+
+/* ============= shared hero stage ============= */
+.hero{
+  position:relative;border-radius:36px;overflow:hidden;isolation:isolate;
+  padding:clamp(64px,9vw,140px) clamp(32px,6vw,90px);
+  background:
+    radial-gradient(60% 80% at 12% 6%,  rgba(217,119,87,.18), transparent 60%),
+    radial-gradient(50% 70% at 92% 96%, rgba(193,154,77,.14), transparent 60%),
+    linear-gradient(180deg, var(--bg-2), #ECE2D0);
+  border:1px solid var(--line-2);
+  box-shadow:0 30px 80px rgba(31,27,22,.08), 0 1px 0 rgba(255,255,255,.6) inset;
+}
+.hero::before{
+  content:"";position:absolute;inset:0;pointer-events:none;z-index:0;
+  background-image:
+    linear-gradient(rgba(31,27,22,.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(31,27,22,.04) 1px, transparent 1px);
+  background-size:48px 48px;
+  mask-image:radial-gradient(70% 60% at 50% 50%, #000 30%, transparent 80%);
+  -webkit-mask-image:radial-gradient(70% 60% at 50% 50%, #000 30%, transparent 80%);
+}
+.hero-inner{position:relative;z-index:1}
+
+.eyebrow{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:7px 14px;border-radius:999px;
+  background:var(--bg-card);border:1px solid var(--line-2);
+  font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-dim);
+}
+.eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--clay);box-shadow:0 0 10px rgba(217,119,87,.45)}
+
+h1.display{
+  font-family:var(--serif);font-variation-settings:"opsz" 144, "wght" 360, "SOFT" 50;
+  font-size:clamp(48px, 7vw, 96px);line-height:1.02;letter-spacing:-.025em;
+  color:var(--ink);margin-top:32px;max-width:18ch;
+}
+h1.display em{font-style:italic;color:var(--clay-2);font-variation-settings:"opsz" 144, "wght" 380, "SOFT" 100, "WONK" 1}
+h1.display .ink-dim{color:var(--ink-dim)}
+
+p.lead{
+  font-family:var(--serif);font-variation-settings:"opsz" 60, "wght" 380;
+  font-size:clamp(17px,1.45vw,21px);line-height:1.55;color:var(--ink-2);max-width:62ch;
+}
+p.lead.sans{font-family:var(--sans);font-variation-settings:normal;font-weight:400}
+
+/* CTAs (shared) */
+.btn{
+  display:inline-flex;align-items:center;gap:12px;
+  padding:14px 22px 14px 22px;border-radius:999px;
+  font-family:var(--sans);font-size:14px;letter-spacing:.005em;font-weight:500;
+  border:1px solid transparent;
+  transition:transform .45s var(--ease), background .45s var(--ease), border-color .45s var(--ease), color .45s var(--ease);
+  will-change:transform;
+}
+.btn:active{transform:translateY(1px) scale(.99)}
+.btn .arrow{
+  display:inline-grid;place-items:center;width:26px;height:26px;border-radius:999px;
+  transition:transform .45s var(--ease), background .45s var(--ease);
+}
+.btn .arrow svg{width:13px;height:13px;stroke:currentColor;stroke-width:1.6;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.btn-primary{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.btn-primary .arrow{background:var(--clay);color:#fff}
+.btn-primary:hover{transform:translateY(-2px)}
+.btn-primary:hover .arrow{transform:translateX(3px)}
+.btn-ghost{background:transparent;color:var(--ink);border-color:var(--line-2)}
+.btn-ghost:hover{border-color:var(--ink);background:rgba(31,27,22,.04)}
+.btn-ghost .arrow{color:var(--clay-2)}
+
+/* ===========================================================
+   VARIANT A — Editorial split
+   Left: lead + CTAs (60%). Right: vertical capability list (40%)
+   with mono indices 01–04, hairline dividers, hover-reveal sub.
+   =========================================================== */
+.va .a-grid{
+  margin-top:48px;
+  display:grid;grid-template-columns:1.4fr 1fr;gap:clamp(40px,6vw,96px);
+  align-items:start;
+}
+.va .a-left{display:flex;flex-direction:column;gap:28px}
+.va .a-cta{display:flex;flex-wrap:wrap;gap:12px}
+.va .a-list{
+  border-top:1px solid var(--line-2);
+}
+.va .a-row{
+  display:grid;grid-template-columns:auto 1fr auto;gap:16px;align-items:center;
+  padding:18px 0;border-bottom:1px solid var(--line);
+  cursor:default;
+  transition:padding .45s var(--ease);
+}
+.va .a-row:hover{padding-left:8px}
+.va .a-row .num{font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:var(--ink-mute)}
+.va .a-row .lbl{
+  font-family:var(--serif);font-variation-settings:"opsz" 60, "wght" 460;
+  font-size:clamp(20px,1.7vw,26px);letter-spacing:-.012em;color:var(--ink);
+}
+.va .a-row .sub{
+  display:block;font-family:var(--sans);font-size:13px;color:var(--ink-dim);
+  max-height:0;opacity:0;overflow:hidden;
+  transition:max-height .55s var(--ease), opacity .55s var(--ease), margin-top .55s var(--ease);
+}
+.va .a-row:hover .sub{max-height:40px;opacity:1;margin-top:6px}
+.va .a-row .mark{
+  width:18px;height:18px;flex:none;color:var(--clay-2);opacity:.65;
+  transition:transform .45s var(--ease), opacity .45s var(--ease);
+}
+.va .a-row:hover .mark{transform:translateX(4px);opacity:1}
+.va .a-row .mark svg{width:100%;height:100%;stroke:currentColor;stroke-width:1.6;fill:none;stroke-linecap:round;stroke-linejoin:round}
+@media (max-width:880px){.va .a-grid{grid-template-columns:1fr;gap:36px}}
+
+/* ===========================================================
+   VARIANT B — Inline footnote ribbon
+   Lead full-width. CTAs centered below. Capabilities run as a
+   single hairline ribbon with mono dots, gently auto-marqueeing.
+   =========================================================== */
+.vb .b-block{
+  margin-top:48px;display:flex;flex-direction:column;gap:36px;align-items:flex-start;max-width:none;
+}
+.vb .b-block p.lead{max-width:74ch}
+.vb .b-cta{display:flex;flex-wrap:wrap;gap:12px}
+.vb .b-ribbon{
+  position:relative;width:100%;
+  border-top:1px solid var(--line-2);border-bottom:1px solid var(--line-2);
+  padding:18px 0;overflow:hidden;
+  mask-image:linear-gradient(90deg, transparent 0, #000 8%, #000 92%, transparent 100%);
+  -webkit-mask-image:linear-gradient(90deg, transparent 0, #000 8%, #000 92%, transparent 100%);
+}
+.vb .b-track{
+  display:flex;gap:64px;width:max-content;
+  animation:bMarquee 38s linear infinite;
+}
+.vb .b-track:hover{animation-play-state:paused}
+.vb .b-item{display:inline-flex;align-items:baseline;gap:14px;white-space:nowrap}
+.vb .b-item .verb{
+  font-family:var(--serif);font-variation-settings:"opsz" 96, "wght" 380, "SOFT" 80;
+  font-size:clamp(22px,2vw,30px);letter-spacing:-.018em;color:var(--ink);
+}
+.vb .b-item .verb em{font-style:italic;color:var(--clay-2)}
+.vb .b-item .gloss{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-mute)}
+.vb .b-item .pip{width:5px;height:5px;border-radius:50%;background:var(--clay);box-shadow:0 0 8px rgba(217,119,87,.5);align-self:center}
+@keyframes bMarquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ===========================================================
+   VARIANT C — Manuscript with margin notes
+   Body column with drop-cap lead. Right margin holds 4
+   capabilities as italic Fraunces verbs with small-caps glosses.
+   =========================================================== */
+.vc .c-grid{
+  margin-top:48px;
+  display:grid;grid-template-columns:1.6fr 1fr;gap:clamp(48px,6vw,108px);
+  align-items:start;
+}
+.vc .c-body{display:flex;flex-direction:column;gap:28px}
+.vc .c-lead{
+  font-family:var(--serif);font-variation-settings:"opsz" 60, "wght" 380;
+  font-size:clamp(18px,1.55vw,22px);line-height:1.55;color:var(--ink-2);max-width:60ch;
+}
+.vc .c-lead::first-letter{
+  font-family:var(--serif);font-variation-settings:"opsz" 144, "wght" 420, "SOFT" 30;
+  font-size:5em;line-height:.86;float:left;
+  margin:6px 12px 0 -2px;color:var(--clay-2);
+}
+.vc .c-cta{display:flex;flex-wrap:wrap;gap:12px;clear:left}
+.vc .c-margin{
+  border-left:1px solid var(--line-2);padding-left:32px;
+  display:flex;flex-direction:column;gap:22px;
+}
+.vc .c-margin .ml-head{font-family:var(--mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-mute)}
+.vc .c-note{
+  display:flex;flex-direction:column;gap:4px;padding:6px 0;
+  border-bottom:1px dotted var(--line-2);
+  cursor:default;
+}
+.vc .c-note:last-child{border-bottom:none}
+.vc .c-note .verb{
+  font-family:var(--serif);font-style:italic;font-variation-settings:"opsz" 60, "wght" 420, "SOFT" 100, "WONK" 1;
+  font-size:clamp(22px,1.9vw,28px);color:var(--ink);letter-spacing:-.012em;
+  transition:color .4s var(--ease), transform .4s var(--ease);
+  transform-origin:left center;
+}
+.vc .c-note:hover .verb{color:var(--clay-2);transform:translateX(4px)}
+.vc .c-note .smcap{
+  font-family:var(--mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-dim);
+}
+@media (max-width:880px){.vc .c-grid{grid-template-columns:1fr;gap:36px}.vc .c-margin{border-left:none;border-top:1px solid var(--line-2);padding:24px 0 0}}
+
+/* ===========================================================
+   VARIANT D — Live demo tile
+   Left: lead + CTAs. Right: a single rotating demo tile that
+   cycles through the 4 capabilities, showing a tiny live demo
+   for each (waveform → graph → search → doc).
+   =========================================================== */
+.vd .d-grid{
+  margin-top:48px;
+  display:grid;grid-template-columns:1fr 1fr;gap:clamp(40px,6vw,80px);
+  align-items:center;
+}
+.vd .d-left{display:flex;flex-direction:column;gap:28px}
+.vd .d-cta{display:flex;flex-wrap:wrap;gap:12px}
+.vd .d-tile{
+  position:relative;aspect-ratio:5/4;border-radius:24px;
+  background:
+    radial-gradient(60% 50% at 50% 50%, rgba(255,255,255,.7), transparent 75%),
+    linear-gradient(180deg, #FBF8F2, #ECE2D0);
+  border:1px solid var(--line-2);
+  box-shadow:0 24px 60px rgba(217,119,87,.10), 0 1px 0 rgba(255,255,255,.7) inset;
+  overflow:hidden;isolation:isolate;
+  display:grid;grid-template-rows:1fr auto;
+}
+.vd .d-stage{position:relative}
+.vd .d-frame{
+  position:absolute;inset:0;display:grid;place-items:center;padding:32px;
+  opacity:0;transform:scale(.96);
+  transition:opacity .9s var(--ease), transform .9s var(--ease);
+}
+.vd .d-frame.on{opacity:1;transform:scale(1)}
+.vd .d-frame svg{width:min(70%, 280px);height:auto}
+.vd .d-meta{
+  display:flex;align-items:center;justify-content:space-between;gap:14px;
+  padding:18px 22px;border-top:1px solid var(--line-2);background:rgba(255,255,255,.55);
+}
+.vd .d-meta .step{font-family:var(--mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-mute)}
+.vd .d-meta .verb{
+  font-family:var(--serif);font-variation-settings:"opsz" 60, "wght" 460;
+  font-size:18px;letter-spacing:-.01em;color:var(--ink);
+  display:grid;grid-template-areas:"stack";justify-items:center;
+}
+.vd .d-meta .verb span{grid-area:stack;transition:opacity .6s var(--ease)}
+.vd .d-meta .verb span:not(.on){opacity:0}
+.vd .d-meta .pips{display:flex;gap:6px}
+.vd .d-meta .pip{width:6px;height:6px;border-radius:50%;background:rgba(31,27,22,.18);transition:background .4s var(--ease), transform .4s var(--ease)}
+.vd .d-meta .pip.on{background:var(--clay);transform:scale(1.2)}
+
+/* d-frame visuals */
+.vd svg .stroke{fill:none;stroke:var(--clay);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.vd svg .stroke-d{stroke:var(--clay-2);stroke-dasharray:3 5}
+.vd svg .fill{fill:var(--clay)}
+.vd svg .fill-soft{fill:rgba(217,119,87,.22)}
+.vd svg .ink{fill:var(--ink-2)}
+.vd .bar{transform-origin:center;animation:dBar 1.2s var(--ease) infinite alternate}
+.vd .bar:nth-child(1){animation-delay:0ms}
+.vd .bar:nth-child(2){animation-delay:80ms}
+.vd .bar:nth-child(3){animation-delay:160ms}
+.vd .bar:nth-child(4){animation-delay:240ms}
+.vd .bar:nth-child(5){animation-delay:320ms}
+.vd .bar:nth-child(6){animation-delay:400ms}
+.vd .bar:nth-child(7){animation-delay:480ms}
+@keyframes dBar{from{transform:scaleY(.35)}to{transform:scaleY(1)}}
+.vd .pulse{transform-origin:center;animation:dPulse 1.6s var(--ease) infinite}
+@keyframes dPulse{0%,100%{opacity:.55;transform:scale(1)}50%{opacity:1;transform:scale(1.08)}}
+.vd .draw{stroke-dasharray:200;stroke-dashoffset:200;animation:dDraw 2.4s var(--ease-soft) infinite}
+@keyframes dDraw{0%{stroke-dashoffset:200}60%{stroke-dashoffset:0}100%{stroke-dashoffset:0}}
+@media (max-width:880px){.vd .d-grid{grid-template-columns:1fr;gap:36px}}
+
+/* ===========================================================
+   VARIANT E — Index card
+   A horizontal "index card" containing 4 concrete capabilities
+   typeset like notebook lines, with small clay markers and
+   hairline rules. CTAs pinned to the lower-right of the card.
+   =========================================================== */
+.ve .e-card{
+  margin-top:48px;position:relative;
+  padding:36px clamp(28px,4vw,56px) 32px;
+  border-radius:22px;background:var(--bg-card);
+  border:1px solid var(--line-2);
+  box-shadow:0 24px 60px rgba(31,27,22,.07), 0 1px 0 rgba(255,255,255,.7) inset;
+  display:grid;grid-template-columns:1.6fr 1fr;gap:clamp(24px,4vw,56px);align-items:end;
+  overflow:hidden;
+}
+.ve .e-card::before{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background-image:repeating-linear-gradient(180deg, transparent 0 31px, rgba(31,27,22,.05) 31px 32px);
+  mask-image:linear-gradient(180deg, transparent 0, #000 12%, #000 88%, transparent 100%);
+}
+.ve .e-card::after{
+  content:"";position:absolute;left:clamp(28px,4vw,56px);top:0;bottom:0;width:1px;
+  background:rgba(217,119,87,.35);
+}
+.ve .e-list{display:flex;flex-direction:column;gap:6px;position:relative;z-index:1}
+.ve .e-h{font-family:var(--mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-mute);margin-bottom:10px}
+.ve .e-line{
+  display:flex;align-items:baseline;gap:14px;padding:6px 0;
+  border-bottom:1px solid var(--line);
+  cursor:default;
+  transition:padding-left .45s var(--ease);
+}
+.ve .e-line:hover{padding-left:8px}
+.ve .e-line:last-of-type{border-bottom:none}
+.ve .e-line .mark{
+  width:8px;height:8px;border-radius:50%;background:var(--clay);flex:none;align-self:center;
+  box-shadow:0 0 0 4px rgba(217,119,87,.14);
+  transition:transform .4s var(--ease);
+}
+.ve .e-line:hover .mark{transform:scale(1.25)}
+.ve .e-line .verb{
+  font-family:var(--serif);font-variation-settings:"opsz" 60, "wght" 420;
+  font-size:clamp(17px,1.4vw,21px);letter-spacing:-.005em;color:var(--ink);
+  white-space:nowrap;
+}
+.ve .e-line .verb em{font-style:italic;color:var(--clay-2);font-variation-settings:"opsz" 60, "wght" 440, "SOFT" 100, "WONK" 1}
+.ve .e-line .gloss{font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-mute);margin-left:auto;align-self:center}
+.ve .e-right{position:relative;z-index:1;display:flex;flex-direction:column;align-items:flex-end;gap:18px;justify-self:end}
+.ve .e-stamp{
+  width:104px;height:104px;border-radius:50%;
+  border:1.5px solid var(--clay-2);
+  display:grid;place-items:center;color:var(--clay-2);
+  font-family:var(--serif);font-style:italic;font-variation-settings:"opsz" 60, "wght" 420, "SOFT" 100;
+  font-size:14px;letter-spacing:.02em;text-align:center;line-height:1.15;
+  background:radial-gradient(60% 60% at 50% 50%, rgba(217,119,87,.10), transparent 70%);
+  position:relative;
+}
+.ve .e-stamp::before,.ve .e-stamp::after{content:"";position:absolute;inset:6px;border-radius:50%;border:1px dashed rgba(191,92,63,.45);pointer-events:none}
+.ve .e-stamp::after{inset:14px;border-style:solid;border-color:rgba(191,92,63,.18)}
+.ve .e-cta{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end}
+@media (max-width:880px){.ve .e-card{grid-template-columns:1fr;gap:24px}.ve .e-right{align-items:flex-start;justify-self:start}.ve .e-cta{justify-content:flex-start}}
+
+/* ===========================================================
+   reveal cascade (light-touch — sections animate in on scroll)
+   =========================================================== */
+.r{opacity:0;transform:translate3d(0,18px,0);filter:blur(4px);transition:opacity .9s var(--ease), transform .9s var(--ease), filter .9s var(--ease)}
+.r.in{opacity:1;transform:none;filter:none}
+.r-d1{transition-delay:.06s}.r-d2{transition-delay:.14s}.r-d3{transition-delay:.22s}.r-d4{transition-delay:.30s}.r-d5{transition-delay:.38s}.r-d6{transition-delay:.46s}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001s !important;animation-iteration-count:1 !important;transition-duration:.001s !important}
+  .r{opacity:1;transform:none;filter:none}
+  .vb .b-track{animation:none}
+  .vd .bar,.vd .pulse,.vd .draw{animation:none}
+}
+</style>
+</head>
+<body>
+
+<div class="mock-bar">
+  <span class="dot" aria-hidden="true"></span>
+  <span>TA Brain · hero bottom mocks</span>
+  <nav>
+    <a href="#a">A · split</a>
+    <a href="#b">B · ribbon</a>
+    <a href="#c">C · margin</a>
+    <a href="#d">D · live tile</a>
+    <a href="#e">E · index card</a>
+  </nav>
+</div>
+
+<!-- ====================================================== -->
+<!-- VARIANT A — Editorial split                            -->
+<!-- ====================================================== -->
+<section class="mock va" id="a">
+  <div class="mock-head">
+    <span class="tag"><span class="dot" style="width:6px;height:6px;border-radius:50%;background:var(--clay)"></span><b>A — Editorial split</b></span>
+    <span class="desc">Lead + CTAs left, vertical capability list right with mono indices and on-hover detail. Asymmetric, no card boxes.</span>
+  </div>
+
+  <div class="hero">
+    <div class="hero-inner">
+      <div class="eyebrow r">A second brain · for the whole company</div>
+      <h1 class="display r r-d1" style="margin-top:28px">
+        Two systems. One <em>connected</em> mind. <span class="ink-dim">For every department.</span>
+      </h1>
+
+      <div class="a-grid">
+        <div class="a-left">
+          <p class="lead r r-d2">
+            TA Brain and Profile Builder turn a few minutes of natural speech into a connected network of company knowledge &mdash; one we can all plug into, query, and ship from.
+          </p>
+          <div class="a-cta r r-d3">
+            <a class="btn btn-primary" href="#">Get the team on board <span class="arrow"><svg viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H9M17 7V15"/></svg></span></a>
+            <a class="btn btn-ghost" href="#">See the systems <span class="arrow"><svg viewBox="0 0 24 24"><path d="M12 5v14m0 0l-6-6m6 6l6-6"/></svg></span></a>
+          </div>
+        </div>
+
+        <div class="a-list r r-d3" role="list">
+          <div class="a-row" role="listitem">
+            <span class="num">01</span>
+            <span><span class="lbl">Capture</span><span class="sub">Speak naturally &mdash; the system shapes the rest.</span></span>
+            <span class="mark"><svg viewBox="0 0 24 24"><path d="M6 12h12M14 6l6 6-6 6"/></svg></span>
+          </div>
+          <div class="a-row" role="listitem">
+            <span class="num">02</span>
+            <span><span class="lbl">Connect</span><span class="sub">Every node cross-links to what already exists.</span></span>
+            <span class="mark"><svg viewBox="0 0 24 24"><path d="M6 12h12M14 6l6 6-6 6"/></svg></span>
+          </div>
+          <div class="a-row" role="listitem">
+            <span class="num">03</span>
+            <span><span class="lbl">Query</span><span class="sub">Ask in plain language, get the right slice back.</span></span>
+            <span class="mark"><svg viewBox="0 0 24 24"><path d="M6 12h12M14 6l6 6-6 6"/></svg></span>
+          </div>
+          <div class="a-row" role="listitem">
+            <span class="num">04</span>
+            <span><span class="lbl">Generate</span><span class="sub">Reports, exports, hand-offs &mdash; on demand.</span></span>
+            <span class="mark"><svg viewBox="0 0 24 24"><path d="M6 12h12M14 6l6 6-6 6"/></svg></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================================================== -->
+<!-- VARIANT B — Inline footnote ribbon                     -->
+<!-- ====================================================== -->
+<section class="mock vb" id="b">
+  <div class="mock-head">
+    <span class="tag"><span class="dot" style="width:6px;height:6px;border-radius:50%;background:var(--clay)"></span><b>B &mdash; Footnote ribbon</b></span>
+    <span class="desc">Lead + CTAs read like a paragraph. Capabilities run as a thin auto-marqueeing ribbon below &mdash; pauses on hover.</span>
+  </div>
+
+  <div class="hero">
+    <div class="hero-inner">
+      <div class="eyebrow r">A second brain · for the whole company</div>
+      <h1 class="display r r-d1" style="margin-top:28px">
+        Two systems. One <em>connected</em> mind. <span class="ink-dim">For every department.</span>
+      </h1>
+
+      <div class="b-block">
+        <p class="lead r r-d2">
+          TA Brain and Profile Builder turn a few minutes of natural speech into a connected network of company knowledge &mdash; one we can all plug into, query, and ship from.
+        </p>
+        <div class="b-cta r r-d3">
+          <a class="btn btn-primary" href="#">Get the team on board <span class="arrow"><svg viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H9M17 7V15"/></svg></span></a>
+          <a class="btn btn-ghost" href="#">See the systems <span class="arrow"><svg viewBox="0 0 24 24"><path d="M12 5v14m0 0l-6-6m6 6l6-6"/></svg></span></a>
+        </div>
+
+        <div class="b-ribbon r r-d4" aria-hidden="true">
+          <div class="b-track">
+            <span class="b-item"><span class="verb"><em>Capture.</em></span><span class="gloss">Speak naturally</span><span class="pip"></span></span>
+            <span class="b-item"><span class="verb"><em>Connect.</em></span><span class="gloss">Cross-link automatically</span><span class="pip"></span></span>
+            <span class="b-item"><span class="verb"><em>Query.</em></span><span class="gloss">Plain language</span><span class="pip"></span></span>
+            <span class="b-item"><span class="verb"><em>Generate.</em></span><span class="gloss">Reports on demand</span><span class="pip"></span></span>
+            <!-- duplicate for seamless loop -->
+            <span class="b-item"><span class="verb"><em>Capture.</em></span><span class="gloss">Speak naturally</span><span class="pip"></span></span>
+            <span class="b-item"><span class="verb"><em>Connect.</em></span><span class="gloss">Cross-link automatically</span><span class="pip"></span></span>
+            <span class="b-item"><span class="verb"><em>Query.</em></span><span class="gloss">Plain language</span><span class="pip"></span></span>
+            <span class="b-item"><span class="verb"><em>Generate.</em></span><span class="gloss">Reports on demand</span><span class="pip"></span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================================================== -->
+<!-- VARIANT C — Manuscript with margin notes               -->
+<!-- ====================================================== -->
+<section class="mock vc" id="c">
+  <div class="mock-head">
+    <span class="tag"><span class="dot" style="width:6px;height:6px;border-radius:50%;background:var(--clay)"></span><b>C &mdash; Manuscript margin notes</b></span>
+    <span class="desc">Body column with drop-cap lead. Right margin holds capabilities as italic Fraunces verbs with mono small-caps glosses. Most editorial.</span>
+  </div>
+
+  <div class="hero">
+    <div class="hero-inner">
+      <div class="eyebrow r">A second brain · for the whole company</div>
+      <h1 class="display r r-d1" style="margin-top:28px">
+        Two systems. One <em>connected</em> mind. <span class="ink-dim">For every department.</span>
+      </h1>
+
+      <div class="c-grid">
+        <div class="c-body">
+          <p class="c-lead r r-d2">
+            TA Brain and Profile Builder turn a few minutes of natural speech into a connected network of company knowledge &mdash; one we can all plug into, query, and ship from. The work happens at conversation speed; the structure shows up afterward.
+          </p>
+          <div class="c-cta r r-d3">
+            <a class="btn btn-primary" href="#">Get the team on board <span class="arrow"><svg viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H9M17 7V15"/></svg></span></a>
+            <a class="btn btn-ghost" href="#">See the systems <span class="arrow"><svg viewBox="0 0 24 24"><path d="M12 5v14m0 0l-6-6m6 6l6-6"/></svg></span></a>
+          </div>
+        </div>
+
+        <aside class="c-margin r r-d3">
+          <div class="ml-head">In this brain</div>
+          <div class="c-note"><span class="verb">capture.</span><span class="smcap">speak naturally</span></div>
+          <div class="c-note"><span class="verb">connect.</span><span class="smcap">cross-link automatically</span></div>
+          <div class="c-note"><span class="verb">query.</span><span class="smcap">ask in plain language</span></div>
+          <div class="c-note"><span class="verb">generate.</span><span class="smcap">reports on demand</span></div>
+        </aside>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================================================== -->
+<!-- VARIANT D — Live demo tile                             -->
+<!-- ====================================================== -->
+<section class="mock vd" id="d">
+  <div class="mock-head">
+    <span class="tag"><span class="dot" style="width:6px;height:6px;border-radius:50%;background:var(--clay)"></span><b>D &mdash; Live demo tile</b></span>
+    <span class="desc">Lead + CTAs left. Right side is a single tile that auto-cycles through 4 mini-demos (waveform, graph, search, doc). Show, don't tell.</span>
+  </div>
+
+  <div class="hero">
+    <div class="hero-inner">
+      <div class="eyebrow r">A second brain · for the whole company</div>
+      <h1 class="display r r-d1" style="margin-top:28px">
+        Two systems. One <em>connected</em> mind. <span class="ink-dim">For every department.</span>
+      </h1>
+
+      <div class="d-grid">
+        <div class="d-left">
+          <p class="lead r r-d2">
+            TA Brain and Profile Builder turn a few minutes of natural speech into a connected network of company knowledge &mdash; one we can all plug into, query, and ship from.
+          </p>
+          <div class="d-cta r r-d3">
+            <a class="btn btn-primary" href="#">Get the team on board <span class="arrow"><svg viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H9M17 7V15"/></svg></span></a>
+            <a class="btn btn-ghost" href="#">See the systems <span class="arrow"><svg viewBox="0 0 24 24"><path d="M12 5v14m0 0l-6-6m6 6l6-6"/></svg></span></a>
+          </div>
+        </div>
+
+        <div class="d-tile r r-d3" id="dTile" aria-hidden="true">
+          <div class="d-stage">
+            <!-- Frame 1: Capture (waveform) -->
+            <div class="d-frame on" data-i="0">
+              <svg viewBox="0 0 280 180" preserveAspectRatio="xMidYMid meet">
+                <g transform="translate(40,90)">
+                  <rect class="bar fill" x="0"   y="-30" width="8" height="60" rx="3"/>
+                  <rect class="bar fill" x="20"  y="-46" width="8" height="92" rx="3"/>
+                  <rect class="bar fill" x="40"  y="-22" width="8" height="44" rx="3"/>
+                  <rect class="bar fill" x="60"  y="-58" width="8" height="116" rx="3"/>
+                  <rect class="bar fill" x="80"  y="-38" width="8" height="76" rx="3"/>
+                  <rect class="bar fill" x="100" y="-50" width="8" height="100" rx="3"/>
+                  <rect class="bar fill" x="120" y="-26" width="8" height="52" rx="3"/>
+                  <rect class="bar fill" x="140" y="-44" width="8" height="88" rx="3"/>
+                  <rect class="bar fill" x="160" y="-32" width="8" height="64" rx="3"/>
+                  <rect class="bar fill" x="180" y="-52" width="8" height="104" rx="3"/>
+                </g>
+              </svg>
+            </div>
+            <!-- Frame 2: Connect (graph) -->
+            <div class="d-frame" data-i="1">
+              <svg viewBox="0 0 280 180" preserveAspectRatio="xMidYMid meet">
+                <g class="edges">
+                  <path class="stroke stroke-d draw" d="M140,90 L60,40"/>
+                  <path class="stroke stroke-d draw" d="M140,90 L220,40"/>
+                  <path class="stroke stroke-d draw" d="M140,90 L60,140"/>
+                  <path class="stroke stroke-d draw" d="M140,90 L220,140"/>
+                  <path class="stroke stroke-d draw" d="M60,40 L220,40"/>
+                  <path class="stroke stroke-d draw" d="M60,140 L220,140"/>
+                </g>
+                <g>
+                  <circle class="fill-soft pulse" cx="140" cy="90" r="22"/>
+                  <circle class="fill" cx="140" cy="90" r="12"/>
+                  <circle class="fill-soft" cx="60"  cy="40"  r="14"/>
+                  <circle class="fill"      cx="60"  cy="40"  r="7"/>
+                  <circle class="fill-soft" cx="220" cy="40"  r="14"/>
+                  <circle class="fill"      cx="220" cy="40"  r="7"/>
+                  <circle class="fill-soft" cx="60"  cy="140" r="14"/>
+                  <circle class="fill"      cx="60"  cy="140" r="7"/>
+                  <circle class="fill-soft" cx="220" cy="140" r="14"/>
+                  <circle class="fill"      cx="220" cy="140" r="7"/>
+                </g>
+              </svg>
+            </div>
+            <!-- Frame 3: Query (search ring) -->
+            <div class="d-frame" data-i="2">
+              <svg viewBox="0 0 280 180" preserveAspectRatio="xMidYMid meet">
+                <g transform="translate(140,92)">
+                  <circle class="stroke pulse" cx="-8" cy="-2" r="42" stroke-width="2"/>
+                  <circle class="fill-soft" cx="-8" cy="-2" r="42"/>
+                  <path class="stroke" d="M22,28 L52,58" stroke-width="2.4"/>
+                  <line class="stroke" x1="-32" y1="-2" x2="16" y2="-2"/>
+                  <line class="stroke" x1="-8"  y1="-26" x2="-8" y2="22"/>
+                </g>
+              </svg>
+            </div>
+            <!-- Frame 4: Generate (doc) -->
+            <div class="d-frame" data-i="3">
+              <svg viewBox="0 0 280 180" preserveAspectRatio="xMidYMid meet">
+                <g transform="translate(70,28)">
+                  <rect class="stroke" x="0" y="0" width="140" height="124" rx="6"/>
+                  <path class="stroke" d="M104 0 v22 h22"/>
+                  <line class="stroke" x1="14" y1="40" x2="92" y2="40" stroke-width="2"/>
+                  <line class="stroke" x1="14" y1="58" x2="118" y2="58"/>
+                  <line class="stroke" x1="14" y1="72" x2="106" y2="72"/>
+                  <line class="stroke" x1="14" y1="86" x2="118" y2="86"/>
+                  <line class="stroke" x1="14" y1="100" x2="78" y2="100"/>
+                  <rect class="fill-soft pulse" x="14" y="108" width="46" height="8" rx="2"/>
+                </g>
+              </svg>
+            </div>
+          </div>
+
+          <div class="d-meta">
+            <span class="step" id="dStep">step 01 / 04</span>
+            <span class="verb" id="dVerb">
+              <span class="on" data-i="0">Capture</span>
+              <span data-i="1">Connect</span>
+              <span data-i="2">Query</span>
+              <span data-i="3">Generate</span>
+            </span>
+            <span class="pips" id="dPips">
+              <span class="pip on"></span><span class="pip"></span><span class="pip"></span><span class="pip"></span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================================================== -->
+<!-- VARIANT E — Index card                                  -->
+<!-- ====================================================== -->
+<section class="mock ve" id="e">
+  <div class="mock-head">
+    <span class="tag"><span class="dot" style="width:6px;height:6px;border-radius:50%;background:var(--clay)"></span><b>E &mdash; Index card</b></span>
+    <span class="desc">A single ruled "index card" with concrete capability lines and a small ink-stamp brand mark. CTAs anchor lower-right of the card.</span>
+  </div>
+
+  <div class="hero">
+    <div class="hero-inner">
+      <div class="eyebrow r">A second brain · for the whole company</div>
+      <h1 class="display r r-d1" style="margin-top:28px">
+        Two systems. One <em>connected</em> mind. <span class="ink-dim">For every department.</span>
+      </h1>
+
+      <p class="lead r r-d2" style="margin-top:32px">
+        TA Brain and Profile Builder turn a few minutes of natural speech into a connected network of company knowledge.
+      </p>
+
+      <div class="e-card r r-d3">
+        <div class="e-list">
+          <div class="e-h">In this brain, we can&hellip;</div>
+          <div class="e-line"><span class="mark"></span><span class="verb"><em>Capture</em> a thought without writing anything down.</span><span class="gloss">~2 min</span></div>
+          <div class="e-line"><span class="mark"></span><span class="verb"><em>Connect</em> it to every related node already in the graph.</span><span class="gloss">automatic</span></div>
+          <div class="e-line"><span class="mark"></span><span class="verb"><em>Query</em> the whole network in plain language.</span><span class="gloss">no SQL</span></div>
+          <div class="e-line"><span class="mark"></span><span class="verb"><em>Generate</em> a custom report, on demand.</span><span class="gloss">seconds</span></div>
+        </div>
+        <div class="e-right">
+          <div class="e-stamp" aria-hidden="true">TA Brain<br>est. now</div>
+          <div class="e-cta">
+            <a class="btn btn-primary" href="#">Get the team on board <span class="arrow"><svg viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H9M17 7V15"/></svg></span></a>
+            <a class="btn btn-ghost" href="#">See the systems <span class="arrow"><svg viewBox="0 0 24 24"><path d="M12 5v14m0 0l-6-6m6 6l6-6"/></svg></span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+/* reveal cascade */
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+  });
+},{rootMargin:'-6% 0px -6% 0px', threshold:0.05});
+document.querySelectorAll('.r').forEach(el=>io.observe(el));
+
+/* Variant D — cycle frames */
+(function dCycle(){
+  const tile = document.getElementById('dTile');
+  if(!tile) return;
+  const frames = tile.querySelectorAll('.d-frame');
+  const verbs  = tile.querySelectorAll('#dVerb span');
+  const pips   = tile.querySelectorAll('#dPips .pip');
+  const step   = document.getElementById('dStep');
+  let i = 0;
+  let timer = null;
+  let visible = false;
+  const total = frames.length;
+
+  function show(n){
+    frames.forEach(f => f.classList.toggle('on', +f.dataset.i === n));
+    verbs.forEach(v => v.classList.toggle('on', +v.dataset.i === n));
+    pips.forEach((p, idx) => p.classList.toggle('on', idx === n));
+    step.textContent = `step ${String(n+1).padStart(2,'0')} / ${String(total).padStart(2,'0')}`;
+  }
+  function loop(){
+    if(!visible) return;
+    i = (i + 1) % total;
+    show(i);
+    timer = setTimeout(loop, 2400);
+  }
+  const dio = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        if(!visible){ visible = true; timer = setTimeout(loop, 2400); }
+      } else {
+        visible = false;
+        if(timer){ clearTimeout(timer); timer = null; }
+      }
+    });
+  },{threshold:0.4});
+  dio.observe(tile);
+})();
+</script>
+</body>
+</html>

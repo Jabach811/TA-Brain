@@ -1,6 +1,6 @@
 ---
 title: "CONV File"
-type: concept
+type: document
 tags: [conv-file, informatica, liquidation, day-of-wire, mapping, tik]
 created: 2026-04-14
 updated: 2026-04-14
@@ -25,6 +25,8 @@ The CONV file is the structured data file that drives the [[informatica]] Day of
 | Ref Number | Transfer reference number — created in [[p2]] on liquidation day |
 | Amount | Total dollar amount for this fund — filled in from vendor breakdown on liquidation day |
 | ReReg | Y = Transfer In Kind; N = Mapping |
+
+![CONV file in spreadsheet form — one row per fund, ReReg column drives Informatica behavior.](SS/CONV File.jpg)
 
 ## ReReg Field Logic
 

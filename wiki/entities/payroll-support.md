@@ -1,15 +1,19 @@
 ---
 title: "Payroll Support (OnePayroll Team)"
-type: entity
+type: department
 tags: [team, payroll-support, testing, validation, onepayroll]
 created: 2026-04-14
-updated: 2026-04-14
-sources: 1
+updated: 2026-05-03
+sources: 2
 ---
 
 # Payroll Support (OnePayroll Team)
 
 Also known as the OnePayroll Team. Performs production-level payroll testing — the final validation gate before a payroll setup goes live.
+
+## Contact
+
+**Payroll Support:** `PAYROLLSUPPORT@transamerica.com`
 
 ## Overview
 
@@ -29,6 +33,10 @@ The DC validates files internally via EDS. Once clean, the DC sends them to Payr
 - Warnings that only appear in the production environment
 - Format or mapping issues that EDS does not flag
 
+### Why Their Warnings Differ From EDS
+
+OnePayroll's import is the same import the **end user** (the client uploading payroll through the production page) will hit. The internal DC import strips out a lot of the warnings and errors that the production import surfaces. So even when EDS comes back perfectly clean, OnePayroll can still flag things — and those flags are exactly the things the client would see if they uploaded today. That's why the OnePayroll pass is its own gate, not just "EDS again."
+
 ## DC Interaction
 
 1. DC runs payroll test file through [[eds]] — reviews all output, iterates with vendor until clean
@@ -44,9 +52,9 @@ The DC validates files internally via EDS. Once clean, the DC sends them to Payr
 
 ## See Also
 
+- [[payroll-vendor-onboarding]]
 - [[payroll-template]]
 - [[ftp-connection]]
 - [[ftp-team]]
 - [[eds]]
-- [[internal-teams]]
 - [[dc-onboarding-workflow]]

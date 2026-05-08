@@ -1,6 +1,6 @@
 ---
 title: "Hours Procedure"
-type: concept
+type: process
 tags: [hours, eligibility, ltpt, process, eds]
 created: 2026-04-16
 updated: 2026-04-16

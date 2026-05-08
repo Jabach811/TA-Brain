@@ -1,0 +1,30 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "marp-balance",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["@marp-team/marp-cli", "--html", "-s", "."],
+      "port": 8080,
+      "autoPort": true
+    },
+    {
+      "name": "wiki",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "8765"],
+      "port": 8765
+    },
+    {
+      "name": "welcome",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "8770"],
+      "port": 8770
+    },
+    {
+      "name": "wiki-sinoussi",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "8771", "--directory", "C:\\Users\\mabac\\OneDrive\\Desktop\\TA Brain\\.claude\\worktrees\\exciting-sinoussi-cfe5da"],
+      "port": 8771
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 ---
 title: "FTP Team"
-type: entity
+type: department
 tags: [team, ftp, payroll, file-transfer]
 created: 2026-04-14
 updated: 2026-04-14
@@ -51,5 +51,4 @@ Setup takes approximately **1–2 weeks**. The FTP Team has a large caseload. Re
 - [[eric-leytem]]
 - [[payroll-template]]
 - [[eds]]
-- [[internal-teams]]
 - [[dc-onboarding-workflow]]

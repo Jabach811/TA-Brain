@@ -1,0 +1,32 @@
+# TO_COMPENSATION
+
+## Notes (from header comments)
+- UPDATE: ACCOUNT_NO LIKE 'QK63283_  00080%'
+- RUN QUERY; SELECT PIVOT BUTTON ON RIBBON; "Group Column(s)" Account_no and Soc-sec-no, "Pivot Column" Comp_typ_t, "Analysis Column" Comp_a; select ok; export
+- EXPORT TO FILE THAT WAS LOADED
+
+## SQL
+```sql
+--UPDATE: ACCOUNT_NO LIKE 'QK63283_  00080%'
+
+--RUN QUERY; SELECT PIVOT BUTTON ON RIBBON; "Group Column(s)" Account_no and Soc-sec-no, "Pivot Column" Comp_typ_t, "Analysis Column" Comp_a; select ok; export
+
+--EXPORT TO FILE THAT WAS LOADED
+SELECT A.ACCOUNT_NO , A.SOC_SEC_NO , A.COMP_A , A.PAY_PERIOD_START_D, A.PAY_PERIOD_END_D, A.PAYCHECK_D,  B.COMP_TYP_T , A.USER_I , A.MOD_TS 
+FROM PENSION.COMPENSATION_DATA A, PENSION.COMPENSATION_TYPE B
+WHERE ACCOUNT_NO LIKE 'QK63283_  00080%'
+AND A.COMP_TYP_C = B.COMP_TYP_C
+AND A.COMP_TYP_C <> 41
+--AND DATE(A.MOD_TS) = '2026-02-11' -- use in mergers where ppts already exist on plan
+--AND A.COMP_TYP_C = 4 --(6041/6051- PAY PERIOD) -- GROSS
+--AND COMP_TYP_C = 7 --(Comp used for pre-tax deferrals - pay period)
+--AND SOC_SEC_NO = '195-44-3649'
+
+;
+
+-- FULL DATA OUTPUT
+--SELECT *
+--FROM PENSION.COMPENSATION_DATA
+--WHERE ACCOUNT_NO LIKE 'QK63283_  00080%'
+--AND COMP_TYP_C <> 41
+```

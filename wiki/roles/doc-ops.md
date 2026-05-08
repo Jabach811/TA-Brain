@@ -41,6 +41,5 @@ Doc Ops updates P3 with new plan information and is responsible for maintaining 
 ## See Also
 
 - [[lm-dc]]
-- [[internal-teams]]
 - [[plan-classes]]
 - [[p3]]

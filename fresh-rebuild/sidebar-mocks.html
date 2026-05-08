@@ -1,0 +1,357 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TA Brain — Sidebar Mocks</title>
+<style>
+  :root {
+    --bg: #f1f3f5;
+    --ink: #202122;
+    --muted: #54595d;
+    --faint: #72777d;
+    --line: #a2a9b1;
+    --line-soft: #d8dde3;
+    --link: #0645ad;
+    --accent: #2a6f73;
+    --sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+    --serif: Georgia, "Times New Roman", serif;
+    --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--ink); font-family: var(--sans); font-size: 14px; line-height: 1.5; }
+  .page-header { padding: 24px 32px 8px; }
+  .page-header h1 { margin: 0 0 4px; font-family: var(--serif); font-weight: 400; font-size: 26px; letter-spacing: -0.01em; }
+  .page-header p { margin: 0; color: var(--muted); font-size: 13px; max-width: 720px; }
+  .lab { display: grid; grid-template-columns: repeat(4, 320px); gap: 18px; padding: 18px 32px 48px; overflow-x: auto; }
+  .col { display: flex; flex-direction: column; min-height: 760px; }
+  .col-head { padding: 10px 4px 12px; }
+  .col-tag { display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 11px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; background: #e9ecef; color: var(--muted); margin-bottom: 6px; }
+  .col-head h2 { margin: 0; font-family: var(--serif); font-size: 18px; font-weight: 400; letter-spacing: -0.005em; }
+  .col-head p { margin: 4px 0 0; color: var(--muted); font-size: 12.5px; line-height: 1.45; }
+  .frame { background: #fff; border: 1px solid var(--line-soft); height: 760px; overflow: hidden; display: flex; flex-direction: column; }
+  /* common reset for sidebar internals */
+  .sb { flex: 1; overflow: auto; }
+  .sb summary::-webkit-details-marker { display: none; }
+  .sb button { font: inherit; cursor: pointer; }
+
+  /* =============================================================== */
+  /*  CURRENT (baseline)                                              */
+  /* =============================================================== */
+  .v0 .sb { padding: 20px 18px 28px; }
+  .v0 .brand { display: flex; align-items: baseline; gap: 8px; padding-bottom: 14px; border-bottom: 1px solid var(--line-soft); margin-bottom: 18px; }
+  .v0 .brand-title { font-family: var(--serif); font-size: 22px; font-weight: 400; letter-spacing: -0.01em; line-height: 1; }
+  .v0 .brand-subtitle { color: var(--faint); font-size: 12px; }
+  .v0 .search { position: relative; margin-bottom: 14px; }
+  .v0 .search input { width: 100%; border: 1px solid var(--line); padding: 9px 10px; border-radius: 2px; outline: none; }
+  .v0 .search input:focus { border-color: var(--accent); box-shadow: 0 0 0 2px rgba(42,111,115,.14); }
+  .v0 details { padding: 0; }
+  .v0 summary { cursor: pointer; list-style: none; display: grid; grid-template-columns: 14px minmax(0,1fr) auto; align-items: center; gap: 8px; min-height: 32px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--faint); padding: 4px; }
+  .v0 summary::before { content: "▸"; color: var(--faint); font-size: 10px; transition: transform .12s ease; }
+  .v0 details[open] summary::before { transform: rotate(90deg); }
+  .v0 summary:hover { color: var(--ink); }
+  .v0 .count { color: var(--faint); font-weight: 600; min-width: 20px; text-align: right; font-size: 11px; }
+  .v0 .nav-list { list-style: none; margin: 2px 0 8px 14px; padding: 0; }
+  .v0 .nav-item { border: 0; background: transparent; color: var(--ink); width: 100%; text-align: left; padding: 4px 8px; font-size: 14px; line-height: 1.35; border-radius: 2px; }
+  .v0 .nav-item:hover { background: #f1f4f7; }
+  .v0 .nav-item.active { background: #f1f4f7; font-weight: 600; }
+
+  /* =============================================================== */
+  /*  A — Refined Wiki                                                */
+  /*    same wiki DNA, tighter rhythm, left-rail active, count pill   */
+  /* =============================================================== */
+  .vA .sb { padding: 22px 16px 32px; }
+  .vA .brand { display: flex; align-items: baseline; gap: 10px; padding-bottom: 16px; border-bottom: 1px solid var(--line-soft); margin-bottom: 18px; }
+  .vA .brand-title { font-family: var(--serif); font-size: 24px; font-weight: 400; letter-spacing: -0.012em; line-height: 1; }
+  .vA .brand-sub { color: var(--faint); font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em; align-self: center; }
+  .vA .search { position: relative; margin-bottom: 18px; }
+  .vA .search input { width: 100%; border: 1px solid var(--line-soft); background: #fcfcfd; padding: 9px 10px 9px 32px; border-radius: 4px; outline: none; transition: border-color .12s, box-shadow .12s, background .12s; }
+  .vA .search input::placeholder { color: var(--faint); }
+  .vA .search input:hover { background: #fff; border-color: #c0c6cc; }
+  .vA .search input:focus { background: #fff; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(42,111,115,.14); }
+  .vA .search svg { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: var(--faint); pointer-events: none; }
+  .vA details { margin-bottom: 4px; }
+  .vA summary { cursor: pointer; list-style: none; display: grid; grid-template-columns: 12px minmax(0,1fr) auto; align-items: center; gap: 10px; min-height: 30px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); padding: 6px 6px; border-radius: 4px; }
+  .vA summary::before { content: ""; width: 0; height: 0; border-left: 4px solid var(--faint); border-top: 4px solid transparent; border-bottom: 4px solid transparent; transition: transform .15s ease; transform-origin: 25% 50%; }
+  .vA details[open] summary::before { transform: rotate(90deg); }
+  .vA summary:hover { color: var(--ink); background: #f6f8fa; }
+  .vA .count { color: var(--muted); font-weight: 600; font-size: 11px; font-variant-numeric: tabular-nums; background: #eef2f6; padding: 1px 7px; border-radius: 999px; }
+  .vA .nav-list { list-style: none; margin: 2px 0 6px 14px; padding: 0 0 0 8px; border-left: 1px solid var(--line-soft); }
+  .vA .nav-item { position: relative; border: 0; background: transparent; color: var(--ink); width: 100%; text-align: left; padding: 5px 10px; font-size: 13.5px; line-height: 1.4; border-radius: 4px; }
+  .vA .nav-item:hover { background: #f6f8fa; }
+  .vA .nav-item.active { background: #eef5f5; color: #1a4f52; font-weight: 600; }
+  .vA .nav-item.active::before { content: ""; position: absolute; left: -9px; top: 4px; bottom: 4px; width: 2px; background: var(--accent); border-radius: 2px; }
+
+  /* =============================================================== */
+  /*  B — Editorial Knowledge Base                                    */
+  /*    warm surface, monogram brand, namespace letter chips          */
+  /* =============================================================== */
+  .vB .frame { background: #fafaf7; }
+  .vB .sb { padding: 22px 16px 16px; display: flex; flex-direction: column; }
+  .vB .brand { display: flex; align-items: center; gap: 10px; padding-bottom: 18px; margin-bottom: 14px; border-bottom: 1px solid #ece8e0; }
+  .vB .brand-mark { width: 30px; height: 30px; border-radius: 7px; background: #1a4f52; color: #f5f1e8; display: grid; place-items: center; font-family: var(--serif); font-size: 14px; font-weight: 600; letter-spacing: -0.02em; flex: 0 0 auto; }
+  .vB .brand-text { display: flex; flex-direction: column; line-height: 1.05; }
+  .vB .brand-title { font-family: var(--serif); font-size: 18px; font-weight: 500; letter-spacing: -0.01em; }
+  .vB .brand-sub { color: var(--muted); font-size: 11.5px; margin-top: 3px; }
+  .vB .search { position: relative; margin-bottom: 18px; }
+  .vB .search input { width: 100%; border: 1px solid #e2ddd0; background: #fff; padding: 10px 12px 10px 34px; border-radius: 8px; outline: none; transition: border-color .12s, box-shadow .12s; font-size: 13.5px; }
+  .vB .search input::placeholder { color: #999183; }
+  .vB .search input:hover { border-color: #cfc7b3; }
+  .vB .search input:focus { border-color: #1a4f52; box-shadow: 0 0 0 3px rgba(26,79,82,.12); }
+  .vB .search svg { position: absolute; left: 11px; top: 50%; transform: translateY(-50%); color: #a89e87; pointer-events: none; }
+  .vB .search-kbd { position: absolute; right: 9px; top: 50%; transform: translateY(-50%); font-family: var(--mono); font-size: 10.5px; color: #a89e87; background: #f1ede2; border: 1px solid #e6dfcd; padding: 1px 6px; border-radius: 4px; }
+  .vB details { margin-bottom: 2px; }
+  .vB summary { cursor: pointer; list-style: none; display: grid; grid-template-columns: 22px minmax(0,1fr) auto; align-items: center; gap: 10px; min-height: 32px; font-size: 13px; font-weight: 600; color: var(--ink); padding: 5px 8px; border-radius: 6px; }
+  .vB summary:hover { background: #f0ece2; }
+  .vB .ns-mark { width: 22px; height: 22px; border-radius: 5px; background: #ece7d8; color: #6b6450; display: grid; place-items: center; font-family: var(--serif); font-size: 12px; font-weight: 600; }
+  .vB details[open] .ns-mark { background: #1a4f52; color: #f5f1e8; }
+  .vB .count { color: #998f76; font-weight: 500; font-size: 11px; font-variant-numeric: tabular-nums; }
+  .vB .nav-list { list-style: none; margin: 0 0 6px 30px; padding: 0; }
+  .vB .nav-item { position: relative; border: 0; background: transparent; color: #3d3a31; width: 100%; text-align: left; padding: 5px 10px; font-size: 13px; line-height: 1.4; border-radius: 6px; transition: background .1s, color .1s; }
+  .vB .nav-item:hover { background: #f0ece2; color: var(--ink); }
+  .vB .nav-item.active { background: #1a4f52; color: #f5f1e8; font-weight: 500; }
+  .vB .footer { margin-top: auto; padding-top: 14px; border-top: 1px solid #ece8e0; font-size: 11.5px; color: #998f76; display: flex; justify-content: space-between; align-items: center; }
+  .vB .footer .dot { width: 6px; height: 6px; border-radius: 50%; background: #6aa84f; display: inline-block; margin-right: 6px; vertical-align: middle; }
+
+  /* =============================================================== */
+  /*  C — Technical / Console                                         */
+  /*    tight, monospace metadata, command-palette search             */
+  /* =============================================================== */
+  .vC .frame { background: #fff; }
+  .vC .sb { padding: 18px 14px 14px; display: flex; flex-direction: column; }
+  .vC .brand { display: flex; align-items: center; gap: 10px; padding-bottom: 14px; margin-bottom: 14px; border-bottom: 1px solid #ececec; }
+  .vC .brand-mark { width: 26px; height: 26px; border: 1px solid #1a1a1a; color: #1a1a1a; background: #fff; display: grid; place-items: center; font-family: var(--mono); font-size: 11px; font-weight: 700; flex: 0 0 auto; }
+  .vC .brand-text { display: flex; align-items: baseline; gap: 8px; }
+  .vC .brand-title { font-size: 15px; font-weight: 700; letter-spacing: -0.01em; }
+  .vC .brand-ver { font-family: var(--mono); font-size: 10.5px; color: #999; background: #f3f3f3; padding: 1px 6px; border-radius: 3px; }
+  .vC .search { position: relative; margin-bottom: 18px; }
+  .vC .search input { width: 100%; border: 1px solid #e1e1e1; background: #fafafa; padding: 8px 10px 8px 30px; border-radius: 6px; outline: none; font-size: 13px; transition: background .1s, border-color .1s; }
+  .vC .search input:hover { background: #fff; border-color: #d0d0d0; }
+  .vC .search input:focus { background: #fff; border-color: #1a1a1a; box-shadow: 0 0 0 3px rgba(0,0,0,.06); }
+  .vC .search input::placeholder { color: #999; }
+  .vC .search svg { position: absolute; left: 9px; top: 50%; transform: translateY(-50%); color: #999; pointer-events: none; }
+  .vC .search-kbd { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); font-family: var(--mono); font-size: 10.5px; color: #666; background: #fff; border: 1px solid #e1e1e1; padding: 1px 5px; border-radius: 3px; }
+  .vC .ns-group + .ns-group { margin-top: 4px; }
+  .vC summary { cursor: pointer; list-style: none; display: grid; grid-template-columns: 10px minmax(0,1fr) auto; align-items: center; gap: 10px; min-height: 28px; font-family: var(--mono); font-size: 11px; font-weight: 600; color: #666; padding: 5px 8px; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.04em; }
+  .vC summary::before { content: "+"; color: #999; font-family: var(--mono); font-size: 13px; line-height: 1; transform: translateY(-1px); }
+  .vC details[open] summary::before { content: "−"; }
+  .vC summary:hover { color: #1a1a1a; background: #f7f7f7; }
+  .vC details[open] summary { color: #1a1a1a; }
+  .vC .count { color: #999; font-weight: 500; font-size: 11px; font-family: var(--mono); font-variant-numeric: tabular-nums; }
+  .vC .nav-list { list-style: none; margin: 2px 0 6px 18px; padding: 0; border-left: 1px solid #ececec; }
+  .vC .nav-item { position: relative; border: 0; background: transparent; color: #1a1a1a; width: 100%; text-align: left; padding: 4px 10px 4px 12px; font-size: 13px; line-height: 1.4; border-radius: 0 4px 4px 0; transition: background .08s; }
+  .vC .nav-item:hover { background: #f7f7f7; }
+  .vC .nav-item.active { background: #f0f0f0; font-weight: 600; }
+  .vC .nav-item.active::before { content: ""; position: absolute; left: -1px; top: 4px; bottom: 4px; width: 2px; background: #1a1a1a; }
+  .vC .footer { margin-top: auto; padding-top: 12px; border-top: 1px solid #ececec; font-family: var(--mono); font-size: 10.5px; color: #999; display: flex; justify-content: space-between; }
+</style>
+</head>
+<body>
+
+<header class="page-header">
+  <h1>TA Brain — Sidebar Mocks</h1>
+  <p>Three directions for a more refined side panel, shown live next to the current build. Click headers to expand. Pick the one that feels right (or mix elements) and we'll roll it into the real app.</p>
+</header>
+
+<div class="lab">
+
+  <!-- ================================ CURRENT ================================ -->
+  <div class="col v0">
+    <div class="col-head">
+      <span class="col-tag">Current</span>
+      <h2>Wikipedia-flat baseline</h2>
+      <p>What's there now. Functional but visually undifferentiated — section heads barely register, search is system-default, and active state looks like hover.</p>
+    </div>
+    <div class="frame">
+      <div class="sb">
+        <div class="brand">
+          <span class="brand-title">TA Brain</span>
+          <span class="brand-subtitle">wiki</span>
+        </div>
+        <div class="search">
+          <input type="search" placeholder="Search all 125 wiki pages">
+        </div>
+        <nav id="nav-v0"></nav>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================================ A — Refined Wiki ================================ -->
+  <div class="col vA">
+    <div class="col-head">
+      <span class="col-tag" style="background:#eef5f5;color:#1a4f52;">Option A</span>
+      <h2>Refined Wiki</h2>
+      <p>Same DNA, tighter rhythm. Left-rail active indicator instead of fill, count pills, search icon, stronger section heads. Smallest delta from where we are.</p>
+    </div>
+    <div class="frame">
+      <div class="sb">
+        <div class="brand">
+          <span class="brand-title">TA Brain</span>
+          <span class="brand-sub">Wiki</span>
+        </div>
+        <div class="search">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+          <input type="search" placeholder="Search 125 pages">
+        </div>
+        <nav id="nav-vA"></nav>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================================ B — Editorial KB ================================ -->
+  <div class="col vB">
+    <div class="col-head">
+      <span class="col-tag" style="background:#ece7d8;color:#6b6450;">Option B</span>
+      <h2>Editorial Knowledge Base</h2>
+      <p>Warm off-white surface, monogram brand mark, single-letter chips per namespace. Reads more like a curated publication than a wiki dump.</p>
+    </div>
+    <div class="frame">
+      <div class="sb">
+        <div class="brand">
+          <span class="brand-mark">TA</span>
+          <span class="brand-text">
+            <span class="brand-title">TA Brain</span>
+            <span class="brand-sub">Knowledge Base</span>
+          </span>
+        </div>
+        <div class="search">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+          <input type="search" placeholder="Search…">
+          <span class="search-kbd">⌘K</span>
+        </div>
+        <nav id="nav-vB"></nav>
+        <div class="footer">
+          <span><span class="dot"></span>125 pages · 9 sources</span>
+          <span>v1.0</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================================ C — Technical Console ================================ -->
+  <div class="col vC">
+    <div class="col-head">
+      <span class="col-tag" style="background:#f3f3f3;color:#1a1a1a;">Option C</span>
+      <h2>Technical / Console</h2>
+      <p>Tight density, monospace metadata, command-palette search, fine ruled lines. Reads like a developer tool — most "system" feel of the three.</p>
+    </div>
+    <div class="frame">
+      <div class="sb">
+        <div class="brand">
+          <span class="brand-mark">TA</span>
+          <span class="brand-text">
+            <span class="brand-title">TA Brain</span>
+            <span class="brand-ver">v1.0</span>
+          </span>
+        </div>
+        <div class="search">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+          <input type="search" placeholder="Search or jump to…">
+          <span class="search-kbd">⌘K</span>
+        </div>
+        <nav id="nav-vC"></nav>
+        <div class="footer">
+          <span>125 pages</span>
+          <span>9 sources</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  // Realistic namespace data drawn from the actual app
+  const NAMESPACES = [
+    { key: "roles",       label: "Roles",        count: 14, sample: ["Large Market Data Consultant", "Communications (COM)", "Plan Analyst", "Conversion Manager", "Onboarding Specialist"], active: 0 },
+    { key: "departments", label: "Departments",  count: 9,  sample: ["Communications", "Data Operations", "Plan Conversions", "Client Services", "Product"], active: -1 },
+    { key: "systems",     label: "Systems",      count: 12, sample: ["Informatica", "EDS", "TOA", "P3", "SubPack", "Liquidation Day"], active: -1 },
+    { key: "documents",   label: "Documents",    count: 18, sample: ["Final Files Posting", "Plan Conversion Packet", "Onboarding Welcome Kit", "SubPack Form"], active: -1 },
+    { key: "processes",   label: "Processes",    count: 11, sample: ["Plan Conversion Handoffs", "Plan Onboarding Handoffs", "Communications Review"], active: -1 },
+    { key: "people",      label: "People",       count: 8,  sample: ["Operational SMEs", "Conversion Leads"], active: -1 },
+    { key: "glossary",    label: "Glossary",     count: 22, sample: ["DC", "TOA", "EDS", "P3", "SubPack"], active: -1 },
+    { key: "reference",   label: "Reference",    count: 14, sample: ["Plan Lifecycle", "Conversion Stages"], active: -1 },
+    { key: "onboarding",  label: "Onboarding",   count: 6,  sample: ["LM DC Reading List", "COM Reading List"], active: -1 },
+    { key: "sources",     label: "Sources",      count: 9,  sample: ["LM DC Brain Dump 001", "COM Brain Dump 001"], active: -1 },
+    { key: "analyses",    label: "Analyses",     count: 3,  sample: ["Conversion vs Onboarding"], active: -1 },
+    { key: "admin",       label: "Wiki Admin",   count: 4,  sample: ["Index", "Log", "Build Artifacts"], active: -1 }
+  ];
+
+  function letterFor(label) {
+    return label.charAt(0).toUpperCase();
+  }
+
+  function renderV0(rootId) {
+    const root = document.getElementById(rootId);
+    root.innerHTML = NAMESPACES.map((ns, i) => {
+      const open = i === 0 ? "open" : "";
+      return `<details class="namespace" ${open}>
+        <summary>
+          <span></span>
+          <span class="namespace-label">${ns.label}</span>
+          <span class="count">${ns.count}</span>
+        </summary>
+        <ul class="nav-list">
+          ${ns.sample.map((p, j) => `<li><button class="nav-item ${j === ns.active ? "active" : ""}">${p}</button></li>`).join("")}
+        </ul>
+      </details>`;
+    }).join("");
+  }
+  function renderVA(rootId) {
+    const root = document.getElementById(rootId);
+    root.innerHTML = NAMESPACES.map((ns, i) => {
+      const open = i === 0 ? "open" : "";
+      return `<details ${open}>
+        <summary>
+          <span></span>
+          <span>${ns.label}</span>
+          <span class="count">${ns.count}</span>
+        </summary>
+        <ul class="nav-list">
+          ${ns.sample.map((p, j) => `<li><button class="nav-item ${j === ns.active ? "active" : ""}">${p}</button></li>`).join("")}
+        </ul>
+      </details>`;
+    }).join("");
+  }
+  function renderVB(rootId) {
+    const root = document.getElementById(rootId);
+    root.innerHTML = NAMESPACES.map((ns, i) => {
+      const open = i === 0 ? "open" : "";
+      return `<details ${open}>
+        <summary>
+          <span class="ns-mark">${letterFor(ns.label)}</span>
+          <span>${ns.label}</span>
+          <span class="count">${ns.count}</span>
+        </summary>
+        <ul class="nav-list">
+          ${ns.sample.map((p, j) => `<li><button class="nav-item ${j === ns.active ? "active" : ""}">${p}</button></li>`).join("")}
+        </ul>
+      </details>`;
+    }).join("");
+  }
+  function renderVC(rootId) {
+    const root = document.getElementById(rootId);
+    root.innerHTML = NAMESPACES.map((ns, i) => {
+      const open = i === 0 ? "open" : "";
+      return `<details class="ns-group" ${open}>
+        <summary>
+          <span></span>
+          <span>${ns.label}</span>
+          <span class="count">${String(ns.count).padStart(2, "0")}</span>
+        </summary>
+        <ul class="nav-list">
+          ${ns.sample.map((p, j) => `<li><button class="nav-item ${j === ns.active ? "active" : ""}">${p}</button></li>`).join("")}
+        </ul>
+      </details>`;
+    }).join("");
+  }
+
+  renderV0("nav-v0");
+  renderVA("nav-vA");
+  renderVB("nav-vB");
+  renderVC("nav-vC");
+</script>
+
+</body>
+</html>

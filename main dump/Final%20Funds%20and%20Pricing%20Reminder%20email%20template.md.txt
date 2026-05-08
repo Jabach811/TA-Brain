@@ -1,0 +1,9 @@
+# Final Funds and Pricing Reminder – Email Template
+
+## Purpose
+- Remind stakeholders of upcoming or past-due final funds and pricing deadlines.
+
+## Key Messages
+- Importance of final pricing to conversion success.
+- Risks of missing deadlines.
+- Guidance on escalation if deadlines cannot be met.

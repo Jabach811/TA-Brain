@@ -1,0 +1,9 @@
+# New Business Process Summary
+
+## Overview
+- End-to-end new business implementation lifecycle.
+
+## Key Roles
+- Transition Manager
+- Data Consultant
+- Communications Consultant

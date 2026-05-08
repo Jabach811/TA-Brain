@@ -1,6 +1,6 @@
 ---
 title: "FAA — DC Data Requirements"
-type: concept
+type: document
 tags: [faa, fund-asset-allocation, data, requirements, dc, process]
 created: 2026-04-16
 updated: 2026-04-16

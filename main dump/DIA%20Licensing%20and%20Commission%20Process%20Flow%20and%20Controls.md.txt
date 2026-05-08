@@ -1,0 +1,9 @@
+# DIA Licensing and Commission Process Flow and Controls
+
+## Scope
+- Licensing setup
+- Commission setup and payment
+
+## Controls
+- Access restrictions
+- System edits and approvals

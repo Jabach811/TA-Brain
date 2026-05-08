@@ -1,0 +1,12 @@
+# FAA for Allocations
+
+## Purpose
+- Compare participant investment elections to prior vendor data.
+
+## Inputs
+- Census data
+- Fund mapping
+- Prior vendor allocation file
+
+## Output
+- Exception reports for allocation discrepancies.

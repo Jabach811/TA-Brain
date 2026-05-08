@@ -1,6 +1,6 @@
 ---
 title: "Overview"
-type: analysis
+type: reference
 tags: [overview, synthesis]
 created: 2026-04-14
 updated: 2026-04-15

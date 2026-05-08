@@ -1,0 +1,10 @@
+# DB Deduction Codes, Map Keys, EFT Confirms, DB Reports Setup
+
+## Purpose
+- Coordinate setup of deduction codes, map keys, EFT confirms, and DB reporting.
+
+## Responsibilities
+- TM: Distributes submission package.
+- DC: Confirms deductions and updates package.
+- TC: Requests map keys from Funding.
+- Funding / Ops: Provide map keys and complete setup.

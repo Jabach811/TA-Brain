@@ -56,7 +56,7 @@ A DC handles all data-related work for onboarding new retirement plans. The work
 - [[eds]] — file validation and processing system
 - [[informatica]] — ETL workflow tool
 - [[nbi]] — plan assignment tracking system
-- [[internal-teams]] — DC, COM, Doc Ops, QA, TC, Cashiering, FTP Team, Payroll Support
+-  — DC, COM, Doc Ops, QA, TC, Cashiering, FTP Team, Payroll Support
 
 ## Concepts Mentioned
 

@@ -1,6 +1,6 @@
 ---
 title: "Audit Pack"
-type: concept
+type: document
 tags: [audit, documentation, qa, post-conversion]
 created: 2026-04-14
 updated: 2026-04-14
@@ -66,6 +66,5 @@ Stored in the **client folder** on the internal file system — specifically `ro
 ## See Also
 
 - [[final-files-processing]]
-- [[internal-teams]]
 - [[conversion-types]]
 - [[dc-onboarding-workflow]]

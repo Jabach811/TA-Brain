@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>TA Brain — Cube fill mocks</title>
+
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=switzer@400,500,600,700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..700,0..100,0..1&family=JetBrains+Mono:wght@400;500&display=swap">
+
+<style>
+:root{
+  --bg:        #F5F1EB;
+  --bg-2:      #FAF8F3;
+  --bg-3:      #EBE5DA;
+  --bg-card:   #FBF8F2;
+  --paper:     #FBF5EA;
+  --ink:       #1F1B16;
+  --ink-2:     #3A342C;
+  --ink-dim:   #6B6457;
+  --ink-mute:  #9A9385;
+  --line:      rgba(31,27,22,.08);
+  --line-2:    rgba(31,27,22,.16);
+  --line-3:    rgba(31,27,22,.32);
+  --clay:      #D97757;
+  --clay-2:    #BF5C3F;
+  --clay-3:    #F2C7B3;
+  --ochre:     #C19A4D;
+  --moss:      #6F8160;
+  --rust:      #A24D2C;
+  --ease:      cubic-bezier(.32,.72,0,1);
+  --ease-soft: cubic-bezier(.22,1,.36,1);
+  --serif:     "Fraunces", ui-serif, Georgia, serif;
+  --sans:      "Switzer", ui-sans-serif, system-ui, sans-serif;
+  --mono:      "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+a{color:inherit;text-decoration:none}
+::selection{background:rgba(217,119,87,.28);color:var(--ink)}
+
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:1;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .12  0 0 0 0 .10  0 0 0 0 .08  0 0 0 0 .55  0'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='.45'/></svg>");
+  opacity:.05;mix-blend-mode:multiply;
+}
+
+.mock-bar{
+  position:sticky;top:0;z-index:50;
+  display:flex;align-items:center;gap:14px;
+  padding:10px 22px;background:rgba(245,241,235,.86);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);
+  font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-dim);
+}
+.mock-bar .dot{width:6px;height:6px;border-radius:50%;background:var(--clay);box-shadow:0 0 8px rgba(217,119,87,.5)}
+.mock-bar nav{display:flex;gap:6px;margin-left:auto;flex-wrap:wrap}
+.mock-bar nav a{padding:4px 10px;border-radius:6px;transition:background .3s var(--ease), color .3s var(--ease)}
+.mock-bar nav a:hover{background:rgba(31,27,22,.06);color:var(--ink)}
+
+.mock{
+  position:relative;
+  padding:48px clamp(20px,5vw,72px) 96px;
+  border-bottom:1px dashed var(--line-2);
+}
+.mock-head{
+  display:flex;align-items:baseline;gap:18px;flex-wrap:wrap;
+  margin-bottom:22px;
+  font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-mute);
+}
+.mock-head .tag{
+  display:inline-flex;align-items:center;gap:8px;padding:4px 10px 4px 8px;border:1px solid var(--line-2);border-radius:999px;
+  background:var(--bg-card);color:var(--ink-2);
+}
+.mock-head .tag b{font-family:var(--serif);font-variation-settings:"opsz" 36, "wght" 500;font-size:13px;letter-spacing:-.005em;text-transform:none;color:var(--ink);font-weight:500}
+.mock-head .desc{color:var(--ink-dim);text-transform:none;letter-spacing:0;font-family:var(--sans);font-size:13px;max-width:62ch}
+
+.eyebrow{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:7px 14px;border-radius:999px;
+  background:var(--bg-card);border:1px solid var(--line-2);
+  font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-dim);
+}
+.eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--clay);box-shadow:0 0 10px rgba(217,119,87,.45)}
+
+.cap-pair{
+  position:relative;height:34px;margin-top:24px;text-align:center;
+}
+.cap-pair span{
+  position:absolute;left:0;right:0;top:0;
+  font-family:var(--serif);font-variation-settings:"opsz" 36, "wght" 380;
+  font-size:18px;color:var(--ink-2);letter-spacing:-.005em;
+  opacity:0;transition:opacity .9s var(--ease-soft);
+}
+.cap-pair span em{font-style:italic;color:var(--clay-2);font-variation-settings:"opsz" 36, "wght" 380, "SOFT" 100, "WONK" 1}
+.cap-pair .cap-one{opacity:1}
+.filled .cap-pair .cap-one{opacity:0}
+.filled .cap-pair .cap-many{opacity:1}
+
+.stage-shell{
+  position:relative;width:min(1100px, 100%);margin:0 auto;
+  background:
+    radial-gradient(60% 80% at 12% 6%,  rgba(217,119,87,.10), transparent 60%),
+    radial-gradient(50% 70% at 92% 96%, rgba(193,154,77,.08), transparent 60%),
+    linear-gradient(180deg, var(--bg-2), #ECE2D0);
+  border:1px solid var(--line-2);border-radius:28px;
+  padding:48px clamp(24px,5vw,64px) 32px;
+  box-shadow:0 24px 60px rgba(31,27,22,.06), 0 1px 0 rgba(255,255,255,.6) inset;
+  overflow:hidden;
+}
+.stage-shell .eyebrow{margin-bottom:18px}
+.stage-shell h3{
+  font-family:var(--serif);font-variation-settings:"opsz" 144, "wght" 360;
+  font-size:clamp(28px, 3.5vw, 44px);line-height:1.05;letter-spacing:-.02em;
+  color:var(--ink);margin-bottom:24px;max-width:22ch;
+}
+.stage-shell h3 em{font-style:italic;color:var(--clay-2);font-variation-settings:"opsz" 144, "wght" 380, "SOFT" 100, "WONK" 1}
+
+/* big stage so the cube has real presence */
+.engine-stage{
+  position:relative;width:100%;
+  min-height:520px;height:600px;max-height:78vh;
+  display:flex;align-items:center;justify-content:center;
+}
+
+/* ===== shared lattice (true 3D, JS-driven) ===== */
+.lat{ width:100%; height:100%; position:relative; }
+.lat svg{ width:100%; height:100%; display:block; overflow:visible; }
+
+.lat .edge{
+  stroke: rgba(31,27,22,.18);
+  fill:none;
+  stroke-width:1.2;
+  stroke-linecap:round;
+  opacity:.55;
+  transition: opacity .9s var(--ease), stroke .9s var(--ease), stroke-width .9s var(--ease);
+  vector-effect: non-scaling-stroke;
+}
+.lat .edge.on{
+  stroke: rgba(217,119,87,.7);
+  opacity:1;
+  stroke-width:1.6;
+}
+
+.lat .node{
+  fill: rgba(31,27,22,.22);
+  transform-origin:center;transform-box:fill-box;
+  transform: scale(.55);
+  opacity:.7;
+  transition: fill .5s var(--ease), transform .5s var(--ease-soft), opacity .5s var(--ease), filter .5s var(--ease);
+}
+.lat .node.lit{
+  fill: var(--clay);
+  transform: scale(1);
+  opacity:1;
+  filter: drop-shadow(0 0 9px rgba(217,119,87,.6));
+}
+.lat .node.seed{
+  fill: var(--clay-2);
+  transform: scale(1.55);
+  opacity:1;
+  filter: drop-shadow(0 0 16px rgba(217,119,87,.75));
+}
+
+/* comet: bright dot riding the edge */
+.lat .comet{
+  fill: var(--clay);
+  filter: drop-shadow(0 0 8px rgba(217,119,87,.85));
+  pointer-events:none;
+}
+
+/* trailing glow rectangle behind comet — drawn via second circle for halo */
+.lat .comet-halo{
+  fill: rgba(217,119,87,.35);
+  filter: blur(1px);
+  pointer-events:none;
+}
+
+/* per-variant accent recolors */
+.vc .lat .edge.on{ stroke: rgba(193,154,77,.7) }
+.vc .lat .node.lit{ fill: var(--ochre); filter: drop-shadow(0 0 9px rgba(193,154,77,.55)); }
+.vc .lat .comet{ fill: var(--ochre); filter: drop-shadow(0 0 8px rgba(193,154,77,.7)); }
+.vc .lat .comet-halo{ fill: rgba(193,154,77,.35) }
+
+.vd .lat .edge.on{ stroke: rgba(111,129,96,.7) }
+.vd .lat .node.lit{ fill: var(--moss); filter: drop-shadow(0 0 9px rgba(111,129,96,.55)); }
+.vd .lat .comet{ fill: var(--moss); filter: drop-shadow(0 0 8px rgba(111,129,96,.7)); }
+.vd .lat .comet-halo{ fill: rgba(111,129,96,.35) }
+
+@media (prefers-reduced-motion: reduce){
+  .lat .edge, .lat .node{ transition:none !important; }
+}
+</style>
+</head>
+<body>
+
+<header class="mock-bar">
+  <span class="dot"></span>
+  <span>Cube fill · 3D wireframes · mocks</span>
+  <nav>
+    <a href="#va">A · 3³ Cube</a>
+    <a href="#vb">B · 4³ Cube</a>
+    <a href="#vc">C · 3³ + diagonals</a>
+    <a href="#vd">D · Octahedron</a>
+  </nav>
+</header>
+
+<!-- ================= A — Polished 3³ ================= -->
+<section class="mock va" id="va">
+  <div class="mock-head">
+    <span class="tag"><b>A</b> 3³ Cube · polished</span>
+    <span class="desc">27 nodes, 54 edges. True 3D rotation; comet rides each edge from sender to receiver, then the connection persists. BFS waves from the cube's center outward.</span>
+  </div>
+  <div class="stage-shell">
+    <span class="eyebrow"><span class="dot"></span> Same engine · two scales</span>
+    <h3>One seed. <em>Whole structure.</em></h3>
+    <div class="engine-stage"><div class="lat" data-variant="cube" data-n="3" data-step="90"></div></div>
+    <div class="cap-pair">
+      <span class="cap-one">One conversation seeds the same engine</span>
+      <span class="cap-many">Many conversations <em>build the same brain</em></span>
+    </div>
+  </div>
+</section>
+
+<!-- ================= B — 4³ Cube dense ================= -->
+<section class="mock vb" id="vb">
+  <div class="mock-head">
+    <span class="tag"><b>B</b> 4³ Cube · denser</span>
+    <span class="desc">64 nodes, 144 edges. More cells, more parallel comets in flight per wave; reads as a richer knowledge volume filling itself in.</span>
+  </div>
+  <div class="stage-shell">
+    <span class="eyebrow"><span class="dot"></span> Same engine · two scales</span>
+    <h3>One seed. <em>Denser volume.</em></h3>
+    <div class="engine-stage"><div class="lat" data-variant="cube" data-n="4" data-step="65"></div></div>
+    <div class="cap-pair">
+      <span class="cap-one">One conversation seeds the same engine</span>
+      <span class="cap-many">Many conversations <em>build the same brain</em></span>
+    </div>
+  </div>
+</section>
+
+<!-- ================= C — 3³ + face diagonals ================= -->
+<section class="mock vc" id="vc">
+  <div class="mock-head">
+    <span class="tag"><b>C</b> 3³ Cube + face diagonals</span>
+    <span class="desc">Same 27-node cube, but every unit-cell face is crossed with two diagonals — connections between non-adjacent peers, reinforcing the structure as it builds.</span>
+  </div>
+  <div class="stage-shell">
+    <span class="eyebrow"><span class="dot"></span> Same engine · two scales</span>
+    <h3>One seed. <em>Reinforced lattice.</em></h3>
+    <div class="engine-stage"><div class="lat" data-variant="cube-diag" data-n="3" data-step="90"></div></div>
+    <div class="cap-pair">
+      <span class="cap-one">One conversation seeds the same engine</span>
+      <span class="cap-many">Many conversations <em>build the same brain</em></span>
+    </div>
+  </div>
+</section>
+
+<!-- ================= D — Octahedron + center ================= -->
+<section class="mock vd" id="vd">
+  <div class="mock-head">
+    <span class="tag"><b>D</b> Octahedron + center</span>
+    <span class="desc">Diamond silhouette. Six axis vertices ringed around a central seed; comets fan to the points first, then ring chords close the lattice.</span>
+  </div>
+  <div class="stage-shell">
+    <span class="eyebrow"><span class="dot"></span> Same engine · two scales</span>
+    <h3>One seed. <em>Six perspectives.</em></h3>
+    <div class="engine-stage"><div class="lat" data-variant="octa" data-r="220"></div></div>
+    <div class="cap-pair">
+      <span class="cap-one">One conversation seeds the same engine</span>
+      <span class="cap-many">Many conversations <em>build the same brain</em></span>
+    </div>
+  </div>
+</section>
+
+<script>
+const SVG_NS = 'http://www.w3.org/2000/svg';
+
+/* ============================================================
+   3D topology builders
+   ============================================================ */
+function buildCube(n, step, withDiagonals=false){
+  const off = (n-1)*step/2;
+  const nodes = [];
+  for(let z=0;z<n;z++)for(let y=0;y<n;y++)for(let x=0;x<n;x++){
+    nodes.push({ x: x*step - off, y: y*step - off, z: z*step - off });
+  }
+  const idx = (x,y,z) => z*n*n + y*n + x;
+  const edges = [];
+  for(let z=0;z<n;z++)for(let y=0;y<n;y++)for(let x=0;x<n;x++){
+    if(x<n-1) edges.push({a:idx(x,y,z), b:idx(x+1,y,z)});
+    if(y<n-1) edges.push({a:idx(x,y,z), b:idx(x,y+1,z)});
+    if(z<n-1) edges.push({a:idx(x,y,z), b:idx(x,y,z+1)});
+    if(withDiagonals){
+      // each unit cell's 6 faces: two diagonals each (XY, XZ, YZ planes)
+      if(x<n-1 && y<n-1){
+        edges.push({a:idx(x,y,z),     b:idx(x+1,y+1,z)});
+        edges.push({a:idx(x+1,y,z),   b:idx(x,y+1,z)});
+      }
+      if(x<n-1 && z<n-1){
+        edges.push({a:idx(x,y,z),     b:idx(x+1,y,z+1)});
+        edges.push({a:idx(x+1,y,z),   b:idx(x,y,z+1)});
+      }
+      if(y<n-1 && z<n-1){
+        edges.push({a:idx(x,y,z),     b:idx(x,y+1,z+1)});
+        edges.push({a:idx(x,y+1,z),   b:idx(x,y,z+1)});
+      }
+    }
+  }
+  const c = Math.floor(n/2);
+  return { nodes, edges, seedIdx: idx(c,c,c) };
+}
+
+function buildOcta(r){
+  const nodes = [
+    { x:0, y:0, z:0 },     // 0 center seed
+    { x:r, y:0, z:0 },     // 1 +X
+    { x:-r, y:0, z:0 },    // 2 -X
+    { x:0, y:r, z:0 },     // 3 +Y
+    { x:0, y:-r, z:0 },    // 4 -Y
+    { x:0, y:0, z:r },     // 5 +Z
+    { x:0, y:0, z:-r }     // 6 -Z
+  ];
+  const edges = [];
+  // 6 spokes from center
+  for(let i=1;i<=6;i++) edges.push({ a:0, b:i });
+  // 12 octahedron edges (between non-antipodal outer vertices)
+  const antipode = {1:2, 2:1, 3:4, 4:3, 5:6, 6:5};
+  for(let i=1;i<=6;i++){
+    for(let j=i+1;j<=6;j++){
+      if(antipode[i] === j) continue;
+      edges.push({ a:i, b:j });
+    }
+  }
+  return { nodes, edges, seedIdx: 0 };
+}
+
+function buildTopo(host){
+  const v = host.dataset.variant;
+  if(v === 'cube')      return buildCube(+host.dataset.n, +host.dataset.step, false);
+  if(v === 'cube-diag') return buildCube(+host.dataset.n, +host.dataset.step, true);
+  if(v === 'octa')      return buildOcta(+host.dataset.r);
+}
+
+/* ============================================================
+   3D Stage — true rotation, perspective projection,
+   JS-driven comet flow, BFS cascade
+   ============================================================ */
+class Stage3D {
+  constructor(host){
+    this.host = host;
+    const topo = buildTopo(host);
+    this.nodes = topo.nodes;
+    this.edges = topo.edges;
+    this.seedIdx = topo.seedIdx;
+
+    this.angleY = -0.45;   // initial yaw
+    this.angleX = -0.22;   // initial pitch (tilt)
+    this.yawSpeed = 0.00012; // rad per ms — very slow ambient rotation
+    this.pitchAmp = 0.06;
+    this.pitchPhase = 0;
+
+    this.activeComets = [];
+    this.litNodes = new Set([this.seedIdx]);
+    this.fired = false;
+
+    // SVG: tight viewBox so the cube fills the stage (overflow:visible
+    // covers any rotation overshoot)
+    this.svg = document.createElementNS(SVG_NS, 'svg');
+    this.svg.setAttribute('viewBox', '-200 -200 400 400');
+    this.svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+    host.appendChild(this.svg);
+
+    // edges first (drawn under nodes)
+    this.lineEls = this.edges.map(() => {
+      const ln = document.createElementNS(SVG_NS,'line');
+      ln.setAttribute('class','edge');
+      this.svg.appendChild(ln);
+      return ln;
+    });
+
+    // nodes
+    this.nodeEls = this.nodes.map((_, i) => {
+      const c = document.createElementNS(SVG_NS,'circle');
+      c.setAttribute('r', 5);
+      c.setAttribute('class','node');
+      if(i === this.seedIdx) c.classList.add('seed','lit');
+      this.svg.appendChild(c);
+      return c;
+    });
+
+    // comets (one per edge — pre-created, hidden until fired)
+    this.cometHaloEls = this.edges.map(() => {
+      const c = document.createElementNS(SVG_NS,'circle');
+      c.setAttribute('r', 9);
+      c.setAttribute('class','comet-halo');
+      c.setAttribute('opacity', 0);
+      this.svg.appendChild(c);
+      return c;
+    });
+    this.cometEls = this.edges.map(() => {
+      const c = document.createElementNS(SVG_NS,'circle');
+      c.setAttribute('r', 4.5);
+      c.setAttribute('class','comet');
+      c.setAttribute('opacity', 0);
+      this.svg.appendChild(c);
+      return c;
+    });
+
+    // initial render + RAF loop
+    this.lastT = performance.now();
+    this.frame(this.lastT);
+    this.tick = this.tick.bind(this);
+    requestAnimationFrame(this.tick);
+  }
+
+  project(p){
+    // rotate around Y (yaw)
+    const cy = Math.cos(this.angleY), sy = Math.sin(this.angleY);
+    let x = p.x * cy + p.z * sy;
+    let z = -p.x * sy + p.z * cy;
+    let y = p.y;
+    // rotate around X (pitch)
+    const cx = Math.cos(this.angleX), sx = Math.sin(this.angleX);
+    const yt = y * cx - z * sx;
+    const zt = y * sx + z * cx;
+    // perspective
+    const dist = 700;
+    const persp = dist / (dist + zt + 200);
+    return { x: x * persp, y: yt * persp, z: zt };
+  }
+
+  frame(now){
+    // recompute projected coords
+    const proj = this.nodes.map(n => this.project(n));
+
+    // update lines + nodes
+    for(let i=0;i<this.edges.length;i++){
+      const e = this.edges[i];
+      const a = proj[e.a], b = proj[e.b];
+      const ln = this.lineEls[i];
+      ln.setAttribute('x1', a.x); ln.setAttribute('y1', a.y);
+      ln.setAttribute('x2', b.x); ln.setAttribute('y2', b.y);
+    }
+    for(let i=0;i<this.nodes.length;i++){
+      const c = this.nodeEls[i];
+      c.setAttribute('cx', proj[i].x);
+      c.setAttribute('cy', proj[i].y);
+    }
+
+    // update active comets
+    if(this.activeComets.length){
+      const dt = now - this.lastT;
+      const remaining = [];
+      for(const cm of this.activeComets){
+        cm.t += dt / cm.duration;
+        const t = Math.min(1, cm.t);
+        const a = proj[cm.fromIdx], b = proj[cm.toIdx];
+        const x = a.x + (b.x - a.x) * t;
+        const y = a.y + (b.y - a.y) * t;
+        const op = (t < 0.08) ? (t / 0.08) : (t > 0.92 ? (1 - t) / 0.08 : 1);
+        cm.el.setAttribute('cx', x); cm.el.setAttribute('cy', y);
+        cm.el.setAttribute('opacity', op);
+        cm.haloEl.setAttribute('cx', x); cm.haloEl.setAttribute('cy', y);
+        cm.haloEl.setAttribute('opacity', op * 0.7);
+        if(t >= 1){
+          // arrived: light edge + endpoint
+          this.lineEls[cm.edgeIdx].classList.add('on');
+          this.nodeEls[cm.toIdx].classList.add('lit');
+          cm.el.setAttribute('opacity', 0);
+          cm.haloEl.setAttribute('opacity', 0);
+        } else {
+          remaining.push(cm);
+        }
+      }
+      this.activeComets = remaining;
+    }
+
+    this.lastT = now;
+  }
+
+  tick(now){
+    // gentle yaw drift + slow pitch breath
+    this.angleY += this.yawSpeed * (now - this.lastT);
+    this.angleX = -0.22 + Math.sin(now * 0.0004) * this.pitchAmp;
+    this.frame(now);
+    requestAnimationFrame(this.tick);
+  }
+
+  fire(){
+    if(this.fired) return;
+    this.fired = true;
+
+    // BFS to get an ordered queue of edges with from/to direction
+    const adj = new Map();
+    this.edges.forEach((e, i) => {
+      if(!adj.has(e.a)) adj.set(e.a, []);
+      if(!adj.has(e.b)) adj.set(e.b, []);
+      adj.get(e.a).push({ to: e.b, ei: i });
+      adj.get(e.b).push({ to: e.a, ei: i });
+    });
+    const visited = new Set([this.seedIdx]);
+    const usedE = new Set();
+    let frontier = [this.seedIdx];
+    const queue = []; // ordered: outer waves first
+    while(frontier.length){
+      const next = [];
+      frontier.forEach(n => {
+        (adj.get(n) || []).forEach(({to, ei}) => {
+          if(usedE.has(ei)) return;
+          usedE.add(ei);
+          queue.push({ ei, from: n, to });
+          if(!visited.has(to)){ visited.add(to); next.push(to); }
+        });
+      });
+      frontier = next;
+    }
+
+    // Throttled launcher: cap concurrent comets so the cascade stays
+    // readable even when one BFS wave has many edges.
+    const COMET_DUR        = 950;
+    const MAX_CONCURRENT   = 14;
+    const LAUNCH_INTERVAL  = 70; // ms between launches (when slot available)
+    const FIRST_WAVE_DELAY = 250; // a beat before the seed dispatches
+
+    let qi = 0;
+    const launcher = () => {
+      if(qi >= queue.length) return;
+      if(this.activeComets.length < MAX_CONCURRENT){
+        const edge = queue[qi++];
+        this.activeComets.push({
+          edgeIdx: edge.ei,
+          fromIdx: edge.from,
+          toIdx: edge.to,
+          t: 0,
+          duration: COMET_DUR,
+          el: this.cometEls[edge.ei],
+          haloEl: this.cometHaloEls[edge.ei]
+        });
+      }
+      setTimeout(launcher, LAUNCH_INTERVAL);
+    };
+    setTimeout(launcher, FIRST_WAVE_DELAY);
+
+    const total = FIRST_WAVE_DELAY + queue.length * LAUNCH_INTERVAL + COMET_DUR + 400;
+    setTimeout(() => this.host.closest('.mock').classList.add('filled'), total);
+  }
+
+  fillInstant(){
+    // for reduced motion: light everything immediately, hide comets
+    this.lineEls.forEach(l => l.classList.add('on'));
+    this.nodeEls.forEach(n => n.classList.add('lit'));
+    this.host.closest('.mock').classList.add('filled');
+    this.fired = true;
+  }
+}
+
+const stages = [...document.querySelectorAll('.lat')].map(host => new Stage3D(host));
+const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+if(reduced){
+  stages.forEach(s => s.fillInstant());
+} else {
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if(!e.isIntersecting) return;
+      const stage = stages.find(s => s.host === e.target.querySelector('.lat'));
+      if(stage) stage.fire();
+    });
+  }, { threshold: 0.3 });
+  document.querySelectorAll('.mock').forEach(m => io.observe(m));
+}
+</script>
+
+</body>
+</html>

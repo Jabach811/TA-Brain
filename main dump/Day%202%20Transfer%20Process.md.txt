@@ -1,0 +1,11 @@
+# Day 2 Transfer Process
+
+## Purpose
+- Move defaulted balances to new default investment elections.
+
+## Timing
+- During blackout, after mapping and before go-live.
+
+## Audit
+- Verify offsets to zero by source and total.
+- Confirm balances transferred to correct TDFs.

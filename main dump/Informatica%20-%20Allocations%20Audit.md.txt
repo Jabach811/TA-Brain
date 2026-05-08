@@ -1,0 +1,10 @@
+# Informatica Allocations Audit
+
+## Purpose
+- Audit participant investment elections by fund and source.
+
+## Common Checks
+- Fund and source mapping errors
+- Allocation mismatches
+- Default status validation
+- Control totals

@@ -1,0 +1,51 @@
+name: Build wiki
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'raw/**'
+      - 'wiki/**'
+      - 'build-wiki.py'
+      - 'CLAUDE.md'
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build-wiki
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Build wiki.html
+        run: python build-wiki.py
+
+      - name: Commit updated wiki.html
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add wiki.html
+          if git diff --staged --quiet; then
+            echo "No changes to wiki.html"
+          else
+            git commit -m "build: rebuild wiki.html [skip ci]"
+            git push
+          fi
+
+      - name: Upload wiki.html as workflow artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: wiki-html
+          path: wiki.html
+          retention-days: 30

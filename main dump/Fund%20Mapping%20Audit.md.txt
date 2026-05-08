@@ -1,0 +1,10 @@
+# Fund Mapping Audit
+
+## Objective
+- Validate fund-to-fund mapping against signed TOA.
+
+## Review Items
+- Fund codes and names
+- Tickers and CUSIPs
+- Descriptor codes
+- Re-registrations

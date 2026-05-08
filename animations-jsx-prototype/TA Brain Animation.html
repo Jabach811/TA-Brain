@@ -1,0 +1,1790 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TA Brain â€” Organizational Transformation</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 100%; height: 100%; overflow: hidden; background: #000; }
+  #root { width: 100%; height: 100%; }
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap');
+</style>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel">
+/* Inlined from animations.jsx */
+
+// animations.jsx
+// Reusable animation starter: Stage, Timeline, Sprite, easing helpers.
+// Usage (in an HTML file that loads React + Babel):
+//
+//   <Stage width={1280} height={720} duration={10} background="#f6f4ef">
+//     <MyScene />
+//   </Stage>
+//
+// Inside <Stage>, any child can call useTime() to read the current
+// playhead (seconds). Or wrap content in <Sprite start={1} end={4}>...</Sprite>
+// to only render during that window -- children receive a `localTime` and
+// `progress` via the useSprite() hook.
+//
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+
+// â”€â”€ Easing functions (hand-rolled, Popmotion-style) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// All easings take t âˆˆ [0,1] and return eased t âˆˆ [0,1] (may overshoot for back/elastic).
+const Easing = {
+  linear: (t) => t,
+
+  // Quad
+  easeInQuad:    (t) => t * t,
+  easeOutQuad:   (t) => t * (2 - t),
+  easeInOutQuad: (t) => (t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t),
+
+  // Cubic
+  easeInCubic:    (t) => t * t * t,
+  easeOutCubic:   (t) => (--t) * t * t + 1,
+  easeInOutCubic: (t) => (t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1),
+
+  // Quart
+  easeInQuart:    (t) => t * t * t * t,
+  easeOutQuart:   (t) => 1 - (--t) * t * t * t,
+  easeInOutQuart: (t) => (t < 0.5 ? 8 * t * t * t * t : 1 - 8 * (--t) * t * t * t),
+
+  // Expo
+  easeInExpo:  (t) => (t === 0 ? 0 : Math.pow(2, 10 * (t - 1))),
+  easeOutExpo: (t) => (t === 1 ? 1 : 1 - Math.pow(2, -10 * t)),
+  easeInOutExpo: (t) => {
+    if (t === 0) return 0;
+    if (t === 1) return 1;
+    if (t < 0.5) return 0.5 * Math.pow(2, 20 * t - 10);
+    return 1 - 0.5 * Math.pow(2, -20 * t + 10);
+  },
+
+  // Sine
+  easeInSine:    (t) => 1 - Math.cos((t * Math.PI) / 2),
+  easeOutSine:   (t) => Math.sin((t * Math.PI) / 2),
+  easeInOutSine: (t) => -(Math.cos(Math.PI * t) - 1) / 2,
+
+  // Back (overshoot)
+  easeOutBack: (t) => {
+    const c1 = 1.70158, c3 = c1 + 1;
+    return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2);
+  },
+  easeInBack: (t) => {
+    const c1 = 1.70158, c3 = c1 + 1;
+    return c3 * t * t * t - c1 * t * t;
+  },
+  easeInOutBack: (t) => {
+    const c1 = 1.70158, c2 = c1 * 1.525;
+    return t < 0.5
+      ? (Math.pow(2 * t, 2) * ((c2 + 1) * 2 * t - c2)) / 2
+      : (Math.pow(2 * t - 2, 2) * ((c2 + 1) * (t * 2 - 2) + c2) + 2) / 2;
+  },
+
+  // Elastic
+  easeOutElastic: (t) => {
+    const c4 = (2 * Math.PI) / 3;
+    if (t === 0) return 0;
+    if (t === 1) return 1;
+    return Math.pow(2, -10 * t) * Math.sin((t * 10 - 0.75) * c4) + 1;
+  },
+};
+
+// â”€â”€ Core interpolation helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+
+// Clamp a value to [min, max]
+const clamp = (v, min, max) => Math.max(min, Math.min(max, v));
+
+// interpolate([0, 0.5, 1], [0, 100, 50], ease?) -> fn(t)
+// Popmotion-style: linearly maps t across input keyframes to output values,
+// with optional easing per segment (single fn or array of fns).
+function interpolate(input, output, ease = Easing.linear) {
+  return (t) => {
+    if (t <= input[0]) return output[0];
+    if (t >= input[input.length - 1]) return output[output.length - 1];
+    for (let i = 0; i < input.length - 1; i++) {
+      if (t >= input[i] && t <= input[i + 1]) {
+        const span = input[i + 1] - input[i];
+        const local = span === 0 ? 0 : (t - input[i]) / span;
+        const easeFn = Array.isArray(ease) ? (ease[i] || Easing.linear) : ease;
+        const eased = easeFn(local);
+        return output[i] + (output[i + 1] - output[i]) * eased;
+      }
+    }
+    return output[output.length - 1];
+  };
+}
+
+// animate({from, to, start, end, ease})(t) â€” simpler single-segment tween.
+// Returns `from` before `start`, `to` after `end`.
+function animate({ from = 0, to = 1, start = 0, end = 1, ease = Easing.easeInOutCubic }) {
+  return (t) => {
+    if (t <= start) return from;
+    if (t >= end) return to;
+    const local = (t - start) / (end - start);
+    return from + (to - from) * ease(local);
+  };
+}
+
+// â”€â”€ Timeline context â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+
+const TimelineContext = React.createContext({ time: 0, duration: 10, playing: false });
+
+const useTime = () => React.useContext(TimelineContext).time;
+const useTimeline = () => React.useContext(TimelineContext);
+
+// â”€â”€ Sprite â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// Renders children only when the playhead is inside [start, end]. Provides
+// a sub-context with `localTime` (seconds since start) and `progress` (0..1).
+//
+//   <Sprite start={2} end={5}>
+//     {({ localTime, progress }) => <Thing x={progress * 100} />}
+//   </Sprite>
+//
+// Or as a plain wrapper â€” children can call useSprite() themselves.
+
+const SpriteContext = React.createContext({ localTime: 0, progress: 0, duration: 0 });
+const useSprite = () => React.useContext(SpriteContext);
+
+function Sprite({ start = 0, end = Infinity, children, keepMounted = false }) {
+  const { time } = useTimeline();
+  const visible = time >= start && time <= end;
+  if (!visible && !keepMounted) return null;
+
+  const duration = end - start;
+  const localTime = Math.max(0, time - start);
+  const progress = duration > 0 && isFinite(duration)
+    ? clamp(localTime / duration, 0, 1)
+    : 0;
+
+  const value = { localTime, progress, duration, visible };
+
+  return (
+    <SpriteContext.Provider value={value}>
+      {typeof children === 'function' ? children(value) : children}
+    </SpriteContext.Provider>
+  );
+}
+
+// â”€â”€ Sample sprite components â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+
+// TextSprite: fades/slides text in on entry, holds, then fades out on exit.
+// Props: text, x, y, size, color, font, entryDur, exitDur, align
+function TextSprite({
+  text,
+  x = 0, y = 0,
+  size = 48,
+  color = '#111',
+  font = 'Inter, system-ui, sans-serif',
+  weight = 600,
+  entryDur = 0.45,
+  exitDur = 0.35,
+  entryEase = Easing.easeOutBack,
+  exitEase = Easing.easeInCubic,
+  align = 'left',
+  letterSpacing = '-0.01em',
+}) {
+  const { localTime, duration } = useSprite();
+  const exitStart = Math.max(0, duration - exitDur);
+
+  let opacity = 1;
+  let ty = 0;
+
+  if (localTime < entryDur) {
+    const t = entryEase(clamp(localTime / entryDur, 0, 1));
+    opacity = t;
+    ty = (1 - t) * 16;
+  } else if (localTime > exitStart) {
+    const t = exitEase(clamp((localTime - exitStart) / exitDur, 0, 1));
+    opacity = 1 - t;
+    ty = -t * 8;
+  }
+
+  const translateX = align === 'center' ? '-50%' : align === 'right' ? '-100%' : '0';
+
+  return (
+    <div style={{
+      position: 'absolute',
+      left: x, top: y,
+      transform: `translate(${translateX}, ${ty}px)`,
+      opacity,
+      fontFamily: font,
+      fontSize: size,
+      fontWeight: weight,
+      color,
+      letterSpacing,
+      whiteSpace: 'pre',
+      lineHeight: 1.1,
+      willChange: 'transform, opacity',
+    }}>
+      {text}
+    </div>
+  );
+}
+
+// ImageSprite: scales + fades in; optional Ken Burns drift during hold.
+function ImageSprite({
+  src,
+  x = 0, y = 0,
+  width = 400, height = 300,
+  entryDur = 0.6,
+  exitDur = 0.4,
+  kenBurns = false,
+  kenBurnsScale = 1.08,
+  radius = 12,
+  fit = 'cover',
+  placeholder = null, // {label: string} for striped placeholder
+}) {
+  const { localTime, duration } = useSprite();
+  const exitStart = Math.max(0, duration - exitDur);
+
+  let opacity = 1;
+  let scale = 1;
+
+  if (localTime < entryDur) {
+    const t = Easing.easeOutCubic(clamp(localTime / entryDur, 0, 1));
+    opacity = t;
+    scale = 0.96 + 0.04 * t;
+  } else if (localTime > exitStart) {
+    const t = Easing.easeInCubic(clamp((localTime - exitStart) / exitDur, 0, 1));
+    opacity = 1 - t;
+    scale = (kenBurns ? kenBurnsScale : 1) + 0.02 * t;
+  } else if (kenBurns) {
+    const holdSpan = exitStart - entryDur;
+    const holdT = holdSpan > 0 ? (localTime - entryDur) / holdSpan : 0;
+    scale = 1 + (kenBurnsScale - 1) * holdT;
+  }
+
+  const content = placeholder ? (
+    <div style={{
+      width: '100%', height: '100%',
+      display: 'flex', alignItems: 'center', justifyContent: 'center',
+      background: 'repeating-linear-gradient(135deg, #e9e6df 0 10px, #dcd8cf 10px 20px)',
+      color: '#6b6458',
+      fontFamily: 'JetBrains Mono, ui-monospace, monospace',
+      fontSize: 13,
+      letterSpacing: '0.04em',
+      textTransform: 'uppercase',
+    }}>
+      {placeholder.label || 'image'}
+    </div>
+  ) : (
+    <img src={src} alt="" style={{ width: '100%', height: '100%', objectFit: fit, display: 'block' }} />
+  );
+
+  return (
+    <div style={{
+      position: 'absolute',
+      left: x, top: y,
+      width, height,
+      opacity,
+      transform: `scale(${scale})`,
+      transformOrigin: 'center',
+      borderRadius: radius,
+      overflow: 'hidden',
+      willChange: 'transform, opacity',
+    }}>
+      {content}
+    </div>
+  );
+}
+
+// RectSprite: simple rectangle that animates position/size/color via props.
+// Useful demo primitive â€” takes a `render` fn for per-frame customization.
+function RectSprite({
+  x = 0, y = 0,
+  width = 100, height = 100,
+  color = '#111',
+  radius = 8,
+  entryDur = 0.4,
+  exitDur = 0.3,
+  render, // optional: (ctx) => style overrides
+}) {
+  const spriteCtx = useSprite();
+  const { localTime, duration } = spriteCtx;
+  const exitStart = Math.max(0, duration - exitDur);
+
+  let opacity = 1;
+  let scale = 1;
+
+  if (localTime < entryDur) {
+    const t = Easing.easeOutBack(clamp(localTime / entryDur, 0, 1));
+    opacity = clamp(localTime / entryDur, 0, 1);
+    scale = 0.4 + 0.6 * t;
+  } else if (localTime > exitStart) {
+    const t = Easing.easeInQuad(clamp((localTime - exitStart) / exitDur, 0, 1));
+    opacity = 1 - t;
+    scale = 1 - 0.15 * t;
+  }
+
+  const overrides = render ? render(spriteCtx) : {};
+
+  return (
+    <div style={{
+      position: 'absolute',
+      left: x, top: y,
+      width, height,
+      background: color,
+      borderRadius: radius,
+      opacity,
+      transform: `scale(${scale})`,
+      transformOrigin: 'center',
+      willChange: 'transform, opacity',
+      ...overrides,
+    }} />
+  );
+}
+
+
+function Stage({
+  width = 1280,
+  height = 720,
+  duration = 10,
+  background = '#f6f4ef',
+  fps = 60,
+  loop = true,
+  autoplay = true,
+  persistKey = 'animstage',
+  children,
+}) {
+  const [time, setTime] = React.useState(() => {
+    try {
+      const v = parseFloat(localStorage.getItem(persistKey + ':t') || '0');
+      return isFinite(v) ? clamp(v, 0, duration) : 0;
+    } catch { return 0; }
+  });
+  const [playing, setPlaying] = React.useState(autoplay);
+  const [hoverTime, setHoverTime] = React.useState(null);
+  const [scale, setScale] = React.useState(1);
+
+  const stageRef = React.useRef(null);
+  const canvasRef = React.useRef(null);
+  const rafRef = React.useRef(null);
+  const lastTsRef = React.useRef(null);
+
+  // Persist playhead
+  React.useEffect(() => {
+    try { localStorage.setItem(persistKey + ':t', String(time)); } catch {}
+  }, [time, persistKey]);
+
+  // Auto-scale to fit viewport
+  React.useEffect(() => {
+    if (!stageRef.current) return;
+    const el = stageRef.current;
+    const measure = () => {
+      const barH = 44; // playback bar height
+      const s = Math.min(
+        el.clientWidth / width,
+        (el.clientHeight - barH) / height
+      );
+      setScale(Math.max(0.05, s));
+    };
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(el);
+    window.addEventListener('resize', measure);
+    return () => {
+      ro.disconnect();
+      window.removeEventListener('resize', measure);
+    };
+  }, [width, height]);
+
+  // Animation loop
+  React.useEffect(() => {
+    if (!playing) {
+      lastTsRef.current = null;
+      return;
+    }
+    const step = (ts) => {
+      if (lastTsRef.current == null) lastTsRef.current = ts;
+      const dt = (ts - lastTsRef.current) / 1000;
+      lastTsRef.current = ts;
+      setTime((t) => {
+        let next = t + dt;
+        if (next >= duration) {
+          if (loop) next = next % duration;
+          else { next = duration; setPlaying(false); }
+        }
+        return next;
+      });
+      rafRef.current = requestAnimationFrame(step);
+    };
+    rafRef.current = requestAnimationFrame(step);
+    return () => {
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+      lastTsRef.current = null;
+    };
+  }, [playing, duration, loop]);
+
+  // Keyboard: space = play/pause, â† â†’ = seek
+  React.useEffect(() => {
+    const onKey = (e) => {
+      if (e.target && (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA')) return;
+      if (e.code === 'Space') {
+        e.preventDefault();
+        setPlaying(p => !p);
+      } else if (e.code === 'ArrowLeft') {
+        setTime(t => clamp(t - (e.shiftKey ? 1 : 0.1), 0, duration));
+      } else if (e.code === 'ArrowRight') {
+        setTime(t => clamp(t + (e.shiftKey ? 1 : 0.1), 0, duration));
+      } else if (e.key === '0' || e.code === 'Home') {
+        setTime(0);
+      }
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [duration]);
+
+  const displayTime = hoverTime != null ? hoverTime : time;
+
+  const ctxValue = React.useMemo(
+    () => ({ time: displayTime, duration, playing, setTime, setPlaying }),
+    [displayTime, duration, playing]
+  );
+
+  return (
+    <div
+      ref={stageRef}
+      style={{
+        position: 'absolute', inset: 0,
+        display: 'flex', flexDirection: 'column',
+        alignItems: 'center',
+        background: '#0a0a0a',
+        fontFamily: 'Inter, system-ui, sans-serif',
+      }}
+    >
+      {/* Canvas area â€” vertically centered in remaining space */}
+      <div style={{
+        flex: 1,
+        width: '100%',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        overflow: 'hidden',
+        minHeight: 0,
+      }}>
+        <div
+          ref={canvasRef}
+          style={{
+            width, height,
+            background,
+            position: 'relative',
+            transform: `scale(${scale})`,
+            transformOrigin: 'center',
+            flexShrink: 0,
+            boxShadow: '0 20px 60px rgba(0,0,0,0.4)',
+            overflow: 'hidden',
+          }}
+        >
+          <TimelineContext.Provider value={ctxValue}>
+            {children}
+          </TimelineContext.Provider>
+        </div>
+      </div>
+
+      {/* Playback bar â€” stacked below canvas, never overlapping */}
+      <PlaybackBar
+        time={displayTime}
+        actualTime={time}
+        duration={duration}
+        playing={playing}
+        onPlayPause={() => setPlaying(p => !p)}
+        onReset={() => { setTime(0); }}
+        onSeek={(t) => setTime(t)}
+        onHover={(t) => setHoverTime(t)}
+      />
+    </div>
+  );
+}
+
+// â”€â”€ Playback bar â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// Play/pause, return-to-begin, scrub track, time display.
+// Uses fixed-width time fields so layout doesn't thrash.
+
+function PlaybackBar({ time, duration, playing, onPlayPause, onReset, onSeek, onHover }) {
+  const trackRef = React.useRef(null);
+  const [dragging, setDragging] = React.useState(false);
+
+  const timeFromEvent = React.useCallback((e) => {
+    const rect = trackRef.current.getBoundingClientRect();
+    const x = clamp((e.clientX - rect.left) / rect.width, 0, 1);
+    return x * duration;
+  }, [duration]);
+
+  const onTrackMove = (e) => {
+    if (!trackRef.current) return;
+    const t = timeFromEvent(e);
+    if (dragging) {
+      onSeek(t);
+    } else {
+      onHover(t);
+    }
+  };
+
+  const onTrackLeave = () => {
+    if (!dragging) onHover(null);
+  };
+
+  const onTrackDown = (e) => {
+    setDragging(true);
+    const t = timeFromEvent(e);
+    onSeek(t);
+    onHover(null);
+  };
+
+  React.useEffect(() => {
+    if (!dragging) return;
+    const onUp = () => setDragging(false);
+    const onMove = (e) => {
+      if (!trackRef.current) return;
+      const t = timeFromEvent(e);
+      onSeek(t);
+    };
+    window.addEventListener('mouseup', onUp);
+    window.addEventListener('mousemove', onMove);
+    return () => {
+      window.removeEventListener('mouseup', onUp);
+      window.removeEventListener('mousemove', onMove);
+    };
+  }, [dragging, timeFromEvent, onSeek]);
+
+  const pct = duration > 0 ? (time / duration) * 100 : 0;
+  const fmt = (t) => {
+    const total = Math.max(0, t);
+    const m = Math.floor(total / 60);
+    const s = Math.floor(total % 60);
+    const cs = Math.floor((total * 100) % 100);
+    return `${String(m).padStart(1, '0')}:${String(s).padStart(2, '0')}.${String(cs).padStart(2, '0')}`;
+  };
+
+  const mono = 'JetBrains Mono, ui-monospace, SFMono-Regular, monospace';
+
+  return (
+    <div style={{
+      display: 'flex', alignItems: 'center', gap: 12,
+      padding: '8px 16px',
+      background: 'rgba(20,20,20,0.92)',
+      borderTop: '1px solid rgba(255,255,255,0.08)',
+      width: '100%',
+      maxWidth: 680,
+      alignSelf: 'center',
+
+      borderRadius: 8,
+      color: '#f6f4ef',
+      fontFamily: 'Inter, system-ui, sans-serif',
+      userSelect: 'none',
+      flexShrink: 0,
+    }}>
+      <IconButton onClick={onReset} title="Return to start (0)">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <path d="M3 2v10M12 2L5 7l7 5V2z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" strokeLinecap="round"/>
+        </svg>
+      </IconButton>
+      <IconButton onClick={onPlayPause} title="Play/pause (space)">
+        {playing ? (
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <rect x="3" y="2" width="3" height="10" fill="currentColor"/>
+            <rect x="8" y="2" width="3" height="10" fill="currentColor"/>
+          </svg>
+        ) : (
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <path d="M3 2l9 5-9 5V2z" fill="currentColor"/>
+          </svg>
+        )}
+      </IconButton>
+
+      {/* Current time: fixed width so it doesn't thrash */}
+      <div style={{
+        fontFamily: mono,
+        fontSize: 12,
+        fontVariantNumeric: 'tabular-nums',
+        width: 64, textAlign: 'right',
+        color: '#f6f4ef',
+      }}>
+        {fmt(time)}
+      </div>
+
+      {/* Scrub track */}
+      <div
+        ref={trackRef}
+        onMouseMove={onTrackMove}
+        onMouseLeave={onTrackLeave}
+        onMouseDown={onTrackDown}
+        style={{
+          flex: 1,
+          height: 22,
+          position: 'relative',
+          cursor: 'pointer',
+          display: 'flex', alignItems: 'center',
+        }}
+      >
+        <div style={{
+          position: 'absolute',
+          left: 0, right: 0, height: 4,
+          background: 'rgba(255,255,255,0.12)',
+          borderRadius: 2,
+        }}/>
+        <div style={{
+          position: 'absolute',
+          left: 0, width: `${pct}%`, height: 4,
+          background: 'oklch(72% 0.12 250)',
+          borderRadius: 2,
+        }}/>
+        <div style={{
+          position: 'absolute',
+          left: `${pct}%`, top: '50%',
+          width: 12, height: 12,
+          marginLeft: -6, marginTop: -6,
+          background: '#fff',
+          borderRadius: 6,
+          boxShadow: '0 2px 4px rgba(0,0,0,0.4)',
+        }}/>
+      </div>
+
+      {/* Duration: fixed width */}
+      <div style={{
+        fontFamily: mono,
+        fontSize: 12,
+        fontVariantNumeric: 'tabular-nums',
+        width: 64, textAlign: 'left',
+        color: 'rgba(246,244,239,0.55)',
+      }}>
+        {fmt(duration)}
+      </div>
+    </div>
+  );
+}
+
+function IconButton({ children, onClick, title }) {
+  const [hover, setHover] = React.useState(false);
+  return (
+    <button
+      onClick={onClick}
+      title={title}
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+      style={{
+        width: 28, height: 28,
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        background: hover ? 'rgba(255,255,255,0.12)' : 'rgba(255,255,255,0.04)',
+        border: '1px solid rgba(255,255,255,0.1)',
+        borderRadius: 6,
+        color: '#f6f4ef',
+        cursor: 'pointer',
+        padding: 0,
+        transition: 'background 120ms',
+      }}
+    >
+      {children}
+    </button>
+  );
+}
+
+
+Object.assign(window, {
+  Easing, interpolate, animate, clamp,
+  TimelineContext, useTime, useTimeline,
+  Sprite, SpriteContext, useSprite,
+  TextSprite, ImageSprite, RectSprite,
+  Stage, PlaybackBar,
+});
+
+
+</script>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+/* Inlined from tweaks-panel.jsx */
+
+// tweaks-panel.jsx
+// Reusable Tweaks shell + form-control helpers.
+//
+// Owns the host protocol (listens for __activate_edit_mode / __deactivate_edit_mode,
+// posts __edit_mode_available / __edit_mode_set_keys / __edit_mode_dismissed) so
+// individual prototypes don't re-roll it. Ships a consistent set of controls so you
+// don't hand-draw <input type="range">, segmented radios, steppers, etc.
+//
+// Usage (in an HTML file that loads React + Babel):
+//
+//   const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+//     "primaryColor": "#D97757",
+//     "fontSize": 16,
+//     "density": "regular",
+//     "dark": false
+//   }/*EDITMODE-END*/;
+//
+//   function App() {
+//     const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
+//     return (
+//       <div style={{ fontSize: t.fontSize, color: t.primaryColor }}>
+//         Hello
+//         <TweaksPanel>
+//           <TweakSection label="Typography" />
+//           <TweakSlider label="Font size" value={t.fontSize} min={10} max={32} unit="px"
+//                        onChange={(v) => setTweak('fontSize', v)} />
+//           <TweakRadio  label="Density" value={t.density}
+//                        options={['compact', 'regular', 'comfy']}
+//                        onChange={(v) => setTweak('density', v)} />
+//           <TweakSection label="Theme" />
+//           <TweakColor  label="Primary" value={t.primaryColor}
+//                        onChange={(v) => setTweak('primaryColor', v)} />
+//           <TweakToggle label="Dark mode" value={t.dark}
+//                        onChange={(v) => setTweak('dark', v)} />
+//         </TweaksPanel>
+//       </div>
+//     );
+//   }
+//
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+
+const __TWEAKS_STYLE = `
+  .twk-panel{position:fixed;right:16px;bottom:16px;z-index:2147483646;width:280px;
+    max-height:calc(100vh - 32px);display:flex;flex-direction:column;
+    background:rgba(250,249,247,.78);color:#29261b;
+    -webkit-backdrop-filter:blur(24px) saturate(160%);backdrop-filter:blur(24px) saturate(160%);
+    border:.5px solid rgba(255,255,255,.6);border-radius:14px;
+    box-shadow:0 1px 0 rgba(255,255,255,.5) inset,0 12px 40px rgba(0,0,0,.18);
+    font:11.5px/1.4 ui-sans-serif,system-ui,-apple-system,sans-serif;overflow:hidden}
+  .twk-hd{display:flex;align-items:center;justify-content:space-between;
+    padding:10px 8px 10px 14px;cursor:move;user-select:none}
+  .twk-hd b{font-size:12px;font-weight:600;letter-spacing:.01em}
+  .twk-x{appearance:none;border:0;background:transparent;color:rgba(41,38,27,.55);
+    width:22px;height:22px;border-radius:6px;cursor:default;font-size:13px;line-height:1}
+  .twk-x:hover{background:rgba(0,0,0,.06);color:#29261b}
+  .twk-body{padding:2px 14px 14px;display:flex;flex-direction:column;gap:10px;
+    overflow-y:auto;overflow-x:hidden;min-height:0;
+    scrollbar-width:thin;scrollbar-color:rgba(0,0,0,.15) transparent}
+  .twk-body::-webkit-scrollbar{width:8px}
+  .twk-body::-webkit-scrollbar-track{background:transparent;margin:2px}
+  .twk-body::-webkit-scrollbar-thumb{background:rgba(0,0,0,.15);border-radius:4px;
+    border:2px solid transparent;background-clip:content-box}
+  .twk-body::-webkit-scrollbar-thumb:hover{background:rgba(0,0,0,.25);
+    border:2px solid transparent;background-clip:content-box}
+  .twk-row{display:flex;flex-direction:column;gap:5px}
+  .twk-row-h{flex-direction:row;align-items:center;justify-content:space-between;gap:10px}
+  .twk-lbl{display:flex;justify-content:space-between;align-items:baseline;
+    color:rgba(41,38,27,.72)}
+  .twk-lbl>span:first-child{font-weight:500}
+  .twk-val{color:rgba(41,38,27,.5);font-variant-numeric:tabular-nums}
+
+  .twk-sect{font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
+    color:rgba(41,38,27,.45);padding:10px 0 0}
+  .twk-sect:first-child{padding-top:0}
+
+  .twk-field{appearance:none;width:100%;height:26px;padding:0 8px;
+    border:.5px solid rgba(0,0,0,.1);border-radius:7px;
+    background:rgba(255,255,255,.6);color:inherit;font:inherit;outline:none}
+  .twk-field:focus{border-color:rgba(0,0,0,.25);background:rgba(255,255,255,.85)}
+  select.twk-field{padding-right:22px;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'><path fill='rgba(0,0,0,.5)' d='M0 0h10L5 6z'/></svg>");
+    background-repeat:no-repeat;background-position:right 8px center}
+
+  .twk-slider{appearance:none;-webkit-appearance:none;width:100%;height:4px;margin:6px 0;
+    border-radius:999px;background:rgba(0,0,0,.12);outline:none}
+  .twk-slider::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;
+    width:14px;height:14px;border-radius:50%;background:#fff;
+    border:.5px solid rgba(0,0,0,.12);box-shadow:0 1px 3px rgba(0,0,0,.2);cursor:default}
+  .twk-slider::-moz-range-thumb{width:14px;height:14px;border-radius:50%;
+    background:#fff;border:.5px solid rgba(0,0,0,.12);box-shadow:0 1px 3px rgba(0,0,0,.2);cursor:default}
+
+  .twk-seg{position:relative;display:flex;padding:2px;border-radius:8px;
+    background:rgba(0,0,0,.06);user-select:none}
+  .twk-seg-thumb{position:absolute;top:2px;bottom:2px;border-radius:6px;
+    background:rgba(255,255,255,.9);box-shadow:0 1px 2px rgba(0,0,0,.12);
+    transition:left .15s cubic-bezier(.3,.7,.4,1),width .15s}
+  .twk-seg.dragging .twk-seg-thumb{transition:none}
+  .twk-seg button{appearance:none;position:relative;z-index:1;flex:1;border:0;
+    background:transparent;color:inherit;font:inherit;font-weight:500;min-height:22px;
+    border-radius:6px;cursor:default;padding:4px 6px;line-height:1.2;
+    overflow-wrap:anywhere}
+
+  .twk-toggle{position:relative;width:32px;height:18px;border:0;border-radius:999px;
+    background:rgba(0,0,0,.15);transition:background .15s;cursor:default;padding:0}
+  .twk-toggle[data-on="1"]{background:#34c759}
+  .twk-toggle i{position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;
+    background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.25);transition:transform .15s}
+  .twk-toggle[data-on="1"] i{transform:translateX(14px)}
+
+  .twk-num{display:flex;align-items:center;height:26px;padding:0 0 0 8px;
+    border:.5px solid rgba(0,0,0,.1);border-radius:7px;background:rgba(255,255,255,.6)}
+  .twk-num-lbl{font-weight:500;color:rgba(41,38,27,.6);cursor:ew-resize;
+    user-select:none;padding-right:8px}
+  .twk-num input{flex:1;min-width:0;height:100%;border:0;background:transparent;
+    font:inherit;font-variant-numeric:tabular-nums;text-align:right;padding:0 8px 0 0;
+    outline:none;color:inherit;-moz-appearance:textfield}
+  .twk-num input::-webkit-inner-spin-button,.twk-num input::-webkit-outer-spin-button{
+    -webkit-appearance:none;margin:0}
+  .twk-num-unit{padding-right:8px;color:rgba(41,38,27,.45)}
+
+  .twk-btn{appearance:none;height:26px;padding:0 12px;border:0;border-radius:7px;
+    background:rgba(0,0,0,.78);color:#fff;font:inherit;font-weight:500;cursor:default}
+  .twk-btn:hover{background:rgba(0,0,0,.88)}
+  .twk-btn.secondary{background:rgba(0,0,0,.06);color:inherit}
+  .twk-btn.secondary:hover{background:rgba(0,0,0,.1)}
+
+  .twk-swatch{appearance:none;-webkit-appearance:none;width:56px;height:22px;
+    border:.5px solid rgba(0,0,0,.1);border-radius:6px;padding:0;cursor:default;
+    background:transparent;flex-shrink:0}
+  .twk-swatch::-webkit-color-swatch-wrapper{padding:0}
+  .twk-swatch::-webkit-color-swatch{border:0;border-radius:5.5px}
+  .twk-swatch::-moz-color-swatch{border:0;border-radius:5.5px}
+`;
+
+// â”€â”€ useTweaks â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// Single source of truth for tweak values. setTweak persists via the host
+// (__edit_mode_set_keys â†’ host rewrites the EDITMODE block on disk).
+function useTweaks(defaults) {
+  const [values, setValues] = React.useState(defaults);
+  // Accepts either setTweak('key', value) or setTweak({ key: value, ... }) so a
+  // useState-style call doesn't write a "[object Object]" key into the persisted
+  // JSON block.
+  const setTweak = React.useCallback((keyOrEdits, val) => {
+    const edits = typeof keyOrEdits === 'object' && keyOrEdits !== null
+      ? keyOrEdits : { [keyOrEdits]: val };
+    setValues((prev) => ({ ...prev, ...edits }));
+    window.parent.postMessage({ type: '__edit_mode_set_keys', edits }, '*');
+  }, []);
+  return [values, setTweak];
+}
+
+// â”€â”€ TweaksPanel â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// Floating shell. Registers the protocol listener BEFORE announcing
+// availability â€” if the announce ran first, the host's activate could land
+// before our handler exists and the toolbar toggle would silently no-op.
+// The close button posts __edit_mode_dismissed so the host's toolbar toggle
+// flips off in lockstep; the host echoes __deactivate_edit_mode back which
+// is what actually hides the panel.
+function TweaksPanel({ title = 'Tweaks', children }) {
+  const [open, setOpen] = React.useState(false);
+  const dragRef = React.useRef(null);
+  const offsetRef = React.useRef({ x: 16, y: 16 });
+  const PAD = 16;
+
+  const clampToViewport = React.useCallback(() => {
+    const panel = dragRef.current;
+    if (!panel) return;
+    const w = panel.offsetWidth, h = panel.offsetHeight;
+    const maxRight = Math.max(PAD, window.innerWidth - w - PAD);
+    const maxBottom = Math.max(PAD, window.innerHeight - h - PAD);
+    offsetRef.current = {
+      x: Math.min(maxRight, Math.max(PAD, offsetRef.current.x)),
+      y: Math.min(maxBottom, Math.max(PAD, offsetRef.current.y)),
+    };
+    panel.style.right = offsetRef.current.x + 'px';
+    panel.style.bottom = offsetRef.current.y + 'px';
+  }, []);
+
+  React.useEffect(() => {
+    if (!open) return;
+    clampToViewport();
+    if (typeof ResizeObserver === 'undefined') {
+      window.addEventListener('resize', clampToViewport);
+      return () => window.removeEventListener('resize', clampToViewport);
+    }
+    const ro = new ResizeObserver(clampToViewport);
+    ro.observe(document.documentElement);
+    return () => ro.disconnect();
+  }, [open, clampToViewport]);
+
+  React.useEffect(() => {
+    const onMsg = (e) => {
+      const t = e?.data?.type;
+      if (t === '__activate_edit_mode') setOpen(true);
+      else if (t === '__deactivate_edit_mode') setOpen(false);
+    };
+    window.addEventListener('message', onMsg);
+    window.parent.postMessage({ type: '__edit_mode_available' }, '*');
+    return () => window.removeEventListener('message', onMsg);
+  }, []);
+
+  const dismiss = () => {
+    setOpen(false);
+    window.parent.postMessage({ type: '__edit_mode_dismissed' }, '*');
+  };
+
+  const onDragStart = (e) => {
+    const panel = dragRef.current;
+    if (!panel) return;
+    const r = panel.getBoundingClientRect();
+    const sx = e.clientX, sy = e.clientY;
+    const startRight = window.innerWidth - r.right;
+    const startBottom = window.innerHeight - r.bottom;
+    const move = (ev) => {
+      offsetRef.current = {
+        x: startRight - (ev.clientX - sx),
+        y: startBottom - (ev.clientY - sy),
+      };
+      clampToViewport();
+    };
+    const up = () => {
+      window.removeEventListener('mousemove', move);
+      window.removeEventListener('mouseup', up);
+    };
+    window.addEventListener('mousemove', move);
+    window.addEventListener('mouseup', up);
+  };
+
+  if (!open) return null;
+  return (
+    <>
+      <style>{__TWEAKS_STYLE}</style>
+      <div ref={dragRef} className="twk-panel" data-noncommentable=""
+           style={{ right: offsetRef.current.x, bottom: offsetRef.current.y }}>
+        <div className="twk-hd" onMouseDown={onDragStart}>
+          <b>{title}</b>
+          <button className="twk-x" aria-label="Close tweaks"
+                  onMouseDown={(e) => e.stopPropagation()}
+                  onClick={dismiss}>âœ•</button>
+        </div>
+        <div className="twk-body">{children}</div>
+      </div>
+    </>
+  );
+}
+
+// â”€â”€ Layout helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+
+function TweakSection({ label, children }) {
+  return (
+    <>
+      <div className="twk-sect">{label}</div>
+      {children}
+    </>
+  );
+}
+
+function TweakRow({ label, value, children, inline = false }) {
+  return (
+    <div className={inline ? 'twk-row twk-row-h' : 'twk-row'}>
+      <div className="twk-lbl">
+        <span>{label}</span>
+        {value != null && <span className="twk-val">{value}</span>}
+      </div>
+      {children}
+    </div>
+  );
+}
+
+// â”€â”€ Controls â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+
+function TweakSlider({ label, value, min = 0, max = 100, step = 1, unit = '', onChange }) {
+  return (
+    <TweakRow label={label} value={`${value}${unit}`}>
+      <input type="range" className="twk-slider" min={min} max={max} step={step}
+             value={value} onChange={(e) => onChange(Number(e.target.value))} />
+    </TweakRow>
+  );
+}
+
+function TweakToggle({ label, value, onChange }) {
+  return (
+    <div className="twk-row twk-row-h">
+      <div className="twk-lbl"><span>{label}</span></div>
+      <button type="button" className="twk-toggle" data-on={value ? '1' : '0'}
+              role="switch" aria-checked={!!value}
+              onClick={() => onChange(!value)}><i /></button>
+    </div>
+  );
+}
+
+function TweakRadio({ label, value, options, onChange }) {
+  const trackRef = React.useRef(null);
+  const [dragging, setDragging] = React.useState(false);
+  const opts = options.map((o) => (typeof o === 'object' ? o : { value: o, label: o }));
+  const idx = Math.max(0, opts.findIndex((o) => o.value === value));
+  const n = opts.length;
+
+  // The active value is read by pointer-move handlers attached for the lifetime
+  // of a drag â€” ref it so a stale closure doesn't fire onChange for every move.
+  const valueRef = React.useRef(value);
+  valueRef.current = value;
+
+  const segAt = (clientX) => {
+    const r = trackRef.current.getBoundingClientRect();
+    const inner = r.width - 4;
+    const i = Math.floor(((clientX - r.left - 2) / inner) * n);
+    return opts[Math.max(0, Math.min(n - 1, i))].value;
+  };
+
+  const onPointerDown = (e) => {
+    setDragging(true);
+    const v0 = segAt(e.clientX);
+    if (v0 !== valueRef.current) onChange(v0);
+    const move = (ev) => {
+      if (!trackRef.current) return;
+      const v = segAt(ev.clientX);
+      if (v !== valueRef.current) onChange(v);
+    };
+    const up = () => {
+      setDragging(false);
+      window.removeEventListener('pointermove', move);
+      window.removeEventListener('pointerup', up);
+    };
+    window.addEventListener('pointermove', move);
+    window.addEventListener('pointerup', up);
+  };
+
+  return (
+    <TweakRow label={label}>
+      <div ref={trackRef} role="radiogroup" onPointerDown={onPointerDown}
+           className={dragging ? 'twk-seg dragging' : 'twk-seg'}>
+        <div className="twk-seg-thumb"
+             style={{ left: `calc(2px + ${idx} * (100% - 4px) / ${n})`,
+                      width: `calc((100% - 4px) / ${n})` }} />
+        {opts.map((o) => (
+          <button key={o.value} type="button" role="radio" aria-checked={o.value === value}>
+            {o.label}
+          </button>
+        ))}
+      </div>
+    </TweakRow>
+  );
+}
+
+function TweakSelect({ label, value, options, onChange }) {
+  return (
+    <TweakRow label={label}>
+      <select className="twk-field" value={value} onChange={(e) => onChange(e.target.value)}>
+        {options.map((o) => {
+          const v = typeof o === 'object' ? o.value : o;
+          const l = typeof o === 'object' ? o.label : o;
+          return <option key={v} value={v}>{l}</option>;
+        })}
+      </select>
+    </TweakRow>
+  );
+}
+
+function TweakText({ label, value, placeholder, onChange }) {
+  return (
+    <TweakRow label={label}>
+      <input className="twk-field" type="text" value={value} placeholder={placeholder}
+             onChange={(e) => onChange(e.target.value)} />
+    </TweakRow>
+  );
+}
+
+function TweakNumber({ label, value, min, max, step = 1, unit = '', onChange }) {
+  const clamp = (n) => {
+    if (min != null && n < min) return min;
+    if (max != null && n > max) return max;
+    return n;
+  };
+  const startRef = React.useRef({ x: 0, val: 0 });
+  const onScrubStart = (e) => {
+    e.preventDefault();
+    startRef.current = { x: e.clientX, val: value };
+    const decimals = (String(step).split('.')[1] || '').length;
+    const move = (ev) => {
+      const dx = ev.clientX - startRef.current.x;
+      const raw = startRef.current.val + dx * step;
+      const snapped = Math.round(raw / step) * step;
+      onChange(clamp(Number(snapped.toFixed(decimals))));
+    };
+    const up = () => {
+      window.removeEventListener('pointermove', move);
+      window.removeEventListener('pointerup', up);
+    };
+    window.addEventListener('pointermove', move);
+    window.addEventListener('pointerup', up);
+  };
+  return (
+    <div className="twk-num">
+      <span className="twk-num-lbl" onPointerDown={onScrubStart}>{label}</span>
+      <input type="number" value={value} min={min} max={max} step={step}
+             onChange={(e) => onChange(clamp(Number(e.target.value)))} />
+      {unit && <span className="twk-num-unit">{unit}</span>}
+    </div>
+  );
+}
+
+function TweakColor({ label, value, onChange }) {
+  return (
+    <div className="twk-row twk-row-h">
+      <div className="twk-lbl"><span>{label}</span></div>
+      <input type="color" className="twk-swatch" value={value}
+             onChange={(e) => onChange(e.target.value)} />
+    </div>
+  );
+}
+
+function TweakButton({ label, onClick, secondary = false }) {
+  return (
+    <button type="button" className={secondary ? 'twk-btn secondary' : 'twk-btn'}
+            onClick={onClick}>{label}</button>
+  );
+}
+
+Object.assign(window, {
+  useTweaks, TweaksPanel, TweakSection, TweakRow,
+  TweakSlider, TweakToggle, TweakRadio, TweakSelect,
+  TweakText, TweakNumber, TweakColor, TweakButton,
+});
+
+</script>
+<script type="text/babel">
+/* Inlined from scene-engine.jsx */
+// scene-engine.jsx â€” Canvas-based particle/lattice renderer for TA Brain animation
+// v2: Bigger orbs/cubes, unified phase keeps cube integrity
+
+const TAU = Math.PI * 2;
+const DURATION = 50;
+const TRANSITION_PAD = 1.15;
+
+function seededRandom(seed) {
+  let s = seed;
+  return () => { s = (s * 16807 + 0) % 2147483647; return (s - 1) / 2147483646; };
+}
+
+function project(x, y, z, cx, cy, fov) {
+  const scale = fov / (fov + z);
+  return { px: cx + x * scale, py: cy + y * scale, s: scale };
+}
+
+// â”€â”€ TWEAKABLE DEFAULTS (read from window) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+function getTweaks() {
+  const d = window.__TWEAKS || {};
+  return {
+    orbScale: d.orbScale ?? 2.2,
+    cubeScale: d.cubeScale ?? 2.0,
+    glowIntensity: d.glowIntensity ?? 1.4,
+    particleCount: d.particleCount ?? 24,
+    rotationSpeed: d.rotationSpeed ?? 0.15,
+    beamBrightness: d.beamBrightness ?? 1.0,
+    pulseSpeed: d.pulseSpeed ?? 1.5,
+  };
+}
+
+// â”€â”€ ORB definitions â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+const ORB_COLORS = [
+  { h: 220, s: 80, l: 65 },
+  { h: 270, s: 70, l: 60 },
+  { h: 200, s: 75, l: 55 },
+  { h: 250, s: 65, l: 70 },
+  { h: 190, s: 85, l: 50 },
+];
+
+const ORB_NAMES = ['Engineering', 'Design', 'Operations', 'Strategy', 'Data'];
+
+// Spread wider for bigger visual
+const ORB_POSITIONS = [
+  { x: -380, y: -220 },
+  { x: 340, y: -200 },
+  { x: -280, y: 200 },
+  { x: 360, y: 220 },
+  { x: 0, y: 0 },
+];
+
+// Final unified positions â€” cubes stay distinct, arranged in a pentagon
+const UNIFIED_POSITIONS = [
+  { x: -220, y: -130 },
+  { x: 220, y: -130 },
+  { x: -280, y: 110 },
+  { x: 280, y: 110 },
+  { x: 0, y: -10 },
+];
+
+const rng = seededRandom(42);
+
+function generateOrbParticles(count) {
+  const orbs = [];
+  for (let i = 0; i < 5; i++) {
+    const particles = [];
+    for (let j = 0; j < count; j++) {
+      const theta = rng() * TAU;
+      const phi = rng() * Math.PI;
+      const r = 50 + rng() * 80;
+      particles.push({
+        theta, phi, r,
+        speed: 0.3 + rng() * 0.7,
+        phase: rng() * TAU,
+        size: 2.5 + rng() * 4,
+      });
+    }
+    orbs.push(particles);
+  }
+  return orbs;
+}
+
+let ORB_PARTICLES = generateOrbParticles(24);
+
+// Cube lattice â€” 3x3x3
+function generateCubeNodes(spacing) {
+  const nodes = [];
+  for (let x = -1; x <= 1; x++)
+    for (let y = -1; y <= 1; y++)
+      for (let z = -1; z <= 1; z++)
+        nodes.push({ x: x * spacing, y: y * spacing, z: z * spacing });
+  return nodes;
+}
+
+function generateCubeEdges(nodes, maxDist) {
+  const edges = [];
+  for (let i = 0; i < nodes.length; i++) {
+    for (let j = i + 1; j < nodes.length; j++) {
+      const d = Math.abs(nodes[i].x - nodes[j].x) + Math.abs(nodes[i].y - nodes[j].y) + Math.abs(nodes[i].z - nodes[j].z);
+      if (d <= maxDist) edges.push([i, j]);
+    }
+  }
+  return edges;
+}
+
+const CUBE_SPACING = 45; // much bigger cubes
+const CUBE_NODES = generateCubeNodes(CUBE_SPACING);
+const CUBE_EDGES = generateCubeEdges(CUBE_NODES, CUBE_SPACING + 1);
+
+const SCENES = [
+  { start: 0,  end: 8,  name: 'Disconnection' },
+  { start: 8,  end: 16, name: 'Internal Awareness' },
+  { start: 16, end: 24, name: 'Internal Structure' },
+  { start: 24, end: 34, name: 'Cross-Department Connection' },
+  { start: 34, end: 44, name: 'Unified System' },
+  { start: 44, end: 50, name: 'Final Moment' },
+];
+
+// â”€â”€ MAIN RENDER â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+function renderFrame(ctx, w, h, t) {
+  const tw = getTweaks();
+  const cx = w / 2;
+  const cy = h / 2;
+  const fov = 600;
+
+  ctx.fillStyle = '#030308';
+  ctx.fillRect(0, 0, w, h);
+
+  // Background glow
+  const bgGrad = ctx.createRadialGradient(cx, cy, 0, cx, cy, w * 0.6);
+  const bgI = (t < 34 ? 0.04 : smoothStep(34, 44, t) * 0.1 + 0.04) * tw.glowIntensity;
+  bgGrad.addColorStop(0, `rgba(100, 120, 255, ${bgI})`);
+  bgGrad.addColorStop(0.5, `rgba(60, 40, 120, ${bgI * 0.5})`);
+  bgGrad.addColorStop(1, 'rgba(0,0,0,0)');
+  ctx.fillStyle = bgGrad;
+  ctx.fillRect(0, 0, w, h);
+
+  drawStars(ctx, w, h, t);
+
+  if (t < 24 + TRANSITION_PAD) {
+    drawOrbPhase(ctx, cx, cy, fov, t, tw);
+  }
+  if (t >= 16 - TRANSITION_PAD) {
+    drawLatticePhase(ctx, cx, cy, fov, t, tw);
+  }
+
+  drawTransitionWash(ctx, w, h, t, tw);
+  drawSceneLabel(ctx, w, h, t);
+}
+
+function smoothStep(start, end, t) {
+  const x = clamp((t - start) / (end - start), 0, 1);
+  return x * x * x * (x * (x * 6 - 15) + 10);
+}
+
+function fadeInOut(start, end, t, fade = TRANSITION_PAD) {
+  const fadeIn = start <= 0
+    ? smoothStep(start, start + fade, t)
+    : smoothStep(start - fade, start + fade, t);
+  return Math.min(
+    fadeIn,
+    1 - smoothStep(end - fade, end + fade, t)
+  );
+}
+
+function getSceneBlend(t) {
+  let strength = 0;
+  for (const scene of SCENES) {
+    if (scene.start <= 0) continue;
+    const local = 1 - Math.abs(t - scene.start) / TRANSITION_PAD;
+    strength = Math.max(strength, clamp(local, 0, 1));
+  }
+  return smoothStep(0, 1, strength);
+}
+
+// â”€â”€ STARS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+const STARS = Array.from({ length: 200 }, () => ({
+  x: seededRandom(Math.floor(Math.random() * 9999))() * 2 - 1,
+  y: seededRandom(Math.floor(Math.random() * 9999))() * 2 - 1,
+  size: 0.5 + Math.random() * 1.5,
+  twinkleSpeed: 0.5 + Math.random() * 2,
+  twinklePhase: Math.random() * TAU,
+}));
+
+function drawStars(ctx, w, h, t) {
+  for (const star of STARS) {
+    const alpha = 0.15 + 0.15 * Math.sin(t * star.twinkleSpeed + star.twinklePhase);
+    ctx.fillStyle = `rgba(180, 200, 255, ${alpha})`;
+    ctx.beginPath();
+    ctx.arc((star.x * 0.5 + 0.5) * w, (star.y * 0.5 + 0.5) * h, star.size, 0, TAU);
+    ctx.fill();
+  }
+}
+
+// â”€â”€ ORB PHASE (Scenes 1-3) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+function drawOrbPhase(ctx, cx, cy, fov, t, tw) {
+  const orbAlpha = Math.min(fadeInOut(0, 24, t, TRANSITION_PAD), 1 - smoothStep(20.5, 24.8, t) * 0.35);
+  if (orbAlpha <= 0) return;
+
+  ctx.globalAlpha = orbAlpha;
+  const sc = tw.orbScale;
+
+  for (let i = 0; i < 5; i++) {
+    const basePos = ORB_POSITIONS[i];
+    const color = ORB_COLORS[i];
+    const particles = ORB_PARTICLES[i];
+
+    const driftScale = 1 - smoothStep(7, 15, t) * 0.8;
+    const ox = basePos.x + Math.sin(t * 0.3 + i * 2) * 40 * driftScale;
+    const oy = basePos.y + Math.cos(t * 0.25 + i * 1.5) * 30 * driftScale;
+
+    // Core glow â€” much bigger
+    const glowR = 90 * sc;
+    const coreGrad = ctx.createRadialGradient(cx + ox, cy + oy, 0, cx + ox, cy + oy, glowR);
+    const gi = (0.2 + 0.08 * Math.sin(t * 1.2 + i)) * tw.glowIntensity;
+    coreGrad.addColorStop(0, `hsla(${color.h}, ${color.s}%, ${color.l}%, ${gi})`);
+    coreGrad.addColorStop(1, 'hsla(0, 0%, 0%, 0)');
+    ctx.fillStyle = coreGrad;
+    ctx.beginPath();
+    ctx.arc(cx + ox, cy + oy, glowR, 0, TAU);
+    ctx.fill();
+
+    const orbitTightness = 1 - smoothStep(7, 15.5, t) * 0.6;
+    const connectionAlpha = smoothStep(9, 14.5, t);
+    const positions = [];
+
+    for (let j = 0; j < particles.length; j++) {
+      const p = particles[j];
+      const angle = p.theta + t * p.speed * (t < 8 ? 1 : 0.5);
+      const r = p.r * orbitTightness * sc;
+      const px = ox + Math.cos(angle) * r * Math.sin(p.phi + t * 0.1);
+      const py = oy + Math.sin(angle) * r * Math.cos(p.phi + t * 0.15);
+
+      positions.push({ x: cx + px, y: cy + py });
+
+      const pSize = p.size * sc;
+      const grad = ctx.createRadialGradient(cx + px, cy + py, 0, cx + px, cy + py, pSize * 4);
+      const pAlpha = 0.6 + 0.3 * Math.sin(t * 2 + p.phase);
+      grad.addColorStop(0, `hsla(${color.h}, ${color.s}%, ${color.l + 20}%, ${pAlpha})`);
+      grad.addColorStop(0.5, `hsla(${color.h}, ${color.s}%, ${color.l}%, ${pAlpha * 0.4})`);
+      grad.addColorStop(1, 'hsla(0, 0%, 0%, 0)');
+      ctx.fillStyle = grad;
+      ctx.beginPath();
+      ctx.arc(cx + px, cy + py, pSize * 4, 0, TAU);
+      ctx.fill();
+
+      ctx.fillStyle = `hsla(${color.h}, ${color.s - 10}%, ${color.l + 30}%, ${pAlpha})`;
+      ctx.beginPath();
+      ctx.arc(cx + px, cy + py, pSize, 0, TAU);
+      ctx.fill();
+    }
+
+    if (connectionAlpha > 0) {
+      ctx.strokeStyle = `hsla(${color.h}, ${color.s}%, ${color.l + 10}%, ${connectionAlpha * 0.3})`;
+      ctx.lineWidth = 1;
+      for (let a = 0; a < positions.length; a++) {
+        for (let b = a + 1; b < positions.length; b++) {
+          const dist = Math.hypot(positions[a].x - positions[b].x, positions[a].y - positions[b].y);
+          if (dist < 80 * sc) {
+            ctx.beginPath();
+            ctx.moveTo(positions[a].x, positions[a].y);
+            ctx.lineTo(positions[b].x, positions[b].y);
+            ctx.stroke();
+          }
+        }
+      }
+    }
+  }
+
+  ctx.globalAlpha = 1;
+}
+
+// â”€â”€ LATTICE PHASE (Scenes 3-6) â€” cubes persist through the end â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+function drawLatticePhase(ctx, cx, cy, fov, t, tw) {
+  const formProgress = smoothStep(15, 24.5, t);
+  if (formProgress <= 0) return;
+
+  const sc = tw.cubeScale;
+  const rotY = t * tw.rotationSpeed;
+  const rotX = 0.3;
+
+  // In scenes 5-6, cubes stay visible â€” no fade out!
+  // They just converge to unified positions and get cross-connected
+
+  // Convergence: scene 4 moves toward each other, scene 5+ holds unified positions
+  const convergeToCenter = smoothStep(23, 34, t);
+
+  // All cube screen positions for cross-connections
+  const allCubeScreenNodes = [];
+
+  for (let i = 0; i < 5; i++) {
+    const basePos = ORB_POSITIONS[i];
+    const uniPos = UNIFIED_POSITIONS[i];
+    const color = ORB_COLORS[i];
+
+    // Interpolate from scattered to unified positions
+    const ox = basePos.x + (uniPos.x - basePos.x) * convergeToCenter;
+    const oy = basePos.y + (uniPos.y - basePos.y) * convergeToCenter;
+
+    const nodeScreenPos = [];
+
+    for (let n = 0; n < CUBE_NODES.length; n++) {
+      const node = CUBE_NODES[n];
+      const ns = sc;
+
+      const cosY = Math.cos(rotY + i * 0.4);
+      const sinY = Math.sin(rotY + i * 0.4);
+      const cosX = Math.cos(rotX);
+      const sinX = Math.sin(rotX);
+
+      let rx = node.x * ns * cosY - node.z * ns * sinY;
+      let rz = node.x * ns * sinY + node.z * ns * cosY;
+      let ry = node.y * ns * cosX - rz * sinX;
+      rz = node.y * ns * sinX + rz * cosX;
+
+      const { px, py, s } = project(rx + ox, ry + oy, rz, cx, cy, fov);
+      nodeScreenPos.push({ x: px, y: py, s, z: rz });
+
+      const nodeAlpha = formProgress * (0.7 + 0.3 * Math.sin(t * 1.5 + n * 0.5));
+      const glowSize = 10 * s * tw.glowIntensity;
+
+      if (nodeAlpha > 0.05) {
+        const grad = ctx.createRadialGradient(px, py, 0, px, py, glowSize);
+        grad.addColorStop(0, `hsla(${color.h}, ${color.s}%, ${color.l + 25}%, ${nodeAlpha * 0.8})`);
+        grad.addColorStop(0.4, `hsla(${color.h}, ${color.s}%, ${color.l}%, ${nodeAlpha * 0.3})`);
+        grad.addColorStop(1, 'hsla(0, 0%, 0%, 0)');
+        ctx.fillStyle = grad;
+        ctx.beginPath();
+        ctx.arc(px, py, glowSize, 0, TAU);
+        ctx.fill();
+
+        ctx.fillStyle = `hsla(${color.h}, 60%, 92%, ${nodeAlpha})`;
+        ctx.beginPath();
+        ctx.arc(px, py, 3 * s, 0, TAU);
+        ctx.fill();
+      }
+    }
+
+    // Edges within each cube
+    if (formProgress > 0.1) {
+      // Brighter edges in later scenes
+      const edgeBright = 0.4 + smoothStep(32, 36, t) * 0.2;
+      for (const [a, b] of CUBE_EDGES) {
+        const pa = nodeScreenPos[a];
+        const pb = nodeScreenPos[b];
+        const edgeAlpha = formProgress * edgeBright;
+
+        ctx.strokeStyle = `hsla(${color.h}, ${color.s}%, ${color.l}%, ${edgeAlpha})`;
+        ctx.lineWidth = 1.5 * ((pa.s + pb.s) / 2);
+        ctx.beginPath();
+        ctx.moveTo(pa.x, pa.y);
+        ctx.lineTo(pb.x, pb.y);
+        ctx.stroke();
+      }
+    }
+
+    allCubeScreenNodes.push({ nodes: nodeScreenPos, color, ox, oy });
+  }
+
+  // â”€â”€ Cross-department beams (scenes 4+) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  if (t >= 24.5) {
+    const beamAlpha = smoothStep(24.5, 31, t) * 0.35 * tw.beamBrightness;
+    const intensify = smoothStep(42.5, 49, t);
+    const finalBeam = beamAlpha * (1 + intensify * 0.8);
+
+    for (let i = 0; i < 5; i++) {
+      for (let j = i + 1; j < 5; j++) {
+        const ci = allCubeScreenNodes[i];
+        const cj = allCubeScreenNodes[j];
+
+        // Main beam between cube centers
+        const ax = cx + ci.ox;
+        const ay = cy + ci.oy;
+        const bx = cx + cj.ox;
+        const by = cy + cj.oy;
+
+        const grad = ctx.createLinearGradient(ax, ay, bx, by);
+        grad.addColorStop(0, `hsla(${ci.color.h}, ${ci.color.s}%, ${ci.color.l}%, ${finalBeam})`);
+        grad.addColorStop(0.5, `hsla(${(ci.color.h + cj.color.h) / 2}, 70%, 75%, ${finalBeam * 1.2})`);
+        grad.addColorStop(1, `hsla(${cj.color.h}, ${cj.color.s}%, ${cj.color.l}%, ${finalBeam})`);
+
+        ctx.strokeStyle = grad;
+        ctx.lineWidth = 2 + intensify * 1.5;
+        ctx.beginPath();
+        ctx.moveTo(ax, ay);
+        ctx.lineTo(bx, by);
+        ctx.stroke();
+
+        // Additional node-to-node connections in unified phase
+        if (t >= 32.5) {
+          const crossAlpha = smoothStep(32.5, 40.5, t) * 0.2 * tw.beamBrightness;
+          ctx.strokeStyle = `hsla(${(ci.color.h + cj.color.h) / 2}, 60%, 65%, ${crossAlpha})`;
+          ctx.lineWidth = 0.8;
+          // Connect a few edge nodes between cubes
+          const edgeNodes = [0, 2, 6, 8, 18, 20, 24, 26]; // corner nodes of 3x3x3
+          for (const ni of edgeNodes) {
+            for (const nj of edgeNodes) {
+              const na = ci.nodes[ni];
+              const nb = cj.nodes[nj];
+              if (!na || !nb) continue;
+              const dist = Math.hypot(na.x - nb.x, na.y - nb.y);
+              if (dist < 250) {
+                ctx.beginPath();
+                ctx.moveTo(na.x, na.y);
+                ctx.lineTo(nb.x, nb.y);
+                ctx.stroke();
+              }
+            }
+          }
+        }
+
+        // Traveling pulses
+        const ps = tw.pulseSpeed;
+        for (let p = 0; p < 2; p++) {
+          const pulseT = ((t * ps * 0.8 + i * 0.3 + j * 0.5 + p * 0.5) % 1);
+          const px = ax + (bx - ax) * pulseT;
+          const py = ay + (by - ay) * pulseT;
+          const pulseAlpha = finalBeam * 1.5 * Math.sin(pulseT * Math.PI);
+          const pg = ctx.createRadialGradient(px, py, 0, px, py, 10);
+          pg.addColorStop(0, `hsla(220, 95%, 88%, ${pulseAlpha})`);
+          pg.addColorStop(1, 'hsla(0,0%,0%,0)');
+          ctx.fillStyle = pg;
+          ctx.beginPath();
+          ctx.arc(px, py, 10, 0, TAU);
+          ctx.fill();
+        }
+      }
+    }
+
+    // Energy pulses along internal cube edges in unified phase
+    if (t >= 32.5) {
+      const internalPulseAlpha = smoothStep(32.5, 40.5, t) * 0.6;
+      for (let i = 0; i < 5; i++) {
+        const cube = allCubeScreenNodes[i];
+        const color = cube.color;
+        for (const [a, b] of CUBE_EDGES) {
+          const na = cube.nodes[a];
+          const nb = cube.nodes[b];
+          const pulseT = ((t * tw.pulseSpeed + a * 0.2 + i * 2) % 2) / 2;
+          if (pulseT < 1) {
+            const px = na.x + (nb.x - na.x) * pulseT;
+            const py = na.y + (nb.y - na.y) * pulseT;
+            const pa = internalPulseAlpha * Math.sin(pulseT * Math.PI) * 0.7;
+            const pg = ctx.createRadialGradient(px, py, 0, px, py, 6);
+            pg.addColorStop(0, `hsla(${color.h}, 90%, 85%, ${pa})`);
+            pg.addColorStop(1, 'hsla(0,0%,0%,0)');
+            ctx.fillStyle = pg;
+            ctx.beginPath();
+            ctx.arc(px, py, 6, 0, TAU);
+            ctx.fill();
+          }
+        }
+      }
+    }
+  }
+
+  // Scene 6: intensified central glow
+  if (t >= 42.5) {
+    const intensify = smoothStep(42.5, 49, t);
+    const centralGlow = intensify * 0.12 * tw.glowIntensity;
+    const cg = ctx.createRadialGradient(cx, cy, 0, cx, cy, 400);
+    cg.addColorStop(0, `rgba(140, 160, 255, ${centralGlow})`);
+    cg.addColorStop(0.5, `rgba(100, 80, 200, ${centralGlow * 0.3})`);
+    cg.addColorStop(1, 'rgba(0,0,0,0)');
+    ctx.fillStyle = cg;
+    ctx.beginPath();
+    ctx.arc(cx, cy, 400, 0, TAU);
+    ctx.fill();
+  }
+}
+
+// â”€â”€ SCENE LABEL â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+function drawTransitionWash(ctx, w, h, t, tw) {
+  const blend = getSceneBlend(t);
+  if (blend <= 0) return;
+
+  const cx = w / 2;
+  const cy = h / 2;
+  const alpha = blend * 0.09 * tw.glowIntensity;
+  const wash = ctx.createRadialGradient(cx, cy, 0, cx, cy, Math.max(w, h) * 0.55);
+  wash.addColorStop(0, `rgba(185, 205, 255, ${alpha})`);
+  wash.addColorStop(0.5, `rgba(90, 105, 210, ${alpha * 0.4})`);
+  wash.addColorStop(1, 'rgba(0,0,0,0)');
+  ctx.fillStyle = wash;
+  ctx.fillRect(0, 0, w, h);
+}
+
+function drawSceneLabel(ctx, w, h, t) {
+  ctx.font = '500 16px "Space Grotesk", sans-serif';
+  ctx.textAlign = 'left';
+
+  for (const scene of SCENES) {
+    const alpha = fadeInOut(scene.start, scene.end, t, 0.9) * 0.5;
+    if (alpha <= 0.01) continue;
+
+    const slide = (1 - alpha / 0.5) * 10;
+    ctx.fillStyle = `rgba(180, 200, 255, ${alpha})`;
+    ctx.fillText(scene.name.toUpperCase(), 40 + slide, h - 30);
+  }
+}
+
+Object.assign(window, {
+  renderFrame, DURATION, SCENES, smoothStep,
+});
+
+</script>
+<script type="text/babel">
+/* Inlined from app.jsx */
+// app.jsx â€” Main app with tweaks panel
+
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "orbScale": 2.2,
+  "cubeScale": 2.0,
+  "glowIntensity": 1.4,
+  "particleCount": 24,
+  "rotationSpeed": 0.15,
+  "beamBrightness": 1.0,
+  "pulseSpeed": 1.5
+}/*EDITMODE-END*/;
+
+function CanvasScene() {
+  const { time } = useTimeline();
+  const canvasRef = React.useRef(null);
+  const W = 1920;
+  const H = 1080;
+
+  React.useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    renderFrame(ctx, W, H, time);
+  }, [time]);
+
+  return (
+    <canvas
+      ref={canvasRef}
+      width={W}
+      height={H}
+      style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }}
+    />
+  );
+}
+
+function MoodOverlay() {
+  const { time } = useTimeline();
+
+  const moods = [
+    { start: 0, end: 7, text: 'CHAOS', sub: 'Fragmented. Disconnected. Drifting.' },
+    { start: 9, end: 15, text: 'AWARENESS', sub: 'Patterns emerge. Orbits tighten.' },
+    { start: 17, end: 23, text: 'STRUCTURE', sub: 'Systems align. Frameworks crystallize.' },
+    { start: 25, end: 33, text: 'CONNECTION', sub: 'Bridges form. Departments converge.' },
+    { start: 35, end: 43, text: 'UNITY', sub: 'Five departments. One network.' },
+    { start: 45, end: 50, text: 'TA BRAIN', sub: 'Connected. Distinct. Alive.' },
+  ];
+
+  const softStep = (x) => {
+    const t = Math.max(0, Math.min(1, x));
+    return t * t * t * (t * (t * 6 - 15) + 10);
+  };
+  const blend = (start, end, fade = 1.05) => {
+    const fadeIn = start <= 0
+      ? softStep((time - start) / fade)
+      : softStep((time - (start - fade)) / (fade * 2));
+    const fadeOut = 1 - softStep((time - (end - fade)) / (fade * 2));
+    return Math.min(fadeIn, fadeOut);
+  };
+  const activeMoods = moods
+    .map((m) => ({ ...m, alpha: blend(m.start, m.end) }))
+    .filter((m) => m.alpha > 0.01);
+
+  if (!activeMoods.length) return null;
+
+  return (
+    <div style={{
+      position: 'absolute', top: 60, left: 0, right: 0,
+      textAlign: 'center',
+      pointerEvents: 'none', zIndex: 10,
+    }}>
+      {activeMoods.map((m) => {
+        const yShift = (1 - m.alpha) * 14;
+        return (
+          <div key={m.text} style={{
+            position: 'absolute', top: 0, left: 0, right: 0,
+            opacity: m.alpha,
+            transform: `translateY(${yShift}px)`,
+            willChange: 'transform, opacity',
+          }}>
+            <div style={{
+              fontFamily: '"Space Grotesk", sans-serif',
+              fontSize: 44, fontWeight: 700,
+              color: 'rgba(200, 215, 255, 0.7)',
+              letterSpacing: '0.2em', marginBottom: 8,
+              textShadow: '0 0 40px rgba(100, 140, 255, 0.4)',
+            }}>
+              {m.text}
+            </div>
+            <div style={{
+              fontFamily: '"Space Grotesk", sans-serif',
+              fontSize: 17, fontWeight: 400,
+              color: 'rgba(180, 195, 240, 0.45)',
+              letterSpacing: '0.08em',
+            }}>
+              {m.sub}
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+function AppTweaks() {
+  const [tweaks, setTweak] = useTweaks(TWEAK_DEFAULTS);
+
+  // Push tweaks to global for canvas renderer
+  React.useEffect(() => {
+    window.__TWEAKS = tweaks;
+  }, [tweaks]);
+
+  return (
+    <TweaksPanel title="Animation Tweaks">
+      <TweakSection title="Scale">
+        <TweakSlider label="Orb Size" value={tweaks.orbScale} min={0.8} max={4} step={0.1}
+          onChange={v => setTweak('orbScale', v)} />
+        <TweakSlider label="Cube Size" value={tweaks.cubeScale} min={0.8} max={4} step={0.1}
+          onChange={v => setTweak('cubeScale', v)} />
+        <TweakSlider label="Glow Intensity" value={tweaks.glowIntensity} min={0.3} max={3} step={0.1}
+          onChange={v => setTweak('glowIntensity', v)} />
+      </TweakSection>
+      <TweakSection title="Motion">
+        <TweakSlider label="Rotation Speed" value={tweaks.rotationSpeed} min={0.02} max={0.5} step={0.01}
+          onChange={v => setTweak('rotationSpeed', v)} />
+        <TweakSlider label="Pulse Speed" value={tweaks.pulseSpeed} min={0.3} max={4} step={0.1}
+          onChange={v => setTweak('pulseSpeed', v)} />
+      </TweakSection>
+      <TweakSection title="Connections">
+        <TweakSlider label="Beam Brightness" value={tweaks.beamBrightness} min={0.2} max={3} step={0.1}
+          onChange={v => setTweak('beamBrightness', v)} />
+      </TweakSection>
+    </TweaksPanel>
+  );
+}
+
+function App() {
+  // Initialize tweaks globally
+  window.__TWEAKS = window.__TWEAKS || TWEAK_DEFAULTS;
+
+  return (
+    <React.Fragment>
+      <Stage width={1920} height={1080} duration={DURATION} background="#030308" loop={true} autoplay={true} persistKey="ta-brain">
+        <CanvasScene />
+        <MoodOverlay />
+      </Stage>
+      <AppTweaks />
+    </React.Fragment>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+
+</script>
+</body>
+</html>
+

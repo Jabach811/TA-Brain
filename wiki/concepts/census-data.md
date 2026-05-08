@@ -1,10 +1,10 @@
 ---
 title: "Census Data"
-type: concept
+type: reference
 tags: [eds, census, process, data, conversion]
 created: 2026-04-20
-updated: 2026-04-20
-sources: 1
+updated: 2026-05-03
+sources: 2
 ---
 
 # Census Data
@@ -18,6 +18,26 @@ Census data is the participant-level data set that seeds a new plan in P3. It in
 ## Why It Matters
 
 Without census data loaded, the system has no participants. Every subsequent step — eligibility, deferrals, payroll testing, go-live — depends on accurate participant records in P3. Errors in census data (wrong DOB, duplicate SSNs, mismatched hire/rehire dates) propagate through every downstream process.
+
+## Three Input Paths
+
+Census data reaches the DC through one of three paths:
+
+| Path | Frequency | Notes |
+|------|-----------|-------|
+| **Base file** (from client) | Vast majority | Standard TA template; client fills it out and returns. See [[base-file]]. |
+| **Limited access file** (from client) | Cash conversions with an open period before blackout | Lets participants update allocations themselves before liquidation. See [[limited-access-file]]. |
+| **Vendor census** (from prior RK) | Rare | Used when the client requests it, or when a termed participant has an incoming balance. Notify client, COM, TC before loading. |
+
+## Pre-Base-File Chain
+
+Before the base file can be finalized, a chain of upstream work has to complete:
+
+1. **PRD or onboarding package complete** — plan provisions locked. See [[prd]] / [[onboarding-package]].
+2. **AWD testing** — the package goes to [[awd]] for testing; results come back in a couple of days. AWD returns term reason codes (if applicable) and verification of testing/eligibility.
+3. **Tailor templates** — DC takes the standard base + payroll templates and tailors them to this plan's specific provisions and sources.
+4. **Client walkthrough meeting** — once the client contact is identified, schedule a meeting to walk through how to fill out the file. This step matters more than it looks; some clients are not text/data-savvy and need significant hand-holding. Give them ~10 days from the meeting.
+5. **Validation and load** — file returns, validate through EDS, load.
 
 ## Data Fields
 
@@ -66,6 +86,16 @@ When using vendor data:
 1. Enroll participant using prior RK data
 2. **Notify client, COM, and TC prior to loading**
 
+## Adding Participants from Balance Files
+
+Sometimes the balance file contains participants the client never put on the census. When that happens:
+
+- Reach out to the **client** to get the demographic details, even if the vendor file already has them
+- Vendor records can be stale — never assume they're current
+- Don't load until the client confirms; missing or wrong census data on a participant who has a balance is a clean-up nightmare later
+
+This is also the moment to handle [[forfeiture-loading|forfeiture entries]] that show up in balance files — those get loaded as census-shaped records using the dummy date convention.
+
 ## Queries
 
 - `TO Census.sql` — referenced query for census verification (exact path in source documentation)
@@ -88,7 +118,11 @@ When using vendor data:
 ## See Also
 
 - [[base-file]]
+- [[limited-access-file]]
+- [[defaulting-elections-eds]]
+- [[forfeiture-loading]]
 - [[eds]]
+- [[awd]]
 - [[prior-record-keeper]]
 - [[final-files-processing]]
 - [[loading-eligibility-eds]]

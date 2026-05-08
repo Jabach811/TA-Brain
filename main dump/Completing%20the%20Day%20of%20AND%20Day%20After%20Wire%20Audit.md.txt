@@ -1,0 +1,9 @@
+# Day of and Day After Wire Audit
+
+## Day of Wire Audit
+- Compare prior vendor wire summary to DC fund mapping.
+
+## Day After Wire Audit
+- Run takeover audit queries.
+- Compare processed totals to DC wire totals.
+- Save results to audit folder.

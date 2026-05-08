@@ -1,6 +1,6 @@
 ---
 title: "Eric Leytem"
-type: entity
+type: person
 tags: [person, ftp, payroll, file-transfer]
 created: 2026-04-14
 updated: 2026-04-14
@@ -32,4 +32,3 @@ Eric Leytem is the DC's primary point of contact on the FTP Team. Once the FTP T
 - [[jen-curtin]]
 - [[ftp-connection]]
 - [[payroll-template]]
-- [[internal-teams]]

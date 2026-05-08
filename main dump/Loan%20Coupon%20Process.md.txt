@@ -1,0 +1,10 @@
+# Loan Coupon Process
+
+## Purpose
+- Generate loan coupons for selected participants.
+
+## Process Overview
+- Identify loans coded with ‘C’.
+- Use ROC procedures to toggle coupon codes if needed.
+- Generate and save coupons and cover sheets.
+- Revert temporary changes.

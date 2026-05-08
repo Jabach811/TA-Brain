@@ -1,0 +1,9 @@
+# New Business CIT Management & PC Process Flow
+
+## Purpose
+- Define management and participant communication controls.
+
+## Control Points
+- Project planning
+- Submission packages
+- Access controls

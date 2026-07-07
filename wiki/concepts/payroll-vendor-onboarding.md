@@ -5,6 +5,7 @@ tags: [payroll, vendor, onboarding, ftp, eds, onepayroll, demo, conversion]
 created: 2026-05-03
 updated: 2026-05-03
 sources: 1
+status: current
 ---
 
 # Payroll Vendor Onboarding

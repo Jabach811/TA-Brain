@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Payroll Vendor Onboarding - Ops Training Deck</title>
+  <link rel="stylesheet" href="../assets/deck-styles.css">
+  <style>:root { --procedure-accent: #2d6b50; }</style>
+</head>
+<body class="ops-page">
+  <header class="deck-nav">
+    <a href="../index.html">Procedure decks</a>
+    <span>Payroll Vendor Onboarding</span>
+    <span>Ops</span>
+  </header>
+  <main class="deck ops" data-deck>
+    <section class="slide title-slide">
+      <div class="title-grid">
+        <div>
+          <div class="kicker">Payroll / Ops deck</div>
+          <h1>Payroll Vendor Onboarding</h1>
+          <p class="slide-lede">Payroll vendor onboarding identifies vendor and client contacts, sets up FTP, walks the vendor through the TA template, validates test files, demos the process, and hands off at go-live whether testing is complete or not.</p>
+          <div class="lifecycle-rail"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span></div>
+        </div>
+        <figure class="title-art"><img src="../assets/icons/payroll-vendor-onboarding.svg" alt=""></figure>
+      </div>
+    </section>
+<section class="slide split-slide">
+      <div>
+        <div class="kicker">Inputs</div>
+        <h2>What has to be in hand</h2>
+        <ul class="check-list"><li>Payroll vendor contact</li><li>Client uploader contact</li><li>TA payroll template</li><li>FTP setup request</li><li>Vendor test file</li><li>Validation results</li></ul>
+      </div>
+      <aside class="callout-panel">
+        <h3>Systems touched</h3>
+        <div class="pill-grid"><span class="pill">FTP</span><span class="pill">EDS</span><span class="pill">Payroll template</span><span class="pill">OnePayroll</span><span class="pill">NBI</span><span class="pill">AWD</span></div>
+      </aside>
+    </section>
+<section class="slide">
+      <div class="kicker">Run path</div>
+      <h2>Procedure sequence</h2>
+      <div class="step-grid">
+    <article class="step-card">
+      <div class="step-num">01</div>
+      <p>Identify the payroll vendor contact and the client uploader who needs FTP credentials.</p>
+    </article>
+  
+    <article class="step-card">
+      <div class="step-num">02</div>
+      <p>Send the vendor intro email and fire off the FTP setup request early.</p>
+    </article>
+  
+    <article class="step-card">
+      <div class="step-num">03</div>
+      <p>Hold the kickoff meeting and walk through the TA payroll template field by field.</p>
+    </article>
+  
+    <article class="step-card">
+      <div class="step-num">04</div>
+      <p>Have the vendor re-tool their output and return a test file.</p>
+    </article>
+  
+    <article class="step-card">
+      <div class="step-num">05</div>
+      <p>Test the FTP connection independently from the file content.</p>
+    </article>
+  
+    <article class="step-card">
+      <div class="step-num">06</div>
+      <p>Run the validation chain and send issues back to the vendor until the file is clean.</p>
+    </article>
+  
+    <article class="step-card">
+      <div class="step-num">07</div>
+      <p>Demo the client-facing process and prepare for go-live.</p>
+    </article>
+  
+    <article class="step-card">
+      <div class="step-num">08</div>
+      <p>At go-live, hand off to Fiduciary Services through the formal process if testing is not complete.</p>
+    </article>
+  </div>
+    </section>
+<section class="slide matrix-slide">
+      <div class="kicker">Decision points</div>
+      <h2>What decides the path</h2>
+      <div class="decision-grid"><div class="decision-card">Who owns vendor file generation?</div><div class="decision-card">Who owns client upload access?</div><div class="decision-card">Is FTP ready before test-file validation?</div><div class="decision-card">Did the test file pass EDS and OnePayroll review?</div><div class="decision-card">Is payroll testing complete by go-live?</div></div>
+    </section>
+<section class="slide warning-slide">
+      <div class="kicker">Watchouts</div>
+      <h2>Where this can bite</h2>
+      <div class="warning-grid"><article><span>!</span><p>FTP setup should start early because access delays are common.</p></article><article><span>!</span><p>Testing the connection is separate from validating file content.</p></article><article><span>!</span><p>Multiple payroll vendors need separate tracks.</p></article><article><span>!</span><p>Auto-sweep is later and requires several good runs.</p></article><article><span>!</span><p>DC still hands off at live even if payroll testing is incomplete.</p></article></div>
+    </section>
+<section class="slide image-slide">
+      <div class="kicker">Visual map</div>
+      <h2>Use the flow when explaining the work</h2>
+      <figure class="image-frame"><img src="../assets/flowcharts/payroll-vendor-onboarding.svg" alt=""></figure>
+    </section>
+<section class="slide closeout-slide">
+      <div class="kicker">Closeout</div>
+      <h2>Proof that it is done</h2>
+      <div class="closeout-grid">
+        <div><h3>Outputs</h3><ul><li>Vendor contact chain</li><li>FTP access</li><li>Validated payroll test file</li><li>Client demo</li><li>Go-live handoff package</li></ul></div>
+        <div><h3>Final checks</h3><ul><li>Contacts confirmed</li><li>FTP tested</li><li>Template walkthrough complete</li><li>Validation chain complete or handed off</li><li>NBI updated</li></ul></div>
+      </div>
+    </section>
+  </main>
+  <div class="deck-controls">
+    <button type="button" data-prev>Prev</button>
+    <span data-progress>1 / 7</span>
+    <button type="button" data-next>Next</button>
+  </div>
+  <script src="../assets/deck-player.js"></script>
+</body>
+</html>

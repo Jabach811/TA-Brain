@@ -3,8 +3,9 @@ title: "Reversal Process"
 type: process
 tags: [process, reversal, awd, correction, prod-support]
 created: 2026-04-16
-updated: 2026-04-16
+updated: 2026-06-25
 sources: 1
+status: current
 ---
 
 # Reversal Process
@@ -44,6 +45,14 @@ Navigate to the Reversal Form (link maintained in DC team resources). Complete a
 | Confirmation checkboxes | Funds returned/stopped/voided, AWD ticket to follow |
 
 Click **Submit**.
+
+The form captures the core transaction and control data the reversal team needs:
+- what is being reversed, including transaction type, transaction reference number, and loan number if applicable
+- who is responsible: Transamerica or an external party
+- what happened and what correction is needed
+- whether reprocessing is recordkeeping-only with no payment issued
+- whether payments were applied and whether a loan was re-amortized, deemed, or offset
+- whether voice / DDOL, closed funds, current-year correction, prior-year correction, or Reverse IC applies
 
 ### 2. Copy the Automated Email — DC
 An email arrives from `slasrever@transamerica.com`. Near the bottom, locate the block labeled **"Information for reversal team"**.
@@ -115,5 +124,6 @@ March 9, 2026 example — loan reload error:
 - [[liquidation-day]]
 - [[booking-assets]]
 - [[final-files-processing]]
-- [[lm-dc]]
+- [[dc-onboarding-workflow]]
+- [[roles/lm-dc]]
 - [[plan-conversion-handoffs]]

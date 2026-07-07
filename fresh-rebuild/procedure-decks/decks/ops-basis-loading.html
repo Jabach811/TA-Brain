@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Basis Loading - Ops Training Deck</title>
+  <link rel="stylesheet" href="../assets/deck-styles.css">
+  <style>:root { --procedure-accent: #7a6240; }</style>
+</head>
+<body class="ops-page">
+  <header class="deck-nav">
+    <a href="../index.html">Procedure decks</a>
+    <span>Basis Loading</span>
+    <span>Ops</span>
+  </header>
+  <main class="deck ops" data-deck>
+    <section class="slide title-slide">
+      <div class="title-grid">
+        <div>
+          <div class="kicker">EDS Loading / Ops deck</div>
+          <h1>Basis Loading</h1>
+          <p class="slide-lede">Basis loading captures employee basis values such as Roth or after-tax contributions. It requires the right data elements, correct restrictions by plan type, and careful transaction adjustment checks.</p>
+          <div class="lifecycle-rail"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span></div>
+        </div>
+        <figure class="title-art"><img src="../assets/icons/basis-loading.svg" alt=""></figure>
+      </div>
+    </section>
+<section class="slide split-slide">
+      <div>
+        <div class="kicker">Inputs</div>
+        <h2>What has to be in hand</h2>
+        <ul class="check-list"><li>Basis source file</li><li>EE basis fields</li><li>Plan type</li><li>Roth start dates</li><li>After-tax values</li><li>TO_BASIS query/reference</li></ul>
+      </div>
+      <aside class="callout-panel">
+        <h3>Systems touched</h3>
+        <div class="pill-grid"><span class="pill">EDS</span><span class="pill">P3</span><span class="pill">AQT</span><span class="pill">Basis tables</span></div>
+      </aside>
+    </section>
+<section class="slide">
+      <div class="kicker">Run path</div>
+      <h2>Procedure sequence</h2>
+      <div class="step-grid">
+    <article class="step-card">
+      <div class="step-num">01</div>
+      <p>Confirm whether the plan type and source setup allow the basis data being loaded.</p>
+    </article>
+  
+    <article class="step-card">
+      <div class="step-num">02</div>
+      <p>Prepare basis fields and validate required participant identifiers.</p>
+    </article>
+  
+    <article class="step-card">
+      <div class="step-num">03</div>
+      <p>Check Roth, after-tax, and other employee-basis values against the source file.</p>
+    </article>
+  
+    <article class="step-card">
+      <div class="step-num">04</div>
+      <p>Validate the file through EDS before loading.</p>
+    </article>
+  
+    <article class="step-card">
+      <div class="step-num">05</div>
+      <p>Load basis data and review EDS output for warnings or rejects.</p>
+    </article>
+  
+    <article class="step-card">
+      <div class="step-num">06</div>
+      <p>Run queries to confirm basis rows landed in the expected tables.</p>
+    </article>
+  
+    <article class="step-card">
+      <div class="step-num">07</div>
+      <p>Review transaction adjustments when mid-year conversion data affects basis.</p>
+    </article>
+  
+    <article class="step-card">
+      <div class="step-num">08</div>
+      <p>Document any exclusions or plan-type restrictions.</p>
+    </article>
+  </div>
+    </section>
+<section class="slide matrix-slide">
+      <div class="kicker">Decision points</div>
+      <h2>What decides the path</h2>
+      <div class="decision-grid"><div class="decision-card">Is basis allowed for this plan type?</div><div class="decision-card">Are Roth or after-tax sources present?</div><div class="decision-card">Do participant identifiers match the loaded census?</div><div class="decision-card">Did EDS report warnings that affect tax history?</div><div class="decision-card">Are transaction adjustments needed?</div></div>
+    </section>
+<section class="slide warning-slide">
+      <div class="kicker">Watchouts</div>
+      <h2>Where this can bite</h2>
+      <div class="warning-grid"><article><span>!</span><p>Do not load basis blindly on restricted plan types.</p></article><article><span>!</span><p>Basis errors create downstream tax-reporting pain.</p></article><article><span>!</span><p>Mid-year conversions may need special adjustment review.</p></article><article><span>!</span><p>Participant matching depends on clean census data.</p></article><article><span>!</span><p>The source document references TO_BASIS but the exact path is not captured here.</p></article></div>
+    </section>
+<section class="slide image-slide">
+      <div class="kicker">Visual map</div>
+      <h2>Use the flow when explaining the work</h2>
+      <figure class="image-frame"><img src="../assets/flowcharts/basis-loading.svg" alt=""></figure>
+    </section>
+<section class="slide closeout-slide">
+      <div class="kicker">Closeout</div>
+      <h2>Proof that it is done</h2>
+      <div class="closeout-grid">
+        <div><h3>Outputs</h3><ul><li>Loaded basis records</li><li>EDS output notes</li><li>Query verification</li><li>Restriction notes</li><li>Adjustment evidence</li></ul></div>
+        <div><h3>Final checks</h3><ul><li>Plan restrictions checked</li><li>EDS validation complete</li><li>Basis rows verified</li><li>Adjustments reviewed</li><li>Exceptions documented</li></ul></div>
+      </div>
+    </section>
+  </main>
+  <div class="deck-controls">
+    <button type="button" data-prev>Prev</button>
+    <span data-progress>1 / 7</span>
+    <button type="button" data-next>Next</button>
+  </div>
+  <script src="../assets/deck-player.js"></script>
+</body>
+</html>

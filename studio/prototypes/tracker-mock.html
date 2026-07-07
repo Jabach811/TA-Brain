@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Cadence — mock</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Hanken+Grotesk:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --ink:#121110; --surface:#1a1815; --surface-2:#211e19;
+    --line:rgba(237,234,224,.09); --line-2:rgba(237,234,224,.16);
+    --text:#ece7da; --text-2:#a8a294; --text-3:#6f6a5d;
+    --amber:#e8a64a; --amber-soft:rgba(232,166,74,.14); --amber-line:rgba(232,166,74,.35);
+    --terra:#d6674b; --terra-soft:rgba(214,103,75,.13);
+    --serif:'Fraunces',Georgia,serif; --sans:'Hanken Grotesk',system-ui,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--ink);color:var(--text);font-family:var(--sans);
+    -webkit-font-smoothing:antialiased;line-height:1.5;font-feature-settings:"tnum" 1}
+
+  .app{display:grid;grid-template-columns:236px 1fr;max-width:1200px;margin:0 auto;min-height:100vh}
+
+  /* ---- side panel ---- */
+  .side{border-right:1px solid var(--line);padding:30px 20px;position:sticky;top:0;height:100vh;
+    display:flex;flex-direction:column;gap:24px}
+  .mark{font-family:var(--serif);font-weight:500;font-size:20px}
+  .mark span{color:var(--amber)}
+  .sbtn{display:flex;align-items:center;gap:10px;width:100%;text-align:left;cursor:pointer;
+    background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:9px 12px;
+    color:var(--text-3);font-family:var(--sans);font-size:13px}
+  .sbtn:hover{border-color:var(--line-2);color:var(--text-2)}
+  .sbtn svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.8}
+  .sbtn .kbd{margin-left:auto;font-size:11px;border:1px solid var(--line-2);border-radius:5px;padding:1px 6px;color:var(--text-3)}
+  .navlabel{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-3);margin:4px 0 2px 4px}
+  nav{display:flex;flex-direction:column;gap:1px}
+  .nav{display:flex;align-items:center;gap:11px;padding:8px 12px;border-radius:8px;color:var(--text-2);
+    font-size:14px;cursor:pointer;border-left:2px solid transparent}
+  .nav svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.7;opacity:.8}
+  .nav .ct{margin-left:auto;font-size:12px;color:var(--text-3)}
+  .nav:hover{background:var(--surface);color:var(--text)}
+  .nav.on{color:var(--text);background:var(--amber-soft);border-left-color:var(--amber)}
+  .nav.on svg{color:var(--amber);opacity:1}
+  .side-foot{margin-top:auto;border-top:1px solid var(--line);padding-top:16px;font-size:12px;color:var(--text-3)}
+  .side-foot b{font-family:var(--serif);font-size:22px;color:var(--amber);font-weight:500;display:block;line-height:1}
+
+  /* ---- main ---- */
+  .main{min-width:0}
+  .filterbar{position:sticky;top:0;z-index:5;background:var(--ink);border-bottom:1px solid var(--line);
+    display:flex;align-items:center;gap:8px;padding:16px 40px;flex-wrap:wrap}
+  .fpill{font-family:var(--sans);font-size:13px;color:var(--text-2);background:transparent;
+    border:1px solid var(--line-2);border-radius:20px;padding:6px 14px;cursor:pointer}
+  .fpill:hover{border-color:var(--amber-line);color:var(--text)}
+  .fpill.on{background:var(--amber);border-color:var(--amber);color:#1a1408;font-weight:500}
+  .fpill .n{opacity:.6;margin-left:5px}
+  .filterbar .right{margin-left:auto;display:flex;align-items:center;gap:14px;color:var(--text-2);font-size:13px}
+  .bell{position:relative;display:flex;color:var(--text-2)}
+  .bell::after{content:"";position:absolute;top:-1px;right:-1px;width:6px;height:6px;border-radius:50%;background:var(--amber)}
+
+  .content{padding:8px 40px 80px}
+
+  .eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-3);margin:24px 0 10px}
+  .date{font-family:var(--serif);font-weight:400;font-size:38px;line-height:1.05;letter-spacing:-.01em}
+  .date b{font-weight:500}
+  .summary{margin-top:13px;font-size:15px;color:var(--text-2)}
+  .summary .hot{color:var(--terra)} .summary .ok{color:var(--amber)}
+
+  .focus{margin:22px 0 8px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .frow,.card{display:flex;align-items:center;gap:16px;padding:15px 4px;border-bottom:1px solid var(--line)}
+  .focus .frow:last-child{border-bottom:none}
+
+  .ck{flex:none;width:26px;height:26px;border-radius:50%;border:1.5px solid var(--line-2);background:transparent;
+    cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.18s;color:transparent}
+  .ck:hover{border-color:var(--amber-line)}
+  .ck svg{width:14px;height:14px;stroke:currentColor;stroke-width:2.4;fill:none}
+  .ck.on{background:var(--amber);border-color:var(--amber);color:#1a1408}
+  .ck.over{border-color:var(--terra)}
+  .fmain{flex:1;min-width:0}
+  .ftitle{font-size:16px}
+  .fmeta{font-size:12.5px;color:var(--text-3);margin-top:3px;display:flex;gap:14px;align-items:center}
+  .pill{font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:var(--text-3)}
+  .pill.due{color:var(--terra)}
+  .streak{display:inline-flex;align-items:center;gap:4px;color:var(--amber)}
+  .streak svg{width:12px;height:12px;fill:currentColor;stroke:none}
+  .done .ftitle{color:var(--text-3);text-decoration:line-through;text-decoration-color:var(--line-2)}
+
+  .sec{margin-top:44px}
+  .sechead{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:6px;padding-bottom:12px;border-bottom:1px solid var(--line)}
+  .secname{font-family:var(--serif);font-size:21px;font-weight:500}
+  .seccount{font-size:13px;color:var(--text-3)} .seccount b{color:var(--amber);font-weight:500}
+  .lowgrid{display:grid;grid-template-columns:1fr 1fr;gap:0 40px}
+  @media(max-width:760px){.lowgrid{grid-template-columns:1fr}}
+
+  .feature{margin-top:14px;display:flex;gap:34px;align-items:flex-start;flex-wrap:wrap}
+  .bignum{font-family:var(--serif);font-size:68px;font-weight:400;line-height:.9;color:var(--amber);letter-spacing:-.02em}
+  .bignum small{font-size:14px;color:var(--text-2);font-family:var(--sans);display:block;margin-top:8px}
+  .heat{flex:1;min-width:280px}
+  .heatlabel{font-size:12.5px;color:var(--text-3);margin-bottom:12px;display:flex;justify-content:space-between}
+  .grid{display:grid;grid-template-columns:repeat(20,1fr);gap:5px}
+  .cell{aspect-ratio:1;border-radius:3px;background:rgba(237,234,224,.05)}
+  .cell.l1{background:rgba(232,166,74,.28)} .cell.l2{background:rgba(232,166,74,.55)} .cell.l3{background:var(--amber)}
+  .cell.miss{background:rgba(214,103,75,.22)}
+
+  .badges{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:16px}
+  @media(max-width:760px){.badges{grid-template-columns:repeat(2,1fr)}}
+  .badge{border:1px solid var(--line);border-radius:14px;padding:18px 16px;text-align:center}
+  .badge.lit{border-color:var(--amber-line);background:var(--amber-soft)}
+  .bico{width:32px;height:32px;margin:0 auto 12px;color:var(--text-3)}
+  .badge.lit .bico{color:var(--amber)}
+  .bico svg{width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:1.6}
+  .bname{font-family:var(--serif);font-size:15px;font-weight:500}
+  .badge:not(.lit) .bname{color:var(--text-3)}
+  .bcap{font-size:11.5px;color:var(--text-3);margin-top:4px}
+
+  /* ---- command palette ---- */
+  .scrim{position:fixed;inset:0;background:rgba(8,7,6,.6);display:none;align-items:flex-start;justify-content:center;z-index:50}
+  body.palette .scrim{display:flex}
+  .palette{margin-top:12vh;width:560px;max-width:92vw;background:var(--surface);border:1px solid var(--line-2);
+    border-radius:16px;overflow:hidden}
+  .pinput{display:flex;align-items:center;gap:12px;padding:16px 18px;border-bottom:1px solid var(--line)}
+  .pinput svg{width:18px;height:18px;fill:none;stroke:var(--text-3);stroke-width:1.8}
+  .pinput input{flex:1;background:transparent;border:none;outline:none;color:var(--text);font-family:var(--sans);font-size:16px}
+  .pinput .slash{font-family:var(--serif);color:var(--amber);font-size:18px}
+  .pgroup{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-3);padding:14px 18px 6px}
+  .prow{display:flex;align-items:center;gap:13px;padding:10px 18px;cursor:pointer}
+  .prow:hover,.prow.sel{background:var(--amber-soft)}
+  .pic{flex:none;width:30px;height:30px;border-radius:8px;background:var(--surface-2);display:flex;align-items:center;justify-content:center;color:var(--amber)}
+  .pic svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8}
+  .pcmd{font-size:14px} .pcmd b{font-weight:500} .pcmd .desc{color:var(--text-3);margin-left:8px;font-size:13px}
+  .pcmd .tag{font-family:var(--serif);color:var(--amber)}
+  .pfoot{border-top:1px solid var(--line);padding:9px 18px;font-size:12px;color:var(--text-3);display:flex;gap:18px}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- ===== side panel ===== -->
+  <aside class="side">
+    <div class="mark">ca<span>·</span>dence</div>
+    <button class="sbtn" onclick="document.body.classList.add('palette')">
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>
+      Search or type /
+      <span class="kbd">⌘K</span>
+    </button>
+    <div>
+      <div class="navlabel">Cadence</div>
+      <nav>
+        <div class="nav on"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Right now<span class="ct">4</span></div>
+        <div class="nav"><svg viewBox="0 0 24 24"><path d="M12 3v3M5 12H3M21 12h-2M6 6l1.5 1.5"/><circle cx="12" cy="13" r="6"/></svg>Daily<span class="ct">6</span></div>
+        <div class="nav"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4"/></svg>Weekly<span class="ct">5</span></div>
+        <div class="nav"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/></svg>Biweekly<span class="ct">2</span></div>
+        <div class="nav"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M4 9h16"/></svg>Monthly<span class="ct">3</span></div>
+        <div class="nav"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 12l4-2"/></svg>Quarterly<span class="ct">1</span></div>
+        <div class="nav"><svg viewBox="0 0 24 24"><path d="M12 3l2.5 6 6.5.5-5 4 1.7 6.5L12 22l-5.7 4 1.7-6.5-5-4 6.5-.5z"/></svg>Annual<span class="ct">1</span></div>
+      </nav>
+    </div>
+    <div>
+      <div class="navlabel">Progress</div>
+      <nav>
+        <div class="nav"><svg viewBox="0 0 24 24"><path d="M4 19V9M10 19V5M16 19v-8M22 19H2"/></svg>Consistency</div>
+        <div class="nav"><svg viewBox="0 0 24 24"><circle cx="12" cy="9" r="5"/><path d="M9 14l-1.5 7L12 18l4.5 3L15 14"/></svg>Achievements<span class="ct">2</span></div>
+      </nav>
+    </div>
+    <div class="side-foot"><b>86%</b>this week · 7-day avg streak</div>
+  </aside>
+
+  <!-- ===== main ===== -->
+  <div class="main">
+    <div class="filterbar">
+      <button class="fpill on">All</button>
+      <button class="fpill">Daily<span class="n">6</span></button>
+      <button class="fpill">Weekly<span class="n">5</span></button>
+      <button class="fpill">Biweekly<span class="n">2</span></button>
+      <button class="fpill">Monthly<span class="n">3</span></button>
+      <button class="fpill">Quarterly<span class="n">1</span></button>
+      <button class="fpill">Annual<span class="n">1</span></button>
+      <div class="right">
+        <span>Thu Jun 14</span>
+        <span class="bell" aria-label="Notifications"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M6 9a6 6 0 1 1 12 0c0 6 2 7 2 7H4s2-1 2-7"/><path d="M9.5 20a2.5 2.5 0 0 0 5 0"/></svg></span>
+      </div>
+    </div>
+
+    <div class="content">
+      <div class="eyebrow">Right now</div>
+      <div class="date">Thursday, <b>June 14</b></div>
+      <div class="summary"><span class="ok">4 things left today</span> · <span class="hot">1 overdue</span> · weekly review due tomorrow</div>
+
+      <div class="focus">
+        <div class="frow">
+          <button class="ck over"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></button>
+          <div class="fmain"><div class="ftitle">Submit weekly status report</div><div class="fmeta"><span class="pill due">Overdue · was due Wed</span><span>One-off</span></div></div>
+        </div>
+        <div class="frow">
+          <button class="ck"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></button>
+          <div class="fmain"><div class="ftitle">Take meds</div><div class="fmeta"><span class="streak"><svg viewBox="0 0 24 24"><path d="M12 2s4 4 4 8a4 4 0 0 1-8 0c0-1 .5-2 .5-2S8 9 8 11a4 4 0 0 0 8 0c0-5-4-9-4-9z"/></svg>41 days</span><span class="pill">Daily</span></div></div>
+        </div>
+        <div class="frow">
+          <button class="ck"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></button>
+          <div class="fmain"><div class="ftitle">Water the plants</div><div class="fmeta"><span class="streak"><svg viewBox="0 0 24 24"><path d="M12 2s4 4 4 8a4 4 0 0 1-8 0c0-1 .5-2 .5-2S8 9 8 11a4 4 0 0 0 8 0c0-5-4-9-4-9z"/></svg>9 days</span><span class="pill">Every 3 days</span></div></div>
+        </div>
+        <div class="frow done">
+          <button class="ck on"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></button>
+          <div class="fmain"><div class="ftitle">Morning walk</div><div class="fmeta"><span class="pill">Daily · done 7:12am</span></div></div>
+        </div>
+      </div>
+
+      <div class="sec">
+        <div class="sechead"><div class="secname">Daily</div><div class="seccount"><b>3</b> of 6 done</div></div>
+        <div class="card done"><button class="ck on"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></button><div class="fmain"><div class="ftitle">Make the bed</div><div class="fmeta"><span class="pill">Done</span></div></div></div>
+        <div class="card"><button class="ck"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></button><div class="fmain"><div class="ftitle">Read 15 minutes</div><div class="fmeta"><span class="streak"><svg viewBox="0 0 24 24"><path d="M12 2s4 4 4 8a4 4 0 0 1-8 0c0-1 .5-2 .5-2S8 9 8 11a4 4 0 0 0 8 0c0-5-4-9-4-9z"/></svg>23 days</span></div></div></div>
+        <div class="card"><button class="ck"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></button><div class="fmain"><div class="ftitle">Inbox to zero</div><div class="fmeta"><span class="streak"><svg viewBox="0 0 24 24"><path d="M12 2s4 4 4 8a4 4 0 0 1-8 0c0-1 .5-2 .5-2S8 9 8 11a4 4 0 0 0 8 0c0-5-4-9-4-9z"/></svg>4 days</span></div></div></div>
+      </div>
+
+      <div class="sec">
+        <div class="sechead"><div class="secname">Weekly</div><div class="seccount"><b>2</b> of 5 done</div></div>
+        <div class="card"><button class="ck over"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></button><div class="fmain"><div class="ftitle">Weekly review</div><div class="fmeta"><span class="pill due">Due tomorrow</span></div></div></div>
+        <div class="card"><button class="ck"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></button><div class="fmain"><div class="ftitle">Grocery run</div><div class="fmeta"><span class="pill">Resets Monday</span></div></div></div>
+        <div class="card done"><button class="ck on"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></button><div class="fmain"><div class="ftitle">Call mom</div><div class="fmeta"><span class="streak"><svg viewBox="0 0 24 24"><path d="M12 2s4 4 4 8a4 4 0 0 1-8 0c0-1 .5-2 .5-2S8 9 8 11a4 4 0 0 0 8 0c0-5-4-9-4-9z"/></svg>11 weeks</span></div></div></div>
+      </div>
+
+      <div class="sec">
+        <div class="sechead"><div class="secname">Longer cadences</div><div class="seccount">biweekly · monthly · quarterly · annual</div></div>
+        <div class="lowgrid">
+          <div class="card"><button class="ck"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></button><div class="fmain"><div class="ftitle">Back up photos</div><div class="fmeta"><span class="pill">Biweekly · in 4 days</span></div></div></div>
+          <div class="card"><button class="ck"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></button><div class="fmain"><div class="ftitle">Pay rent</div><div class="fmeta"><span class="pill">Monthly · the 1st</span></div></div></div>
+          <div class="card"><button class="ck"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></button><div class="fmain"><div class="ftitle">Review goals &amp; budget</div><div class="fmeta"><span class="pill">Quarterly · Q3</span></div></div></div>
+          <div class="card"><button class="ck"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></button><div class="fmain"><div class="ftitle">Doctor checkup</div><div class="fmeta"><span class="pill">Annual · October</span></div></div></div>
+        </div>
+      </div>
+
+      <div class="sec">
+        <div class="sechead"><div class="secname">Consistency</div><div class="seccount">Take meds — last 100 days</div></div>
+        <div class="feature">
+          <div class="bignum">41<small>day streak<br>best: 58</small></div>
+          <div class="heat"><div class="heatlabel"><span>Apr</span><span>May</span><span>Jun</span></div><div class="grid" id="heat"></div></div>
+        </div>
+      </div>
+
+      <div class="sec">
+        <div class="sechead"><div class="secname">Achievements</div><div class="seccount"><b>2</b> unlocked · 6 to go</div></div>
+        <div class="badges">
+          <div class="badge lit"><div class="bico"><svg viewBox="0 0 24 24"><path d="M12 2s4 4 4 8a4 4 0 0 1-8 0c0-1 .5-2 .5-2S8 9 8 11a4 4 0 0 0 8 0c0-5-4-9-4-9z"/></svg></div><div class="bname">First flame</div><div class="bcap">7-day streak</div></div>
+          <div class="badge lit"><div class="bico"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/><circle cx="12" cy="12" r="10"/></svg></div><div class="bname">Clean week</div><div class="bcap">Perfect 7 days</div></div>
+          <div class="badge"><div class="bico"><svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.3 6.9.7-5.2 4.6 1.5 6.8L12 17.8 5.9 20.4l1.5-6.8L2.2 9l6.9-.7z"/></svg></div><div class="bname">Month strong</div><div class="bcap">30-day streak</div></div>
+          <div class="badge"><div class="bico"><svg viewBox="0 0 24 24"><path d="M6 3v6a6 6 0 0 0 12 0V3M5 21h14M12 15v6"/></svg></div><div class="bname">Century</div><div class="bcap">100 days held</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== command palette ===== -->
+<div class="scrim" onclick="if(event.target===this)document.body.classList.remove('palette')">
+  <div class="palette">
+    <div class="pinput"><span class="slash">/</span><input value="" placeholder="Search habits, or type a command…" autocomplete="off" /></div>
+    <div class="pgroup">Commands</div>
+    <div class="prow sel"><div class="pic"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></div><div class="pcmd"><b><span class="tag">/add</span> new habit</b><span class="desc">daily, weekly, monthly…</span></div></div>
+    <div class="prow"><div class="pic"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="pcmd"><b><span class="tag">/done</span> mark complete</b><span class="desc">log something you finished</span></div></div>
+    <div class="prow"><div class="pic"><svg viewBox="0 0 24 24"><path d="M9 6h11M9 12h11M9 18h11M4 6h.01M4 12h.01M4 18h.01"/></svg></div><div class="pcmd"><b><span class="tag">/goto</span> jump to a cadence</b><span class="desc">daily · weekly · quarterly…</span></div></div>
+    <div class="prow"><div class="pic"><svg viewBox="0 0 24 24"><path d="M6 9a6 6 0 1 1 12 0c0 6 2 7 2 7H4s2-1 2-7"/></svg></div><div class="pcmd"><b><span class="tag">/remind</span> set a nudge</b><span class="desc">time or overdue alert</span></div></div>
+    <div class="prow"><div class="pic"><svg viewBox="0 0 24 24"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 21h16"/></svg></div><div class="pcmd"><b><span class="tag">/backup</span> export progress</b><span class="desc">download a JSON</span></div></div>
+    <div class="pgroup">Habits</div>
+    <div class="prow"><div class="pic"><svg viewBox="0 0 24 24"><path d="M12 2s4 4 4 8a4 4 0 0 1-8 0c0-5 4-9 4-9z"/></svg></div><div class="pcmd"><b>Take meds</b><span class="desc">41-day streak · daily</span></div></div>
+    <div class="pfoot"><span>↑↓ navigate</span><span>↵ select</span><span>esc close</span></div>
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll('.ck').forEach(b=>b.addEventListener('click',()=>{b.classList.toggle('on');b.closest('.frow,.card')?.classList.toggle('done')}));
+  document.querySelectorAll('.fpill').forEach(p=>p.addEventListener('click',()=>{document.querySelectorAll('.fpill').forEach(x=>x.classList.remove('on'));p.classList.add('on')}));
+  document.querySelectorAll('.nav').forEach(n=>n.addEventListener('click',()=>{document.querySelectorAll('.nav').forEach(x=>x.classList.remove('on'));n.classList.add('on')}));
+  addEventListener('keydown',e=>{if((e.metaKey||e.ctrlKey)&&e.key==='k'){e.preventDefault();document.body.classList.add('palette')}if(e.key==='Escape')document.body.classList.remove('palette')});
+  const heat=document.getElementById('heat'),N=100;
+  for(let i=0;i<N;i++){const d=document.createElement('div');d.className='cell';const f=N-1-i;
+    if(f<41)d.classList.add(f%7===3?'l2':'l3');else if([47,53,61,74].includes(f))d.classList.add('miss');
+    else d.classList.add(f%5===0?'l1':(f%3===0?'l2':'l3'));heat.appendChild(d)}
+</script>
+</body>
+</html>

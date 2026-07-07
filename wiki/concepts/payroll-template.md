@@ -5,6 +5,7 @@ tags: [document, payroll, template, vendor, contributions]
 created: 2026-04-14
 updated: 2026-05-03
 sources: 3
+status: current
 ---
 
 # Payroll Template

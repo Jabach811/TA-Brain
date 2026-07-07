@@ -5,6 +5,7 @@ tags: [document, prd, plan-provisions, discovery, client-signed]
 created: 2026-04-14
 updated: 2026-04-14
 sources: 2
+status: current
 ---
 
 # PRD — Plan Review Document

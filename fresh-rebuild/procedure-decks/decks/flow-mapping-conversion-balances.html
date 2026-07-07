@@ -21,14 +21,14 @@
           <h1>Mapping Conversion Balances</h1>
           <p>Use CONV and a dummy participant to hold fund-level purchases until final records arrive.</p>
         </div>
-        <figure class="title-art sketch-art"><img src="../assets/icons/mapping-conversion-balances.png" alt=""></figure>
+        <figure class="title-art sketch-art"><img src="../assets/icons/mapping-conversion-balances.svg" alt=""></figure>
       </div>
       <div class="sketch-route"><div class="flow-node"><b>1</b><span>Create the dummy participant before running the mapping workflow.</span></div><div class="flow-node"><b>2</b><span>Build the CONV file with case number, prior fund code, TA fund code, ref number, amount, and TIK indicator N.</span></div><div class="flow-node"><b>3</b><span>Run the day-of-wire workflow to load fund-level detail to the dummy participant.</span></div><div class="flow-node"><b>4</b><span>Process in P3 using batch no-hold and process immediate so trades go out.</span></div><div class="flow-node"><b>5</b><span>When final files arrive, run CIT balance with cash conversion wire set to N.</span></div><div class="flow-node"><b>6</b><span>Reverse the dummy participant in P3 ROC so only real participant balances remain.</span></div></div>
     </section>
 <section class="slide image-slide sketch-image-slide">
       <div class="sketch-tag">Generated whiteboard</div>
       <h2>Multi-branch visual route</h2>
-      <figure class="image-frame sketch-frame"><img src="../assets/flow-balance-branches-detail.png" alt=""></figure>
+      <figure class="image-frame sketch-frame"><img src="../assets/flowcharts/mapping-conversion-balances.svg" alt=""></figure>
     </section>
 <section class="slide branch-slide">
       <div class="sketch-tag">Branch map</div>

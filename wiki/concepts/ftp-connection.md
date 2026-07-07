@@ -5,6 +5,7 @@ tags: [ftp, payroll, automation, vendor, file-transfer]
 created: 2026-04-14
 updated: 2026-05-03
 sources: 3
+status: current
 ---
 
 # FTP Connection

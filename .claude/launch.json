@@ -24,6 +24,12 @@
       "runtimeExecutable": "python",
       "runtimeArgs": ["-m", "http.server", "8770", "--directory", "C:/Users/mabac/OneDrive/Desktop/TA Brain"],
       "port": 8770
+    },
+    {
+      "name": "tracker-mock",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "8099", "--directory", "studio/prototypes"],
+      "port": 8099
     }
   ]
 }

@@ -5,6 +5,7 @@ tags: [liquidation, day-of-wire, wire, cashiering, critical]
 created: 2026-04-14
 updated: 2026-05-03
 sources: 4
+status: current
 extras: [animation|liquidation-day-featured.html|Liquidation Day Walkthrough]
 ---
 

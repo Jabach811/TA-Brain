@@ -5,6 +5,7 @@ tags: [glossary, wire, banking, external]
 created: 2026-04-15
 updated: 2026-04-15
 sources: 1
+status: current
 ---
 
 # SSBT
@@ -18,7 +19,7 @@ SSBT is the external custodial bank through which incoming wires from prior reco
 ## Used By
 
 - [[cashiering]] — receives and books wires from SSBT
-- [[lm-dc]] — monitors for wire confirmation; must update [[fund-management-calendar]] before the 4 PM EST cut-off on liquidation day
+- [[roles/lm-dc]] — monitors for wire confirmation; must update [[fund-management-calendar]] before the 4 PM EST cut-off on liquidation day
 
 ## See Also
 

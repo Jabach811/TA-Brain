@@ -5,6 +5,7 @@ tags: [system, workflow, tickets, testing, conversion]
 created: 2026-04-15
 updated: 2026-05-03
 sources: 2
+status: current
 ---
 
 # AWD
@@ -35,10 +36,10 @@ Throughout the conversion, internal teams submit AWD tickets to request specific
 
 | Submitter | Common Ticket Types | Target |
 |-----------|---------------------|--------|
-| [[lm-dc]] | Data corrections | [[prod-support]] |
-| [[lm-dc]] | Payroll handoffs (FILESPECRQ) | Payroll Support |
-| [[lm-dc]] | Rebook requests for AEDA disbursements | [[booking-assets]] flow |
-| [[com]] | Various lifecycle tickets | Multiple departments |
+| [[roles/lm-dc]] | Data corrections | [[prod-support]] |
+| [[roles/lm-dc]] | Payroll handoffs (FILESPECRQ) | Payroll Support |
+| [[roles/lm-dc]] | Rebook requests for AEDA disbursements | [[booking-assets]] flow |
+| [[roles/com]] | Various lifecycle tickets | Multiple departments |
 | [[tc]] | Settings flips (e.g., contribution monitoring) | Receiving teams |
 
 Most internal teams touch AWD at some point in a conversion. It is the connective tissue for cross-team work requests.
@@ -53,18 +54,19 @@ Most internal teams touch AWD at some point in a conversion. It is the connectiv
 
 ## Used By
 
-- [[lm-dc]] — submits tickets to [[prod-support]] for data corrections, to initiate payroll handoffs (FILESPECRQ type), and for rebook actions
-- [[com]] — submits and receives tickets throughout the conversion lifecycle
+- [[roles/lm-dc]] — submits tickets to [[prod-support]] for data corrections, to initiate payroll handoffs (FILESPECRQ type), and for rebook actions
+- [[roles/com]] — submits and receives tickets throughout the conversion lifecycle
 - [[tc]] — receives and flips AWD settings (e.g., contribution monitoring)
 - Most internal teams touch AWD at some point in a conversion
 
 ## See Also
 
 - [[payroll-handoff-at-go-live]] — uses FILESPECRQ ticket type
-- [[reversal-process]] — AWD ticket submitted after Reversal Form response
+- [[processes/reversal-submission|reversal-process]] — AWD ticket submitted after Reversal Form response
 - [[booking-assets]] — rebook AWD ticket for AEDA disbursements
 - [[prod-support]]
 - [[prd]]
 - [[onboarding-package]]
 - [[base-file]]
 - [[census-data]]
+

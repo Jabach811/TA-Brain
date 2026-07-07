@@ -5,6 +5,7 @@ tags: [role, data, large-market, conversion, onboarding]
 created: 2026-04-14
 updated: 2026-04-15
 sources: 2
+status: current
 ---
 
 # Large Market Data Consultant (LM DC)
@@ -35,7 +36,7 @@ The DC is not client-facing by default. They attend external meetings only when 
 
 | Team / Person | Nature of Relationship |
 |---------------|----------------------|
-| [[com]] | COM sets meetings, manages PRD/subpack, routes approvals; DC sends mappings through COM |
+| [[roles/com]] | COM sets meetings, manages PRD/subpack, routes approvals; DC sends mappings through COM |
 | [[qa]] | DC sends source and fund mappings to QA for approval; QA clears eligibility |
 | [[tc]] | Transition Consultant; CC'd on key communications alongside QA |
 | [[doc-ops]] | DC requests special plan class additions; Doc Ops sets up P3 |
@@ -52,7 +53,7 @@ The DC is not client-facing by default. They attend external meetings only when 
 
 **Comes in:**
 - Plan assignment notification via [[ellen-miller]] → manager → DC tagged in [[nbi]]
-- PRD / onboarding package from [[com]]
+- PRD / onboarding package from [[roles/com]]
 - TOA (client-signed fund map) — triggers fund mapping phase
 - Test files from prior record keeper
 - Payroll test files from payroll vendor
@@ -62,13 +63,13 @@ The DC is not client-facing by default. They attend external meetings only when 
 **Goes out:**
 - Base file template → client
 - Payroll template → client + payroll vendor
-- Fund mapping → [[com]], [[qa]], [[tc]] for approval
-- Source mapping → [[com]], [[qa]], [[tc]] for approval
+- Fund mapping → [[roles/com]], [[qa]], [[tc]] for approval
+- Source mapping → [[roles/com]], [[qa]], [[tc]] for approval
 - Wire instructions → prior record keeper
 - Re-registration form → [[matt-oconnell]]
 - Test payroll files → [[payroll-support]] for final validation
 - Liquidation day heads-up → [[cashiering]]
-- Eligibility notification → [[qa]], [[tc]], [[com]] (waits for go-ahead before enabling)
+- Eligibility notification → [[qa]], [[tc]], [[roles/com]] (waits for go-ahead before enabling)
 - Audit pack → stored in client folder; reviewed by QA
 - NBI updates → continuous throughout conversion
 
@@ -79,7 +80,7 @@ The DC is not client-facing by default. They attend external meetings only when 
 - DC cannot add new special plan classes in P3 — that requires Doc Ops. DC can update existing class names and codes.
 - Timing matters. Matt O'Connell's team needs lead time (~10–12 business days before liquidation). FTP team has a large caseload — engage early. Do not wait.
 - "Day of Wire" in Informatica cannot be tested in a sandbox. Triple-check the CONV file before running.
-- When a reversal is needed: submit the Reversal Form to `slasrever@transamerica.com` first (as of 03/06/2026), then submit the AWD ticket with the response text pasted into comments. The old Plan Correction Checklist is retired. See [[reversal-process]].
+- When a reversal is needed: submit the Reversal Form to `slasrever@transamerica.com` first (as of 03/06/2026), then submit the AWD ticket with the response text pasted into comments. The old Plan Correction Checklist is retired. See [[processes/reversal-submission|reversal-process]].
 
 ## Updated Procedures (2025–2026)
 
@@ -96,7 +97,7 @@ See [[booking-assets]].
 The FMC now requires an email to four distribution addresses whenever it is updated with fund balances, in addition to updating the file itself. The SSBT cut-off is 4:00 PM EST. Estimates must be entered at least five business days before TOA. See [[fund-management-calendar]].
 
 ### Reversals (as of March 6, 2026)
-The Plan Correction Checklist is retired. New process uses the Reversal Form at `slasrever@transamerica.com`. See [[reversal-process]].
+The Plan Correction Checklist is retired. New process uses the Reversal Form at `slasrever@transamerica.com`. See [[processes/reversal-submission|reversal-process]].
 
 ### LTPT Eligibility (effective January 1, 2025)
 Employees with 500+ hours in two consecutive 12-month periods are eligible for elective deferrals. Two new EDS status codes (5 and 6). Hours must be tracked even for excluded-class employees. See [[ltpt-eligibility]].
@@ -118,3 +119,4 @@ Plans coded "common remitter" require "Verify Batch After Funding" instead of st
 - [[census-data]] — participant data loading: fields, EDS process, audit checks
 - [[loading-basis-eds]] — basis loading: EE basis fields, Roth rules, tables
 - [[onboarding/lm-dc]] — reading list for new DCs
+

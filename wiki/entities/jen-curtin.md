@@ -5,6 +5,7 @@ tags: [person, ftp, payroll, leadership]
 created: 2026-04-14
 updated: 2026-04-14
 sources: 1
+status: current
 ---
 
 # Jen Curtin

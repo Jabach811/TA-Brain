@@ -5,6 +5,7 @@ tags: [onboarding, lm-dc, data-consultant, large-market]
 created: 2026-04-14
 updated: 2026-04-20
 sources: 1
+status: current
 ---
 
 # Onboarding Guide: Large Market Data Consultant
@@ -17,7 +18,7 @@ New hires or transfers into the Large Market Data Consultant role. Also useful f
 
 ## Reading Order
 
-1. **[[lm-dc]]** — Start here. Understand the full scope of the role, every system you'll use, and every team you'll touch.
+1. **[[roles/lm-dc]]** — Start here. Understand the full scope of the role, every system you'll use, and every team you'll touch.
 
 2. **[[dc-onboarding-workflow]]** — The master 7-phase checklist. This is the job, start to finish. Bookmark it. You'll come back constantly.
 
@@ -69,7 +70,7 @@ New hires or transfers into the Large Market Data Consultant role. Also useful f
 
 26. **[[eligibility-and-deferrals]]** — Deferrals before eligibility. Always. No exceptions.
 
-27. **[[transfer-in-kind]]** — If you have a TIK plan, read this before you do anything with Matt O'Connell.
+27. **[[processes/tik-transfer|transfer-in-kind]]** — If you have a TIK plan, read this before you do anything with Matt O'Connell.
 
 28. **[[audit-pack]]** — What you build at the end. Understand what goes in it and where it lives.
 
@@ -83,7 +84,7 @@ New hires or transfers into the Large Market Data Consultant role. Also useful f
 - **[[matt-oconnell]]** — Leads TIK re-registration. You don't need him until you have a TIK plan, but know who he is.
 - **[[stacey-fortune]]** — Cross-department manager. Not day-to-day, but important for escalations and AE liquidation.
 - **[[scott-vrba]]** — Eligibility SME. Go to him when eligibility questions go beyond standard patterns.
-- **[[eric-leyten]]** — FTP Team key contact. He confirms when FTP setup is complete.
+- **[[eric-leytem]]** — FTP Team key contact. He confirms when FTP setup is complete.
 
 ## First Week Priorities
 
@@ -96,6 +97,7 @@ New hires or transfers into the Large Market Data Consultant role. Also useful f
 
 ## See Also
 
-- [[lm-dc]] — full role reference page
+- [[roles/lm-dc]] — full role reference page
 - [[dc-onboarding-workflow]] — the master process checklist
 - [[conversion-types]] — the single most important concept to internalize early
+

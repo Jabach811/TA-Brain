@@ -5,6 +5,7 @@ tags: [forfeitures, balance-import, census, dummy-participant, conversion]
 created: 2026-05-03
 updated: 2026-05-03
 sources: 1
+status: current
 ---
 
 # Forfeiture Loading

@@ -3,8 +3,9 @@ title: "Overview"
 type: reference
 tags: [overview, synthesis]
 created: 2026-04-14
-updated: 2026-04-15
-sources: 7
+updated: 2026-05-13
+sources: 10
+status: current
 ---
 
 # Overview
@@ -15,13 +16,13 @@ sources: 7
 
 ## Domain
 
-**Retirement plan recordkeeping** at TransAmerica. This wiki now documents two fully-described roles: the **Data Consultant (DC)** and the **Communications Coordinator (COM)**. The DC owns all data work; the COM owns project management, client communication, and document workflows. All other roles (QA, TC, Doc Ops) are stubs pending brain dumps.
+**Retirement plan recordkeeping** at TransAmerica. This wiki documents the Data Consultant (DC), Communications Coordinator (COM), Transition Consultant (TC), and Quality Assurance / QC perspectives at different depths. DC and COM are still the most complete role pages; TC and QA/QC now have stronger administrative and audit-control coverage from legacy TC source material. Doc Ops remains a stub pending fuller source material.
 
 ---
 
 ## Current Thesis
 
-A plan conversion is fundamentally a **parallel project** with two owners: the DC (data) and the COM (communication and project management). They start at the same time (NSA → COM; NBI assignment → DC), run largely independent workflows, and converge at critical handoff points.
+A plan conversion is fundamentally a parallel project with multiple control lanes: DC owns data movement, COM owns project communication and document routing, TC owns administrative readiness and participant/sponsor access controls, and QA/QC owns validation and audit evidence. These lanes start separately and converge at mapping approval, eligibility, limited/full access, go-live, and closeout.
 
 **The DC role** is data orchestration — sitting at the intersection of client data, vendor data, internal systems, and multiple internal teams. Two modes: preparation (weeks to months before liquidation) and execution (liquidation day through final files).
 
@@ -91,6 +92,12 @@ Every file run through EDS produces output. Ignoring it risks undetected errors 
 
 ---
 
+
+### 6. Administrative Readiness Is Its Own Lane
+TC work is not just background support. Case notes, PSD setup, DDOL/VRU access, remittance guides, admin manuals, special services, and go-live controls are their own operating lane. If this lane is late, the plan can be technically loaded but still not ready to operate.
+
+### 7. QA/QC Catches Setup Risk, Not Just Data Risk
+QA/QC validates conversion records and assets, but also reviews default allocations, default deferrals, participant website behavior, statement-related work, loans, divisions, duplicate SSNs, and system audit items. This makes QA/QC a setup-control partner for TC and DC.
 ## Open Questions (Knowledge Gaps)
 
 **Resolved:**
@@ -157,3 +164,4 @@ Every file run through EDS produces output. Ignoring it risks undetected errors 
 - [[conversion-types]] — cash vs. mapping vs. TIK
 - [[liquidation-day]] — the critical execution day
 - [[final-files-processing]] — post-liquidation data posting
+

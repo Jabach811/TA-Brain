@@ -5,15 +5,16 @@ tags: [concept, document, com, project-management, conversion]
 created: 2026-04-14
 updated: 2026-04-14
 sources: 1
+status: current
 ---
 
 # Project Plan (COM)
 
-The master conversion tracker created by the [[com]] at the start of every plan onboarding. It is uploaded to [[nbi]] and sent to the full conversion team.
+The master conversion tracker created by the [[roles/com]] at the start of every plan onboarding. It is uploaded to [[nbi]] and sent to the full conversion team.
 
 ## Definition
 
-After receiving the [[nsa]], one of the COM's first deliverables is the Project Plan — a structured file tracking milestones, owners, and timing for the entire conversion. Two format variants exist depending on plan type:
+After receiving the [[concepts/nsa]], one of the COM's first deliverables is the Project Plan — a structured file tracking milestones, owners, and timing for the entire conversion. Two format variants exist depending on plan type:
 
 - **Non-PEP:** "New Active Project Plan" — standard format
 - **PEP:** "Excelwise PEP" — PEP-specific format
@@ -36,12 +37,12 @@ The project plan is the COM's primary coordination tool. It gives all teams a sh
 
 ## Related Concepts
 
-- [[nsa]] — receipt of NSA triggers project plan creation
+- [[concepts/nsa]] — receipt of NSA triggers project plan creation
 - [[dc-onboarding-workflow]] — DC's equivalent phase checklist
 - [[nbi]] — repository where project plan is uploaded
 
 ## See Also
 
-- [[com]]
+- [[roles/com]]
 - [[nbi]]
-- [[nsa]]
+- [[concepts/nsa]]

@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Payroll Handoff at Go-Live - Ops Training Deck</title>
+  <link rel="stylesheet" href="../assets/deck-styles.css">
+  <style>:root { --procedure-accent: #476b8d; }</style>
+</head>
+<body class="ops-page">
+  <header class="deck-nav">
+    <a href="../index.html">Procedure decks</a>
+    <span>Payroll Handoff at Go-Live</span>
+    <span>Ops</span>
+  </header>
+  <main class="deck ops" data-deck>
+    <section class="slide title-slide">
+      <div class="title-grid">
+        <div>
+          <div class="kicker">Payroll / Ops deck</div>
+          <h1>Payroll Handoff at Go-Live</h1>
+          <p class="slide-lede">If payroll testing is not complete at go-live, the DC submits a FILESPECRQ AWD ticket, coordinates internal handoff notes, updates NBI, and COM notifies the Account Manager and client-facing parties.</p>
+          <div class="lifecycle-rail"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span></div>
+        </div>
+        <figure class="title-art"><img src="../assets/icons/payroll-handoff-at-go-live.svg" alt=""></figure>
+      </div>
+    </section>
+<section class="slide split-slide">
+      <div>
+        <div class="kicker">Inputs</div>
+        <h2>What has to be in hand</h2>
+        <ul class="check-list"><li>Payroll testing status</li><li>FILESPECRQ AWD ticket</li><li>Vendor/client contact notes</li><li>Open issue list</li><li>NBI project status</li><li>COM go-live communication</li></ul>
+      </div>
+      <aside class="callout-panel">
+        <h3>Systems touched</h3>
+        <div class="pill-grid"><span class="pill">AWD</span><span class="pill">NBI</span><span class="pill">COM</span><span class="pill">Fiduciary Services</span><span class="pill">Account Manager</span></div>
+      </aside>
+    </section>
+<section class="slide">
+      <div class="kicker">Run path</div>
+      <h2>Procedure sequence</h2>
+      <div class="step-grid">
+    <article class="step-card">
+      <div class="step-num">01</div>
+      <p>Confirm payroll testing status as go-live approaches.</p>
+    </article>
+  
+    <article class="step-card">
+      <div class="step-num">02</div>
+      <p>If testing is incomplete, submit the FILESPECRQ AWD ticket.</p>
+    </article>
+  
+    <article class="step-card">
+      <div class="step-num">03</div>
+      <p>Include plan details, vendor details, current status, open issues, and files already tested.</p>
+    </article>
+  
+    <article class="step-card">
+      <div class="step-num">04</div>
+      <p>Notify any internal DC helpers that the project is moving to Fiduciary Services.</p>
+    </article>
+  
+    <article class="step-card">
+      <div class="step-num">05</div>
+      <p>Update NBI to show the payroll project handoff status.</p>
+    </article>
+  
+    <article class="step-card">
+      <div class="step-num">06</div>
+      <p>COM notifies the Account Manager that testing was not completed during transition.</p>
+    </article>
+  
+    <article class="step-card">
+      <div class="step-num">07</div>
+      <p>If testing is underway, coordinate an introduction to the AM; if not started, AM initiates contact.</p>
+    </article>
+  
+    <article class="step-card">
+      <div class="step-num">08</div>
+      <p>Fiduciary Services continues the payroll work after go-live.</p>
+    </article>
+  </div>
+    </section>
+<section class="slide matrix-slide">
+      <div class="kicker">Decision points</div>
+      <h2>What decides the path</h2>
+      <div class="decision-grid"><div class="decision-card">Is payroll testing complete by go-live?</div><div class="decision-card">Has enough evidence been included for Fiduciary Services?</div><div class="decision-card">Does the AM need a warm introduction?</div><div class="decision-card">Has the client/vendor been told the work is moving?</div><div class="decision-card">Does NBI reflect the current owner?</div></div>
+    </section>
+<section class="slide warning-slide">
+      <div class="kicker">Watchouts</div>
+      <h2>Where this can bite</h2>
+      <div class="warning-grid"><article><span>!</span><p>The handoff is the operating model, not a failure.</p></article><article><span>!</span><p>Do not leave informal helper notes outside the ticket.</p></article><article><span>!</span><p>COM and DC messages need to align.</p></article><article><span>!</span><p>Client/vendor confusion creates avoidable follow-up.</p></article><article><span>!</span><p>NBI must show that transition ownership changed.</p></article></div>
+    </section>
+<section class="slide image-slide">
+      <div class="kicker">Visual map</div>
+      <h2>Use the flow when explaining the work</h2>
+      <figure class="image-frame"><img src="../assets/flowcharts/payroll-handoff-at-go-live.svg" alt=""></figure>
+    </section>
+<section class="slide closeout-slide">
+      <div class="kicker">Closeout</div>
+      <h2>Proof that it is done</h2>
+      <div class="closeout-grid">
+        <div><h3>Outputs</h3><ul><li>FILESPECRQ ticket</li><li>Handoff notes</li><li>NBI update</li><li>AM notification</li><li>Fiduciary Services ownership</li></ul></div>
+        <div><h3>Final checks</h3><ul><li>AWD ticket submitted</li><li>Internal helpers notified</li><li>NBI updated</li><li>COM notified AM</li><li>Client/vendor path clear</li></ul></div>
+      </div>
+    </section>
+  </main>
+  <div class="deck-controls">
+    <button type="button" data-prev>Prev</button>
+    <span data-progress>1 / 7</span>
+    <button type="button" data-next>Next</button>
+  </div>
+  <script src="../assets/deck-player.js"></script>
+</body>
+</html>

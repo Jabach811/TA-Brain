@@ -3,8 +3,9 @@ title: "Eligibility Loading Through EDS"
 type: process
 tags: [process, eligibility, eds, cit, loading]
 created: 2026-04-16
-updated: 2026-04-16
+updated: 2026-06-25
 sources: 1
+status: current
 ---
 
 # Eligibility Loading Through EDS
@@ -46,6 +47,8 @@ Per participant row:
 | Plan Entry Date | Optional. Valid with status 1/2/3. If provided, Eligibility Date must also be provided |
 | Kit Mail Date | Optional. Only if Eligibility Date and Plan Entry Date both included |
 | Rehire Code | Y or N. Mixed values allowed in one file |
+
+Use `N` for non-rehires or eligible participants. Use `Y` only when rehire logic is enabled, the participant is not eligible, and rehire events exist.
 
 ### 4. Choose Processing Type — DC
 Replaces the standard Validate Only flag:
@@ -103,4 +106,4 @@ Full edit list lives in the Functional Requirements document. Review every warni
 - [[final-files-processing]]
 - [[loading-basis-eds]]
 - [[loading-ytd-contributions-eds]]
-- [[lm-dc]]
+- [[roles/lm-dc]]

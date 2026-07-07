@@ -10,8 +10,8 @@ If you have not yet read `../CLAUDE.md` (the router) at the repo root, read it n
 
 Studio owns everything you can *see*. That includes:
 
-- The look and feel of the rendered wiki (`current/wiki.html`).
-- The HTML/CSS/JS of the renderer (`build-wiki.py` at the repo root) and any themes/skins.
+- The look and feel of the rendered wiki (`current/TA Wiki.html`).
+- The HTML/CSS/JS of the renderer (`fresh-rebuild/build-full-wiki-prototype.js` at the repo root) and the built-in theme skins it defines.
 - New features layered on top: search, navigation, graph view, theme switcher, mobile, animations, anything visual.
 - Prototypes and mocks for proposed features.
 - Reference material — design systems, cloned repos, screenshots, inspiration.
@@ -31,10 +31,10 @@ TA Brain/                          ← repo root
 │   ├── DESIGN.md                  ← Cursor-inspired design system spec
 │   └── resources/                 ← cloned repos, skill files, reference images
 │       └── awesome-design-md/     ← curated design-system READMEs (Apple, Linear, Stripe, …)
-├── build-wiki.py                  ← renderer (lives at root; runs from there)
+├── fresh-rebuild/build-full-wiki-prototype.js  ← renderer (lives at root; runs from there)
 ├── wiki/                          ← markdown content (read-only from studio)
 └── current/                       ← rendered output area
-    ├── wiki.html                  ← canonical rendered file
+    ├── TA Wiki.html               ← canonical rendered file
     ├── assets/
     └── archive/                   ← timestamped pre-edit snapshots
 ```
@@ -57,56 +57,52 @@ When asked to redesign, restyle, lay out, or build a visual feature:
 
 ## Rendering pipeline — how the wiki gets built
 
-The wiki is a single self-contained HTML file generated from `wiki/*.md` files by a Python script.
+The wiki is a single self-contained HTML file generated from `wiki/*.md` files by a Node script.
 
 ### Inputs
 
 - `wiki/**/*.md` — all wiki markdown content (governed by `garage/`).
-- `themes/*.json` — optional theme files (drop a JSON shaped like a built-in theme entry, filename becomes the theme ID).
-- Built-in themes in `build-wiki.py`: Obsidian Dark, Apple Light, Apple Dark.
+- Built-in themes in `fresh-rebuild/build-full-wiki-prototype.js`: Obsidian Dark, Apple Light, Apple Dark.
+- There is no active `themes/` input folder right now. Add one only if the renderer is updated to load external theme files.
 
-### The script: `build-wiki.py` (at repo root)
+### The script: `fresh-rebuild/build-full-wiki-prototype.js` (at repo root)
 
 ```bash
 # from the repo root
-python build-wiki.py
+node fresh-rebuild/build-full-wiki-prototype.js
 ```
 
 It does:
 1. Walks `wiki/`, parses frontmatter + body + `[[wiki-links]]`.
 2. Resolves links across folders (Obsidian-style; folder prefix optional).
 3. Builds an in-page graph (force-directed, pan/zoom/draggable nodes).
-4. Encrypts the `sources/` folder at build time using the password defined in the script — readers need that password to decrypt source pages in-browser.
-5. Emits a single self-contained file at `current/wiki.html`.
+4. Embeds the parsed wiki payload, styles, and client-side behavior into the output HTML.
+5. Emits a single self-contained working file at `current/TA Wiki.working.html`.
 
 ### Output
 
-`current/wiki.html` — the canonical rendered file. Don't write to it directly except via the Write Protocol below.
+`current/TA Wiki.working.html` — the renderer output. Promote it to `current/TA Wiki.html` only through the Write Protocol below.
 
 ### What lives in studio when you change rendering
 
-- HTML structure, CSS, JS, theme JSON → studio territory. Change `build-wiki.py` and/or theme files here, rebuild, verify.
+- HTML structure, CSS, JS, and built-in theme definitions → studio territory. Change `fresh-rebuild/build-full-wiki-prototype.js`, rebuild, verify.
 - Content (`wiki/*.md`) → garage territory. Don't touch it from studio.
 
 ---
 
-## Write Protocol — `current/wiki.html`
+## Write Protocol — `current/TA Wiki.html`
 
 Same protocol as garage. Never edit the canonical in place. Always:
 
-1. **Snapshot** — `current/wiki.html → current/wiki.working.html`.
-2. **Edit** the working copy (or rebuild via `python build-wiki.py` to a working name — see note below).
-3. **Verify** — open `current/wiki.working.html` in a browser. Confirm rendering, links, console.
+1. **Snapshot** — `current/TA Wiki.html → current/TA Wiki.working.html`.
+2. **Edit** the working copy (or rebuild via `node fresh-rebuild/build-full-wiki-prototype.js` to refresh the working output — see note below).
+3. **Verify** — open `current/TA Wiki.working.html` in a browser. Confirm rendering, links, console.
 4. **Promote** — on human approval:
-   - `current/wiki.html → current/archive/wiki.YYYY-MM-DD-HHMM.html`
-   - `current/wiki.working.html → current/wiki.html`
-5. **Discard on reject** — delete `current/wiki.working.html`. Canonical untouched.
+   - `current/TA Wiki.html → current/archive/TA Wiki.YYYY-MM-DD-HHMM.html`
+   - `current/TA Wiki.working.html → current/TA Wiki.html`
+5. **Discard on reject** — delete `current/TA Wiki.working.html`. Canonical untouched.
 
-> **Note on `build-wiki.py`:** it writes directly to `current/wiki.html`. To respect the protocol, snapshot first (step 1), then either:
-> - run the script and immediately rename the new output to `wiki.working.html` (the snapshot is your fallback), OR
-> - temporarily change the script's `OUTPUT` constant to `current/wiki.working.html` for the run.
->
-> Either way, the previous canonical is preserved as `wiki.working.html` is built, and we promote on approval.
+> **Note on `fresh-rebuild/build-full-wiki-prototype.js`:** by default it writes to `current/TA Wiki.working.html`. To publish, verify the working output first, then promote it only after human approval.
 
 ---
 
@@ -117,8 +113,8 @@ Default flow when the human says "add a search feature" / "redesign the sidebar"
 1. **Read `studio/DESIGN.md`** for the in-house system.
 2. **Browse `studio/resources/`** for relevant inspiration (e.g., for search UI, look at how Linear, Notion, or Apple docs do it inside `awesome-design-md/`).
 3. **Invoke the relevant skill.** Named one if specified, else `frontend-design`.
-4. **Prototype** — build the feature in a separate file inside studio first (e.g., `studio/prototypes/search-mock.html`) before wiring it into `build-wiki.py`. Mockups are cheap; rebuilds are not.
-5. **Integrate** — once the prototype is approved, wire it into `build-wiki.py` and follow the Write Protocol above to update `current/wiki.html`.
+4. **Prototype** — build the feature in a separate file inside studio first (e.g., `studio/prototypes/search-mock.html`) before wiring it into `fresh-rebuild/build-full-wiki-prototype.js`. Mockups are cheap; rebuilds are not.
+5. **Integrate** — once the prototype is approved, wire it into `fresh-rebuild/build-full-wiki-prototype.js` and follow the Write Protocol above to update `current/TA Wiki.html`.
 6. **Document** — if the feature introduces new design tokens, conventions, or components, add a short note to `studio/DESIGN.md`.
 
 ---

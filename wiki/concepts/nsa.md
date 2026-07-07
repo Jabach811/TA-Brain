@@ -5,11 +5,12 @@ tags: [concept, document, trigger, com, sales]
 created: 2026-04-14
 updated: 2026-04-14
 sources: 1
+status: current
 ---
 
 # NSA — New Sale Announcement
 
-The internal notification that a new retirement plan has been sold and is entering the conversion pipeline. The NSA is the trigger that starts the [[com]] workflow.
+The internal notification that a new retirement plan has been sold and is entering the conversion pipeline. The NSA is the trigger that starts the [[roles/com]] workflow.
 
 ## Definition
 
@@ -27,6 +28,6 @@ Nothing formally begins until the NSA is received. It marks the transition from 
 
 ## See Also
 
-- [[com]]
+- [[roles/com]]
 - [[nbi]]
 - [[plan-conversion-handoffs]]

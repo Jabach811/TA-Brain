@@ -5,6 +5,7 @@ tags: [system, aqt, sql, query]
 created: 2026-04-14
 updated: 2026-05-03
 sources: 2
+status: current
 ---
 
 # AQT

@@ -5,6 +5,7 @@ tags: [system, file-processing, validation]
 created: 2026-04-14
 updated: 2026-04-14
 sources: 2
+status: current
 ---
 
 # EDS

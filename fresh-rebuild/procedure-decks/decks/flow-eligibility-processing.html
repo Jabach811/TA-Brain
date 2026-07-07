@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Eligibility Processing - Excalidraw Flow Deck</title>
+  <link rel="stylesheet" href="../assets/deck-styles.css">
+  <style>:root { --procedure-accent: #3d6f9f; }</style>
+</head>
+<body class="flow-page">
+  <header class="deck-nav">
+    <a href="../index.html">Procedure decks</a>
+    <span>Eligibility Processing</span>
+    <span>Excalidraw</span>
+  </header>
+  <main class="deck flow" data-deck>
+    <section class="slide flow-title">
+      <div class="title-grid">
+        <div>
+          <div class="sketch-tag">Final Files / Excalidraw flow</div>
+          <h1>Eligibility Processing</h1>
+          <p>Enable rule-driven eligibility only after deferrals are clean.</p>
+        </div>
+        <figure class="title-art sketch-art"><img src="../assets/icons/eligibility-processing.svg" alt=""></figure>
+      </div>
+      <div class="sketch-route"><div class="flow-node"><b>1</b><span>Prepare the eligibility file from the approved data source.</span></div><div class="flow-node"><b>2</b><span>Confirm deferrals are loaded and verified before eligibility work starts.</span></div><div class="flow-node"><b>3</b><span>Send the internal approval email to QA, TC, and COM.</span></div><div class="flow-node"><b>4</b><span>Wait for the go-ahead before enabling eligibility.</span></div><div class="flow-node"><b>5</b><span>In P3, navigate to Outsourcing Summary and the Eligibility enable screen.</span></div><div class="flow-node"><b>6</b><span>Enable only sources that will receive contributions.</span></div><div class="flow-node"><b>7</b><span>Load and process eligibility through EDS and the CIT Eligibility job.</span></div><div class="flow-node"><b>8</b><span>Run queries and confirm eligibility results.</span></div></div>
+    </section>
+<section class="slide image-slide sketch-image-slide">
+      <div class="sketch-tag">Generated whiteboard</div>
+      <h2>Multi-branch visual route</h2>
+      <figure class="image-frame sketch-frame"><img src="../assets/flowcharts/eligibility-processing.svg" alt=""></figure>
+    </section>
+<section class="slide branch-slide">
+      <div class="sketch-tag">Branch map</div>
+      <h2>Decisions that change the route</h2>
+      <div class="branch-board"><div class="diamond"><span>1</span><p>Are deferrals verified clean?</p></div><div class="diamond"><span>2</span><p>Did QA, TC, and COM give the go-ahead?</p></div><div class="diamond"><span>3</span><p>Which sources actually receive contributions?</p></div><div class="diamond"><span>4</span><p>Are class, service, and entry-date rules configured correctly?</p></div><div class="diamond"><span>5</span><p>Do results match the expected eligible population?</p></div></div>
+    </section>
+<section class="slide swimlane-slide">
+      <div class="sketch-tag">Swimlane</div>
+      <h2>Inputs -> action -> output</h2>
+      <div class="swimlane">
+        <div class="lane-head">Input</div><div class="lane-head">Action</div><div class="lane-head">Output</div>
+        <div><p>Eligibility file</p><p>Deferral verification evidence</p><p>Client source-policy decision</p><p>P3 eligibility rules</p></div>
+        <div><p>Prepare the eligibility file from the approved data source.</p><p>Confirm deferrals are loaded and verified before eligibility work starts.</p><p>Send the internal approval email to QA, TC, and COM.</p><p>Wait for the go-ahead before enabling eligibility.</p></div>
+        <div><p>Enabled eligibility rules</p><p>CIT Eligibility job result</p><p>Verified eligible population</p><p>Query evidence</p></div>
+      </div>
+    </section>
+<section class="slide systems-slide">
+      <div class="sketch-tag">System boxes</div>
+      <h2>Where the work happens</h2>
+      <div class="systems-map"><div class="system-box">P3</div><div class="system-box">EDS</div><div class="system-box">AQT</div><div class="system-box">QA</div><div class="system-box">TC</div><div class="system-box">COM</div></div>
+    </section>
+<section class="slide sticky-slide">
+      <div class="sketch-tag">Sticky notes</div>
+      <h2>Do not miss these</h2>
+      <div class="sticky-grid"><article class="sticky-note">Eligibility triggers actions; it is not just a passive load.</article><article class="sticky-note">Do not enable non-contributing sources.</article><article class="sticky-note">Auto-enrollment can fire if no deferral is on file.</article><article class="sticky-note">Class-based rules need careful review.</article><article class="sticky-note">LTPT status requires hours discipline.</article></div>
+    </section>
+<section class="slide finish-slide">
+      <div class="sketch-tag">Done means done</div>
+      <h2>Closeout checklist</h2>
+      <div class="finish-list"><label><input type="checkbox"> Deferrals checked</label><label><input type="checkbox"> Approval received</label><label><input type="checkbox"> Contributing sources enabled</label><label><input type="checkbox"> Job completion email reviewed</label><label><input type="checkbox"> Queries verified</label></div>
+    </section>
+  </main>
+  <div class="deck-controls">
+    <button type="button" data-prev>Prev</button>
+    <span data-progress>1 / 7</span>
+    <button type="button" data-next>Next</button>
+  </div>
+  <script src="../assets/deck-player.js"></script>
+</body>
+</html>

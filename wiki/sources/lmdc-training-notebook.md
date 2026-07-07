@@ -5,6 +5,7 @@ tags: [source, dc, large-market, training, procedures, conversion]
 created: 2026-04-15
 updated: 2026-04-15
 sources: 1
+status: current
 ---
 
 # LMDC Training Notebook
@@ -101,7 +102,7 @@ This is the authoritative DC training reference maintained by the CIT Data Consu
 - ABA: 011000028 (State Street Bank & Trust Company, 200 Clarendon Street, Boston, MA 02116)
 
 ### Acronym Dictionary
-Full CTS-relevant acronym definitions per notebook's March 13, 2017 entry. Key CTS-specific terms documented in individual [[glossary/]] pages.
+Full CTS-relevant acronym definitions per notebook's March 13, 2017 entry. Key CTS-specific terms are documented in individual glossary pages.
 
 ## Key Quotes
 
@@ -115,7 +116,7 @@ Full CTS-relevant acronym definitions per notebook's March 13, 2017 entry. Key C
 
 ## Entities Mentioned
 
-- [[lm-dc]] — primary subject
+- [[roles/lm-dc]] — primary subject
 - [[cashiering]] — wire receipt, booking
 - [[informatica]] — Day of Wire, Balance, Loan, Allocation modules
 - [[p2]], [[p3]], [[eds]], [[aqt]], [[nbi]] — all primary DC systems
@@ -130,13 +131,13 @@ Full CTS-relevant acronym definitions per notebook's March 13, 2017 entry. Key C
 
 - [[fund-management-calendar]] — major update (new procedure Feb 2026)
 - [[liquidation-day]] — wire receipt, booking assets updates
-- [[reversal-process]] — new page (Mar 2026)
+- [[processes/reversal-submission|reversal-process]] — new page (Mar 2026)
 - [[ltpt-eligibility]] — new page (Jun 2024 / Jan 2025 effective)
 - [[common-remitter-plans]] — new page (Nov 2025)
 - [[payroll-handoff-at-go-live]] — new page (Feb 2026)
 - [[booking-assets]] — new page (Aug 2025)
 - [[wire-instructions]] — reinsurance codes and SSBT accounts
-- [[conversion-types]], [[dummy-participant]], [[transfer-in-kind]], [[source-mapping]], [[fund-mapping]]
+- [[conversion-types]], [[dummy-participant]], [[processes/tik-transfer|transfer-in-kind]], [[source-mapping]], [[fund-mapping]]
 - [[deferrals]], [[eligibility]], [[base-file]], [[payroll-template]]
 
 ## Contradictions / Open Questions
@@ -146,10 +147,11 @@ Full CTS-relevant acronym definitions per notebook's March 13, 2017 entry. Key C
 
 ## See Also
 
-- [[lm-dc]]
+- [[roles/lm-dc]]
 - [[dc-onboarding-workflow]]
 - [[fund-management-calendar]]
-- [[reversal-process]]
+- [[processes/reversal-submission|reversal-process]]
 - [[ltpt-eligibility]]
 - [[liquidation-day]]
 - [[plan-conversion-handoffs]]
+

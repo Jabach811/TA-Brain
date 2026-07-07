@@ -5,6 +5,7 @@ tags: [loans, p3, informatica, conversion, takeover-loans, holb]
 created: 2026-04-18
 updated: 2026-05-05
 sources: 4
+status: current
 ---
 
 # Loan Setup & Processing
@@ -17,7 +18,7 @@ When a plan converts to Transamerica with active loans, the loans must be re-cre
 
 The most common failure point is **Step 8 — Header = Source validation**. If the loan file's outstanding balance does not match the source totals exactly, every downstream system will compound the variance and the load will have to be reversed.
 
-![Loan loading diagram â€” P3 setup, loan header/source validation, Informatica test and production runs, Takeover Loans, HOLB handling, confirmation email, AQT verification, and audit evidence.](diagrams/loan-loading-detail.png)
+![Loan loading diagram — P3 setup, loan header/source validation, Informatica test and production runs, Takeover Loans, HOLB handling, confirmation email, AQT verification, and audit evidence.](diagrams/loan-loading-detail.png)
 
 ## Why It Matters
 
@@ -32,7 +33,7 @@ This is why discipline at Steps 3, 8, and 9 matters more than the rest combined.
 
 ## Trigger
 
-A plan in conversion has loans on its [[toa]] (or signed loan section), the loan import file has been received from the prior record keeper, and the [[lm-dc]] is ready to set up the conversion in P3.
+A plan in conversion has loans on its [[toa]] (or signed loan section), the loan import file has been received from the prior record keeper, and the [[roles/lm-dc]] is ready to set up the conversion in P3.
 
 ## Steps
 
@@ -176,7 +177,7 @@ These are the ones that take judgment, not just a checklist. When something does
 - [[informatica]]
 - [[final-files-processing]]
 - [[plan-conversion-handoffs]]
-- [[lm-dc]]
+- [[roles/lm-dc]]
 - [[toa]]
 - [[holb]]
 - [[audit-pack]]

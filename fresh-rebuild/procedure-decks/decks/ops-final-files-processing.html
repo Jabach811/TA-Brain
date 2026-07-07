@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Final Files Processing - Ops Training Deck</title>
+  <link rel="stylesheet" href="../assets/deck-styles.css">
+  <style>:root { --procedure-accent: #6b6f2a; }</style>
+</head>
+<body class="ops-page">
+  <header class="deck-nav">
+    <a href="../index.html">Procedure decks</a>
+    <span>Final Files Processing</span>
+    <span>Ops</span>
+  </header>
+  <main class="deck ops" data-deck>
+    <section class="slide title-slide">
+      <div class="title-grid">
+        <div>
+          <div class="kicker">Final Files / Ops deck</div>
+          <h1>Final Files Processing</h1>
+          <p class="slide-lede">Final files are the authoritative post-liquidation records. The DC confirms the source policy, posts participant balances by conversion type, then loads deferrals, eligibility, and YTD data in a strict order.</p>
+          <div class="lifecycle-rail"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span></div>
+        </div>
+        <figure class="title-art"><img src="../assets/icons/final-files-processing.svg" alt=""></figure>
+      </div>
+    </section>
+<section class="slide split-slide">
+      <div>
+        <div class="kicker">Inputs</div>
+        <h2>What has to be in hand</h2>
+        <ul class="check-list"><li>Final files from the prior record keeper</li><li>Client source-policy decision</li><li>Prepared EDS layouts</li><li>CIT balance file</li><li>Conversion type</li><li>Audit query set</li></ul>
+      </div>
+      <aside class="callout-panel">
+        <h3>Systems touched</h3>
+        <div class="pill-grid"><span class="pill">EDS</span><span class="pill">Informatica</span><span class="pill">P3</span><span class="pill">ROC</span><span class="pill">AQT</span><span class="pill">NBI</span></div>
+      </aside>
+    </section>
+<section class="slide">
+      <div class="kicker">Run path</div>
+      <h2>Procedure sequence</h2>
+      <div class="step-grid">
+    <article class="step-card">
+      <div class="step-num">01</div>
+      <p>Confirm whether final-file data, base-file data, or a hybrid source policy governs each load.</p>
+    </article>
+  
+    <article class="step-card">
+      <div class="step-num">02</div>
+      <p>Build the participant-level CIT balance file by case, region, SSN, source, fund, and total.</p>
+    </article>
+  
+    <article class="step-card">
+      <div class="step-num">03</div>
+      <p>Run the CIT balance workflow in test mode and correct mapping or layout errors before production.</p>
+    </article>
+  
+    <article class="step-card">
+      <div class="step-num">04</div>
+      <p>Post balances using the correct conversion-type path: cash, mapping, or transfer in kind.</p>
+    </article>
+  
+    <article class="step-card">
+      <div class="step-num">05</div>
+      <p>Load deferral elections before any eligibility action.</p>
+    </article>
+  
+    <article class="step-card">
+      <div class="step-num">06</div>
+      <p>Enable and load eligibility only after deferrals are verified clean.</p>
+    </article>
+  
+    <article class="step-card">
+      <div class="step-num">07</div>
+      <p>Load YTD contributions, compensation, and hours through separate EDS layouts.</p>
+    </article>
+  
+    <article class="step-card">
+      <div class="step-num">08</div>
+      <p>Run verification queries, review EDS outputs, build the audit pack, and update NBI.</p>
+    </article>
+  </div>
+    </section>
+<section class="slide matrix-slide">
+      <div class="kicker">Decision points</div>
+      <h2>What decides the path</h2>
+      <div class="decision-grid"><div class="decision-card">Which data source did the client approve for each record type?</div><div class="decision-card">Is this cash, mapping, or transfer in kind?</div><div class="decision-card">Has the balance workflow passed test mode?</div><div class="decision-card">Are deferrals verified before eligibility starts?</div><div class="decision-card">Did verification prove counts, totals, and sources?</div></div>
+    </section>
+<section class="slide warning-slide">
+      <div class="kicker">Watchouts</div>
+      <h2>Where this can bite</h2>
+      <div class="warning-grid"><article><span>!</span><p>Do not run eligibility before deferrals.</p></article><article><span>!</span><p>Wrong P3 processing mode can fire duplicate trades.</p></article><article><span>!</span><p>Cash and mapping paths need dummy-participant cleanup.</p></article><article><span>!</span><p>TIK needs fresh final-share estimates for Matt O&#39;Connell&#39;s team.</p></article><article><span>!</span><p>EDS layouts should be ready before final files arrive.</p></article></div>
+    </section>
+<section class="slide image-slide">
+      <div class="kicker">Visual map</div>
+      <h2>Use the flow when explaining the work</h2>
+      <figure class="image-frame"><img src="../assets/flowcharts/final-files-processing.svg" alt=""></figure>
+    </section>
+<section class="slide closeout-slide">
+      <div class="kicker">Closeout</div>
+      <h2>Proof that it is done</h2>
+      <div class="closeout-grid">
+        <div><h3>Outputs</h3><ul><li>Posted participant balances</li><li>Loaded deferrals</li><li>Enabled eligibility</li><li>Loaded YTD data</li><li>Audit pack evidence</li><li>Updated NBI status</li></ul></div>
+        <div><h3>Final checks</h3><ul><li>Balances posted</li><li>Deferrals verified</li><li>Eligibility enabled</li><li>YTD loads complete</li><li>Audit pack complete</li><li>NBI updated</li></ul></div>
+      </div>
+    </section>
+  </main>
+  <div class="deck-controls">
+    <button type="button" data-prev>Prev</button>
+    <span data-progress>1 / 7</span>
+    <button type="button" data-next>Next</button>
+  </div>
+  <script src="../assets/deck-player.js"></script>
+</body>
+</html>

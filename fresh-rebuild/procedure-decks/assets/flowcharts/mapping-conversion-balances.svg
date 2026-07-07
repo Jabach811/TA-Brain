@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 968" role="img" aria-label="Mapping Conversion Balances flowchart">
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M2 2 L10 6 L2 10 Z" fill="#202122"/>
+    </marker>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="5" dy="6" stdDeviation="0" flood-color="#202122" flood-opacity=".12"/>
+    </filter>
+  </defs>
+  <rect width="1600" height="968" fill="#fbfaf5"/>
+  <rect x="34" y="34" width="1532" height="900" rx="28" fill="none" stroke="#202122" stroke-width="4"/>
+  <text x="74" y="78" font-family="Arial, sans-serif" font-size="22" font-weight="800" fill="#5b6f94">BALANCES</text>
+  <text x="74" y="116" font-family="Georgia, serif" font-size="44" fill="#202122">Mapping Conversion Balances</text>
+  <g filter="url(#shadow)"><path d="M388 192 L420 192" stroke="#202122" stroke-width="3" fill="none" marker-end="url(#arrow)"/>
+      <g>
+        <rect x="58" y="136" width="330" height="136" rx="18" fill="#fff" stroke="#202122" stroke-width="3"/>
+        <circle cx="92" cy="174" r="21" fill="#5b6f94"/>
+        <text x="92" y="181" text-anchor="middle" font-size="20" font-weight="800" fill="#fff">1</text>
+        <text x="124" y="176" font-size="17" fill="#202122">Create the dummy participant</text><text x="124" y="196" font-size="17" fill="#202122">before running the mapping</text><text x="124" y="216" font-size="17" fill="#202122">workflow.</text>
+      </g>
+<path d="M768 192 L800 192" stroke="#202122" stroke-width="3" fill="none" marker-end="url(#arrow)"/>
+      <g>
+        <rect x="438" y="136" width="330" height="136" rx="18" fill="#fff" stroke="#202122" stroke-width="3"/>
+        <circle cx="472" cy="174" r="21" fill="#5b6f94"/>
+        <text x="472" y="181" text-anchor="middle" font-size="20" font-weight="800" fill="#fff">2</text>
+        <text x="504" y="176" font-size="17" fill="#202122">Build the CONV file with case</text><text x="504" y="196" font-size="17" fill="#202122">number, prior fund code, TA</text><text x="504" y="216" font-size="17" fill="#202122">fund code, ref number, amount,</text><text x="504" y="236" font-size="17" fill="#202122">and TIK indicator N.</text>
+      </g>
+<path d="M1148 192 L1180 192" stroke="#202122" stroke-width="3" fill="none" marker-end="url(#arrow)"/>
+      <g>
+        <rect x="818" y="136" width="330" height="136" rx="18" fill="#fff" stroke="#202122" stroke-width="3"/>
+        <circle cx="852" cy="174" r="21" fill="#5b6f94"/>
+        <text x="852" y="181" text-anchor="middle" font-size="20" font-weight="800" fill="#fff">3</text>
+        <text x="884" y="176" font-size="17" fill="#202122">Run the day-of-wire workflow</text><text x="884" y="196" font-size="17" fill="#202122">to load fund-level detail to</text><text x="884" y="216" font-size="17" fill="#202122">the dummy participant.</text>
+      </g>
+<path d="M1363 272 L1363 298 L223 298 L223 316" stroke="#202122" stroke-width="3" fill="none" marker-end="url(#arrow)"/>
+      <g>
+        <rect x="1198" y="136" width="330" height="136" rx="18" fill="#fff" stroke="#202122" stroke-width="3"/>
+        <circle cx="1232" cy="174" r="21" fill="#5b6f94"/>
+        <text x="1232" y="181" text-anchor="middle" font-size="20" font-weight="800" fill="#fff">4</text>
+        <text x="1264" y="176" font-size="17" fill="#202122">Process in P3 using batch</text><text x="1264" y="196" font-size="17" fill="#202122">no-hold and process immediate</text><text x="1264" y="216" font-size="17" fill="#202122">so trades go out.</text>
+      </g>
+<path d="M388 382 L420 382" stroke="#202122" stroke-width="3" fill="none" marker-end="url(#arrow)"/>
+      <g>
+        <rect x="58" y="326" width="330" height="136" rx="18" fill="#fff" stroke="#202122" stroke-width="3"/>
+        <circle cx="92" cy="364" r="21" fill="#5b6f94"/>
+        <text x="92" y="371" text-anchor="middle" font-size="20" font-weight="800" fill="#fff">5</text>
+        <text x="124" y="366" font-size="17" fill="#202122">When final files arrive, run</text><text x="124" y="386" font-size="17" fill="#202122">CIT balance with cash</text><text x="124" y="406" font-size="17" fill="#202122">conversion wire set to N.</text>
+      </g>
+
+      <g>
+        <rect x="438" y="326" width="330" height="136" rx="18" fill="#fff" stroke="#202122" stroke-width="3"/>
+        <circle cx="472" cy="364" r="21" fill="#5b6f94"/>
+        <text x="472" y="371" text-anchor="middle" font-size="20" font-weight="800" fill="#fff">6</text>
+        <text x="504" y="366" font-size="17" fill="#202122">Reverse the dummy participant</text><text x="504" y="386" font-size="17" fill="#202122">in P3 ROC so only real</text><text x="504" y="406" font-size="17" fill="#202122">participant balances remain.</text>
+      </g></g>
+  <text x="74" y="560" font-family="Arial, sans-serif" font-size="24" font-weight="800" fill="#202122">Branch points</text>
+  <g>
+      <path d="M232 586 L346 658 L232 730 L118 658 Z" fill="#fff8df" stroke="#202122" stroke-width="3"/>
+      <text x="232" y="614" text-anchor="middle" font-size="15" font-weight="800" fill="#5b6f94">DECISION 1</text>
+      <text x="232" y="638" text-anchor="middle" font-size="17" fill="#202122">Is the dummy participant</text><text x="232" y="659" text-anchor="middle" font-size="17" fill="#202122">loaded before workflow</text><text x="232" y="680" text-anchor="middle" font-size="17" fill="#202122">execution?</text>
+    </g>
+<g>
+      <path d="M587 586 L701 658 L587 730 L473 658 Z" fill="#fff8df" stroke="#202122" stroke-width="3"/>
+      <text x="587" y="614" text-anchor="middle" font-size="15" font-weight="800" fill="#5b6f94">DECISION 2</text>
+      <text x="587" y="638" text-anchor="middle" font-size="17" fill="#202122">Are ref numbers present in</text><text x="587" y="659" text-anchor="middle" font-size="17" fill="#202122">fund mapping?</text>
+    </g>
+<g>
+      <path d="M942 586 L1056 658 L942 730 L828 658 Z" fill="#fff8df" stroke="#202122" stroke-width="3"/>
+      <text x="942" y="614" text-anchor="middle" font-size="15" font-weight="800" fill="#5b6f94">DECISION 3</text>
+      <text x="942" y="638" text-anchor="middle" font-size="17" fill="#202122">Is the cash-conversion</text><text x="942" y="659" text-anchor="middle" font-size="17" fill="#202122">parameter set to N?</text>
+    </g>
+<g>
+      <path d="M1297 586 L1411 658 L1297 730 L1183 658 Z" fill="#fff8df" stroke="#202122" stroke-width="3"/>
+      <text x="1297" y="614" text-anchor="middle" font-size="15" font-weight="800" fill="#5b6f94">DECISION 4</text>
+      <text x="1297" y="638" text-anchor="middle" font-size="17" fill="#202122">Do participant balances match</text><text x="1297" y="659" text-anchor="middle" font-size="17" fill="#202122">the original fund-level</text><text x="1297" y="680" text-anchor="middle" font-size="17" fill="#202122">purchases?</text>
+    </g>
+  <text x="74" y="788" font-family="Arial, sans-serif" font-size="24" font-weight="800" fill="#202122">Systems touched</text>
+  <g>
+      <rect x="86" y="808" width="196" height="58" rx="12" fill="#eef5f4" stroke="#5b6f94" stroke-width="3"/>
+      <text x="184" y="844" text-anchor="middle" font-size="19" font-weight="800" fill="#202122">Informatica day-of-wire workflow</text>
+    </g>
+<g>
+      <rect x="324" y="808" width="196" height="58" rx="12" fill="#eef5f4" stroke="#5b6f94" stroke-width="3"/>
+      <text x="422" y="844" text-anchor="middle" font-size="19" font-weight="800" fill="#202122">P3</text>
+    </g>
+<g>
+      <rect x="562" y="808" width="196" height="58" rx="12" fill="#eef5f4" stroke="#5b6f94" stroke-width="3"/>
+      <text x="660" y="844" text-anchor="middle" font-size="19" font-weight="800" fill="#202122">ROC</text>
+    </g>
+<g>
+      <rect x="800" y="808" width="196" height="58" rx="12" fill="#eef5f4" stroke="#5b6f94" stroke-width="3"/>
+      <text x="898" y="844" text-anchor="middle" font-size="19" font-weight="800" fill="#202122">CIT balance workflow</text>
+    </g>
+</svg>

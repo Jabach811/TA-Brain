@@ -3,8 +3,9 @@ title: "Informatica Troubleshooting Guide"
 type: process
 tags: [informatica, troubleshooting, system]
 created: 2026-04-16
-updated: 2026-04-16
-sources: 0
+updated: 2026-06-25
+sources: 1
+status: needs-review
 ---
 
 # Informatica Troubleshooting Guide
@@ -29,6 +30,10 @@ Key errors documented there:
 - "Nper is null or zero" → loan frequency not in censuslookupfile, or vendor name spelled differently than lookup file
 - "SSN not found on system for plan" → census not yet loaded (acceptable if preliminary run)
 - "Source I does not exist on plan" → source mapping incomplete or bad data
+
+## Source Notes
+
+Current content is derived from the [[informatica]] hub page. A dedicated troubleshooting source is still needed before this can be marked current.
 
 ## Full Documentation
 

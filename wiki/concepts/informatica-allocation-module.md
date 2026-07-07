@@ -3,8 +3,9 @@ title: "Informatica Allocation Module"
 type: process
 tags: [informatica, allocation, system]
 created: 2026-04-16
-updated: 2026-04-16
-sources: 0
+updated: 2026-06-25
+sources: 1
+status: needs-review
 ---
 
 # Informatica Allocation Module
@@ -21,6 +22,10 @@ Key points documented there:
 - Maps prior fund allocations to TA funds for participant investment elections
 - Pre-run check: withdrawal sequence in fund map must be a number (not blank or text) — rows with non-number sequences are thrown out
 - Pre-run check: spaces on prior fund names cause errors with fund splits
+
+## Source Notes
+
+Current content is derived from [[informatica]] and [[sources/lmdc-training-notebook]]. A dedicated module procedure is still needed before this can be marked current.
 
 ## Full Documentation
 

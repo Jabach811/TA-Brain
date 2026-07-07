@@ -5,6 +5,7 @@ tags: [eds, census, process, data, conversion]
 created: 2026-04-20
 updated: 2026-05-03
 sources: 2
+status: current
 ---
 
 # Census Data
@@ -110,7 +111,7 @@ This is also the moment to handle [[forfeiture-loading|forfeiture entries]] that
 ## Related Concepts
 
 - [[base-file]] — the census template DC sends to the client to collect this data
-- [[loading-eligibility-eds]] — eligibility is loaded after census is in the system
+- [[processes/eligibility-loading|loading-eligibility-eds]] — eligibility is loaded after census is in the system
 - [[loading-basis-eds]] — basis loaded during final files processing
 - [[prior-record-keeper]] — source of vendor census data when applicable
 - [[eds]] — the system used to validate and load census data
@@ -125,5 +126,6 @@ This is also the moment to handle [[forfeiture-loading|forfeiture entries]] that
 - [[awd]]
 - [[prior-record-keeper]]
 - [[final-files-processing]]
-- [[loading-eligibility-eds]]
+- [[processes/eligibility-loading|loading-eligibility-eds]]
 - [[loading-basis-eds]]
+

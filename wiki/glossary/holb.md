@@ -5,6 +5,7 @@ tags: [glossary, loans, p3, takeover-loans]
 created: 2026-05-03
 updated: 2026-05-03
 sources: 1
+status: current
 ---
 
 # HOLB
@@ -22,7 +23,7 @@ When uploading [[loan-setup|takeover loans]] in P3, the loan upload screen asks 
 
 ## Used By
 
-- [[lm-dc]] — handles the HOLB branch on the Takeover Loans upload screen
+- [[roles/lm-dc]] — handles the HOLB branch on the Takeover Loans upload screen
 - [[loan-setup]] — Step 12 (Upload) decision
 
 ## See Also

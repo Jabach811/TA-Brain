@@ -5,6 +5,7 @@ tags: [team, cashiering, wire, liquidation]
 created: 2026-04-14
 updated: 2026-04-15
 sources: 2
+status: current
 ---
 
 # Cashiering

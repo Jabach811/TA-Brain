@@ -5,6 +5,7 @@ tags: [workflow, process, master, conversion, onboarding]
 created: 2026-04-14
 updated: 2026-04-14
 sources: 1
+status: current
 ---
 
 # DC Onboarding Workflow
@@ -34,7 +35,7 @@ The complete end-to-end process a Data Consultant follows to onboard a new retir
 - [ ] Check if [[p3]] is already set up (may be done early for mergers/some new plans)
 - [ ] Note plan type: **new plan**, **merger**, or **startup** (startup = no prior record keeper)
 - [ ] Note [[conversion-types|conversion type]]: cash, mapping, or transfer in kind
-- [ ] Attend internal kickoff meetings set up by [[com|COM]]
+- [ ] Attend internal kickoff meetings set up by [[roles/com|COM]]
 - [ ] Review [[prd]] (Plan Review Document) or [[onboarding-package]] — focus on: eligibility, vesting, sources, classes
 - [ ] Review [[subpack]] (Submission Package) if available — details what TA will do
 - [ ] Note any frozen sources, new sources, special strategies

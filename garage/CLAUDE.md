@@ -45,7 +45,7 @@ TA Brain/                          ← repo root
 │   ├── roles/ departments/ processes/ onboarding/
 │   ├── glossary/ entities/ concepts/ sources/ analyses/
 └── current/                       ← rendered output (governed by Write Protocol below)
-    ├── wiki.html                  ← canonical rendered file
+    ├── TA Wiki.html               ← canonical rendered file
     ├── assets/
     └── archive/                   ← timestamped pre-edit snapshots
 ```
@@ -61,28 +61,28 @@ TA Brain/                          ← repo root
 
 ---
 
-## Write Protocol — `current/wiki.html`
+## Write Protocol — `current/TA Wiki.html`
 
-The canonical rendered file is `current/wiki.html`. **Never edit it in place.** Always work on a copy, verify, then promote.
+The canonical rendered file is `current/TA Wiki.html`. **Never edit it in place.** Always work on a copy, verify, then promote.
 
 ### Steps
 
-1. **Snapshot** — copy `current/wiki.html` to a working name in the same folder:
+1. **Snapshot** — copy `current/TA Wiki.html` to a working name in the same folder:
    ```
-   current/wiki.html  →  current/wiki.working.html
+   current/TA Wiki.html  →  current/TA Wiki.working.html
    ```
-2. **Edit** the working copy (`current/wiki.working.html`) only. Leave the canonical untouched. The canonical is your fallback if anything goes wrong.
+2. **Edit** the working copy (`current/TA Wiki.working.html`) only. Leave the canonical untouched. The canonical is your fallback if anything goes wrong.
 3. **Verify** — open the working copy in a browser. Confirm it renders, links work, no console errors.
 4. **Promote** — once the human approves:
    - Move the previous canonical into `current/archive/` with a timestamp:
-     `current/wiki.html → current/archive/wiki.YYYY-MM-DD-HHMM.html`
+     `current/TA Wiki.html → current/archive/TA Wiki.YYYY-MM-DD-HHMM.html`
    - Rename the working copy to canonical:
-     `current/wiki.working.html → current/wiki.html`
-5. **Discard on reject** — if the human says no, just delete `current/wiki.working.html`. The canonical was never touched.
+     `current/TA Wiki.working.html → current/TA Wiki.html`
+5. **Discard on reject** — if the human says no, just delete `current/TA Wiki.working.html`. The canonical was never touched.
 
-This applies to any rebuild via `build-wiki.py` (which the studio workspace owns) **and** to any direct hand-edit of the rendered HTML.
+This applies to any rebuild via `fresh-rebuild/build-full-wiki-prototype.js` (which the studio workspace owns) **and** to any direct hand-edit of the rendered HTML.
 
-> Heads up: rendering instructions and the `build-wiki.py` script are governed by `../studio/CLAUDE.md`. If a task involves changing how the wiki *looks* or *renders*, hand off to studio.
+> Heads up: rendering instructions and the `fresh-rebuild/build-full-wiki-prototype.js` script are governed by `../studio/CLAUDE.md`. If a task involves changing how the wiki *looks* or *renders*, hand off to studio.
 
 ---
 

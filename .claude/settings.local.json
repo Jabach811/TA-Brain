@@ -36,7 +36,8 @@
       "Bash(\"/c/Program Files/GitHub CLI/gh.exe\" repo create ta-brain --private --source=. --remote=origin --push)",
       "Bash('/c/Program Files/GitHub CLI/gh.exe' auth token)",
       "Bash('/c/Program Files/GitHub CLI/gh.exe' run list --repo Jabach811/TA-Brain --limit 3)",
-      "Bash(python)"
+      "Bash(python)",
+      "PowerShell(Get-Item \"current\\\\ta-brain-lifecycle-app.html\" | Select-Object Length, LastWriteTime; \\(Get-Content \"current\\\\ta-brain-lifecycle-app.html\" | Measure-Object -Line\\).Lines)"
     ],
     "additionalDirectories": [
       "C:\\Users\\mabac\\.claude"

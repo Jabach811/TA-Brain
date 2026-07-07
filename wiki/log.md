@@ -349,3 +349,121 @@
 - Pages updated: `concepts/loan-setup`, `index`
 - App builder updated: PNGs with `diagrams`, `flow`, `map`, or `diagram` in the path/caption now render as Diagram media instead of Screenshot media; the media jump chip uses a diagram icon when the first media item is a diagram.
 - Notes: First pass in the new diagram-media track. Existing screenshot wiring remains intact.
+
+## [2026-05-13] ingest | TC Stuff legacy source bundle
+- Source file: `TC Stuff.txt` from repo root.
+- Pages created (11):
+  - `sources/tc-stuff` - source summary with stale-source warning and extracted claims.
+  - `concepts/team-charters` - legacy project charter hub for DC plans, start-up, external merger, and internal merger work.
+  - `processes/tc-conversion-timeline` - TC operating timeline from initiation through closeout.
+  - `concepts/go-live-checklist` - limited/full access and post-go-live control checklist.
+  - `concepts/case-notes-template` - structured plan case note reference and high-risk note areas.
+  - `concepts/divisions-and-affiliates` - division setup, PSD reporting, outbound file, and multiple-affiliate risk reference.
+  - `concepts/payroll-file-automation` - automated PSD/FTP payroll setup across P3, EDS, PSD permissions, FTP mapping, and INFRA ticketing.
+  - `concepts/bonus-election-setup` - separate bonus election setup, source ordering, deduction types, and OBF naming constraint.
+  - `concepts/creative-planning-managed-accounts` - CPMA / Financial Guide setup and service-risk reference.
+  - `processes/source-mapping-tc` - TC-supported source mapping attribute completion process.
+  - `processes/plan-sponsor-website-user-setup` - PSD user setup and access verification process.
+- Pages updated (5):
+  - `roles/tc` - expanded from DC-perspective stub into administrative readiness, case notes, PSD/DDOL/VRU, go-live, and closeout role page.
+  - `roles/qa` - expanded from mapping/audit stub into QA/QC setup-control and validation role page.
+  - `processes/plan-conversion-handoffs` - added source mapping attribute completion and TC administrative readiness gates.
+  - `overview` - updated thesis from two-owner model to multi-lane model: DC, COM, TC, QA/QC.
+  - `index` - added new source/pages and refreshed page/source counts to 133 pages and 10 sources.
+- Notes: Source is explicitly legacy/outdated in its charter sections. New pages preserve that warning and should be QC'd before being treated as current SOP.
+
+## [2026-06-25] edit | TA Wiki rebuild link cleanup batch
+- Page renamed:
+  - `entities/eric-leyten` -> `entities/eric-leytem`; confirmed spelling is Leytem, L-E-Y-T-E-M. Added `eric-leyten` as an alias for old-link safety.
+- Pages created:
+  - `entities/alteryx` - system page for the Large Market data workflow tool associated with Dave Shloat.
+  - `processes/day-of-wire-audit` - working day-of-wire validation reference for wire/ref confirmation, Informatica evidence, P3 posting controls, and balance backup.
+- Pages updated:
+  - `concepts/balance-import-tik` - `re-registration` now links to `processes/tik-transfer` as the temporary canonical TIK/re-registration target.
+  - `sources/lmdc-training-notebook` - removed invalid folder-style glossary link.
+  - `onboarding/lm-dc` - corrected Eric Leytem link spelling.
+  - `index` - page count updated to 135 and new Alteryx / Day of Wire Audit pages indexed.
+- Notes: This batch fixes approved broken links only. Duplicate/overlap review for `transfer-in-kind` vs `tik-transfer` remains intentionally deferred.
+
+## [2026-06-25] edit | Index coverage and ambiguous-link cleanup
+- Pages updated:
+  - `index` - added Reference Hubs, missing balance-import pages, missing EDS/payroll process pages, missing document page, and missing glossary rows.
+  - 49 wiki pages - changed ambiguous bare links (`com`, `lm-dc`, `nsa`, `csr`, `vef`) to explicit namespace links such as `roles/com`, `roles/lm-dc`, and `concepts/nsa`.
+- Validation result after rebuild:
+  - Broken links: 0
+  - Ambiguous links: 0
+  - Unindexed pages: 0
+  - Rendered pages match markdown pages: 135 / 135
+- Notes: Duplicate bare slugs remain intentionally namespaced pairs for role/onboarding and concept/glossary pages. They are no longer ambiguous in source links.
+
+## [2026-06-25] edit | Frontmatter status normalization
+- Pages updated:
+  - Added `status: current` to sourced pages without explicit maturity labels.
+  - Added `status: needs-review` to zero-source procedure/reference placeholders and legacy-derived pages that already warn users to validate current procedure.
+  - Added `status: stub` to `roles/doc-ops`.
+- Validation result after rebuild:
+  - Missing status fields: 0
+  - Broken links: 0
+  - Ambiguous links: 0
+  - Unindexed pages: 0
+- Notes: No pages were marked `legacy` or `superseded` in this pass.
+
+## 2026-06-25 - Duplicate process consolidation batch A
+
+Type: edit
+
+- Folded `concepts/transfer-in-kind` into `processes/tik-transfer`; old concept page now points to the canonical process page.
+- Folded `concepts/reversal-process` into `processes/reversal-submission`; retained reversal form field detail on the canonical page.
+- Folded `concepts/loading-eligibility-eds` into `processes/eligibility-loading`; retained rehire-code detail on the canonical page.
+- Updated incoming wiki links to point directly at the canonical process pages while preserving aliases for the old slugs.
+
+## 2026-06-25 - Zero-source cleanup batch
+
+Type: edit
+
+- Reclassified seven sourced-but-light EDS/Informatica pages from `sources: 0` to `sources: 1` while keeping `status: needs-review`.
+- Added Source Notes to pages derived from existing hub/source pages but still awaiting dedicated procedure documentation.
+- Kept three true source gaps at `sources: 0`: `data-discovery-document`, `faa-dc-data-requirements`, and `informatica-basis-module`.
+- Added Source Gap notes to the remaining zero-source pages so the Needs Work view points to actionable missing evidence.
+
+## 2026-06-25 - Doc Ops role cleanup
+
+Type: edit
+
+- Expanded `roles/doc-ops` from a stub into a working role page using COM, LM DC, P3, plan class, and handoff references.
+- Changed Doc Ops status from `stub` to `needs-review` because the role is now navigable but still lacks a direct Doc Ops source.
+- Updated the wiki index row for Doc Ops and corrected stale source-count summaries for EDS/Informatica source-gap pages.
+
+## 2026-06-25 - Duplicate slug allowlist
+
+Type: tooling
+
+- Added shared duplicate-slug validation rules in `scripts/wiki-validation-rules.js`.
+- Updated the builder and validator to separate unexpected duplicate bare slugs from intentional namespace pairs.
+- Documented the allowed pairs: `csr`, `nsa`, `vef`, `com`, and `lm-dc`.
+- Updated the Needs Work view so unexpected duplicates remain actionable while allowed duplicates stay visible with reasons.
+
+## 2026-06-25 - Removed unneeded source-gap pages
+
+Type: delete
+
+- Deleted `concepts/data-discovery-document`, `concepts/faa-dc-data-requirements`, and `concepts/informatica-basis-module` per maintainer direction.
+- Removed index rows for those pages.
+- Cleaned inbound links from FAA glossary, Informatica Loan Module, Informatica Training Manual, and Loading Basis through EDS.
+- Reframed the Loan Module page so it no longer treats the deleted Basis placeholder as a documented module page.
+
+## 2026-06-25 - Homepage and maintenance view polish
+
+Type: tooling
+
+- Added compact homepage entry points for the highest-use namespaces.
+- Added generated health counts for broken links, unindexed pages, missing status, zero-source pages, and unexpected duplicate slugs.
+- Added filtered namespace pages so namespace links open focused page lists instead of the full all-pages view.
+- Renamed the duplicate allowlist display to `Allowed namespace pairs` so intentional role/onboarding and concept/glossary pairs are not presented as active issues.
+- Browser-smoked the working HTML for homepage health, namespace browsing, Needs Work counts, search, mobile overflow, and console errors.
+
+## [2026-07-01] ingest | TC Details from Dan
+- Source: `wiki/sources/tc-details-from-dan.md`
+- Pages created: `sources/tc-details-from-dan`
+- Pages updated: `roles/tc`, `processes/tc-conversion-timeline`, `processes/plan-conversion-handoffs`, `index`
+- Notes: Added TC administrative backup responsibilities, outsourcing addendum ownership, subpack revision ownership, downstream admin-information handoffs, P3/notice/participant website audit controls, eligibility/enrollment kit collaboration, and DDOL/VRU/PSD setup/testing/activation detail.

@@ -5,6 +5,8 @@ const root = __dirname;
 const dirs = {
   assets: path.join(root, "assets"),
   decks: path.join(root, "decks"),
+  flowcharts: path.join(root, "assets", "flowcharts"),
+  icons: path.join(root, "assets", "icons"),
   procedures: path.join(root, "procedures")
 };
 
@@ -187,6 +189,224 @@ const procedures = [
     outputs: ["P3 conversion number", "Loaded loan records", "HOLB upload/create confirmation", "Email confirmation", "Loan audit evidence"],
     watchouts: ["Conversion and assigned dates are largely irrelevant but required; use three months prior to effective date.", "Header/source balance mismatch must be fixed before loading.", "Do not skip the test run before production.", "The audit pack needs loan evidence, often close to the loan header detail."],
     closeout: ["Conversion number captured", "Test and production clean", "Loans taken over", "HOLB handled", "Queries verified"]
+  },
+  {
+    slug: "final-files-processing",
+    title: "Final Files Processing",
+    short: "Run the post-liquidation load sequence without breaking the order.",
+    family: "Final Files",
+    accent: "#6b6f2a",
+    summary: "Final files are the authoritative post-liquidation records. The DC confirms the source policy, posts participant balances by conversion type, then loads deferrals, eligibility, and YTD data in a strict order.",
+    inputs: ["Final files from the prior record keeper", "Client source-policy decision", "Prepared EDS layouts", "CIT balance file", "Conversion type", "Audit query set"],
+    systems: ["EDS", "Informatica", "P3", "ROC", "AQT", "NBI"],
+    steps: [
+      "Confirm whether final-file data, base-file data, or a hybrid source policy governs each load.",
+      "Build the participant-level CIT balance file by case, region, SSN, source, fund, and total.",
+      "Run the CIT balance workflow in test mode and correct mapping or layout errors before production.",
+      "Post balances using the correct conversion-type path: cash, mapping, or transfer in kind.",
+      "Load deferral elections before any eligibility action.",
+      "Enable and load eligibility only after deferrals are verified clean.",
+      "Load YTD contributions, compensation, and hours through separate EDS layouts.",
+      "Run verification queries, review EDS outputs, build the audit pack, and update NBI."
+    ],
+    decisions: ["Which data source did the client approve for each record type?", "Is this cash, mapping, or transfer in kind?", "Has the balance workflow passed test mode?", "Are deferrals verified before eligibility starts?", "Did verification prove counts, totals, and sources?"],
+    outputs: ["Posted participant balances", "Loaded deferrals", "Enabled eligibility", "Loaded YTD data", "Audit pack evidence", "Updated NBI status"],
+    watchouts: ["Do not run eligibility before deferrals.", "Wrong P3 processing mode can fire duplicate trades.", "Cash and mapping paths need dummy-participant cleanup.", "TIK needs fresh final-share estimates for Matt O'Connell's team.", "EDS layouts should be ready before final files arrive."],
+    closeout: ["Balances posted", "Deferrals verified", "Eligibility enabled", "YTD loads complete", "Audit pack complete", "NBI updated"]
+  },
+  {
+    slug: "deferral-processing",
+    title: "Deferral Processing",
+    short: "Load elections and auto-enroll state before eligibility can fire.",
+    family: "Final Files",
+    accent: "#8a4f7d",
+    summary: "Deferrals fill the system state. They capture participant elections, auto-enrollment status, and auto-enrollment start dates so eligibility does not trigger the wrong default actions later.",
+    inputs: ["Client deferral data", "Vendor election data", "Payroll election data when needed", "Auto-enrollment start dates", "Plan escalation rules", "EDS deferral layout"],
+    systems: ["EDS", "P3", "AQT", "Client payroll system"],
+    steps: [
+      "Confirm which data source the client chose for deferral elections.",
+      "Identify participants enrolled under auto-enrollment defaults.",
+      "Capture each participant's deferral rate and auto-enrollment start date.",
+      "If ADP or another source cannot provide start dates, request them directly from the client.",
+      "If start dates still cannot be provided, use the conservative assumption and notify the client of impacted participants.",
+      "Load deferrals through EDS and review all warning and error outputs.",
+      "Post to P3 and verify elections before eligibility begins.",
+      "Proceed to eligibility only after deferrals and auto-enroll data are clean."
+    ],
+    decisions: ["Did the client choose vendor, client, payroll, or hybrid data?", "Which participants are auto-enrollment defaults?", "Are auto-enrollment start dates present and reliable?", "Is the prior record keeper ADP or another weak source for dates?", "Are all elections verified before eligibility runs?"],
+    outputs: ["Loaded deferral elections", "Auto-enroll participant list", "Client notice list for missing date risk", "EDS output review", "P3 verification evidence"],
+    watchouts: ["Eligibility before deferrals can cause auto-enrollment to overwrite elections.", "ADP does not reliably provide auto-enrollment dates.", "Missing start dates can break escalation logic.", "Wrong elections may not surface until payroll starts.", "Deferral cleanup is usually harder than eligibility cleanup."],
+    closeout: ["Source policy confirmed", "Auto-enroll population identified", "Start-date gaps handled", "EDS warnings reviewed", "P3 elections verified"]
+  },
+  {
+    slug: "eligibility-processing",
+    title: "Eligibility Processing",
+    short: "Enable rule-driven eligibility only after deferrals are clean.",
+    family: "Final Files",
+    accent: "#3d6f9f",
+    summary: "Eligibility turns on P3 rule logic for who qualifies, when participants enter, and when auto-enrollment can trigger. It should only run after deferrals have filled the participant election state.",
+    inputs: ["Eligibility file", "Deferral verification evidence", "Client source-policy decision", "P3 eligibility rules", "Contributing source list", "Internal approval email"],
+    systems: ["P3", "EDS", "AQT", "QA", "TC", "COM"],
+    steps: [
+      "Prepare the eligibility file from the approved data source.",
+      "Confirm deferrals are loaded and verified before eligibility work starts.",
+      "Send the internal approval email to QA, TC, and COM.",
+      "Wait for the go-ahead before enabling eligibility.",
+      "In P3, navigate to Outsourcing Summary and the Eligibility enable screen.",
+      "Enable only sources that will receive contributions.",
+      "Load and process eligibility through EDS and the CIT Eligibility job.",
+      "Run queries and confirm eligibility results."
+    ],
+    decisions: ["Are deferrals verified clean?", "Did QA, TC, and COM give the go-ahead?", "Which sources actually receive contributions?", "Are class, service, and entry-date rules configured correctly?", "Do results match the expected eligible population?"],
+    outputs: ["Enabled eligibility rules", "CIT Eligibility job result", "Verified eligible population", "Query evidence", "Exception list if needed"],
+    watchouts: ["Eligibility triggers actions; it is not just a passive load.", "Do not enable non-contributing sources.", "Auto-enrollment can fire if no deferral is on file.", "Class-based rules need careful review.", "LTPT status requires hours discipline."],
+    closeout: ["Deferrals checked", "Approval received", "Contributing sources enabled", "Job completion email reviewed", "Queries verified"]
+  },
+  {
+    slug: "basis-loading",
+    title: "Basis Loading",
+    short: "Load Roth and after-tax basis without breaking tax history.",
+    family: "EDS Loading",
+    accent: "#7a6240",
+    summary: "Basis loading captures employee basis values such as Roth or after-tax contributions. It requires the right data elements, correct restrictions by plan type, and careful transaction adjustment checks.",
+    inputs: ["Basis source file", "EE basis fields", "Plan type", "Roth start dates", "After-tax values", "TO_BASIS query/reference"],
+    systems: ["EDS", "P3", "AQT", "Basis tables"],
+    steps: [
+      "Confirm whether the plan type and source setup allow the basis data being loaded.",
+      "Prepare basis fields and validate required participant identifiers.",
+      "Check Roth, after-tax, and other employee-basis values against the source file.",
+      "Validate the file through EDS before loading.",
+      "Load basis data and review EDS output for warnings or rejects.",
+      "Run queries to confirm basis rows landed in the expected tables.",
+      "Review transaction adjustments when mid-year conversion data affects basis.",
+      "Document any exclusions or plan-type restrictions."
+    ],
+    decisions: ["Is basis allowed for this plan type?", "Are Roth or after-tax sources present?", "Do participant identifiers match the loaded census?", "Did EDS report warnings that affect tax history?", "Are transaction adjustments needed?"],
+    outputs: ["Loaded basis records", "EDS output notes", "Query verification", "Restriction notes", "Adjustment evidence"],
+    watchouts: ["Do not load basis blindly on restricted plan types.", "Basis errors create downstream tax-reporting pain.", "Mid-year conversions may need special adjustment review.", "Participant matching depends on clean census data.", "The source document references TO_BASIS but the exact path is not captured here."],
+    closeout: ["Plan restrictions checked", "EDS validation complete", "Basis rows verified", "Adjustments reviewed", "Exceptions documented"]
+  },
+  {
+    slug: "payroll-vendor-onboarding",
+    title: "Payroll Vendor Onboarding",
+    short: "Get vendor files, FTP, validation, and handoff ready for go-live.",
+    family: "Payroll",
+    accent: "#2d6b50",
+    summary: "Payroll vendor onboarding identifies vendor and client contacts, sets up FTP, walks the vendor through the TA template, validates test files, demos the process, and hands off at go-live whether testing is complete or not.",
+    inputs: ["Payroll vendor contact", "Client uploader contact", "TA payroll template", "FTP setup request", "Vendor test file", "Validation results"],
+    systems: ["FTP", "EDS", "Payroll template", "OnePayroll", "NBI", "AWD"],
+    steps: [
+      "Identify the payroll vendor contact and the client uploader who needs FTP credentials.",
+      "Send the vendor intro email and fire off the FTP setup request early.",
+      "Hold the kickoff meeting and walk through the TA payroll template field by field.",
+      "Have the vendor re-tool their output and return a test file.",
+      "Test the FTP connection independently from the file content.",
+      "Run the validation chain and send issues back to the vendor until the file is clean.",
+      "Demo the client-facing process and prepare for go-live.",
+      "At go-live, hand off to Fiduciary Services through the formal process if testing is not complete."
+    ],
+    decisions: ["Who owns vendor file generation?", "Who owns client upload access?", "Is FTP ready before test-file validation?", "Did the test file pass EDS and OnePayroll review?", "Is payroll testing complete by go-live?"],
+    outputs: ["Vendor contact chain", "FTP access", "Validated payroll test file", "Client demo", "Go-live handoff package"],
+    watchouts: ["FTP setup should start early because access delays are common.", "Testing the connection is separate from validating file content.", "Multiple payroll vendors need separate tracks.", "Auto-sweep is later and requires several good runs.", "DC still hands off at live even if payroll testing is incomplete."],
+    closeout: ["Contacts confirmed", "FTP tested", "Template walkthrough complete", "Validation chain complete or handed off", "NBI updated"]
+  },
+  {
+    slug: "payroll-handoff-at-go-live",
+    title: "Payroll Handoff at Go-Live",
+    short: "Move unfinished payroll testing to Fiduciary Services cleanly.",
+    family: "Payroll",
+    accent: "#476b8d",
+    summary: "If payroll testing is not complete at go-live, the DC submits a FILESPECRQ AWD ticket, coordinates internal handoff notes, updates NBI, and COM notifies the Account Manager and client-facing parties.",
+    inputs: ["Payroll testing status", "FILESPECRQ AWD ticket", "Vendor/client contact notes", "Open issue list", "NBI project status", "COM go-live communication"],
+    systems: ["AWD", "NBI", "COM", "Fiduciary Services", "Account Manager"],
+    steps: [
+      "Confirm payroll testing status as go-live approaches.",
+      "If testing is incomplete, submit the FILESPECRQ AWD ticket.",
+      "Include plan details, vendor details, current status, open issues, and files already tested.",
+      "Notify any internal DC helpers that the project is moving to Fiduciary Services.",
+      "Update NBI to show the payroll project handoff status.",
+      "COM notifies the Account Manager that testing was not completed during transition.",
+      "If testing is underway, coordinate an introduction to the AM; if not started, AM initiates contact.",
+      "Fiduciary Services continues the payroll work after go-live."
+    ],
+    decisions: ["Is payroll testing complete by go-live?", "Has enough evidence been included for Fiduciary Services?", "Does the AM need a warm introduction?", "Has the client/vendor been told the work is moving?", "Does NBI reflect the current owner?"],
+    outputs: ["FILESPECRQ ticket", "Handoff notes", "NBI update", "AM notification", "Fiduciary Services ownership"],
+    watchouts: ["The handoff is the operating model, not a failure.", "Do not leave informal helper notes outside the ticket.", "COM and DC messages need to align.", "Client/vendor confusion creates avoidable follow-up.", "NBI must show that transition ownership changed."],
+    closeout: ["AWD ticket submitted", "Internal helpers notified", "NBI updated", "COM notified AM", "Client/vendor path clear"]
+  },
+  {
+    slug: "reversal-submission",
+    title: "Reversal Submission",
+    short: "Use the new form-first reversal path before opening AWD.",
+    family: "Corrections",
+    accent: "#9a4d42",
+    summary: "The reversal process now starts with the Reversal Form. The automated email from that form becomes the structured reversal-team block that gets pasted into the AWD ticket comments.",
+    inputs: ["Reversal Form", "Automated form email", "Transaction reference numbers", "Loan numbers when applicable", "Approval level", "Supporting documents"],
+    systems: ["Reversal Form", "Email", "AWD", "P3", "Prod Support"],
+    steps: [
+      "Complete the Reversal Form with plan, participant, transaction, amount, and reason details.",
+      "Submit the form and wait for the automated email response.",
+      "Copy the block labeled for the reversal team from the email.",
+      "Open the appropriate reversal AWD ticket type.",
+      "Paste the copied email block into AWD comments.",
+      "Attach supporting documents and approval evidence.",
+      "Submit the AWD ticket for the reversal team to work.",
+      "Track the ticket through completion and confirm the correction landed."
+    ],
+    decisions: ["Is this the right transaction type for reversal?", "Does the amount require a higher approval level?", "Were loan-specific fields completed when relevant?", "Are funds already returned, stopped, or voided if needed?", "Is the automated email block in AWD comments?"],
+    outputs: ["Submitted Reversal Form", "Automated email evidence", "AWD reversal ticket", "Approval evidence", "Completed correction"],
+    watchouts: ["The old Plan Correction Checklist is retired.", "The form alone does not initiate the reversal; AWD is still required.", "Skipping the email block slows the reversal team down.", "Approvals depend on amount.", "Funds that need stopping or returning must be handled before submission."],
+    closeout: ["Form submitted", "Email block copied", "AWD ticket opened", "Documents attached", "Completion confirmed"]
+  },
+  {
+    slug: "fund-management-calendar",
+    title: "Fund Management Calendar",
+    short: "Notify and record large trades before cut-off risk hits.",
+    family: "Trading",
+    accent: "#7d6d2f",
+    summary: "The fund management calendar documents trade intent for large conversion-related trades. It varies by conversion type and has strict timing expectations around SSBT cut-off and trade-notification groups.",
+    inputs: ["Conversion type", "Trade date", "Expected trade amount", "Fund details", "Calendar access", "Email distribution list"],
+    systems: ["Fund management calendar", "Email", "Cashiering", "Trading groups", "SSBT"],
+    steps: [
+      "Determine whether the trade type requires calendar notification.",
+      "Identify the conversion type and which trade event is occurring.",
+      "Enter trade details before the cut-off window whenever the file is accessible.",
+      "Send the required notification email to the distribution list.",
+      "If the calendar file is locked, send the email anyway and keep trying to update the file.",
+      "For cash conversions, track the wire, Advanced Employer, and participant balance events separately.",
+      "Exclude small-money trailing dividends when the procedure says calendar entry is not needed.",
+      "Confirm the intended trade is documented before downstream processing."
+    ],
+    decisions: ["Does this event require FMC entry?", "Is this mapping, cash, participant balance, or TIK?", "Is the calendar file accessible?", "Is the trade before SSBT cut-off?", "Is this small trailing money that can be excluded?"],
+    outputs: ["Calendar entry", "Notification email", "Locked-file evidence if applicable", "Trade timing record"],
+    watchouts: ["The 4 PM EST SSBT cut-off matters.", "Vanguard and other timing exceptions can be stricter.", "TIK shares are generally outside the cash-trade calendar logic.", "Locked files do not remove the email-notification requirement.", "Cash conversions can have three separate trading events."],
+    closeout: ["Applicability checked", "Calendar updated or lock documented", "Email sent", "Trade timing confirmed", "Exceptions noted"]
+  },
+  {
+    slug: "tc-conversion-timeline",
+    title: "TC Conversion Timeline",
+    short: "Track TC readiness from kickoff through closeout.",
+    family: "TC / QA",
+    accent: "#5c6f8f",
+    summary: "The TC timeline covers administrative readiness: initiation calls, subpack maintenance, special services, notices, eligibility/enrollment readiness, PSD/DDOL/VRU activation, mapping support, go-live controls, cleanup, and closeout.",
+    inputs: ["Project initiation details", "Submission package", "Special-service needs", "Notice setup", "PSD/DDOL/VRU readiness", "Go-live checklist"],
+    systems: ["Subpack", "NBI", "PSD", "DDOL", "VRU", "AWD"],
+    steps: [
+      "Join project initiation and setup calls.",
+      "Review, maintain, and circulate the submission package.",
+      "Identify special services and request needed tickets.",
+      "Complete first system audit and notice setup.",
+      "Prepare contact-center and plan sponsor administration materials.",
+      "Coordinate eligibility and enrollment readiness with QC and DC.",
+      "Activate and audit PSD, DDOL, and VRU access.",
+      "Support fund and source mapping readiness.",
+      "Run go-live controls and complete the go-live checklist.",
+      "Finish post-go-live cleanup, transition call, final subpack filing, and NBI closeout."
+    ],
+    decisions: ["Are special services needed?", "Are notices and eligibility materials ready?", "Is website and voice access ready?", "Are mapping attributes complete?", "Is the plan ready for go-live controls and closeout?"],
+    outputs: ["Updated subpack", "Special-service tickets", "Notice/audit evidence", "PSD/DDOL/VRU readiness", "Go-live checklist", "Closed transition record"],
+    watchouts: ["Legacy TC source material needs QC before treated as current SOP.", "Administrative readiness failures often surface at handoff points.", "Website access must be tested before participant-facing changes.", "Mapping support depends on DC source and fund evidence.", "Closeout needs final filing, not just a meeting."],
+    closeout: ["Subpack filed", "Readiness audits complete", "Go-live checklist complete", "Transition call held", "NBI transition date updated"]
   }
 ];
 
@@ -222,19 +442,147 @@ function mdList(items) {
 }
 
 function iconFor(proc) {
-  return `../assets/icons/${proc.slug}.png`;
+  return `../assets/icons/${proc.slug}.svg`;
 }
 
 function iconForIndex(proc) {
-  return `assets/icons/${proc.slug}.png`;
+  return `assets/icons/${proc.slug}.svg`;
 }
 
 function detailImageFor(proc) {
-  if (proc.slug === "census-loading" || proc.slug === "elections") return "../assets/flow-census-elections-detail.png";
-  if (proc.slug === "source-mapping" || proc.slug === "fund-mapping") return "../assets/flow-source-fund-mapping-detail.png";
-  if (["cash-conversion-balances", "mapping-conversion-balances", "transfer-in-kind"].includes(proc.slug)) return "../assets/flow-balance-branches-detail.png";
-  if (proc.slug === "loan-loading") return "../assets/flow-loan-loading-detail.png";
-  return "../assets/excalidraw-deck-reference.png";
+  return `../assets/flowcharts/${proc.slug}.svg`;
+}
+
+function wrapText(value, maxChars = 34, maxLines = 3) {
+  const words = String(value).split(/\s+/).filter(Boolean);
+  const lines = [];
+  let current = "";
+  words.forEach(word => {
+    const next = current ? `${current} ${word}` : word;
+    if (next.length > maxChars && current) {
+      lines.push(current);
+      current = word;
+    } else {
+      current = next;
+    }
+  });
+  if (current) lines.push(current);
+  if (lines.length > maxLines) {
+    const kept = lines.slice(0, maxLines);
+    kept[maxLines - 1] = `${kept[maxLines - 1].replace(/\.*$/, "")}...`;
+    return kept;
+  }
+  return lines;
+}
+
+function initials(title) {
+  return String(title)
+    .split(/\s+/)
+    .filter(word => !/^(and|at|in|of|the|via)$/i.test(word))
+    .slice(0, 2)
+    .map(word => word[0])
+    .join("")
+    .toUpperCase();
+}
+
+function writeIcons() {
+  procedures.forEach(proc => {
+    const text = initials(proc.title);
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" role="img" aria-label="${esc(proc.title)} icon">
+  <defs>
+    <linearGradient id="g" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="${proc.accent}"/>
+      <stop offset="1" stop-color="#f7efe2"/>
+    </linearGradient>
+  </defs>
+  <rect width="240" height="240" rx="34" fill="#fffdf8"/>
+  <path d="M38 56h164M38 120h164M38 184h164" stroke="${proc.accent}" stroke-width="10" stroke-linecap="round" opacity=".2"/>
+  <circle cx="60" cy="56" r="20" fill="${proc.accent}"/>
+  <circle cx="142" cy="120" r="20" fill="url(#g)"/>
+  <circle cx="92" cy="184" r="20" fill="${proc.accent}" opacity=".78"/>
+  <text x="120" y="137" text-anchor="middle" font-family="Arial, sans-serif" font-size="58" font-weight="800" fill="#202122">${esc(text)}</text>
+</svg>`;
+    fs.writeFileSync(path.join(dirs.icons, `${proc.slug}.svg`), svg, "utf8");
+  });
+}
+
+function writeFlowchart(proc) {
+  const width = 1600;
+  const stepCount = Math.min(proc.steps.length, 10);
+  const colCount = 4;
+  const rowCount = Math.ceil(stepCount / colCount);
+  const colWidth = 380;
+  const boxWidth = 330;
+  const boxHeight = 136;
+  const rowGap = 190;
+  const startX = 58;
+  const startY = 136;
+  const decisionY = startY + rowCount * rowGap + 70;
+  const systemsY = decisionY + 222;
+  const height = systemsY + 160;
+  const stepBoxes = proc.steps.slice(0, stepCount).map((step, index) => {
+    const col = index % colCount;
+    const row = Math.floor(index / colCount);
+    const x = startX + col * colWidth;
+    const y = startY + row * rowGap;
+    const lines = wrapText(step, 30, 4).map((line, i) => `<text x="${x + 66}" y="${y + 40 + i * 20}" font-size="17" fill="#202122">${esc(line)}</text>`).join("");
+    const next = index < stepCount - 1 ? (() => {
+      const nextCol = (index + 1) % colCount;
+      const nextRow = Math.floor((index + 1) / colCount);
+      if (nextRow === row) {
+        return `<path d="M${x + boxWidth} ${y + 56} L${x + colWidth - 18} ${y + 56}" stroke="#202122" stroke-width="3" fill="none" marker-end="url(#arrow)"/>`;
+      }
+      const nextX = startX + nextCol * colWidth;
+      const nextY = startY + nextRow * rowGap;
+      const routeY = y + boxHeight + 26;
+      return `<path d="M${x + boxWidth / 2} ${y + boxHeight} L${x + boxWidth / 2} ${routeY} L${nextX + boxWidth / 2} ${routeY} L${nextX + boxWidth / 2} ${nextY - 10}" stroke="#202122" stroke-width="3" fill="none" marker-end="url(#arrow)"/>`;
+    })() : "";
+    return `${next}
+      <g>
+        <rect x="${x}" y="${y}" width="${boxWidth}" height="${boxHeight}" rx="18" fill="#fff" stroke="#202122" stroke-width="3"/>
+        <circle cx="${x + 34}" cy="${y + 38}" r="21" fill="${proc.accent}"/>
+        <text x="${x + 34}" y="${y + 45}" text-anchor="middle" font-size="20" font-weight="800" fill="#fff">${index + 1}</text>
+        ${lines}
+      </g>`;
+  }).join("\n");
+  const decisions = proc.decisions.slice(0, 4).map((decision, index) => {
+    const x = 118 + index * 355;
+    const y = decisionY;
+    const lines = wrapText(decision, 30, 3).map((line, i) => `<text x="${x + 114}" y="${y + 52 + i * 21}" text-anchor="middle" font-size="17" fill="#202122">${esc(line)}</text>`).join("");
+    return `<g>
+      <path d="M${x + 114} ${y} L${x + 228} ${y + 72} L${x + 114} ${y + 144} L${x} ${y + 72} Z" fill="#fff8df" stroke="#202122" stroke-width="3"/>
+      <text x="${x + 114}" y="${y + 28}" text-anchor="middle" font-size="15" font-weight="800" fill="${proc.accent}">DECISION ${index + 1}</text>
+      ${lines}
+    </g>`;
+  }).join("\n");
+  const systems = proc.systems.slice(0, 6).map((system, index) => {
+    const x = 86 + index * 238;
+    const y = systemsY;
+    return `<g>
+      <rect x="${x}" y="${y}" width="196" height="58" rx="12" fill="#eef5f4" stroke="${proc.accent}" stroke-width="3"/>
+      <text x="${x + 98}" y="${y + 36}" text-anchor="middle" font-size="19" font-weight="800" fill="#202122">${esc(system)}</text>
+    </g>`;
+  }).join("\n");
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} ${height}" role="img" aria-label="${esc(proc.title)} flowchart">
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M2 2 L10 6 L2 10 Z" fill="#202122"/>
+    </marker>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="5" dy="6" stdDeviation="0" flood-color="#202122" flood-opacity=".12"/>
+    </filter>
+  </defs>
+  <rect width="${width}" height="${height}" fill="#fbfaf5"/>
+  <rect x="34" y="34" width="1532" height="${height - 68}" rx="28" fill="none" stroke="#202122" stroke-width="4"/>
+  <text x="74" y="78" font-family="Arial, sans-serif" font-size="22" font-weight="800" fill="${proc.accent}">${esc(proc.family.toUpperCase())}</text>
+  <text x="74" y="116" font-family="Georgia, serif" font-size="44" fill="#202122">${esc(proc.title)}</text>
+  <g filter="url(#shadow)">${stepBoxes}</g>
+  <text x="74" y="${decisionY - 26}" font-family="Arial, sans-serif" font-size="24" font-weight="800" fill="#202122">Branch points</text>
+  ${decisions}
+  <text x="74" y="${systemsY - 20}" font-family="Arial, sans-serif" font-size="24" font-weight="800" fill="#202122">Systems touched</text>
+  ${systems}
+</svg>`;
+  fs.writeFileSync(path.join(dirs.flowcharts, `${proc.slug}.svg`), svg, "utf8");
 }
 
 function writeMarkdown(proc) {
@@ -444,7 +792,7 @@ h3 { margin: 0 0 10px; font-size: 15px; text-transform: uppercase; letter-spacin
 .image-slide::before { inset: 48px 20px 44px; }
 .image-slide h2 { max-width: none; font-size: clamp(30px, 3.2vw, 46px); line-height: 1.08; }
 .image-frame { width: min(1500px, calc(100vw - 68px)); margin: 16px 0 0; border: 1px solid var(--line); background: #fff; padding: 8px; box-shadow: 0 24px 90px rgba(32, 33, 34, 0.18); }
-.image-frame img { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; cursor: zoom-in; image-rendering: auto; }
+.image-frame img { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: contain; cursor: zoom-in; image-rendering: auto; background: #fff; }
 .lifecycle-rail { display: flex; gap: 16px; align-items: center; margin-top: 42px; }
 .lifecycle-rail span { width: 48px; height: 48px; display: grid; place-items: center; border-radius: 999px; background: var(--procedure-accent); color: #fff; font-weight: 800; box-shadow: 0 10px 24px rgba(32, 33, 34, 0.14); }
 .split-slide { display: grid; grid-template-columns: minmax(0, 1fr) 390px; gap: 42px; align-items: center; }
@@ -608,6 +956,8 @@ function writeIndex() {
 
 writeCss();
 writeJs();
+writeIcons();
+procedures.forEach(writeFlowchart);
 procedures.forEach(proc => {
   writeMarkdown(proc);
   fs.writeFileSync(path.join(dirs.decks, `ops-${proc.slug}.html`), renderOpsDeck(proc), "utf8");

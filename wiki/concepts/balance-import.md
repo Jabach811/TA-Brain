@@ -5,6 +5,7 @@ tags: ["concept", "balance", "conversion", "informatica", "p3"]
 created: 2026-04-19
 updated: 2026-04-19
 sources: 1
+status: current
 ---
 
 # Balance Import
@@ -50,4 +51,5 @@ The process of loading prior-record-keeper balances into P3 after a conversion w
 - [[conv-file]]
 - [[dummy-participant]]
 - [[matt-oconnell]]
-- [[transfer-in-kind]]
+- [[processes/tik-transfer|transfer-in-kind]]
+

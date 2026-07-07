@@ -5,11 +5,12 @@ tags: [concept, document, com, tc, payroll]
 created: 2026-04-14
 updated: 2026-04-14
 sources: 1
+status: current
 ---
 
 # RDD Form
 
-A payroll-related form that originates with [[tc]], is routed through the client by the [[com]], and submitted back to TC upon completion.
+A payroll-related form that originates with [[tc]], is routed through the client by the [[roles/com]], and submitted back to TC upon completion.
 
 ## Definition
 
@@ -41,6 +42,6 @@ The RDD Form is part of the payroll setup process and depends on a functioning C
 
 ## See Also
 
-- [[com]]
+- [[roles/com]]
 - [[tc]]
 - [[contribution-monitoring-form]]

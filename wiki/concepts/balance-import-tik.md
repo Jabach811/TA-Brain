@@ -5,6 +5,7 @@ tags: ["concept", "balance", "tik", "conversion", "informatica", "re-registratio
 created: 2026-04-19
 updated: 2026-05-03
 sources: 2
+status: current
 ---
 
 # Balance Import — Transfer In-Kind
@@ -74,9 +75,10 @@ Once the CIT balance file runs and participant balances are whole, compare the a
 ## See Also
 - [[balance-import]]
 - [[balance-import-mapping]]
-- [[transfer-in-kind]]
+- [[processes/tik-transfer|transfer-in-kind]]
 - [[matt-oconnell]]
 - [[informatica-balance-module]]
 - [[conv-file]]
 - [[dummy-participant]]
-- [[re-registration]]
+- [[processes/tik-transfer|re-registration]]
+

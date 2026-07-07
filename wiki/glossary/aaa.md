@@ -5,6 +5,7 @@ tags: [glossary, document, pep, adoption]
 created: 2026-04-16
 updated: 2026-04-16
 sources: 1
+status: current
 ---
 
 # AAA

@@ -5,6 +5,7 @@ tags: [census, elections, balances, cash-conversion, mapping, tik, fund-mapping,
 created: 2026-05-03
 updated: 2026-05-03
 sources: 1
+status: current
 ---
 
 # Source: Balances, Census, Loans Brain Dump
@@ -64,7 +65,7 @@ Long-form narrative covering the full census-to-balances-to-loans pipeline from 
 - [[defaulting-elections-eds]] (new), [[forfeiture-loading]] (new)
 - [[balance-import]], [[balance-import-cash]], [[balance-import-mapping]], [[balance-import-tik]]
 - [[advanced-employer]], [[subsequent-cash-imports]] (new)
-- [[fund-mapping]], [[source-mapping]], [[conv-file]], [[transfer-in-kind]]
+- [[fund-mapping]], [[source-mapping]], [[conv-file]], [[processes/tik-transfer|transfer-in-kind]]
 - [[dummy-participant]], [[fund-management-calendar]], [[wire-instructions]]
 - [[liquidation-day]], [[final-files-processing]]
 - [[loan-setup]], [[informatica-loan-module]]
@@ -73,3 +74,4 @@ Long-form narrative covering the full census-to-balances-to-loans pipeline from 
 ## Notes
 
 This source contains the first explicit mention in the wiki corpus of: limited access files, defaulted-election EDS rows, forfeiture date conventions, AE interest pro-rat, the one-share TIK escalation threshold, fund-split ratio handling, the loan workflow test toggle, and HOLB. Several existing pages are expanded against this source; see the per-page `sources` count for traceability.
+

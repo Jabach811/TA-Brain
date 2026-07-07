@@ -5,6 +5,7 @@ tags: [informatica, loans, system, conversion]
 created: 2026-04-16
 updated: 2026-04-18
 sources: 1
+status: current
 ---
 
 # Informatica Loan Module
@@ -13,12 +14,12 @@ The Informatica module that loads participant loan header records and source-bal
 
 ## Definition
 
-One of the four core Informatica modules used during a plan conversion (alongside the [[informatica-balance-module|Balance]], [[informatica-basis-module|Basis]], and [[informatica-allocation-module|Allocation]] modules). The Loan Module reads a normalized loan import file plus a parameter file, applies frequency lookups and NPER rounding rules, and writes:
+One of the core Informatica modules used during a plan conversion, alongside the [[informatica-balance-module|Balance]] and [[informatica-allocation-module|Allocation]] modules. The Loan Module reads a normalized loan import file plus a parameter file, applies frequency lookups and NPER rounding rules, and writes:
 
 - **`PENSION.CONV_LOAN`** — one row per loan (header: outstanding balance, frequency, NPER, deemed status).
 - **`PENSION.CONV_LOAN_PRIN`** — one row per source per loan (allocation of outstanding principal across money sources).
 
-It is invoked at **Step 10** of [[loan-setup]], after the [[lm-dc]] has confirmed Header = Source totals and verified the Deemed fields.
+It is invoked at **Step 10** of [[loan-setup]], after the [[roles/lm-dc]] has confirmed Header = Source totals and verified the Deemed fields.
 
 ## Why It Matters
 
@@ -32,7 +33,7 @@ Any one of these wrong throws an error. Wrong vendor name is the most common cul
 
 ## Pre-Run Requirements
 
-Before invoking the module, the [[lm-dc]] must have:
+Before invoking the module, the [[roles/lm-dc]] must have:
 
 - **P3 conversion record created** (Plan tab → Conversions → Add Record Keeper → New Conversion). Without this, the module raises "Conversion number not found." See [[loan-setup]] Steps 1–7.
 - **Conversion Number** captured from P3.

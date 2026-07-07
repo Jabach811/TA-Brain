@@ -1,0 +1,2233 @@
+##TEAM CHARTER - DC PLANS
+#THIS DOCUMENT IS OUTDATED AND NEEDS REVIEW. IT IS ACCEPTABLE FOR NOW, BUT A FULL QC NEEDS TO BE DONE AT SOME POINT. 
+
+Plan Installation 
+Project Team Charter
+(Defined Contribution Plans)
+
+This document is designed to; 
+"(a)	Clearly define roles, responsibilities and expectations for all functional teams/departments involved in the new plan conversion process"
+"(b)	Act as an internal agreement between teams/departments; "
+"(c)	Establish a clear understanding of accountability; "
+"(d)	Foster a better working relationship among all functional teams/departments"
+"(e)	Establish an overall commitment to the success of the new plan conversion process. "
+
+Managers/Approvers: are responsible for reviewing this document with their team or work group. This document will be updated and redistributed from time-to-time as we continue close gaps, change responsibilities and enhance our processes. 
+
+
+
+
+"	"
+General expectations for all project team members:  
+"	Attends all internal & external meetings as requested by TM."
+"	Prepared to provide detailed updates at internal and external meetings. "
+"	Notifies the TM if you are unable to attend a scheduled meeting."
+"	Provides detailed status updates enabling the TM to keep the client informed.   "
+"	Responds to phone or e-mail inquiries within 24 hours.  "
+ 
+SALES TEAM 
+
+Position Summary 
+The Sales Executive ensures all pre-sale commitments are documented and relayed to the appropriate internal parties (e.g. Pricing Consultant, TM and CE). 
+
+Responsibilities
+
+"	Beginning with prospecting phase and throughout implementation, obtains all pertinent information required for pricing.  "
+"	Obtains a copy of the fixed fund contract, if applicable.  "
+"	Contacts the Client Integration Team (Anthony Fego for Not-for-Profit sales, Mary Kara Murphy for Corporate sales), prior to committing to an effective date. "
+"	Ensures delivery of a New Sale Announcement within 24 hours of being notified that Transamerica has been awarded new business. "
+"	Forwards summary e-mail of finals presentation to internal conversion team members, identifying key issues, requests and commitments made at a finals.  "
+"	Participates in the New Sale Call to transfer information about new client to the appropriate internal parties."
+"	Provides the TM and CE with pertinent documents, notes and information collected during the sales process."
+"	Coordinates an Introductory/Welcome call with the client, CE and TM within 2 days of the New Sale Call. "
+"	Works with intermediaries to clarify their role."
+"	Continues to serve as liaison to client and intermediary as needed to handle outstanding issues. "
+"	Works with the Pricing Consultant to confirm the assumptions used during the sales process and ensure final pricing is confirmed by the target dates specified in the project plan. "
+"	Outlines details of the fixed/stable fund offered through Transamerica to ensure the clients understanding of the product and provisions."
+"	Responds to client questions regarding the fund lineup and/or pricing."
+"	Contacts the TM and CE prior to committing to client meetings. "
+"	Directs all conversion related inquiries to the TM (e.g. status of conversion)."
+"	Coordinates setting up commissions/fee arrangements for intermediaries (distributes the Disclosure Notice/Commissions Agreements etc.) "
+
+Note: some roles and responsibilities noted above may vary based on the regional office/Sales Team. Some items may be coordinated by the Sales Consultant as agreed upon with the Sales Executive, thus both should be included on all pertinent communications related to the transition.   
+
+INTERMEDIARY (ADVISOR / CONSULTANT)
+
+The Sales Executive should clarify the following roles with the intermediary: 
+
+Plan Administration Services
+Primary point of contact for plan sponsor
+Negotiate service contracts
+
+Investment Support
+Draft the plan’s investment policy
+Design fund array
+Design mapping strategy
+Provide asset allocation guidance 
+Coordinate investment committee meetings
+Discuss investment performance of existing funds
+Discuss consideration of fund replacement or additions
+Attend investment performance reviews
+Provide analysis/evaluation of investments
+
+Compliance Services
+Provide compliance advisory support
+Perform compliance testing
+
+Communications/Education
+Develop communications strategy
+Design/develop communications material  
+Review/approve conversion communications
+Develop/deliver enrollment/education presentation
+Develop/deliver additional educational presentations/workshops
+Coordinate/participate in plan reviews
+Evaluate/monitor effectiveness of communications strategy
+Provide individual participant face-to-face meetings
+Provide individual participant advice
+
+PRICING CONSULTANT 
+
+Position Summary 
+The Pricing Consultant works with all pertinent parties to document and communicate final agreed-upon pricing and special services.
+
+Responsibilities
+"	Provides CIT with all relevant information learned during prospect/pricing stage including:"
+"•	Pricing e-mails"
+"•	Any unique service requirements"
+"•	Potential implementation concerns"
+"•	Initial plan reviews (if completed)"
+"•	Request for Proposal response (if applicable)"
+"	Reconfirms all assumptions used during original pricing."
+"	Continues to work with Sales to ensure final pricing and funds are obtained by the specified target dates contained in the project plan."
+"	Review the requested fund line-up to confirm that all funds have been set up on P3 and information included on the “to” side of the mapping (tickers, cusips, fund codes) are accurate. "
+"	Serves as liaison between Sales, CE, and CIT as needed to clarify issues related to pricing or administrative needs."
+"	Sends final Pricing E-Mail to all interested parties within the specific target date noted in the project plan."
+"	Provides support to CIT members, specifically TM, as needed until the plan conversion has been completed."
+"	Uses the current date + sequential numbering system as naming convention for multiple versions of pricing spreadsheets.  "
+"	Re-circulates updated pricing spreadsheets to project team as needed."
+
+CLIENT EXECUTIVE (CE) 
+
+Position Summary 
+The Client Executive will be responsible for managing the overall relationship with the client and/or intermediary during and after the implementation process. 
+
+Responsibilities
+
+Relationship Management
+"	CE Welcome Call - Within 2 days of the New Sale Announcement, coordinates with Sales to arrange a welcome call with the client and set expectations for next steps until a TM and conversion team can be introduced."
+"	Acts as the primary contact with the client during and after implementation. "
+"	Establishes and confirms client goals and objectives"
+"	Assists the TM to manage client expectations and target dates"
+"	Contacts the client/advisor at least weekly to establish a relationship/gauge overall satisfaction. "
+"	Communicates pertinent information from client discussions to the project team."
+"	Determines the appropriate Saratoga notes to circulate to the conversion team."
+"	Provides clients with a detailed demo of Plan Sponsor Direct services and capabilities. "
+
+Documents 
+"	Participates in discussions regarding final plan design upon conversion. "
+"	Participates in discussions regarding our service agreements and funding documents."
+"	Retrieves final executed funding documents from PSD for delivery to client as needed."
+"	Follows up with client for signed plan documents if not received during conversion process."
+"	Coordinates SPD and/or SMM as needed.   "
+
+Communications/Education Meetings
+"	Understands the various alternatives/options for Education booklet mailings."
+"	Maintains overall responsibility for working with internal parties to ensure Education booklets are delivered timely and accurately (refer to http://diapod.us.aegon.com/)"
+"	Coordinates changes to the Education booklets, final review, approval and ordering.  "
+"	Consults with the Print on Demand (PoD) Team and TM regarding proposed Education Meeting dates prior to scheduling with client and Participant Counseling Organization (PCO). "
+"	Coordinates all aspects of the Employee Education Meetings (material content and delivery, PCO training, presentation content, reserving dates with the client and PCO). "
+"	Coordinates On-site hiring process with the Participant Counseling group (Brodie Wood)."
+"	Develops the Communication Campaign Strategy (Initial and Ongoing) - working with the client and Communications Consultant where applicable. "
+"	Works with the Participant Strategy Group to coordinate the individual asset transfer strategy for 403(b) Contract Exchanges."
+"	Coordinates the development of statement stuffers and special mailings at client’s request. "
+
+"	TRANSITION MANAGER (TM )"
+
+Position Summary 
+The Transition Manager (TM) is responsible for leading plan conversions to Transamerica and acts as the central coordinator, or project manager for the entire conversion project. The TM is the project team leader who is ultimately responsible for client satisfaction throughout the conversion.  
+
+Responsibilities
+
+Meetings/Conference Calls
+"	New Sale Call- within 3 days of the New Sale Announcement schedules a conference call with the Sales team and the Pricing Consultant to gather information about the new client and the services offered during the sales process."
+"	TM Welcome Call- within 2 days of the New Sale Call, coordinates with the Sales Team and/or Client Executive to schedule an introductory call whereby they are introduced to the client for the first time.  "
+"	Introductory e-mail – within 1 day of the TM Welcome Call, e-mails the client with an introductory package containing contact information, required documents, and the project plan. "
+"	Weekly Client Calls - within 5 business days of the Welcome Call, establishes a weekly conference calls schedule. The meetings are designed to; provide the client with updates related to project status, manage expectations related to target dates and discuss overall project scope. The TM distributes meeting agendas and timelines at least 24 hours prior to meetings. The TM distributes meeting minutes within 48 hrs following the meetings. "
+"	Internal Team Meetings - within 5 business days of the Welcome Call, establishes a weekly meeting schedule. The meetings are designed to; gather key project team members to inform them of new developments, review plan design, obtain updates on project status, address any project risks or missed deliverables and develop the agenda for the next Client Call.  "
+"	Implementation Meeting – This meeting is scheduled after the Prior Plan Review (PPR) has been completed and is typically held on-site with the client, but can be conducted via conference call if appropriate. The TM creates the Implementation Manual (including PPR) for the meeting and the CE coordinates scheduling/logistics with the client.  The TM distributes detailed minutes within 3 days of the meeting."
+"	Prior Vendor Questionnaire Call- within 2 business days of obtaining prior vendor contact information, coordinates with the Data Consultant to schedule a call with the client and prior vendor to review the Questionnaire. "
+
+Project Team Responsibilities and Oversight
+"	Creates and maintains the project plan. "
+"	Circulates and obtains sign-off on target dates contained in the project plan from both internal & external parties. "
+"	Updates and distributes the project plan at least weekly (internally & externally)."
+"	Maintains follow up for all items necessary to complete the conversion, specifically key drivers (prior document, final funds/mapping, prior vendor notification) and modifies the project plan accordingly if deliverables are not met."
+"	Effectively manages project team resources, ensuring resources are used appropriately (e.g. call attendance). "
+"	Immediately identifies and communicates issues that may impact the success of the conversion to their manager. "
+"	Continually communicates with project team throughout the implementation to clarify issues, establish expectations, and distributes relevant communications (marketing pieces, e-mails, meeting minutes etc.) to ensure everyone is continually updated and informed throughout the project."
+"	Addresses performance issues with team members and immediately reports issues that are not improving, or will impact the success of the project to the team member’s managers and/or direct manager. "
+
+Task Related Responsibilities
+"	Assists client with the preparation of termination letter(s) to the prior vendor(s)."
+"	Follows up with client to ensure contract terminations options were provided by the prior provider(s) and ensures an option is selected within specified target dates. "
+"	Reviews RFP (if applicable) and relevant e-mails and notes circulated by Sales/CE to ensure a full understanding of pre-sale commitments and client expectations. "
+"	Prepares Implementation Manual and leads conversion project discussion at Implementation Meeting (includes Prior Plan Review document)."
+"	Creates the preliminary Submission Package and circulates to the internal team. "
+"	Works with the Annmarie Santucci to notify and follow up with the New Fund Set-Up Committee to set up new funds on P3."
+"	Obtains plan sponsor signature on the final Prior Plan Review document to confirm plan provision changes. "
+"	Coordinates all necessary tasks required to establish Blended Accounts. "
+"	Performs regular follow ups to ensure timely receipt of service agreements, funding documents, and other documents and deliverables."
+"	Makes recommendations when working with clients and/or attorneys related to document related questions (with assistance from Compliance Support when required). "
+"	Ensures completion and delivery of all employee conversion communications such as the Initial Employee Announcement, Sarbanes Oxley notice, Mapping notice, PPA conversion notice and Smartmoves newsletter as applicable. (Note:  For accounts that are assigned a Communications Director for purposes of designing a customized communication campaign, the Communications Director ensures completion and delivery of the Initial Employee Announcement, Smartmoves, Enrollment Book Cover, and any posters that may be provided.  The Sarbanes Oxley notice and Mapping notice continues to be coordinated by the TM)."
+ 
+"	Acts as point person for conversion status updates for receipt of assets, records, and “go live” date for all project team members."
+"	Identifies parameters for Automatic Enrollment services"
+"	Reviews and provides the Conversion Summary Report to the client. "
+"	Schedules and facilitates conversion project closure calls with the client and project team."
+"	Adds clients to the conversion survey request and notifies CE."
+"	For select conversion, creates and distributes an internal “Lessons Learned” case study after project completion.   "
+"	Requests and follows up on any necessary system enhancements required. Notes any enhancements that require ongoing follow up by the CC or CE upon conversion. "
+
+PLANS CONSULTANT
+
+Position Summary 
+The Plans Consultant is responsible for preparing and updating all plan and funding documents. The Plans Consultant is also responsible for PARIS 3 system set up. 
+
+Responsibilities
+
+"	Prepares plans, amendments, funding documents, special notices, summary plan descriptions and plan filing packages as needed.  "
+"	Participates in weekly internal/external calls as requested by TM."
+"	Assists the TM by researching document related questions and taking ownership of open document questions and issues by following through to resolution."
+"	Assists the TM and/or CE in responding to client/attorney comments on all documents. "
+"	Reviews, analyzes and consults on takeover plans to ensure that all accrued benefits are protected and identifies any potential system/document issues."
+"	Inputs employer data and plan provisions on the recordkeeping system and performs a quality check of data."
+"	Updates the recordkeeping system data as needed to accommodate changes."
+"	Informs the TC once system set up and audit has been completed and the TC audit can begin."
+"	Provides expertise on new products, regulatory developments and plan compliance issues. "
+"	Posts countersigned service agreements and funding documents to PSD and sends an e-mail notification to the CE (approx 1 month after contract effective date). "
+"	Provides final plan documents to the CE."
+
+
+DATA CONSULTANT
+
+Position Summary 
+The Data Consultant acts as the central coordination point for the Plan Sponsor’s payroll source and prior vendor for all data and asset transfer related issues. 
+
+Responsibilities
+"	Requests and follows up for test & live data from prior vendor."
+"	Requests and follows up for test & live data from the Plan Sponsor’s payroll source. "
+"	Provides all necessary data file layouts to Plan Sponsor’s payroll source."
+"	Work with client to establish the payroll feed process."
+"	Notifies the TM immediately if there are issues that impact their ability to meet specified targets.  "
+"	Conducts a detailed audit and review of conversion records and assets. "
+"	Assists the TM by researching data related questions and taking ownership of conversion data related issues and following through to resolution."
+"	Assists the TM in responding to client/vendor comments and questions on all data requests."
+"	Participates in weekly internal/external calls as requested."
+"	Provides a summary of wires received from prior vendors, on the date of receipt."
+"	Collaborates with TC on the source mapping strategy.  "
+"	Confirms receipt of conversion assets with the TM, broken down by source & fund."
+"	Confirms receipt of conversion records and reconciliation of participant balances and immediately notifies the TC so the TC can begin their audit. "
+"	Completes and maintains the Prior Vendor Questionnaire and notifies all project team members as updates are made.  "
+"	Codes Beneficiary and QDRO accounts as appropriate. "
+"	Requests & informs the TC when recurring/systematic information has been received"
+"	Requests Unclaimed Benefits/Un-cashed Check information from prior vendor to identify the potential for returned checks. "
+"	Assists the TC with the Distribution Kit mailing clean up project."
+"	Coordinates with the TC and Annmarie to set up eligibility services and enrollment kit mailings.  "
+"	Provides regular updates on conversion progress through the TM who will coordinate with team members as appropriate.  "
+  
+TRANSITION CONSULTANT (TC)
+
+Position Summary 
+The Transition Consultant (TC) handles a wide variety of issues related to establishing and communicating the administrative processes & procedures during the conversion process. The TC plays an integral role by ensuring all day-to-day administrative functions are working properly.  The TC ensures the Plan Administrator understands all administrative processes and procedures necessary to operate their plan with Transamerica. 
+
+Responsibilities
+
+Administrative & Operations Support
+"	Acts as internal back up to TM on day-to-day administration related issues. "
+"	Assists TM to respond to administration related questions and participates in weekly internal/external calls as requested."
+"	Creates the Outsourcing Addendum(s) and ensures they are reviewed for accuracy. "
+"	Maintains Submission Package after preliminary draft circulated by TM.  Updates and circulates revisions following new business conference call and as subsequent updates are made, through conversion project completion."
+"	Submits AWD item to Dave F to request that a JIRA Ticket be submitted for special services such as PX, CMP & MA. "
+"	Provides internal parties (including but not limited to, Remit Loaders, Processors, Contact Center, and CC) with information necessary to properly administer the plan. "
+"	Provides plan sponsor(s) with PSD training for user set-up and the file transmission process. "
+"	Establishes and documents special administrative procedures that may be required."
+"	Works with the TM/CE to discuss use of special administrative forms when needed. "
+"	Creates, coordinates and delivers all materials designed to educate plan sponsors about administrative procedures (Remittance Guides, Administration Manuals etc.). "
+"	Supports the CC on any conversion related inquiries from the Processing Team or Customer Contact Center.  "
+"	Creates the Conversion Summary Report and provides to TM for review/delivery to the client."
+"	Maintains appropriate documentation for pertinent information (e.g. client inquiries, administrative issues, special processes and procedures) "
+"	Partners with the ongoing CC to keep him/her informed of the status of the relationship and involved in milestone action items"
+"	Communicates case status and administrative issues to their manager and all other project team members as appropriate. "
+"	Creates and maintains case notes during the plan implementation period. "
+"	Schedules and facilitates conversion project closure calls with internal parties."
+"	Creates Proxy Procedures for plans with Employer Stock"
+"	Researches data related requests for the conversion, payroll and basis data."
+"	Establishes appropriate data exchange methods between Transamerica, client and payroll."
+
+Recordkeeping Set-up Audits and Controls
+"	Creates and maintains the TC Conversion Action Plan. "
+"	Conducts and documents completion of a thorough recordkeeping system audit."
+"	Creates entity group to allow generation of PoD materials upon confirmation of recordkeeping system set-up. "
+"	Completes review of Fee Disclosure Notice using the appropriate checklist"
+"	Ensures appropriate P3 tabs are set up (e.g. Report Output, Outsourcing, NGO tab)  "
+"	Conducts review of the initial notice and notifies CE once a full system audit has been completed so the CE can review enrollment materials for purposes of discussing the content with the client. "
+"	Conducts and documents a thorough audit of conversion records/assets per the TC Action Plan. "
+"	Conducts a thorough audit of the Participant Website using a test ppt account along with the appropriate checklist."
+"	Conducts an audit of PSD to ensure conversion balances are displaying correctly."
+"	Coordinates statement audits and delivery using the Statement Audit Checklist. Partners with the CE to coordinate special messages that may be required.. "
+"	Collaborates with Quality Team and Data Consultant to set up eligibility services and enrollment kit mailings "
+"	Maintains Audit Control Checklists and ensures that all signatures are obtained and all audits are properly saved in the audit information folder. "
+"	Coordinates DDOL/VRU/PSD set-up, testing and activation. "
+
+QUALITY CONTROL (QC)
+
+Position Summary 
+The Quality Control Consultant (QC) handles a wide variety of the audit processes related in the conversion process.  The QC plays an integral role by providing support in the areas of audit analysis and audit corrections to ensure the accuracy of data conversion and participant assets. 
+
+Responsibilities
+
+Conversion Audits and Controls
+"	Creates and maintains the Quality Control Action Plan. "
+"	Attends internal meetings specific to QDIA and conversion strategies in order to fully understand the strategy for each case needed for audit purposes."
+"	Conducts and documents a thorough and complete audit of conversion records/assets at the participant level."
+"	Conducts and documents a thorough and complete audit of the mapping of investment allocations."
+"	Completes an analysis on the default investment allocations by ensuring the appropriate population is in default for investment allocations and has a 100% election to the plan’s default fund."
+"	Completes an analysis on the default deferral elections for auto enroll plans to ensure the appropriate population is in default for deferrals and coincides with strategy and plan provisions."
+"	Performs a pre and post conversion takeover loan analysis and documents any takeover loans that are past maturity, or behind and subject to default for the TC/TM. "
+"	Audits the conversion of census data such as division codes, marital status codes, and any duplicate SSNs and documents for the TC."
+"	Works with the TC on running conversion statements, monitors mail dates, error fixes, stock messages, and any other statement messages. "
+"	Loads test participant SSNs for the TC’s audit of the participant website "
+
+Recordkeeping Set-up Audits and Controls
+"	  Performs quality check on the TC’s recordkeeping system audit for items that could pose a financial risk."
+"	Sets up the appropriate outsourcing services specifically related to enrollment kit mailing and auto enrollment, and catalogues ER eligibility letters. "
+"	Creates the JIRA ticket for the setup of Custom PX, Custom Model Portfolios, and/or Managed Accounts."
+"	For plans using target date funds, loads the target date chart to our recordkeeping system."
+"	Completes an analysis of what enrollment kits are pending or queued up to be mailed and documents for the TC/DC. "
+"	Creates Loan Coupons for takeover loans being repaid via coupon."
+"	Inserts appropriate participants into a Loan PoG and sets up related participant notes. "
+"	Runs sample change/new enroll confirm (conversion welcome kits) for the TC to audit content and populates the table for future confirm generation. "
+
+DB Plan Set-up Audits and Controls  
+"	Coordinates set up of combo DB/DC statements"
+"	Performs Retiree Payment Audit."
+"	Creates JIRA ticket for plans with retiree payments, indicating deduction codes, map keys, EFT Confirms, and reporting needs.  "
+"	Coordinates mailing of DB Welcome kits with Fulfillment. "
+
+Functional Support
+"	  Supports TC’s and TM’s in running adhoc reports in AQT."
+"	Maintains the Quality Control and CSR stats section of the access database for reporting purposes. "
+
+CLIENT CONSULTANT (CC) 
+Position Summary 
+The Client Consultant (CC) handles a wide variety of issues related to the conversion of new client business to Transamerica.  The CC works with the assigned TM and TC to establish the most efficient processes and procedures to ensure the proper administration of the plan. 
+
+Responsibilities
+"	Recommends solutions that will assist in developing alternative strategies for non-standard processes and procedures. "
+"	Maintains the AWD queue by researching and responding to written and telephone inquiries from the Processing Team and Customer Contact Center.  Consults with TC as needed when  unable to determine course of action."
+"	Immediately notifies the TC regarding escalated questions or issues.  "
+"	Maintains regular attendance to internal and external meetings as requested by TM and TC (new business call, remit call, admin call)."
+"	Controls and/or perform the assigned administrative functions."
+"	Responds to administrative questions and engages in client discussions about administration."
+"	Assists the TM/TC in responding to client questions about administrative procedures."
+"	Collaborates with TC to educate plan sponsors on Transamerica’s administrative procedures (Remittance Guides, Administration Manuals etc.). "
+"	Demonstrates awareness and understanding of the conversion strategy to assure client’s of their familiarity with the events of the conversion project.   "
+
+COMMUNICATIONS CONSULTANT
+
+Position Summary 
+
+The Communications Consultant is responsible developing Smartmoves and other agreed upon communications pieces for accounts that are not assigned to a Communications Director (generally under $100 million in plan assets). 
+
+Responsibilities:
+
+"	Provides guidance to the TM and/or client regarding content, timing and strategy for communications campaigns. "
+"	Provides guidance and solutions when client requests are made to modify our standard material."
+"	Completes the Client Mailing/Communications Request Form "
+"	Opens a Team Track ticket and sends the Client Mailing/Communications Request Form to Fulfillment for tracking purposes."
+"	Provides an MS Word draft of Smartmoves to the TM to provide to the client. "
+"	Creates a layout version of Smartmoves and forwards to TM when the MS Word version is approved by the client, or upon special request from the client. "
+"	E-mails the Job Sign-Off For Legal Review to the TM "
+"	Forwards the sign off/approval to Fulfillment, posts final client approved doc to Team Track and assigns to Fulfillment for legal review/approval"
+"	Attends all internal & external meetings as requested by the TM."
+"	Notifies the TM if unable to attend a scheduled meeting and provides detailed status updates via phone call, or e-mail."
+"	Prepared to provide detailed status updates to TM during internal meetings. "
+"	Prepared to discuss agenda items with client when necessary as requested by TM. "
+"	Researches and responds to written and telephone inquiries from project team members or clients in a timely manner. "
+"	Communicates any delays that may jeopardize target dates."
+
+COMMUNICATIONS DIRECTOR
+
+Position Summary 
+
+The Communications Director is responsible for the developing strategic communications/education campaigns for large National Accounts that qualify for custom communications campaigns (generally over $100 million in plan assets). 
+
+Responsibilities: 
+
+"	Provides communication consulting services such as communication campaign planning, messaging, content creation, and editing in support of client needs."
+"	Works collaboratively with CE to manage the production and fulfillment of appropriate materials from start to finish."
+"	Works with the CE to establish a direct working relationship with the client and/or intermediary to work through all aspects of the communications campaign."
+"	Creates and maintains a detailed Communications plan for the client."
+"	Ensures completion and delivery of the Initial Employee Announcement, Smartmoves, Enrollment book Cover, and any posters that may be provided (Sarbanes Oxley Notice, Mapping Notice and PPA Notice are coordinated by the TM)"
+"	Completes the Client Mailing/Communications Request Form "
+"	Opens a Team Track ticket and sends the Client Mailing/Communications Request Form to Fulfillment for tracking purposes."
+"	Provides an MS Word draft of Smartmoves to the TM to provide to the client. "
+"	Creates a layout version of Smartmoves and forwards to TM when the MS Word version is approved by the client, or upon special request from the client. "
+"	E-mails the Job Sign-Off For Legal Review to the TM "
+"	Forwards the sign off/approval to Fulfillment, posts final client approved doc to Team Track and assigns to Fulfillment for legal review/approval"
+"	Attends all internal & external meetings as requested by the TM."
+"	Notifies the TM if unable to attend a scheduled meeting and provides detailed status updates via phone call, or e-mail."
+"	Prepared to provide detailed status updates to TM during internal meetings. "
+"	Prepared to discuss agenda items with client when necessary as requested by TM. "
+"	Researches and responds to written and telephone inquiries from clients, field, and internal associates in a timely manner."
+"	Communicates any delays that may jeopardize target dates."
+
+PLAN SPONSOR /CLIENT 
+
+Responsibilities
+"	Plays an active role in the planning process"
+"	Provides Plan documents and other pertinent information that will ensure Transamerica has a thorough understanding of how the plan is currently operating."
+"	Sends a Contract Termination Letter to the prior vendor(s) within the specified target dates. "
+"	Distributes the Initial Employee Announcement to notify employees of the provider change."
+"	Distributes the SOX and Mapping notices to notify employees of the blackout period and asset transfer strategy.  "
+"	Negotiates contract termination options with the prior vendor(s)."
+"	Provides necessary internal contact to Transamerica (e.g. day-to-day administrative contacts, payroll, funding etc.) "
+"	Provides Transamerica with locations to conduct Education Meetings."
+"	Follows the remittance file layout as provided by Transamerica and notifies Transamerica if file format or data re-positioning is necessary"
+"	Makes final fund line-up and mapping decision by the target specified in the project plan. "
+"	Makes final plan design decision by the target specified in the project plan. "
+"	Review and approves all conversion communications by the target specified in the project plan. "
+"	Provides Transamerica with a company logo if one is to be used for communications and statements "
+"	Completes Transamerica’s New Client Survey"
+
+
+
+##TEAM CHARTER - STARTUP
+#THIS DOCUMENT IS OUTDATED AND NEEDS REVIEW. IT IS ACCEPTABLE FOR NOW, BUT A FULL QC NEEDS TO BE DONE AT SOME POINT. 
+
+Plan Installation 
+Project Team Charter
+(Start-Up Plans for In-Force Business)
+
+
+This document is designed to clearly define roles, responsibilities and expectations for all functional teams
+
+Managers/Approvers are responsible for reviewing this document with their team or work group. This document will be updated and redistributed from time-to-time as we continue to close gaps, change responsibilities and enhance our processes. If you have any questions or concerns, please contact the approver for your section
+
+
+"	"
+General expectations for all project team members:  
+"	Attend recurring meeting and be prepared to provide updates on assigned Project Plan tasks "
+Notify the TM if you are unable to attend a scheduled meeting.
+
+Project Kick-off Steps – upon learning that a start-up project will begin, the CE/CEA should take the following steps………
+
+"	CEA to Submit New Sale Announcement to TRSC IM New Sale Announcement"
+"	New Sale Assignment email distributed by CIT"
+"	TM to Schedule New Sale Conference Call to discuss preliminary project fundamentals"
+"	Connect with TM Regarding Next Steps, including fund selection/pricing"
+"	TM should complete Project Plan and distribute to team for discussion/sign-off on targets"
+"	TM should schedule recurring meetings with project team"
+
+For more information regarding start-up projects, please visit the Inforce projects link on the CIT Intranet site.  
+
+CLIENT EXECUTIVE (CE) 
+
+The Client Executive will be responsible for managing the overall relationship with the client and/or intermediary during and after the implementation process. The CE should also partner with TM regarding project management to ensure a smooth installation. 
+
+Project Initiation
+"	Within two days of notification from client submits opportunity through Sales Force to have a CEA assigned assist with submit pricing review, complete the NSA, and New Account detail sheet."
+"	Confirms fund line-up with the client."
+"	Kickoff Call - Within 2 days of the New Sale Conference Call, schedules a welcome call with the client and TM to set expectations for next steps."
+"	Coordinates all discussions with client relating to plan design, including requesting plan documents if applicable. "
+
+Relationship Management
+"	Provides client with a detailed demo of Plan Sponsor Direct. If needed"
+"	Assists TM with follow-up with the client to ensure receipt of all deliverables by the target date and works with TM to adjust timeline if targets are not met."
+
+Documents 
+"	Answers all questions from internal team members related to plan design and new plan setup."
+"	Ensures all funding and plan documents are executed timely by client."
+"	Coordinates delivery of SPD and/or SMM as needed.   "
+
+Communications/Education Meetings (coordinate with Education Service Admins) 
+"	Maintains overall responsibility for timely and accurate delivery of enrollment material."
+"	Coordinates changes to the education kits, final review, approval and ordering.  "
+"	Coordinates all aspects of Education Meetings (material, delivery, scheduling). "
+"	Develops/Maintains Communication Campaign Strategy.  "
+"	Works with the Personal Retirement Services (PRS) and Vendor Relations to coordinate the individual asset transfer strategy."
+"-	CE will coordinate with Marketing contact Lisa Platz, and in some cases the CEA, to work on Asset Transfer Kit."
+
+
+
+
+
+
+
+
+
+
+
+
+CLIENT ENGAGEMENT ASSOCIATE (CEA)
+
+The Client Engagement Associate will assist the Client Executive by submitting pricing review request, completing the NSA, Detail Sheet, and NAW.
+
+Project Initiation:
+
+"√	When notified of project, create a case in Salesforce to the Resource Team as Pricing Review"
+"√	Completes and sends NSA to New Sale Distribution"
+"√	Requests Fund Line-up from Advisor"
+√          Assists CE on Request for Plan Document Gathering
+
+Tasks and Responsibilities
+"√ 	Complete New Account Worksheet (startups)"
+"√	Performs Peer Review of NAW"
+√         CEA Sends NAW Detail Spreadsheet to Inforce Pricing
+"√	Distributes NAW, Detail Sheet, and Pricing Approval to Project Team"
+"√	Prepare for and attend the “Pricing Call”"
+"√	Re-circulates updated pricing spreadsheets to TM/CE as needed."
+
+ 
+
+TRANSITION MANAGER (TM)
+
+The Transition Manager will act as project manager for all aspects of the conversion.  TM will coordinate and work with CE to ensure target dates are being met internally and by the client. ** If separate TC is not assigned, TM will perform roles of both TM and TC
+Project Initiation
+"	Upon receipt of New Sale Announcement and Pricing Email, schedules a New Business Conf Call to ensure all internal parties are working under the same assumptions."
+"	Creates and maintains Start-up Project Plan"
+"	Circulates target dates contained in project plan to both internal & external parties on a weekly basis. Reviews and confirms target dates contained in the project plan from both internal and external parties."
+"	Schedules recurring internal meetings with project team. Schedules conference call dedicated to automatic enrollment (if applicable) with project team, including Outsourcing Team"
+
+Task Related Responsibilities
+"	Obtains client signature on New Account Worksheet"
+"	Obtains client signature on Plan Review Document"
+"	Once pricing/funds are final, provides information to all internal team members."
+"	Coordinate all aspects of new fund set-up following defined/standard process. "
+"	Completes and distributes initial Submission package"
+"	Works directly with CCCS to determine what funding and plan documents are required, and timing for signed documents being returned by client."
+"	Ensures completion and delivery of all employee conversion communications such as the Initial Employee Announcement, and Conversion newsletter as applicable. (Note:  For accounts that are assigned a Communications Director for purposes of designing a customized communication campaign, the Communications Director ensures completion and delivery of the Initial Employee Announcement, Conversion Newsletter)."
+"	Acts as point person for status updates and “go live” date for all project team members."
+"	Identifies parameters for Automatic Enrollment process"
+"	E-mails out Automatic Enrollment recap e-mail to the internal conversion team to ensure that the group understands the automatic enrollment provisions"
+"	Requests and follows up on any necessary system enhancements required. Notes any enhancements that require ongoing follow up by the AM or CE upon conversion. "
+"	Ensures that NBI was kept up to date and Transitions plan out of NBI when project has been completed "
+
+
+
+
+ 
+
+TRANSITION CONSULTANT (TC)
+
+In occasional instances, a specifically designated TC will be assigned to an Inforce Startup project. Their role is to ensure that the administrative processes are established and documented going forward much like a New Business Conversion, without the conversion of assets.
+
+Administrative & Operations Support 
+"√	 Assists TM to respond to administration related questions and participates in weekly internal/external calls as requested. "
+"√	 Creates the Outsourcing Addendum(s) and ensures they are reviewed for accuracy.  "
+"√	   Maintains Submission Package after preliminary draft circulated by TM.  Updates and circulates revisions following new business conference call and as subsequent updates are made, through conversion project completion. "
+"√	   Submits AWD item to request that a JIRA Ticket be submitted for special services such as PX, CMP & MA.  "
+"√ 	  Provides internal parties (including but not limited to, Remit Loaders, Processors, Contact Center, and AM) with information necessary to properly administer the plan.  "
+"√ 	  Provides plan sponsor(s) with PSD training for user set-up and the file transmission process.  "
+"√ 	Establishes and documents special administrative procedures that may be required. "
+"√ 	  Creates, coordinates and delivers all materials designed to educate plan sponsors about administrative procedures (Remittance Guides, Administration Manuals etc.).  "
+"√ 	  Partners with the ongoing AM to keep him/her informed of the status of the relationship and involved in milestone action items "
+√   Creates and maintains case notes during the plan implementation period.  
+√   Schedules and facilitates conversion project closure calls with internal parties. 
+√   Creates Proxy Procedures for plans with Employer Stock 
+√   Researches data related requests for the conversion, payroll and basis data. 
+√   Creates and maintains the TC Conversion Action Plan.  
+√   Creates entity group to allow generation of PoD materials upon confirmation of recordkeeping system set-up.  
+√   Completes review of Fee Disclosure Notice using the appropriate checklist 
+√   Conducts and documents P3 system audit to ensure tabs are set up correctly (e.g. Report Output, Outsourcing, NGO tab)   
+√   Conducts review of the initial notice and provides the CE a preview of the enrollment materials for purposes of reviewing the content with the client.  
+√   Conducts a thorough audit of the Participant Website using a test ppt account along with the appropriate checklist. 
+√   Collaborates with Quality Team and Data Consultant to set up eligibility services and enrollment kit mailings  
+√   Conducts a thorough audit of live participant takeover data that has been loaded to the recordkeeping system.    
+√   Maintains Audit Control Checklists and ensures that all signatures are obtained, and all audits are properly saved in the audit information folder.  
+√   Coordinates DDOL/VRU/PSD set-up, testing and activation.  
+
+
+PRICING CONSULTANT 
+
+The Pricing Consultant works with the CE to document and communicate final agreed-upon pricing and special services.
+
+Responsibilities
+"	Provides the CE/CEA with all relevant information learned during prospect/pricing stage including:"
+"•	Pricing e-mails"
+"•	Any unique service requirements"
+"•	Initial pricing reviews (if completed)"
+"•	Request for Proposal response (if applicable)"
+"	Reviews In-force Pricing Request Form."
+"	Sends e-mail to approve new plan(s) and confirms final pricing to all interested parties within the specific target date identified by TM/CE."
+
+
+ 
+
+PLANS SERVICE CONSULTANT
+
+
+The Plans Consultant is responsible for preparing and updating all plan and funding documents. The Plans Consultant is also responsible for PARIS 3 system set up. 
+
+Responsibilities
+
+"	Funding Documents – coordinates all aspects of funding document process, including drafting, answering client questions, and working directly with client/attorney until executed and countersigned.  Once countersigned uploads to PSD. "
+"	Plan Documents - prepares plan documents, summary plan descriptions, special notices, and plan filing packages as needed.  Assists the TM by researching document related questions and taking ownership of open document issues by following through to resolution.  Provides final plan documents to the CE and TM."
+"	Confirms to TM, CE, and AM when all signed documents have been received and assets can be accepted by Transamerica."
+"	Submits signed service agreements and funding documents to Workflow for saving to internal document folder. Once countersigned documents are available, Workflow will post to PSD (approx. 1 month after contract effective date). "
+"	Completes set-up of PARIS III recordkeeping system and does quality check."
+"	Informs the CE, TM and AM once system set up and audit has been complete so final audit can begin."
+"	Sends target date chart to TA Ops IS/CTS IM Quality for loading to system."
+"	Provides expertise on new products, regulatory developments and plan compliance issues. "
+"	Participates in weekly internal/external calls as requested by TM."
+"-	Specifically, Pricing Call, Plan Document Review Call"
+"-	Client Calls include Plan Document Review Call, and any other specifically requested by TM for consult on compliance questions."
+
+
+
+ 
+
+ACCOUNT MANAGER (AM)
+
+The Account Manager (AM) handles a wide variety of issues related to establishing and communicating the administrative processes & procedures both through the plan installation process and on-going. This includes ensuring all day-to-day administrative functions are working properly and working with the CE to be certain the Plan Administrator understands all administrative processes and procedures necessary to operate their plan with Transamerica. 
+
+General Responsibilities 
+"	General administrative expert - recommends solutions that will assist in developing alternative strategies for non-standard administrative processes and procedures. "
+"	Establishes and documents special administrative procedures that may be required."
+"	Reviews/approves initial plan notes created by the Transition Manager."
+"	Provides internal parties, including but not limited to Remit Loaders, Processors, and Contact Center, with information necessary to properly administer the plan."
+"	Updates and delivers all materials designed to educate plan sponsors about administrative procedures (Remittance Guides, Administration Manuals etc.).  If new manuals are required, TC will create. "
+"	Responds to inquiries from the Processing Team or Customer Contact Center and those received through AWD.  "
+"	Maintains appropriate documentation for pertinent information (e.g. client inquiries, administrative issues, special processes and procedures)"
+"	Participates in internal/external calls as requested."
+
+Remittance/Outsourcing Data Related Responsibilities
+
+"	Coordinates with Outsourcing team and client, the collection of all required base data that is needed to establish indicative and outsourcing data on our system."
+"	Provide plan sponsor(s) with PSD training for user set-up and the file transmission process under the new account if needed."
+
+ 
+
+
+DATA CONSULTANT (DC)
+
+Data consultant coordinates the data transmission method for the plan by establishing remittance layouts, base file layouts, and ensuring receipt and test of data has been completed.
+
+Responsibilities 
+"	Upon receipt of the Submission Package, Data Consultant creates remittance layouts, one-time data layouts, and receives test files & reviews for accuracy. "
+"	DC lets internal team know that all base data has been received and loaded. Coordinates set-up of eligibility/enrollment kit services for all start-up projects.  However, TC is responsible for notifying Outsourcing when kits can be taken “off-hold”, meaning the final material was approved by the client.  In addition, the TC sets-up all other outsourcing services."
+"	Coordinates a test remit file to be sent through agreed upon payroll process."
+"	Provides results of test file to AM to be reviewed with the client."
+
+
+
+
+QUALITY CONTROL (QC)
+
+
+The Quality Control Consultant (QC) handles a wide variety of the audit processes related in the conversion process.  The QC plays an integral role by providing support in the areas of audit analysis and audit corrections to ensure the accuracy of data conversion and participant assets. 
+
+Responsibilities
+
+Conversion Audits and Controls
+"	Creates and maintains the Quality Control Action Plan. "
+"	Attends internal meetings specific to QDIA and conversion strategies in order to fully understand the strategy for each case needed for audit purposes."
+"	Completes an analysis on the default investment allocations by ensuring the appropriate population is in default for investment allocations and has a 100% election to the plan’s default fund."
+"	Completes an analysis on the default deferral elections for auto enroll plans to ensure the appropriate population is in default for deferrals and coincides with strategy and plan provisions."
+"	Loads test participant SSNs for the TC’s audit of the participant website "
+"	Works with the TC on running conversion statements, monitors mail dates, error fixes, stock messages, and any other statement messages. "
+"	Audits the conversion of census data such as division codes, marital status codes, and any duplicate SSNs and documents for the TC."
+
+Recordkeeping Set-up Audits and Controls
+"	  Performs quality check on the TC’s recordkeeping system audit for items that could pose a financial risk."
+"	For plans using target date funds, loads the target date chart to our recordkeeping system."
+"	Completes an analysis of what enrollment kits are pending or queued up to be mailed and documents for the TC/DC. "
+"	Submits request to Prod Support to place appropriate participants into a Loan PoG and sets up related participant notes. "
+
+Functional Support
+"	  Supports TC’s and TM’s in running adhoc reports in AQT."
+"	Submits request to Prod Support to adds participant notes for TM"
+
+ 
+
+COMMUNICATIONS CONSULTANT
+
+Communications Consultant is responsible for developing the Conversion Newsletter and/or other agreed upon communications pieces.  They should coordinate with the CE and TM to define their role.
+
+Responsibilities:
+
+
+"	Create Conversion Newsletter and send to TM for delivery to the client. "
+"	Arrange for mailing and emailing of transition materials "
+"	Submits any client changes to legal and proofreading"
+"	Creates Go Live email and sends to TM to deliver to client."
+"	Coordinates legal reviews as necessary"
+"	Provides Ad-Hoc materials as requested"
+
+
+
+ 
+
+PLAN SPONSOR /CLIENT 
+
+
+Responsibilities
+"	Plays an active role in the planning process"
+"	Provides Plan documents and other pertinent information that will ensure Transamerica has a thorough understanding of how the plan is currently operating."
+"	Distributes the Initial Employee Announcement to notify employees of the new plan (if applicable)"
+"	Provides necessary internal contact to Transamerica (e.g. day-to-day administrative contacts, payroll, funding etc.) "
+"	Provides Transamerica with locations to conduct Education Meetings as needed."
+"	Follows the remittance file layout as provided by Transamerica and notifies Transamerica if file format or data re-positioning is necessary"
+"	Makes final fund line-up and mapping decision by the target specified in the project plan. "
+"	Makes final plan design decision by the target specified in the project plan. "
+"	Review and approves all conversion communications by the target specified in the project plan. "
+"	Provides Transamerica with a company logo if one is to be used for communications and statements "
+
+
+
+##TEAM CHARTER - EXTERNAL MERGER 
+#THIS DOCUMENT IS OUTDATED AND NEEDS REVIEW. IT IS ACCEPTABLE FOR NOW, BUT A FULL QC NEEDS TO BE DONE AT SOME POINT. 
+
+
+
+
+
+Plan Installation 
+Project Team Charter
+(Plans from outside vendor Merge into Existing Plans at Transamerica)
+
+This document is designed to; 
+"(a)	Clearly define roles, responsibilities and expectations for all functional teams/departments involved in the internal plan merger process"
+"(b)	Act as an internal agreement between teams/departments; "
+"(c)	Establish a clear understanding of accountability; "
+"(d)	Foster a better working relationship among all functional teams/departments"
+"(e)	Establish an overall commitment to the success of the plan merger process. "
+
+Managers/Approvers are responsible for reviewing this document with their team or work group. This document will be updated and redistributed from time-to-time as we continue close gaps, change responsibilities and enhance our processes. 
+
+
+"	"
+General expectations for all project team members:  
+
+"	Attend all internal & external meetings as requested by TM."
+"	Be prepared to provide detailed status updates during internal and external meetings. "
+"	Notify the –TM if you are unable to attend a scheduled meeting."
+"	Provide detailed status updates on assigned tasks enabling the TM to keep the client informed."
+"	Respond to phone or e-mail inquiries within 24 hours. "
+ 
+
+CLIENT EXECUTIVE (CE) 
+
+The Client Executive (CE) is responsible for managing the overall relationship with the client.
+
+Project Initiation
+"	Upon initial notification of the merger the CE will submit an “Opportunity” via Salesforce to get a CEA assigned"
+"	Participates in the New Sale Conference Call to provide any pertinent information to the Merger team related to the client’s expectation on the merger "
+"	Kickoff Call - Within 2 days of the New Sale Conference Call, coordinates to arrange a welcome call with the client and TM and set expectations for next steps."
+"	Responds to client questions regarding the fund lineup and/or pricing process."
+"	Works with Client Engagement Associate to have the TOA created & finalized "
+
+
+Relationship Management
+"	Confirms final fund line-up and mapping/asset transfer strategy and provides to pricing, including tickers/CUSIPS and indication of whether fund mapping is similar or dissimilar."
+"	Provides a detailed demo of Plan Sponsor Direct services and capabilities post or near post conversion"
+"	Continues to serve as a liaison to client and intermediary as needed on overall client satisfaction."
+
+Documents
+"	Participates in discussions regarding final plan design as a result of the merger. "
+"	Participants in discussions regarding any needed updates to our service agreements."
+"	Follows up with the client for final signed merger documents/amendments."
+"	Coordinates SPD and/or SMM mailing as needed.  "
+
+  
+Communications/Education Meetings (coordinate with Education Service Admins) 
+"	Maintains overall responsibility for timely and accurate delivery of enrollment material."
+"	Coordinates changes to the education kits, final review, approval and ordering.  "
+"	Coordinates all aspects of Education Meetings (material, delivery, scheduling). "
+"	Develops/Maintains Communication Campaign Strategy.  "
+"	Works with the Personal Retirement Services (PRS) and Vendor Relations to coordinate the individual asset transfer strategy."
+"-	CE will coordinate with Marketing contact Lisa Platz, and in some cases the CEA, to work on Asset Transfer Kit."
+
+ 
+
+CLIENT ENGAGEMENT ASSOCIATE 
+
+
+Position Summary 
+The Client Engagement Associate will assist the Client Executive by submitting pricing review request, completing the NSA, M&A Questionnaire, Detail Sheet, and TOA.
+
+Project Initiation:
+
+"√	When notified of project, create a case in Salesforce to the Resource Team as Pricing Review"
+"√	Completes and sends NSA and M&A Questionnaire to New Sale Distribution"
+√          Send Mapping Template to CE/Advisor to Complete
+√          Assists CE on Request for Plan Document Gathering
+
+Tasks and Responsibilities
+
+√         Utilize the TOA Tools spreadsheet to complete the appropriate TOA based on the mapping
+template.
+"√	Performs Peer Review of TOA"
+√         CEA Sends TOA and Completed Merger/Acquisition/Spinoff Detail Spreadsheet to Inforce
+Pricing
+"√	Distributes NAW, Detail Sheet, and Pricing Approval to Project Team"
+"	    Prepare for and attend the “Pricing Call” to provide explanation of agreed upon"
+    pricing/pricing changes as a result of the merger.
+"√	Re-circulates updated pricing spreadsheets to TM/CE as needed."
+"	    Confirms all assumptions used for re-pricing "
+
+ 
+
+DATA CONSULTANT
+
+The Data Consultant acts as the central coordination point for the Plan Sponsor’s payroll source and prior vendor for all data and asset transfer related issues. 
+
+Responsibilities
+"	 Reaches out to the Prior Vendor’s data contact in order to establish either a Prior Record keeper call or address the Prior Record Keeper Questionnaire (PRQ) via e-mail dependent upon the prior record keeper’s internal process (NOTE: Some Prior Vendors will not join a Prior Record keeper call)"
+"	Reaches out to Plan Sponsor’s payroll contact to provide them with both the Base and Payroll layout specs if required (No payroll file will be required for payrolls being absorbed). "
+"	Establishes a call with the Plan Sponsor’s payroll contact to review both the Base and Payroll files specs. (No payroll file will be required for payrolls being absorbed). "
+"	Completes and saves the Prior Record Keeper Questionnaire (PRQ) in the Plan account folder for internal team reference "
+"	Requests and follows up for test & live data from prior vendor."
+"	Requests and follows up for test & live data from the Plan Sponsor’s payroll source if required "
+"	Work with client to establish the payroll feed process if required "
+"	Notifies the TM immediately if there are issues that impact their ability to meet specified targets.  "
+"	Conducts a detailed audit and review of conversion records and assets. "
+"	Assists the TM by researching data related questions and taking ownership of conversion data related issues and following through to resolution."
+"	Assists the TM in responding to client/vendor comments and questions on all data requests."
+"	Participates in weekly all internal call and external calls as requested."
+"	Provides a summary of wires received from prior vendors, on the date of receipt."
+"	Creates the source/fund mapping for both the TC/TM to complete "
+"	Collaborates with TC on the source mapping strategy.  "
+"	Confirms receipt of conversion assets with the TM, broken down by source & fund."
+"	Provides regular updates on the progression of the loading/audit of the plan by sending the conversion status e-mails "
+"	Confirms receipt of conversion records and reconciliation of participant balances and immediately notifies the TC so the TC can begin their audit. "
+"	Completes and maintains the Prior Vendor Questionnaire and notifies all project team members as updates are made.  "
+"	Coordinates with the Re-registration team the re-registration of funds if funds are re-registering "
+"	Codes Beneficiary and QDRO accounts as appropriate. "
+"	Requests & informs the TC when recurring/systematic information has been received"
+"	Requests Unclaimed Benefits/Un-cashed Check information from prior vendor to identify the potential for returned checks. "
+"	Coordinates with the TC and Quality team to set up eligibility services and enrollment kit mailings.  "
+"	Provides regular updates on conversion progress through the TM who will coordinate with team members as appropriate.  "
+  
+PLANS SERVICE CONSULTANT
+
+
+The Plans Consultant is responsible for preparing all merger documents (SMM, Merger Amendment, Adoption Agreement amendment (Participation Agreements), Signable TOA PDF) as well as for updating the system if changes are required as a result of the merger.  If funds and/or pricing are also changing simultaneous to the merger event, the Plans Consultant also executes all funding documents. 
+
+Responsibilities
+
+"	Upon receipt of New Sale Announcement saves copy of NSA and M&A Questionnaire under applicable merger folder for document reference."
+"	Prepares the plan’s merger amendments, merger documents and SMM as needed.  "
+"	Participates in weekly all internal/ and external calls as requested by TM."
+"-	External Calls standardly (PRD/Merger Compare Review, or Specific Compliance Questions)"
+"	Participates in Pricing Call discussion to confirm pricing structure and use of fixed funds if any are changing from surviving plan."
+"	Upon receipt of Conversion Strategy Checklist and completion of Pricing Call with excel TOA template, creates Transfer of Assets agreement for the Client to sign."
+"	Assists the TM by researching document related questions and taking ownership of open document issues by following through to resolution."
+"	Assists the TM in responding to client/attorney comments on all documents. "
+"	Reviews, analyzes, and consults to ensure that all accrued benefits are protected and identifies any potential system/document issues."
+"	Solicits the appropriate compliance experts as needed in order to respond to client questions and resolve open plan design and compliance issues.   "
+"	Conducts the merger comparison call with the conversion team and client team"
+"	Makes needed updates to plan provisions on the system to account for changes resulting from the merger and quality checks those system changes and informs project team when completed."
+"	Provides final plan documents to the TM if required "
+
+
+
+
+*** In some instances where the CE has submitted a fund change or pricing request outside of the scope of the Merger project, the Plan Services Consultant may overtake that task to have it completed in conjunction with the Merger tasks.
+
+
+
+
+
+
+TRANSITION CONSULTANT (IF APPLICABLE)
+
+
+The Transition Consultant (TC) handles a wide variety of issues related to establishing and communicating the administrative processes & procedures during the conversion process. For Inforce projects the TC role is often absorbed under the TM role, but in the event a specific TC is dedicated to an Inforce Project here are their responsibilities:
+
+"√ 	Acts as internal back up to TM on day-to-day administration related issues.  "
+"√ 	Assists TM to respond to administration related questions and participates in weekly"
+internal/external calls as requested. 
+"√ 	Maintains Submission Package after preliminary draft circulated by TM.  Updates and"
+circulates revisions following new business conference call and as subsequent updates are
+made, through conversion project completion. 
+"√ 	Submits AWD item to request that a JIRA Ticket be submitted for special services such as"
+PX, CMP & MA.  
+"√ 	Works with the TM/CE to discuss use of special administrative forms when needed.  "
+"√ 	Creates, coordinates and delivers all materials designed to educate plan sponsors about"
+administrative procedures (Remittance Guides, Administration Manuals etc.).  
+"√	Supports the AM on any conversion related inquiries from the Processing Team or Customer"
+Contact Center.   
+"√ 	Partners with the ongoing AM to keep him/her informed of the status of the relationship and"
+involved in milestone action items 
+"√	 Schedules and facilitates conversion project closure calls with internal parties. "
+"√ 	Creates Proxy Procedures for plans with Employer Stock "
+"√ 	Researches data related requests for the conversion, payroll and basis data. "
+
+
+Recordkeeping Set-up Audits and Controls 
+
+"√ 	Creates and maintains the TC Conversion Action Plan.  "
+"√ 	Audits and documents completion of new plan provisions & sources added to the recordkeeping system due to the merger.   "
+"√ 	Coordinates disabling and enabling DDOL/VRU for the merging population on the existing plan.  Adds and removes individual participant notes for merging population.  "
+"√ 	Maintains Audit Control Checklists and ensures that all signatures are obtained and all audits"
+are properly saved in the audit information folder.  
+ 
+
+ACCOUNT MANAGER (AM)
+
+The Account Manager (AM) works with the assigned TM to assist with any established procedures or provide feedback on the current operation of the established plan. 
+
+Responsibilities
+"	Attends internal and external meetings as requested by TM"
+"	Considers the impact of the merger on existing administrative procedures/services. "
+"	Updates/modifies administrative procedures as needed to accommodate the merger."
+"	Updates plan notes as needed."
+"	Provides feedback to the merger team on any current procedures that might be impacted by the merger. "
+"	Recommends solutions that will assist in developing alternative strategies for non-standard processes and procedures. "
+"	Immediately notifies the TC/TM regarding escalated questions or issues"
+"	Assists the TM/TC in responding to client questions about administrative procedures."
+"	Demonstrates awareness and understanding of the conversion strategy to assure clients of their familiarity with the events of the conversion project.  "
+"	Confirms their understanding of the conversion project and any on-going related tasks/procedures upon the plan’s transition to the on-going team."
+
+
+ 
+
+COMMUNICATIONS CONSULTANT
+
+The Communications Consultant is responsible developing the Conversion Newsletter, go-live email, and other agreed upon communications pieces based on the client service models.
+
+Responsibilities:
+
+"	Provides guidance to the TM and client regarding content, timing and strategy for merger communications. "
+"	Provides guidance and solutions when client requests are made to modify our standard material."
+"	Provides newsletter draft to transition manager to provide to client."
+"	Coordinates legal reviews as necessary"
+"	Arranges for mailing and emailing of transition materials"
+"	Attends internal & external meetings as requested by the TM."
+"	Provides communications strategy overview to the client when requested"
+"	Works with design team to develop design materials and format logos"
+"	Catalogs logos and URLs when necessary"
+"	Notifies the TM if unable to attend a meeting and provides detailed status updates via phone call, or e-mail."
+"	Prepared to provide detailed status updates to TM during internal meetings. "
+"	Prepared to discuss agenda items with client as requested by TM. "
+"	Communicates any delays that may jeopardize target dates."
+"	Provides the Transition Manager with the Go Live e-mail"
+"	Works on ad hoc materials when requested"
+
+
+ 
+
+PLAN SPONSOR /CLIENT 
+
+
+Responsibilities
+"	Plays an active role in the merger planning process"
+"	Provides Plan documents and other pertinent information that will ensure Transamerica has a thorough understanding of how the plan is currently operating."
+"	Sends a Contract Termination Letter to the prior vendor(s) within the specified target dates. "
+"	Distributes the Initial Employee Announcement to notify employees of the merger."
+"	Negotiates contract termination options with the prior vendor(s)."
+"	Provides necessary internal contact information to Transamerica (e.g. day-to-day administrative contacts, payroll, funding etc.) "
+"	Provides Transamerica with locations to conduct Education Meetings."
+"	Follows the remittance file layout as provided by Transamerica and notifies Transamerica if file format or data re-positioning is necessary"
+"	Makes final mapping decision by the target specified in the Project Plan. "
+"	Makes final plan design decision by the target specified in the Project Plan. "
+"	Reviews and approves all merger communications by the target specified in the Project Plan. "
+
+
+
+For Information Purposes currently
+
+
+
+
+TRANSITION MANAGER 
+
+
+The Transition Manager (TM) is responsible for leading plan conversion to Transamerica and acts as the central coordinator, or project manager for the entire conversion. The TM is the project team leader who is ultimately responsible for client satisfaction throughout the conversion.  ** In the event a TC is not assigned, TM handles role of TM and TC functions.
+
+Responsibilities
+
+"	New Sale Call- within 3 days of the New Sale Announcement being sent to the New Sale Announcement and assignment mailbox (e-mail sent by Ellen assigning the conversion team), the TM will need to schedule a conference call with the assigned conversion team to gather information about the new client and the services offered during the sales process."
+"	TM Kickoff Call- Client Executive will schedule an introductory call whereby they are introducing the Transition Manager to the client for the first time.  Introductory e-mail – within 1 day of the TM Welcome Call, the Transition Manager-mails the client with an introduction and explanation of the overall project "
+"	Weekly Client Calls - Establishes a meeting conference call schedule. The meetings are designed to; provide the client with updates related to project status, manage expectations related to target dates and discuss overall project scope. The TM distributes meeting agendas and timelines at least 24 hours prior to meetings. The TM distributes meeting minutes within 48 hrs. following the meetings. "
+"	Internal Team Meetings – The TM will establish weekly meeting schedule. The meetings are designed to; gather key project team members to inform them of new developments, review plan design, obtain updates on project status, address any project risks or missed deliverables and develop the agenda for the next Client Call.  "
+
+
+
+ 
+
+Project Team Responsibilities and Oversight
+"	Creates and maintains the project plan. "
+"	Circulates target dates contained in the project plan to both internal & external parties on a weekly basis. Reviews and confirms target dates contained in the project plan from both internal and external parties. "
+"	Maintains follow up for all items necessary to complete the conversion, specifically key drivers (prior document, final funds/mapping, prior vendor notification) and modifies the project plan accordingly if deliverables are not met."
+"	Immediately identifies and communicates issues that may impact the success of the conversion to their manager. "
+"	Continually communicates with project team throughout the implementation to clarify issues, establish expectations, and distributes relevant communications (marketing pieces, e-mails, meeting minutes etc.) to ensure everyone is continually updated and informed throughout the project."
+"	Addresses performance issues with team members and immediately reports issues that are not improving or will impact the success of the project to the team member’s managers and/or direct manager. "
+
+Task Related Responsibilities
+"	Assists client with the preparation of termination letter(s) to the prior vendor(s)."
+"	Obtains the prior vendor de-conversion contact’s information in order to forward to the Data Consultant. In addition to completing any relevant prior vendor de-conversion paperwork (request Successor Trustee letter if applicable). "
+"	Completes Conversion Strategy document and provides to the Plan’s person along with the TOA distributed by In-force pricing team for the creation of the merger TOA "
+"	Reviews relevant e-mails and notes circulated by CE to ensure a full understanding of pre-sale commitments and client expectations. "
+"	Obtains client signatures on Transfer of Assets Agreement"
+"	Creates the preliminary Submission Package and circulates to the internal team. "
+"	If required for Direct Trade of outside Fixed fund that needs to be established on P3 record keeping system, TM will need to complete the New Fund Set-up Request form "
+"	Reviews and maintains after Plans distributes the Merger Comparison document to ensure any protected benefits confirmation items are closed out and considered on the overall project "
+"	Obtains plan sponsor signature on the final Merger Comparison document to confirm plan provision changes. "
+"	Performs regular follow ups to ensure timely receipt of merger amendments and other documents and deliverables."
+"	Makes recommendations when working with clients and/or attorneys related to document related questions (with assistance from Compliance Support when required). "
+"	Ensures completion and delivery of all employee conversion communications such as the Initial Employee Announcement, Sarbanes Oxley notice, Mapping notice, PPA conversion notice and Conversion newsletter as applicable. (Note:  For accounts that are assigned a Communications Director for purposes of designing a customized communication campaign, the Communications Director ensures completion and delivery of the Initial Employee Announcement, Conversion Newsletter, and any posters that may be provided.  The Sarbanes Oxley notice and Mapping notice continues to be coordinated by the TM)."
+"	Acts as point person for conversion status updates for receipt of assets, records, and “go live” date for all project team members."
+"	Identifies parameters for Automatic Enrollment services"
+"	E-mails out Automatic Enrollment recap e-mail to the internal conversion team to ensure that the group understands the automatic enrollment provisions"
+"	Creates source mapping spreadsheet and provides to client for confirmation of the source mapping from the other carrier "
+"	Upon asset reconciliation of the plan, conducts are relevant audits required for the plan to come out of “blackout” and schedules a call with the team members to ensure project completion"
+"	Reviews and provides the Conversion Summary Report to the client. "
+"	Schedules and facilitates conversion project closure calls with the client and project team."
+"	Adds clients to the conversion survey request "
+"	For select conversion, creates and distributes an internal “Lessons Learned” case study after project completion.   "
+"	Requests and follows up on any necessary system enhancements required. Notes any enhancements that require ongoing follow up by the AM or CE upon conversion. "
+"	Ensures that NBI was kept up to date and Transitions plan out of NBI when project has been completed "
+ 
+
+
+
+QUALITY CONTROL (QC)
+
+The Quality Control Consultant (QC) handles a wide variety of the audit processes related in the conversion process.  The QC plays an integral role by providing support in the areas of audit analysis and audit corrections to ensure the accuracy of data conversion and participant assets. 
+
+Responsibilities
+
+Conversion Audits and Controls
+"	Creates and maintains the Quality Control Action Plan. "
+"	Attends internal meetings specific to QDIA and conversion strategies in order to fully understand the strategy for each case needed for audit purposes."
+"	Conducts and documents a thorough and complete audit of conversion records/assets at the participant level."
+"	Conducts and documents a thorough and complete audit of the mapping of investment allocations."
+"	Completes an analysis on the default investment allocations by ensuring the appropriate population is in default for investment allocations and has a 100% election to the plan’s default fund."
+"	Completes an analysis on the default deferral elections for auto enroll plans to ensure the appropriate population is in default for deferrals and coincides with strategy and plan provisions."
+"	Performs a pre and post conversion takeover loan analysis and documents any takeover loans that are past maturity, or behind and subject to default for the TC/TM. "
+"	Audits the conversion of census data such as division codes, marital status codes, and any duplicate SSNs and documents for the TC."
+"	Works with the TC on running conversion statements, monitors mail dates, error fixes, stock messages, and any other statement messages. "
+
+Recordkeeping Set-up Audits and Controls
+"	  Performs quality check on the TC’s recordkeeping system audit for items that could pose a financial risk."
+"	For plans using target date funds, loads the target date chart to our recordkeeping system."
+"	Completes an analysis of what enrollment kits are pending or queued up to be mailed and documents for the TC/DC. "
+"	Submits request to Prod Support to put appropriate participants into a Loan PoG and sets up related participant notes. "
+
+Functional Support
+"	  Supports TC’s and TM’s in running adhoc reports in AQT."
+"	Maintains the Quality Control and CSR stats section of the access database for reporting purposes. "
+"	Submits request to Prod Support to add participant notes for TM"
+
+
+##TEAM CHARTER - INTERNAL MERGER
+#THIS DOCUMENT IS OUTDATED AND NEEDS REVIEW. IT IS ACCEPTABLE FOR NOW, BUT A FULL QC NEEDS TO BE DONE AT SOME POINT. 
+
+Plan Installation 
+Project Team Charter
+(Spinoff and Internal Mergers In-Force Business)
+
+This document is designed to clearly define roles, responsibilities and expectations for all functional teams
+
+Managers/Approvers are responsible for reviewing this document with their team or work group. This document will be updated and redistributed from time-to-time as we continue to close gaps, change responsibilities and enhance our processes. If you have any questions or concerns, please contact the approver for your section.
+
+"	"
+General expectations for all project team members:  
+"	Attend recurring meeting and be prepared to provide updates on assigned Project Plan tasks "
+Notify the TM if you are unable to attend a scheduled meeting.
+
+Project Kick-off Steps – upon learning that a start-up project will begin, the CE should take the following steps………
+
+"	Creating an “opportunity” record in Salesforce, completing the required fields and changing the “stage” to Closed Won and a CEA team will be notified and set up a call to discuss the project."
+"	CEA will submit NSA and M&A Questionnaire (if applicable) to the New Sale Distribution List"
+"	CEA will initiate Pricing Review"
+"	TM should schedule NSCC meetings with project team to discuss Kick-off details"
+
+For more information regarding start-up projects, please visit the Inforce projects link on the CIT Intranet site.  
+
+
+
+The Client Executive will be responsible for managing the overall relationship with the client and/or intermediary during and after the implementation process. The CE should also partner with TM regarding project management to ensure a smooth installation.
+
+Project Initiation
+"	Upon initial notification of the merger the CE will submit an “Opportunity” via Salesforce to get a CEA assigned"
+"	Participates in the New Sale Conference Call to provide any pertinent information to the Merger team related to the client’s expectation on the merger "
+"	Kickoff Call - Within 2 days of the New Sale Conference Call, schedules a welcome call with the client and TM to set expectations for next steps."
+"	Responds to client questions regarding the fund lineup and/or pricing process."
+"	Works with CEA to have the TOA created & finalized"
+
+Relationship Management
+"	Provides client with a detailed demo of Plan Sponsor Direct, if needed."
+"	Assists TM with follow-ups to the client to ensure receipt of all deliverables by the target date and works with TM to adjust timeline if targets are not met."
+Documents 
+"	Answers all questions from internal team members related to plan design and new plan setup."
+"	Ensures all funding and plan documents are executed timely by client."
+"	Coordinates delivery of SPD and/or SMM as needed.   "
+
+Communications/Education Meetings (coordinate with Education Service Admins) 
+"	Maintains overall responsibility for timely and accurate delivery of enrollment material."
+"	Coordinates changes to the education kits, final review, approval and ordering.  "
+"	Coordinates all aspects of Education Meetings (material, delivery, scheduling). "
+"	Develops/Maintains Communication Campaign Strategy.  "
+"	Works with the Personal Retirement Services (PRS) and Vendor Relations to coordinate the individual asset transfer strategy."
+"-	CE will coordinate with Marketing contact Lisa Platz, and in some cases the CEA, to work on Asset Transfer Kit."
+ 
+CLIENT ENGAGEMENT ASSOCIATE (CEA)
+
+
+The Client Engagement Associate will assist the Client Executive by submitting pricing review request, completing the NSA, M&A Questionnaire, Detail Sheet, and TOA.
+
+Project Initiation:
+
+"√	When notified of project, create a case in Salesforce to the Resource Team as Pricing Review"
+"√	Completes and sends NSA and M&A Questionnaire to New Sale Distribution"
+√          Send Mapping Template to CE/Advisor to Complete
+√          Assists CE on Request for Plan Document Gathering
+
+Tasks and Responsibilities
+
+√         Utilize the TOA Tools spreadsheet to complete the appropriate TOA based on the
+mapping template.
+"√	Performs Peer Review of TOA"
+√         CEA Sends TOA and Completed Merger/Acquisition/Spinoff Detail Spreadsheet to
+Inforce Pricing
+"√	Distributes NAW, Detail Sheet, and Pricing Approval to Project Team"
+"	    Prepare for and attend the “Pricing Call” to provide explanation of agreed upon"
+    pricing/pricing changes as a result of the merger.
+"√	Re-circulates updated pricing spreadsheets to TM/CE as needed."
+"	    Confirms all assumptions used for re-pricing "
+ 
+TRANSITION MANAGER (TM)
+
+The Transition Manager will act as project manager for all aspects of the conversion.  TM will coordinate and work with CE to ensure target dates are being met internally and by the client. **If separate TC is not assigned, TM will perform roles of both TM and TC
+Project Initiation
+"	Upon receipt of New Sale Announcement and Pricing Email, schedules a New Business Conference Call to ensure all internal parties are working under the same assumptions."
+"	Creates and maintains the Project Plan "
+"	Circulates target dates contained in project plan to both internal & external parties on a weekly basis. Reviews and confirms target dates contained in the project plan from both internal and external parties."
+"	Schedules recurring internal meetings with project team, schedules conference call dedicated to automatic enrollment (if applicable) with project team, including Outsourcing Team"
+
+Task Related Responsibilities
+
+"	Completes Conversion Strategy document and provides to the Plan’s person along with the TOA distributed by In-force pricing team for the creation of the merger TOA "
+"	Obtains client signature on TOA"
+"	Coordinate all aspects of new fund set-up following defined/standard process. "
+"	Sends out actionable minutes to internal and external teams following each call."
+"	Performs regular follow ups to ensure timely receipt of merger amendments and other documents and deliverables."
+"	Obtains signed Plan Review Document/Merger Compare and Source Mapping from Client"
+"	Completes and distributes initial Submission package and runs internal call to go over."
+"	Works directly with CCCS to determine what funding and plan documents are required."
+"	Ensures completion and delivery of all employee conversion communications such as the Initial Employee Announcement, Sarbanes Oxley notice, Mapping notice, PPA notice and Conversion newsletter as applicable. (Note:  For accounts that are assigned a Communications Director for purposes of designing a customized communication campaign, the Communications Director ensures completion and delivery of the Initial Employee Announcement, Conversion Newsletter, and any posters that may be provided.  The Sarbanes Oxley notice and Mapping notice continues to be coordinated by the TM)."
+"	Acts as point person for conversion status updates and “go live” data for all project team members."
+"	Identifies parameters for Automatic Enrollment process"
+"	E-mails out Automatic Enrollment recap e-mail to the internal conversion team to ensure that the group understands the automatic enrollment provisions"
+"	Requests and follows up on any necessary system enhancements required. Notes any enhancements that require ongoing follow up by the AM or CE upon conversion. "
+"	Ensures that NBI was kept up to date and Transitions plan out of NBI when project has been completed "
+TRANSITION CONSULTANT (IF APPLICABLE)
+
+The Transition Consultant (TC) handles a wide variety of issues related to establishing and communicating the administrative processes & procedures during the conversion process. 
+
+"√ 	Acts as internal back up to TM on day-to-day administration related issues.  "
+"√ 	Assists TM to respond to administration related questions and participates in weekly"
+internal/external calls as requested. 
+√         Creates the Outsourcing Addendum(s) and ensures they are reviewed for accuracy
+"√ 	Maintains Submission Package after preliminary draft circulated by TM.  Updates and"
+circulates revisions following new business conference call and as subsequent updates are
+made, through conversion project completion. 
+"√ 	Submits AWD item to request that a JIRA Ticket be submitted for special services such"
+as PX, CMP & MA.  
+"√ 	Works with the TM/CE to discuss use of special administrative forms when needed.  "
+"√ 	Creates, coordinates and delivers all materials designed to educate plan sponsors about"
+administrative procedures (Remittance Guides, Administration Manuals etc.).  
+√          Provides plan sponsor(s) with PSD training for user set-up and the file transmission.
+√          Creates and maintains case notes during the plan implementation period. 
+"√	Supports the AM on any conversion related inquiries from the Processing Team or"
+Customer Contact Center.   
+"√ 	Partners with the ongoing AM to keep him/her informed of the status of the relationship and involved in milestone action items "
+"√	Schedules and facilitates conversion project closure calls with internal parties. "
+"√ 	Creates Proxy Procedures for plans with Employer Stock "
+"√ 	Researches data related requests for the conversion, payroll and basis data. "
+
+Recordkeeping Set-up Audits and Controls 
+
+"√ 	Creates and maintains the TC Conversion Action Plan.  	 "
+"√ 	Conducts and documents completion of a thorough recordkeeping system audit."
+√          Conducts a thorough audit of the Participant Website using a test ppt account along with the appropriate checklist. 
+"√ 	Coordinates DDOL/VRU/PSD set-up, testing and activation.  "
+√          Maintains Audit Control Checklists and ensures that all signatures are obtained and all
+audits are properly saved in the audit information folder.  
+
+
+
+
+
+
+
+
+
+PLANS SERVICE CONSULTANT 
+
+The Plans Consultant is responsible for preparing and updating all plan and funding documents. The Plans Consultant is also responsible for PARIS 3 system set up. 
+
+Responsibilities
+
+"	For Internal Mergers, after completion of Pricing Call, receipt of completed Conversion Strategy Checklist, and receipt of TOA chart from the CEA, will create Transfer of Assets pdf for Client to Sign."
+"	Funding Documents – coordinates all aspects of funding document process, including drafting, answering client questions, and working directly with client/attorney until executed and countersigned.  Once countersigned uploads to PSD. "
+"	Plan Documents - prepares plan documents, summary plan descriptions, special notices, and plan filing packages as needed.  Assists the CE by researching document related questions and taking ownership of open document issues by following through to resolution.  Provides final plan documents to the CE."
+"	If internal merger/internal spinoff merger and both plan documents are on Transamerica’s template, Plan Service Consultant completes Merger Compare."
+"-	If either of the documents are outside drafted, merger compare would be completed by Plan Review Document Team."
+"	If plan document is outside drafted, takes internal teams and external contacts through the Plan Review Document to confirm plan provision interpretation."
+"	Confirms to TM, CE, and AM when all signed documents have been received and assets can be transferred."
+"	Posts countersigned service agreements and funding documents to PSD and sends an e-mail notification to the CE (approx. 1 month after contract effective date). "
+"	Updates PARIS III recordkeeping system and does quality check."
+"	Provides expertise on new products, regulatory developments and plan compliance issues. "
+
+Project Considerations
+"•	For Spinoff to Startup plans, if the plan document for the original plan and spinoff plan are on Transamerica document, the PSC creates the Plan Review Document. If the documents are outside drafted the plan review is handled by the Document Quality Specialist Group. "
+"•	For internal mergers, if both plans are on Transamerica document then the Merger Compare is created by the PSC. If either document is outside drafted, the Merger compare is created by the Document Quality Specialist Group."
+"•	In some instances where the CE has submitted a fund change or pricing request outside of the scope of the Merger project, the Plan Services Consultant may overtake that task to have it completed in conjunction with the Merger tasks."
+
+ACCOUNT MANAGER (AM)
+
+The Account Manager (AM) works with the assigned TM to assist with any established procedures or provide feedback on the current operation of the established plan. 
+
+General Responsibilities 
+"	General administrative expert - recommends solutions that will assist in developing alternative strategies for non-standard administrative processes and procedures. "
+"	Establishes and documents special administrative procedures that may be required."
+"	Provides internal parties, including but not limited to Remit Loaders, Processors, and Contact Center, with information necessary to properly administer the plan. "
+"	Responds to inquiries from the Processing Team or Customer Contact Center and those received through AWD.  "
+"	Partners with the CE to coordinate special messages that may be required, or statement stuffers etc. "
+"	Maintains appropriate documentation for pertinent information (e.g. client inquiries, administrative issues, special processes and procedures)"
+
+Remittance/Outsourcing Data Related Responsibilities
+
+"	Coordinates with Outsourcing team and client, the collection of all required base data that is needed to establish indicative and outsourcing data on our system."
+"	Provide plan sponsor(s) with PSD training for user set-up and the file transmission process under the new account if needed."
+"	Will complete designated Action Plan items created by Mark Elsinger to initiate port job"
+Including but not limited to: Putting population/Plan in blackout, Updating Case notes,
+Adding Participant Notes, Cataloging Beneficiary Designations.
+ 
+OUTSOURCING TEAM
+
+The Outsourcing team works on internal merger and spinoff projects to handle movement of data that is not covered under the portability job that is handled by the Internal Data Project Manager. 
+
+Data Review Process (included but not limited to):
+
+"√	Complete a plan comparison specifically related to the outsourcing services provided on"
+the plans involved in the internal merger.
+"√	Identify population that already contains an account in both plans prior to the merger."
+"√	Activates eligibility if outsourced and inserts the records from prior plan. Eligibility is"
+reviewed during internal Subpack call to determine if there is any change to how the
+active population and new hires eligibility is to be handled.
+"√	Moves over deferral and auto enrollment status for the participants."
+"√	Upon receipt of the Submission Package, Outsourcing will discuss if a new remit layout"
+is needed or will client continue with the existing layout.  If a new payroll layout will be
+needed Outsourcing will create and provide to the TM and AM to provide to the client. 
+Outsourcing will assist with setting up EDS layout as needed.
+ 
+"√	Requests a test remit file to be provided for review.  Provides results of the test file to the"
+TM/AM/CE.
+"√	If the plan outsources collection of testing data, Outsourcing will work with the Testing"
+team for needed additional information that would need to be added to the plan.
+"√	If there is an outsourcing change to the surviving plan as a result of the merger, "
+"√	Outsourcing will review participant population that is impacted."
+"√	Outsourcing lets internal team know that all indicative data has been and loaded if the"
+transfer is not being handled via portability. 
+"√	Coordinates set-up of eligibility/enrollment kit services for all start-up"
+projects.  However, TM is responsible for notifying Outsourcing when kits can be taken 
+“off hold”, meaning the final material was approved by the client.  In addition, the TM
+sets-up all other outsourcing services.
+
+ 
+INTERNAL DATA PROJECT MANAGER (MARK ELSINGER)
+
+The Data Project Manager is responsible for providing support to the TM in acting as the central coordinator for the asset and data transfer component of the project.  
+
+Internal team management
+"	Immediately identifies and discusses issues that may impact the success of the project with the project team. "
+"	Continually communicates with project team throughout the merger process to clarify issues, establish expectations."
+"	Notifies the TM immediately as issues arise that may impact their ability to meet specified targets.  "
+
+
+Task Related Responsibilities
+"	Reviews asset transfer options and confirms final asset transfer strategy."
+"	Considers impact of merger on Automatic Enrollment and Outsourcing Services."
+"	Requests information from TM/TC on surviving plan sources and mapping strategy.  "
+"	Updates final version of Merger Source Mapping Spreadsheet and circulates to internal parties."
+"	Coordinates notification of all steps of merger (receipt of assets, records, “live” date) with other project team members."
+"	Coordinates the transfer of any Self Directed Accounts (SDAs) for mergers involving the re-registration of SDAs into the surviving plan. "
+"	Works to contact Schwab on PCRA values being reported under correct plan number."
+"	Discusses potential impacts of what data converts with the port job and what needs to be moved manually by Outsourcing or AM"
+"	Notifies the AM when their reconciliation can begin."
+"	Provides AM with asset breakdown by source & fund."
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+COMMUNICATIONS CONSULTANT
+
+
+The Communications Consultant is responsible developing the Conversion Newsletter, , go-live email, and other agreed upon communications pieces based on the client service models.
+
+Responsibilities:
+
+"	Provides guidance to the TM and client regarding content, timing and strategy for merger communications. "
+"	Provides guidance and solutions when client requests are made to modify our standard material."
+"	Provides newsletter draft to transition manager to provide to client."
+"	Coordinates legal reviews as necessary"
+"	Arranges for mailing and emailing of transition materials"
+"	Attends internal & external meetings as requested by the TM."
+"	Provides communications strategy overview to the client when requested"
+"	Works with design team to develop design materials and format logos"
+"	Catalogs logos and URLs when necessary"
+"	Notifies the TM if unable to attend a meeting and provides detailed status updates via phone call, or e-mail."
+"	Prepared to provide detailed status updates to TM during internal meetings. "
+"	Prepared to discuss agenda items with client as requested by TM. "
+"	Communicates any delays that may jeopardize target dates."
+"	Provides the Transition Manager with the Go Live e-mail"
+"	Works on ad hoc materials when requested"
+
+
+
+QUALITY CONTROL (QC)
+
+
+The Quality Control Consultant (QC) handles a wide variety of the audit processes related in the conversion process.  The QC plays an integral role by providing support in the areas of audit analysis and audit corrections to ensure the accuracy of data conversion and participant assets. 
+
+Responsibilities
+
+"	Works with the TM/TC on running conversion statements, monitors mail dates, error fixes, stock messages, and any other statement messages. "
+"	Submits request to Prod Support to add appropriate participants into a Loan PoG and sets up related participant notes. "
+"	  Supports TC’s and TM’s in running adhoc reports in AQT."
+"	Submits request to Prod Support to add participant notes for TM"
+
+##ADDING DIVISIONS
+#SCREENSHOTS WILL BE ADDED LATER
+
+Adding Divisions
+"1.	Go to Divisions Tab "
+"2.	Under Division information change all indicators to Yes"
+"•	Transamerica record keeping divisions for statements – YES"
+"•	Divisions are required for Enrollments – YES"
+"•	Allow Non Plan Defined Divisions for participants? - YES"
+"•	Should EDS validate if divisions Exist – YES"
+"3.	Once all indicators are set to yes Click on gray icon “Add Division”"
+"4.	Next Screen, Add the Division #, Name and Divisional contact if needed. "
+Note: Our system allows up to 4 characters for a division #, anything over 4 characters will require customization to our system. If customization is required contact the CTS Quality team and provide the Account number and how many characters long the division number should be. The CTS Quality Team will submit a JIRA ticket to extend the characters for the plan. The request can take up to 4 weeks to complete.
+"5.	Once division information is added, click apply and then save on the next screen."
+
+ 
+
+Adding Divisional Reporting to Plan Sponsor Website (PSD)
+"1.	Sign in to PSD"
+"2.	Click on “PSD Setup & Utilities” on the top right of the page"
+"3.	Click on the “Division Security” tab on the middle of the page"
+"4.	Add Contract number and affiliate number and hit search"
+"5.	Click on Enable Divisions"
+"6.	To confirm that the divisions are listed. Go back to the main PSD page, then into the account # you enable divisions for, click on “User Maintenance”. Once on the page, click on one of the Users that access was provided for and click on the available plan. Towards the bottom right you should see the Division access provided."
+Divisional Reporting on Outbound File:
+"1.	Go to the Outsourcing tab"
+"2.	Click on Outbound file"
+"3.	Activate the “Transamerica will be sending Deferral file by Division/Group” to YES."
+"4.	Once activated click on gray icon “Add Remove Group”. The next screen you will see all the Divisions that were created and that need to be assigned."
+"5.	Click on “Modify Group Name List”. "
+"6.	 Name and Add a group name that will report back on the outbound file to client. If reporting back each division separately, the original division number/name should be used. If bundling divisions into groups please confirm with client what name they would like to use."
+"7.	Once the Group name is created, assign the division number(s) that belongs to the group. Each division will need to be done separately. Click the “Add” icon on the middle of the page and they will be assigned to the specific group name on the left. Click apply once completed"
+ 
+"8.	Repeat the steps until all desired divisions/groups Outbound Files are created."
+"9.	Hit Save and then Save again on the original Outsourcing tab page."
+
+##DIVISIONS AFFILIATES / MULTIPLE AFFILIATES
+#
+
+Setting up Multiple Affiliates*
+ 
+General
+"	Participants that are in multiple affiliates (or move from one to another), would see multiple accounts.  This could have some impact on loan and other transactions requests.  "
+"	If participants are in multiple affiliates, or move from one to another, it will be confusing for processing, cash team, etc. to know which affiliate to process rollover deposits or contract exchanges to.  This can lead to processing errors which tend to frustrate clients and participants."
+"	Participant experience challenges including - allocations, transfers, and beneficiaries.  Sometimes participants are confused which plan they made the election on and thought it would go apply across plans.  Universal Bene is a future enhancement. Universal allocations exist and would need to be reviewed and turned on for impacted plans."
+ 
+Deferral Changes
+"	Participants may make a change or enroll under the wrong affiliate as both affiliates will appear as available accounts upon sign-in."
+"	If an update is made under the wrong affiliate, the outbound file sent to THE CLIENT will report the deferral change under the wrong affiliate number. THE CLIENT will have to manually update the payroll file."
+"	If THE CLIENT manually makes the deferral update, DIA would not receive the correct deferral update.  Therefore, DIA and THE CLIENT info would be out of sync and participant statements/DDOL would be incorrect."
+"	THE CLIENT had planned to go to a decentralized payroll structure. This may not be an option due to the central coordination that would be required to properly manage this process (including any manual processes that would be required etc.)  "
+ 
+Loans
+"	If all of the affiliates have the same loan provisions then they could be related for loans and hardships to track the max number of loans and the $50,000 max loan amount.  This would allow them to take the max loan as long as they have that account balance in one of the affiliates. If they do not:"
+"	For participants with account balances in multiple affiliates, the loan amount available would be provided separately for each affiliate. If the participant wanted to receive the max amount available in one loan, THE CLIENT would have to notify TRS to have the account balance transferred “ported” to the active affiliate. This could also delay the loan request. This would only be able to be done if this is all for one client and wouldn’t work for MEP plans since they will have different provisions and counts."
+"	Loan repayments are also affected when a ppt moves from one affiliate to another. THE CLIENT would notify TRS when a participant with an outstanding loan balance changes affiliates.  The loan information would have to be transferred to the active affiliate and coordinated with THE CLIENT payroll."
+"	If a participant with an outstanding loan changes affiliates – the payroll frequency could also change.  This may require the loan amortization schedule to be re-amortized upon notification of the change from THE CLIENT."
+ 
+Distributions
+"	If THE CLIENT cannot suppress the Date of Termination (DOT) on their remittance file in a scenario where a participant leaves one site to go to another….a distribution kit will automatically be mailed to the participant if THE CLIENT would like TRS to mail termination kits.  Additional manual processes appear to be a concern to THE CLIENT payroll dept."
+"	Date of Term logic does not span across affiliates. Other logic is tied to DOT as well (e.g. loan availability, deferrals etc.)"
+"	Distribution forms are pre-filled with affiliate numbers.  If a CCC representative sends out a form with the wrong affiliate number – a distribution may be processed incorrectly."
+ 
+Remittance File
+"	TRS would need to do a “split-key”  as long as the Client is putting  the affiliate on the remit file."
+"	To have limits tracked between the two affiliates, the plan needs to be updated as a common remitter plan. See process below:"
+"•	You will need to submit a FINANCLTRX AWD item.  In this item you will want to put comments with what you want and why.  You could mention that Prod will need to insert a row into TDA.COMMON_REMIT_GRP for both plans and connect them by RELATED_GRP_I under the TA069210  00001 plan."
+
+ 
+Vesting
+"	There is exposure to incorrect vesting calculations (also reported on DDOL and participant statements) if participants move from one affiliate to another. "
+
+Rollover Deposit/Contract Exchanges
+"	If affiliate numbers are not provided on forms the remit team will not be able to identify which is the appropriate affiliate to process the transfers into."
+ 
+PSD
+"	PSD would be separate for affiliates - client would have to aggregate their reports as needed."
+
+ Auto Enroll Plans:
+With two affiliates, there is no issue with having different enrollment percent’s.  If the intent is to have only one affiliate then everything becomes manual with each file load.  With one affiliate the plan needs to be reviewed after each load to ensure that participants are enrolled at the correct percent.  It would also require that notices be customized as our system only stores one default percent.  With two affiliates each notice would pull the correct percent.
+
+If the movement between affiliates is limited the process is doable.  The TM needs to discuss with Outsourcing what the clients intent is when participants move.  If a participant moves do they get auto enrolled, or does their existing deferral need to be moved over?  If they are in default when they move over and the default is lower than on the new plan, should they be bumped up to the new percent?  What will be the process for the client to notify us of a participant moving between affiliates?
+
+* Specific to NQ plans  - The Unrealized Gains/Loss Cost Basis can only be stored at a plan level.  If an ER needs that broken down by divisions or specific groups, then those need to be set up on individual affiliates.
+
+
+
+ 
+Divisional Recordkeeping
+
+Participant Web
+"•	We have the ability to separately identify participants by division code"
+"•	We can display separate logos by Division. If a logo does not exist for a specific division, it will default to the main (master) logo for the plan."
+"•	In addition to the standard plan name, the division name (e.g. employer) will be displayed on certain pages where applicable (currently just the Contributions page)"
+"•	We currently don't do anything at the division level for Px/TMA/OT/MA/CMP"
+"•	We can display plan highlights by division on the web in the plan resource box if they are cataloged."
+"•	We also display deferrals and Auto Increase by divisions."
+ 
+ Plan Sponsor Web
+"•	Security access can be set up by division so divisional contacts (e.g. employers) will only have access to data for their employees. "
+"•	All participant level reports, participant level balances, transactions, deferrals, etc. can be run at a divisional level. "
+"•	Reports tied to balances cannot be separated by division and may need manual intervention by a TRS rep. Plan level reports (including all balance reports) are typically turned 'off' at a user level for this reason."
+"•	One thing to note, PSD displays the plan level balance in the header and on the plan selection page. We have the capability of disabling the balances from displaying at a case level."
+
+Statements - Employee
+"•	We do not have the ability to display a separate logo by division "
+"•	In addition to the standard Plan name, we can display the Division name (e.g. employer name) on participant statements"
+"•	If the plan elects to track deferrals by Division, we can then display deferrals by each division with the division number and division name.  Below is an example"
+ 
+Statement- Employer
+"•	The division number, name and divisional contact, address information can be displayed on Employer level statements. "
+"•	Employer level statements (Summary, Detailed, and Audit Strip reports) can be created, sorted and mailed by Division. "
+
+Enrollment Materials 
+"•	Forms are all cataloged which we can customize at the division level. For both bulk and outsourcing."
+"•	Display logos by division as well as the division name and/or number where it has been added to a publication"
+
+
+
+
+##GO LIVE CHECKLIST
+
+
+
+“Go Live” Checklist
+
+"	Before turning on limited or full access for a Plan in the DDOL/VRU tab in PIII, please complete the following checklist and request sign-off by CIT Quality Analyst."
+"	A copy of this form should be scanned into the Account Folder (audit sub folder)."
+
+Account #:  
+Transition Consultant:  
+Plan Name/Client Name: 
+
+Limited Access: 
+Date Activated (or indicate if N/A):____________
+
+"1.	Verify the correct PX glidepath (lifetime, retirement or custom), CMP or MA/AMA have been loaded to the system. This can be checked on PX/CMP maintenance tab in P3."
+0  Yes     0  No    0  N/A
+"2.	1st System Audit Sign-off by CIT Analyst				0  Yes     0  No    0  N/A"
+"3.	WX/DDOL Form Audit Complete					0  Yes     0  No    0  N/A"
+"4.	Update Case Notes to indicate plan has Limited Access		0  Yes     0  No    0  N/A"
+"5.	Notify COM Limited Access is activated 				0  Yes     0  No    0  N/A"
+"6.	DDOL/VRU Audit of Test Ppt Accounts Complete			0  Yes     0  No    0  N/A"
+"7.	DDOL Audit of Live Ppt Accounts Complete			0  Yes     0  No    0  N/A"
+"8.	If Limited Access includes deferrals, activate outbound file 		0  Yes     0  No    0  N/A"
+"9.	VRU Access Code Enabled						0  Yes     0  No    0  N/A"
+"10.	Phone Transfer Code Enabled					0  Yes     0  No    0  N/A"
+"11.	DDOL Access Enabled (services will depend on strategy)		0  Yes     0  No    0  N/A"
+"a.	Deferrals (if not outsourcing deferrals for limited access, "
+Please disable the “payroll deduction” service on the 
+Outsourcing tab) 
+"Deferral Service during Limited Access	"
+"								    "
+"b.	Allocations							0  Yes     0  No    0  N/A"
+"c.	Beneficiaries							0  Yes     0  No    0  N/A"
+"d.	Fund Prospectus						0  Yes     0  No    0  N/A"
+"e.	Personal Info (Active or Termed) 				0  Yes     0  No    0  N/A"
+"f.	Catch-Up Calculator						0  Yes     0  No    0  N/A"
+"g.	Deferral SaveXpress						0  Yes     0  No    0  N/A"
+"h.	Enrollments: 							0  Yes     0  No    0  N/A"
+"i.	PorfolioXpress®						0  Yes     0  No    0  N/A"
+"j.	PorfolioXpress® Risk Preference Overlay			0  Yes     0  No    0  N/A"
+"k.	Managed Advice (only enable MA if deferral changes are"
+"allowed during limited access) 					0  Yes     0  No    0  N/A     "
+"l.	Custom Portfolios (CMP)					0  Yes     0  No    0  N/A"
+**be sure to enable on the DDOL tab: 
+"Custom Portfolios Auto Rebalance Frequency:"" to 
+QUARTERLY.  Only exception is if the CMP checklist  	
+clearly says NO-REBALANCING
+						
+m.	Unit Values							0  Yes     0  No    0  N/A
+n.	OnTrack (Needs to be enabled for limited access if using MA	0  Yes     0  No    0  N/A
+ and disabled if No MA and No deferrals)
+o.	Fund Performance						0  Yes     0  No    0  N/A
+12.	Activate Enrollment Confirms 					0  Yes     0  No    0  N/A
+13.	If the plan has Managed Advice and MA is enabled 			0  Yes     0  No    0  N/A	
+for limited access, email TRSC IM Asset Allocation 
+Services Team to notify them that limited access is open
+
+
+
+
+Limited Access Closed: 
+Date limited access is deactivated (or indicate if N/A):_________
+
+1.	DDOL/VRU – Disabled DDOL/VRU access 			0  Yes     0  No    0  N/A
+2.	Update Case Notes to indicate Limited Access has ended 		0  Yes     0  No    0  N/A
+and plan is in blackout
+3.	Deactivate Enrollment Confirms					0  Yes     0  No    0  N/A
+
+
+ 
+Full Access: 
+Date Activated: ____________
+
+1.	Verify the correct PX glidepath (lifetime, retirement or custom), CMP or MA/AMA have been loaded to the system. This can be checked on PX/CMP maintenance tab in P3
+0  Yes     0  No    0  N/A
+2.	1st System Audit Sign-off by CIT Analyst				0  Yes     0  No    0  N/A
+3.	WX/DDOL Form Audit Complete					0  Yes     0  No    0  N/A
+4.	Update Case Notes to indicate plan is Live				0  Yes     0  No    0  N/A
+5.	Notify TM and conversion team once Plan is Live 			0  Yes     0  No    0  N/A
+6.	DDOL/VRU Audit of Test Ppt Accounts Complete			0  Yes     0  No    0  N/A
+7.	DDOL Audit of Live Ppt Accounts Complete			0  Yes     0  No    0  N/A
+8.	If plan outsources deferrals, activate outbound file 			0  Yes     0  No    0  N/A
+**if the plan uses custom or automated OBF, please notify 
+Jen Curtain that OBF has been activated
+9.	VRU Access Code Enabled						0  Yes     0  No    0  N/A
+10.	Phone Transfer Code Enabled					0  Yes     0  No    0  N/A
+11.	DDOL Access Enabled (services will depend on strategy)		0  Yes     0  No    0  N/A
+12.	Eligibility/Enrollment Kit Coordination with CIT Analyst		0  Yes     0  No    0  N/A
+13.	Ensure ppts have been added to Loan PoG 				0  Yes     0  No    0  N/A
+14.	Final review of Info Share Tab 					0  Yes     0  No    0  N/A
+15.	If the plan has Managed Advice, email TRSC IM Asset 		0  Yes     0  No    0  N/A	
+Allocation Services Team to notify them that the plan is live
+
+
+Transition Consultant Signature (Limited Access):  _________________________________________
+
+CIT Quality Review (Limited Access):  _______________________________________________________
+
+Transition Consultant Signature (Full Access):  ______________________________________________
+
+CIT Quality Review (Full Access):  _______________________________________________________
+
+
+Additional Full Access Items (to be completed as soon as possible after plan has gone Live):
+
+1.	Activate Welcome Kits (once samples are reviewed)           0  Yes     0  No    0  N/A
+   
+2.	Term Kit Clean up 0  Yes     0  No    0  N/A
+Note:
+•	The term kit cleanup should be completed only if the plan outsources involuntary cash outs
+•	Term clean up should only be completed for account balance under $7,000 
+•	Do not use for plans with info sharing.  The client needs to periodically request the cash out based on total balances across vendors.  We need to incorporate info sharing balances when determining our cash out population at conversion.  
+•	This process cannot occur until the blackout period has been lifted (all data needs to be loaded and reconciled).
+
+3.	Take Term Kits off-hold & update Auto-Cash Out provisions (after Welcome Kits have been released)
+0  Yes     0  No    0  N/A
+4.	Final System Audit Sign- off by CIT Analyst		0  Yes     0  No    0  N/A
+5.	Enable Loan Default logic after loan analysis is complete	0  Yes     0  No    0  N/A
+
+
+
+
+
+Setting up bonus as a separate election
+1)	It is important that when setting up a separate bonus election that the sources are in a specific order. The regular deferral sources should be the first set of sources and the bonus deferrals should follow.  
+2)	The regular Roth deferral should always be combined with the regular pre-tax deferral. The Roth bonus should be combined with the pre-tax bonus. The combined min/max on the pre-tax sources should always be N/A. 
+3)	By combining the regular deferrals with each other and the bonus deferrals with each other this allows the deferral groups to have their own min/max. With the deferral groups set up this way the participant can elect a regular deferral that can be up to the total plan limit and still elect a separate bonus deferral. For example, a participant can have a 6% pre-tax deferral and still elect to defer 100% of their bonus. Even though the total exceeds 100% since the min/max are separated a participant can elect up to the plan deferral limit separately. If the plan max is less than 100%; i.e. 80%; the participant would be able to enter in up 80% on each set of sources. 
+ 
+
+P3 Set Up:
+ 
+##SETTING UP BONUS AS A SEPARATE ELECTION
+#SCREENSHOTS WILL BE ADDED LATER
+Based on the above set up the contributions page on DDOL will display as below:
+  
+
+Adding Payroll Deduction Types:
+ 
+1)	Choose a payroll deduction type. The following types should only be used when creating a bonus deferral.
+•	Pre tax – Special Deduction
+•	Roth 401K – Special Deduction
+•	After Tax – Special Deduction
+Note:  When adding Pre tax for the first time, the pretax needs to be mapped to pretax deferral under step number two always!  Once this is selected when you return to the second page the drop down will be grayed out and cannot be changed.
+2)	Source that Payroll deduction is mapped to:
+•	Pre-Tax Deferral
+•	Prior After tax
+•	Unclaimed Benefits
+•	Roth 401(K)
+The regular and bonus pre-tax deferrals should be mapped to the pre-tax and the regular and bonus Roth deferrals should be mapped to the Roth 401(k).
+3)	Payroll deduction display name – This field will default to the source name the payroll deduction is mapped to in Step #2.  The name can be changed here. Please note there is a 20 character limit on the OBF. Ensure that the payroll deduction display name is less than 20 characters. If a display name that is longer than 20 characters is necessary it would require a customized outbound file which would require systems work. 
+
+##Source Mapping Procedures
+#
+
+1)	DC identifies all sources with balances at the current vendor, saves the information in a spreadsheet within the account folder and notifies the TC that the spreadsheet is ready for their updates.
+2)	TC reviews the sources on the spreadsheet and identifies the sources from the prior plan review, noting the attributes of each source within the spreadsheet.  The attributes will be defined as source name to be mapped to at Diversified, contribution type code, frequency of contribution, withdrawal provisions and vesting.  
+3)	For sources that are not identified in the prior plan review (I.e. frozen sources), the TC asks the DC to check with the prior vendor to obtain the attributes. 
+4)	Based on the information provided from the DC, the TC then updates the spreadsheet with the findings and shares the completed information with the TM. 
+5)	If the DC receives an additional “admin” contact at the prior vendor to request this information from because they do not have it themselves, the TM will be responsible to contact that individual.
+6)	The TM reviews the information with the client and obtains their approval/confirmation on the source mapping.  The approval/confirmation should be documented in e-mail, or weekly meeting minutes.  
+7)	If there were any updates, the TM/ TC should note these in the source mapping spreadsheet.  The TM shares the client confirmed source mapping with the TC, DC and Plans Consultant.  This is what the DC will use to map sources when conversion records are received.     
+
+##CONVERSION STATUS FLOW
+#
+
+Background:  The below steps should be followed to ensure a consistent and formal process for the dissemination of information between the Data Consultants (DC), Quality Consultants (QC), Transition Consultants (TC), and Transition Managers (TM) during the asset/record transfer stages of a conversion.
+
+
+Expected Asset Transfer Date (or next business morning):
+The Data Consultant will send an email as follows……………
+
+To: TM, QC, TC, TC Manager, DC Manager
+Subject:  Case #, Name, Name of vendor
+
+Assets Received:  <amount of wire>
+Date Received:  <date wire received> 
+Date records are expected:  <date records expected>
+ 
+*If the wire is not received by 4:00 pm est on the expected asset transfer date, the DC will send an email the next morning confirming the status.  The TM will manage Client/Consultant expectations by explaining upfront that Transamerica accepts wires until 6:00 pm est, thus an update may not be provided until the morning following the expected asset transfer date.
+
+ 
+Date Records are Received:
+The Data Consultant will send an email as follows……………
+ 
+To: TM, QC, TC, TC Manager, DC Manager
+Subject:  Case #, Name, Name of vendor
+
+Records received:  <date and approx time>
+
+*An update will be provided within 24-48 hours
+ 
+
+First Update on Records to be provided within 24-48 hours..................
+The Data Consultant will send an email as follows……………..
+
+To: TM, QC, TC, TC Manager, DC Manager
+Subject:  Case #, Name, Name of vendor
+
+Items that are completed are noted with “Completed” or “Not Applicable” in the listing below.  
+Financial:
+Account Balances
+Loans
+Forf Accounts
+PCRA / SDAs
+Basis
+Recurring Payments / RMDs
+
+Non Financial / Outsourcing :
+Census Data
+Deferrals
+Elections
+Eligibility
+Vesting
+QDRO/Bene Status
+
+An update will be provided on _______________
+
+
+Subsequent updates:
+The Data Consultant will send an email as follows……………..
+
+To: TM, QC, TC, TC Manager, DC Manager
+Subject:  Case #, Name, Name of vendor
+
+Items that are completed are noted with “Completed” or “Not Applicable” in the listing below.  
+
+Financial:
+Account Balances
+Loans
+Forf Accounts
+PCRA / SDAs
+Basis
+Recurring Payments / RMDs
+
+Non Financial / Outsourcing:
+Census Data
+Deferrals
+Elections
+Eligibility
+Vesting
+QDRO / Bene Status
+
+An update will be provided on _______________
+
+
+##Payroll File Automation Set Up Guide
+#SCREENSHOTS TO BE ADDED LATER 
+
+
+
+ 
+
+The IM Payroll Automation? field on the Remittance Home page in Paris 3 must be set to 'Yes' to enable payroll file automation for automated PSD and automated FTP clients. 
+This field can be updated by the following P3 users:  Account Consultant/Account Admin, Call Center Associate, Cash PC Specialist, Contract Plan Services and Product Support. 
+The field only displays for IM clients.
+
+ 
+
+When the IM Payroll Automation? field is set to 'Yes', then the IM PSD Error Correction? field becomes enabled and a value must be selected for automated PSD and automated FTP clients. 
+A value of 'TA Handles Errors' means that the account manager will be working with the client to resolve data errors that are generated by the client's file. This value will result in the AWD error report being sent to the client's account manager. 
+A value of 'Client Handles Errors on PSD' means that client will go into PSD to resolve data errors that are generated by the client's file. This value will result in the AWD error report being sent to the end queue with a status of EDSCOMPL.
+The default value when the IM Payroll Automation? field is set to 'Yes' is 'Client Handles Errors on PSD'.
+
+ 
+
+When the IM PSD Error Correction? field is set to a value of 'Client Handles Errors on PSD', then the IM Payroll Automation? field becomes disabled. 
+If the value in the IM PSD Error Correction? field is switched to 'TA Handles Errors', then the IM Payroll Automation? field becomes enabled again.
+
+ 
+
+
+Automated PSD clients and automated FTP clients must have at least one layout in EDS with the PSD Availability? field set to 'Yes'. 
+Only layouts with the PSD Availability? field set to 'Yes' will be available for use by automated clients.
+
+ 
+
+To set the PSD Availability? field set to 'Yes', go into the layout that you want to set up for automation by clicking on the layout name in EDS and then select a value of 'Yes' for the PSD Availability? field.
+
+For PSD Automated plans only:
+One user at the plan sponsor will need to be set up with all of the PSD Automated Payroll File Access permissions so that they can delegate permissions to other Plan Sponsor users.
+ 
+To set up a plan sponsor user with the permissions go to the User Maintenance tab and under User Roles and Options for the given user, select all options under the Automated Payroll File Access heading.
+
+At this point the set up for automated PSD clients is complete. For automated FTP client proceed with the following setup:
+
+ 
+
+Automated FTP clients will need each type of file that they submit to be mapped to a layout name.
+Files that have already been mapped will display in the FTP Automation Summary section of the Remittance Home page.
+The ability to view or update the FTP Automation Summary is available only to the following P3 users: Cash PC Specialist 
+
+
+ 
+
+To map a file to a layout for automated FTP clients, select the Add FT Automation button above the FTP Automation Summary section on the Remittance Home page
+
+ 
+
+Then complete the screen that pops up with the following information: The name of the file (do not include any dates that are appended to the file name when dropped to the client folder), the name of the folder to which the client drops the file, and select the layout name that will be used to load the file to EDS.
+The File Layout Name dropdown will be populated with all file layouts for the given plan that have a PSD Availability value of Yes in the EDS Layout Screen. 
+If no layouts are set up in EDS for PSD Availability = Yes, then Select: will be the only value in the File Layout Name dropdown, indicating that Layouts need to be set up for PSD Availability in EDS.
+All fields on the Add/Edit FTP Automation screen are required fields.
+
+ 
+A Reset button on the Add/Edit FTP Automation screen will allow the user to clear the values entered in all of the fields 
+A Cancel/Close button on the Add/Edit FTP Automation screen when selected will allow the user to exit the screen without saving any data, thereby returning the user to the Remittance Home page
+Selection of an Apply button on the Add/Edit FTP Automation screen will close out of the Add/Edit FTP Automation screen and return the user to the Remittance Home page.
+ 
+If a field has not been populated or a valid selection made when the user selects apply, then the message: Invalid values entered will display on the screen and a red X will be placed by the field(s) that need to be corrected.
+
+ 
+Upon selection of the Apply button on the Add/Edit FTP Automation screen, the system will check to see if the file name already exists in the database or in the FTP Automation Summary.
+If the file name already exists in the database or in the FTP Automation Summary when the user selects Apply on the Add/Edit FTP Automation screen, then the system will display the following message in red in the lower left corner of the Add/Edit FTP Automation screen: Unable to apply requested changes, File name must be unique.
+If the file name already exists in the database or in the FTP Automation Summary when the user selects Apply on the Add/Edit FTP Automation screen, the system will not apply the new row to the FTP Automation Summary.
+
+
+
+
+ 
+Upon selection of the Apply button on the Add/Edit FTP Automation screen the changes will display as a row in the FTP Automation Summary section of the Remittance Home page.
+The delete checkbox of the row that is newly added to the FTP Automation Summary will be disabled and the link on the File Name will not display until the Save button on the Remittance Home page has been selected.
+Once the Save button on the Remittance Home page has been selected, the data will be written to the FTP_LAYOUT_MAP table.
+The FTP Automation Summary displays all rows that have been entered into the FTP_LAYOUT_MAP table.
+Rows can be removed from the table by select the box(es) in the Delete column for those rows that the user wishes to remove and then selecting the Save button on the Remittance Home page. 
+Removing a row will remove that row from the FTP Automation Summary display as well as remove it from the FTP_LAYOUT_MAP table.
+The link on the File Name allows the user to open up the Add/Edit FTP Automation screen to make modifications to an existing row.
+
+ 
+
+When the link on the File Name is selected the Add/Edit FTP Automation screen opens populated with the existing data for the given row
+The File Name will be disabled and the user will be able to modify the FTP Folder Name and the File Layout Name.
+Actions available are the same as when adding a new row to the table: Users can select Reset, Cancel, or Apply.
+Selection of an Apply button on the Add/Edit FTP Automation screen will close out of the Add/Edit FTP Automation screen and return the user to the Remittance Home page.
+Upon selection of the Apply button on the Add/Edit FTP Automation screen the changes will display in the FTP Automation Summary section of the Remittance Home page for the file type that was updated.
+Selection of a Save button on the Remittance Home page will save the changes and write the data to the FTP_LAYOUT_MAP table.
+
+Create an INFRA ticket requesting that the client's files be automatically moved from the client's folder to the following folder:  The ticket will need to specify the from folder location and the to folder location, along with who should receive notifications if the process fails. The INFRA ticket could take 3-4 business days to be processed. 
+
+##CASE NOTES TEMPALTE
+#
+
+Plan Notes – xxxxxxx
+
+Index:
+
+ 
+SPECIAL ALERTS
+ACCOUNT MAINTENANCE
+ALLOCATIONS
+ASSET GATHERING
+ASSET RETENTION
+BENEFICIARY
+BROKER/ON-SITE INFORMATION
+CALL CENTER
+CATCH-UP
+DEFERRALS
+EMPLOYER MATCH
+ENROLLMENTS
+EXPENSES
+FORMS
+FUNDS
+INFORMATION SHARING
+LOANS	
+MERGERS AND ACQUISITIONS
+MONEY SOURCES
+PA REFERRALS & AUTHORIZED SIGN
+PPT & CLIENT CORRES
+PRIOR CARRIER INFO
+QDRO
+RAD/RMD
+STATEMENTS
+TRANSFERS
+VESTING
+WEBPORTAL
+WITHDRAWALS
+ARCHIVED NOTES
+
+ 
+
+ 
+
+
+ 
+
+0	SPECIAL ALERTS: 
+[Include for all plans] 
+Plan is effective with TRS on XX/XX/XXXX.
+
+[Include if there is are conversion assets coming over to Transamerica plan]
+•	Conversion Effective Dates:
+o	Blackout starts on XX/XX/XXXX at XX:XX PM EST, CST or PST with [prior vendor]. [Include any transactions allowed or special circumstances communicated to participants]
+o	Assets will be [indicate conversion strategy]
+o	Blackout is expected to end with TRS during the week of xx/xx/xxxx.
+
+[Include if there is limited access]
+•	Limited Access will be from xx/xx/xxxx to close of market on xx/xx/xxxx. Participants are allowed to make [include transactions allowed] ONLY. The following transactions are NOT allowed during limited access: (specify which transactions are not allowed) 
+
+[Include if plan has Financial Guide / Creative Planning Managed Accounts)
+•	VERY IMPORTANT: Financial Guide / Creative Planning Managed Accounts are available on this plan. Financial Guide is the financial wellness platform/website offered by Creative Planning, LLC. This financial wellness platform offers participants point-in-time advice, financial wellness tools and a fee based managed account called Creative Planning Managed Accounts. 
+
+o	Enrollment - Eligible participants are defaulted/auto-subscribed to Creative Planning Managed Accounts. As part of the conversion process, ppt’s were defaulted to Creative Planning Managed Accounts.  [Drafters note: Remove the following sentences in red font, for plans that had a limited access period and for plans going live after 2/28 as this would not apply. Then delete this drafters note before cataloguing.]Some plans did not give an opportunity to opt-out prior to conversion so we are refunding the CPMA fee for ppt’s that opt out prior to 2/28/25.  Those ppts have had/will have the CPMA fees refunded due to opting-out by 2/28/25. These ppts who had fees refunded will have a participant note
+o	To Unsubscribe - Participants can only unsubscribe through their account on the Financial Guide website by using the SSO link on the Account Overview screen on Transamerica’s participant website to access Creative Planning Managed Accounts.
+
+After unsubscribing, the participant can:
+1. Remain in the allocations (future money election) provided by CPMA on the Financial Guide site.
+2. Use Point-in-Time Advice on the Financial Guide site to set-up new allocations for future money.
+3. Self-manage their allocations for future money by logging into the Transamerica website or by calling Transamerica, after opting out of the service.  
+
+[Include if Contract Exchanges/Plan to Plan Transfers are allowed]
+Participants would like to transfer their accounts from [prior vendor(s)/prior 403(b) plan] should do so by initiating a contract exchange/plan to plan transfer.
+•	Please see Participant Docs for a copy of the Asset Transfer Kit for participants who would like to move their assets from these vendors to TRS.  See the Asset Gathering section. 
+•	Assets cannot be accepted prior to the plan effective date of xx/xx/xxxx.
+
+[Include if plan has In-Kind transfers to PCRA]
+Participants with balances in SDAs/PCRA at the prior vendor will have the balances transfer in-kind to Schwab’s PCRA with Transamerica. Account numbers will be automatically established for participants and can be accessed via the Schwab link on our website. Schwab will place a hold on these accounts until the participant fills out the online PCRA LPOA and MOU.
+ 
+[Include if plan has Managed Advice]
+Managed Advice is available on this plan. If a participant calls and would like investment advice DO NOT turn the participant away. Participants seeking advice can be transferred to an MA IAR, they should not be transferred to the assigned IAR directly and instead transferred to the MA call center. [Managed advice checklist should be saved in a folder for the plan in S:\File Transfers - AE CR CIT and a link should be added to case notes]
+
+[If plan has a TPA, indicate the appropriate option selected. PLEASE ENSURE THE TPA HAS BEEN SET UP WITH PSD ACCESS] 
+	Testing
+•	Option 1:  TRS provides TPA census and contribution data (if there is a specific date that the TPA wants this by, this should be listed here)
+•	Option 2:  TPA will retrieve testing data from PSD
+•	Option 3:  TRS to complete testing
+	5500 
+•	Option 1:  TRS provides TPA information for 5500 (if there is a specific date that the TPA wants this by, this should be listed here)
+•	Option 2:  TPA will retrieve 5500 info from PSD     
+•	Option 3:  TRS to complete 5500
+
+1	ACCOUNT MAINTENANCE: 
+[Include this note for plans with multiple contracts at DIA]
+•	Related ER Plans:
+o	401k – 
+o	403b – 
+o	457b – 
+2	ALLOCATIONS:  Allocations will/will not be mapped. 
+[Include if plan has Financial Guide / Creative Planning Managed Accounts) 
+We cannot transfer any active participants in a plan with an active Creative Planning Managed Account to the Transamerica Advice Center.
+
+[Include for Master Administrator] 
+If a participant wishes to adjust their allocations at [other vendor] they will need to make those changes directly with [other vendor]. If a participant would like more information regarding the funds available, please refer them to [other vendor].
+
+[Include if your plan has source groups] 
+This plan has source groups. Allocations are allowed to be separated by source.
+3	ASSET GATHERING: [Contract Exchanges/Plan to Plan Transfers - If these transfers are applicable to your plan, include details (how to obtain forms, approved vendors, book-up process (if applicable), etc.).  If an Asset Transfer Kit was created, ensure that it is added to the web portal.] Asset Transfer Kits are available in Participant Docs/Web Portal. 
+•	Please encourage participants to contact the prior vendor for information regarding any surrender fees that they will incur in transferring their account.
+•	Assets cannot be accepted prior to the plan effective date of xx/xx/xxxx. 
+4	ASSET RETENTION:   
+
+[Include if plan has Financial Guide / Creative Planning Managed Accounts) 
+We cannot transfer any active participants in a plan with an active Creative Planning Managed Account to the Transamerica Advice Center
+
+[Include if plan is being set up as NON-TRM and using Advisor IRA Only]
+If a terminated ppt has a balance over $25,000 (or if another threshold is being used, include that #), please direct them to call advisor name with advisor firm at phone number for retirement counseling and options available at termination.  If the ppt has already made up their mind, and really wants to withdraw their money, even after being explained the tax consequences of not rolling to an IRA, the TRS Rep can send the appropriate paperwork.  Ppts with balances under $25,000 (or if another threshold is being used, include that #), can receive retirement counseling from a TRS CCC Rep, no need to refer the call to the advisor. If the ppts under $25k (or if another threshold is being used, include that #) want an IRA product you may route them to TRM.
+5	BENEFICIARY:  This plan has Universal Beneficiaries
+6	BROKER/ON-SITE INFO:  
+7	CALL CENTER HANDLING: 
+[Add if ppts can schedule one-on-one appointments. The TM or CE can provide the password information.] 
+
+[Include if plan has Financial Guide / Creative Planning Managed Accounts)
+Please see “VERY IMPORTANT” note and bullets in SPECIAL ALERTS.
+•	Access - Participants can navigate to the Financial Guide website via a Single Sign On (SSO) link on the Account Overview screen on Transamerica’s participant website to access Creative Planning Managed Accounts.
+•	Support/Services – If a participant is inquiring about investment advice, any related questions, deferrals, allocations what to enroll in or at what rate and you see “Active” in the DDOL Services Section for Creative Planning Managed Accounts, cold transfer them to Creative Planning, LLC at 844-569-5442. Please note, to Unsubscribe the participant must do so on the Financial Guide website.
+•	Resubscribe - If the participant is not subscribed to Creative Planning Managed Accounts, showing “Inactive” on the CTI screen, and they inquire about financial or investment advice, cold transfer to Creative Planning, LLC at 844-569-5442.
+
+FOR TAC Advisors Only : For non CPMA opportunities, if you uncover a TAC opportunity you can follow the same process as you do today through the dashboard.  FOR TAC ADVISORS, if the participant is asking directly about opening an IRA and is over $150k or in the process retiring with over $150k, please do not follow regular procedures, transfer the call to Creative Planning – Plan Participant Benefit Event line at 833-215-4494.  For all other sales opportunities you can follow the normal sales procedures.
+
+8	CATCH-UP:  
+[For plans that allow for catch up contributions but have a deferral limit, include one of these notes depending on the strategy for your plan: If a ppt needs to exceed the plan’s deferral limit to elect catch up, help them calculate the total deferral needed, key the deferral that the system will allow and instruct the ppt to report the difference on the catch up election form.  Completed forms should be returned to the ER.
+
+OR
+
+If a ppt needs to exceed the plan’s deferral limit to elect catch up, help them calculate the total deferral needed, key the deferral that the system will allow and report the difference to the Account Manager via AWD.  This will be reported to the ER.
+
+[Include if plan is a 403(b) and allows for the 15 year catch-up]
+403(b) 15 yr Catch-Up is allowed
+9	DEFERRALS:  Deferrals will/will not be mapped. 
+[Only include below if plan is using Master Administrator]
+•	This plan uses Master Administrator (Common Remitter) and participants are able to designate their deferral between TRS and [other vendor]. Deferrals will be defaulted to TRS. These designations can ONLY be made online or through the call center. Participants should never be referred to make these changes on paper. Any monies directed to [other vendor] will be defaulted in [other vendor]’s plan level default unless the participant has allocations set up. Please be sure to advise participants that their allocations at TRS will not carry over to [other vendor] for their deferral election.
+
+10	EMPLOYER MATCH:  
+11	ENROLLMENTS: 
+12	EXPENSES:  [Add if the plan has a free-look period for MA] There is a free look period for Managed Advice. The fee will not be charged until xx/xx/xx.
+13	FORMS: 
+14	FUNDS: 
+[If plan uses service only funds]There are [# of funds] Service Only Funds which are only allowed for use in Managed Advice [replace managed advice if a different service has service only funds] on this plan. If a participant unsubscribes from Managed Advice, any balance or future allocation to a Service Only fund will be placed in that funds corresponding Service Stoppage Replacement Fund by default. The participant will have the opportunity to make a different election upon unsubscribing should they choose to. 
+Service Only Fund	>>>	Service Stoppage Replacement Fund
+		
+		
+
+[Include if plan has Financial Guide / Creative Planning Managed Accounts and uses service only funds)
+Non-Core Funds for Financial Guide/Creative Planning Managed Accounts***:
+***Include the list of service exclusive funds that will be used for each plan. This can be provided/confirmed by Plan Services or Pricing. Should be on the TOA
+
+
+
+
+
+
+***These are the Service-Exclusive funds to be utilized by Creative Planning LLC within Financial Guide.  Participants will not be allowed to initiate transactions on their own into these funds. However, if the participant unsubscribes, they may continue to hold an allocation/balance in these funds. Service Stoppage or replacement funds are not needed.
+
+[If plan has walled off funds] 
+The following funds are excluded (walled off) from rebalances in [name of service]
+15	INFORMATION SHARING:  Loans: Info Sharing is in process.  In the interim, the ER will need to certify for info sharing via PSD. [If hardships are outsourced] Hardships:  Info Sharing is in process.  In the interim, the hardship team will obtain the certification from the client upon receipt of the hardship request.  The contact is ___________________. [If hardships are not outsourced] Hardships:  Info Sharing is in process.  In the interim, the client is certifying transactions for info sharing purposes by signing our hardship forms.
+16	LOANS:  
+17	MERGERS AND ACQUISITIONS: 
+18	MONEY SOURCES: 
+19	PA REFERRALS & AUTHORIZED SIGNATURES: 
+20	PARTICIPANT & CLIENT CORRESPONDENCE: 
+21	PRIOR CARRIER INFORMATION: 
+22	QDRO: 
+23	RAD/RMD: 
+24	STATEMENTS: 
+25	TRANSFERS: 
+[Use if plan has in-kind transfer to PCRA] 
+SDAs will be transferred in-kind at conversion. See special alerts for more information. 
+26	VESTING: 
+27	WEB PORTAL: Include hyperlinked web portal address
+[Include if plan has Financial Guide / Creative Planning Managed Accounts)
+Participants can navigate to the Financial Guide website via a Single Sign On (SSO) link on the Account Overview screen on Transamerica’s participant website to access Creative Planning Managed Accounts.
+•	If any website issues are reported by participants, please gather all information to determine if the issue is on the Creative Planning site, or the Transamerica site.
+
+28	WITHDRAWALS: 
+[Include this note if this is a 403b plan that uses the Guaranteed Pooled Fund and allows In-Service withdrawals: Back End Load on the Guaranteed Pooled Fund only applies if the ppt is still in service and under age 59.5.  BEL does not apply for any other reason.]
+•	[If you have a plan that has special withdrawal provisions needing to use the OTHER approval box on the withdrawals tab please include detailed information] OTHER BOX = add applicable notes here. QDRO APPROVER = add the name of the outside vendor responsible for approving QDROs.
+29	ARCHIVED NOTES: 
+ 
+
+##Case Note Guidelines
+#
+
+
+
+
+•	Limit the use of bold and color.  Use it sparingly to highlight small sentences or key words. 
+	Never Refer to PA
+	Eff"
+ective 4/1 participants will only be able to choose deferral percentages and will not be allowed to choose dollar amounts.  As of 2/19/2010 the system has been updated to only allow for percentages, since this has been updated those participants with dollar amounts will not show a deferral on P3 - please contact the AC with questions.
+"	Please refer ALL ppts wishing to make an address change back to the Employer!  Please DO NOT update an address for ANY employee, even if they are terminated! "
+
+"	Use bullets and/or spacing to break up large amounts of information. "
+Participants will fall into one of the following scenarios:
+"	If ppts only have 1 account (through either Valic or Lincoln), allocations will be mapped during the conversion from their current carrier. "
+"	If ppts have an account with both Valic and Lincoln, allocations will be mapped during the conversion from the provider that they are currently contributing to. "
+"	If ppts are not currently contributing and have accounts with both providers, allocations will be mapped from the vendor that their Employer Service-Based contributions are going to."
+
+Term Date Process:
+"•	CCC can send paperwork before a DOT is on file but should inform the participant that Ascension Health requires that the date of termination must be received on the payroll file before processing can begin."
+"o	When sending forms – “…Processing will begin within 1-4 business days after we have a fully completed form, receive all contributions and a date of termination from your employer on the payroll file…”  "
+"•	Use the following guidelines prior to sending paperwork and for paperwork NGO’d due to a missing DOT."
+"o	Receipt of DOT normally takes 1-2 payroll cycles (1 month).  Ppts who recently termed should be encouraged to wait for the normal file to be received."
+"o	If the termination date was over a month ago, participants should be referred to their local HR to have the date submitted."
+"o	When to send a research item to the ASCENAC queue regarding a missing DOT:"
+"	More than 60 days since DOT"
+"	Participants that terminated before 2009"
+"	Escalated situations - Obtain name of individual in HR that participant has been working with & check with your manager before submitting an item."
+"	Ppt that refuses to wait for DOT submission.  Check with your manager before submitting an item."
+
+"	Omit information found in CTI"
+"	QDROs are outsourced"
+"	Loans are allowed from all sources"
+"	Spousal consent is necessary.  DIA is outsourcing terminations, hardships and in-service withdrawals, no PA signature needed."
+
+"	Add information for special plan rules or plan rules that the system cannot accommodate"
+"	Loan amounts limited due to WGM 10% rule, the total amount of a ppt loan payment cannot exceed 10% of their biweekly/monthly salary.  Salary is being loaded via the remit file and the system will calculate the 10% rule.  Salary doc is updated yearly and posted to ppt docs. You can use this along with the calculator on the CCC intranet site to calculate the amount the ppt has available for a loan."
+"	Allocations for ER Source Profit Sharing can ONLY be saved to the Stable, T. Rowe TD and SAF funds.  EE 401(k) and EE Rollover sources have no restrictions and can be saved to all funds. Due to this plan rule, ONLY key allocations as individual source groups and NEVER as all sources.  The system will not stop you from keying all sources so please be careful when making allocation updates.  Allocation updates can only be made via the call center, PPTs cannot change on DDOL or through the VRU."
+"	Contact AC for non-hardship amounts.  Non-hardship withdrawals are allowed from type 4, type 7 and type 8 (the AC needs to do a calculations to see how much is available for type 8) - okay to provide contribution type breakdowns to ppts.  Type 4 restriction - 5 yrs of plan participation necessary before able to WD.  Type 7 restriction - $ must be credited in participant's acct for 2 yrs to WD.  Type 8 restriction - $ must be credited to participant's acct for 2 yrs to WD.  "
+
+"	Enter dates with the month/date/year to avoid confusion"
+
+"	Avoid duplicate information, pick the most relevant heading to add the notes to.  The only exception is special alerts since that is a short term highlight of important information."
+
+"	Ensure proper formatting - you should have 27 categories when you’re finished (0-27)"
+
+"	Run the spell check and grammar check when you’ve completed updating"
+
+"	When you have questions on content, formatting, etc. – Please ask!  "
+
+
+##Installing Creative Planning Managed Account/Financial Guide
+#SCREENSHOTS SOON
+
+
+Large Market
+
+Important: Before P3 plan set up can be completed, the account and contract will need to be created in SalesForce and the contract record must have the connection for CPMA. On the contract tab in Salesforce, the “services assigned” field must be set with 3PMA and the Advisor Firm must be Creative Planning, LLC. Confirm with TRSC IM Asset Allocation Services that this has been completed. 
+ 
+
+
+Funds Tab
+CPMA utilizes service exclusive funds. To add a SEF you will need to check off the SEF indicator on the screen where you search by fund descriptor when adding the funds. 
+ 
+
+Plan Service Expense Tab
+CPMA will need to have 2 fee portions set up and applied to all funds being utilized for the service - The Total fee for CPMA and the portion of the fee paid to Creative Planning. This information will be provided on the Advice Services Checklist within the Submission Package.
+You will need to add the fee to all funds:
+"1.	Select Type of Expenses: VAC – Creative Planning Managed Accounts"
+"2.	Account Charge Type: Apply to Part Acct"
+"3.	3rd Party BPS: Add the amount of the fee that is paid to Creative Planning, LLC"
+"a.	You will need to be in IE mode to see this field"
+"4.	Basis Points: Add the total fee for the service "
+"5.	Start Date: Use the Effective date of the service"
+"6.	End Date: Leave blank"
+"7.	Check off Apply to All Funds"
+ 
+Allocations/Plan Level Default Tab
+
+For plans using CPMA as the Default, follow below.
+"1.	Type of Default: Financial Guide"
+"2.	Source Type: Al EE Directed Source Groups"
+"3.	Effective Date: Use the Eff date of the service"
+"4.	QDIA: Yes if it is being used as QDIA"
+"5.	Once you click Add Default Allocation, a screen will pop up asking you to confirm the options. The Fiduciary name will be auto populated to Creative Planning, LLC"
+ 
+
+DDOL/VRU Tab
+
+In P3 Plan Tab - DDOL/VRU Tab
+You will need to either Temp Enable or Enable Financial Guide which controls the Creative Planning Managed Accounts service. The website will show an SSO link to the Financial Guide site. Enabling/temp disabling this feature will also control when specific content about this service is included in the participant fee disclosure, enrollment books etc. 
+ 
+Important: With enabling Financial Guide/Creative Planning Managed Accounts, OnTrack cannot be turned on for the plan. You will need to set the OnTrack access codes to Not Enabled. 
+
+All of the IRA handling codes should be set to NOT ENABLED.  There is a new code that was created for CPMA purposes call Third Party Referral. This field should be set to ENABLED.
+ 
+ ##TC Conversion Timeline Checklist
+#
+
+
+
+Transition Consultant conversion checklist should be  used as a personal guide of any task needed to be done throughout a conversion
+
+
+ 
+Task                                                                                                                      Date Completed
+ 
+0  New Sale Internal Call                                                                                        _____________
+0  Introduction Call w/Client                                                                                 _____________
+0  Pricing Call                                                                                                            _____________
+0  PRD Review Call (Internal)                                                                                 _____________
+0  PRD Review Call (Client)                                                                                     _____________
+0  Submission Package Call                                                                                    _____________
+0  Sub-Pack Review Recap                                                                                      _____________
+0  Confirm if any SDA/PCRA Re-registration (If Applicable)                             _____________
+0  Request SDA Asset breakdown from PRK (If Applicable)-Step 1                _____________
+0  Send letter of Authorization for SDA to PCRA re-reg (if applicable)  
+       Step 2                                                                                                                   ______________
+0  Send Trading Menu for PCRA (if applicable)  - Step 3                                   _____________
+0  Conference Call w/PCRA & Prior Carrier regarding re-reg -Step 4            ______________
+0  1st System Audit (Notices)                                                                               _____________
+0  Create Entity Group for notices                                                                        _____________
+0  Run Fee disclosure & QDIA notices                                                                  _____________
+0  Review fee disclosure & QDIA notices w/checklist                                       _____________                      
+0  Send review notices complete email to conversion team                           _____________                    
+0  Request Ticket for Additional Services MA, PX, CMP, etc. (If Applicable) _____________
+0  Submit/Review Pre-conversion loan analysis                                                 _____________
+0  Complete Transactions Allowed spreadsheet for CCC                                  _____________
+0  Complete New Business Page for CCC                                                             _____________
+0  Draft Fiduciary Service Agreement (Outsourcing Addendum)                   _____________
+0  SDA to PCRA re-registration- Review if assets are acceptable by PCRA
+       (if Applicable) - Step 5                                                                                        _____________
+0  SDA to PCRA re-registration - send liquidation letter to client/
+0  Prior carrier for non-acceptable assets (if applicable) - Step 5                   _____________
+0  PCRA Retirement ID & Password have been added                                      _____________
+0  2nd System Audit (Final PPR) completed/send to Quality for review    _____________
+0  Statement Prov submission to Prod Support                                                 _____________      
+0  Submit Logo for cataloging                                                                                _____________
+0  Request non-dynamic forms to be cataloged                                                _____________
+0  Complete Case notes and catalog                                                                    _____________
+0  Email to Quality to check/setup enrollment & eligibility tabs                    _____________
+0  Run enrollment kits and review                                                                       _____________
+0  Send Final system audit complete email with Enrollment kits                  ______________
+0  Email for Data Loader & Remit Processor assignment                                _____________
+0  Review test data for RMD/Install info                                                           ______________
+0  Review test data for existing QDRO/Bene accounts/dummy SSN            ______________
+0  Filter Live audit population from Test Data                                                  ______________
+0  Activate plan on PSD                                                                                          _____________
+0  Add PSD access for client contacts                                                                  _____________
+0  Complete Test ppt audit on DDOL                                                                   _____________
+0  Request welcome confirms with Quality Team                                            _____________
+0  Complete Fund mapping                                                                                    ____________
+0  Complete Source mapping                                                                                _____________
+0  Request Statement hold (if applicable)                                                           _____________
+0  Request 2nd SDA Asset breakdown from PRK and assure non-acceptable 
+0  Assets Are liquidated (If Applicable)-Step 6                                                    _____________
+0  Create Remit Guide                                                                                             _____________
+0  Create Administration Manual                                                                          _____________
+0  Have Remit guide call with client                                                                      _____________
+0  Remit Guide Call RECAP                                                                                      _____________
+0  Send RDD forms                                                                                                   _____________
+0  Have Admin Manual Call (if applicable)                                                           _____________
+0  Admin Manual Call RECAP (if applicable)                                                         _____________
+0  SDA/PCRA accounts opening. Have QC send indicator to open account
+       To PCRA (if applicable) Step 7                                                                             ____________
+0  Takeover Loan Analysis Review and email to client                                        ____________
+0  Duplicate SSN Process                                                                                           ____________
+0  Day of wire audit completed                                                                               _____________
+0  Live participant audit completed                                                                       _____________
+0  SDA/PCRA Change in Value (CIV) being received by PCRA
+       (if applicable) -Step 8                                                                                            _____________
+0  SDA/PCRA - SDA & PCRA balances are showing correctly (if Applicable)
+       Step 9                                                                                                                        ____________
+0  Sent Final RMD/Install template to RAD team                                                  ____________
+0  Complete Audit  Control checklist                                                                       _____________
+0  Schedule "Go Live" meeting                                                                                 ______________
+0  Went Live with plan                                                                                                 _____________
+0  Go Live Checklist Completed                                                                                ______________
+0  Term Kit Cleanup Completed                                                                                _____________
+0  Statement Audit Completed                                                                                 _____________
+0  Final System Audit Completed                                                                            _____________
+0  Request Conversion Statements/Statement off hold                                      ______________
+0  Transition Call Checklist completed                                                                    ______________
+0  Transition Call w/ongoing team held                                                                  ______________
+0  Add final subpack to AWD item                                                                            _____________
+0  NBI update with Transition date- Close out conversion                                  _____________
+
+
+
+##Instructions for Accessing the Plan Sponsor Website and Setting up New Users 
+#SCREENSHOTS LATER
+
+ 
+
+
+The Plan Sponsor Website is a comprehensive online tool that helps you manage your retirement plan. Through this site you can:  
+"•	Design custom reports and, if desired, export them to Microsoft Excel"
+"•	View participant information"
+"•	Submit your remittances (payroll files)"
+"•	Add additional users to the website for your plan, and control the administrative privileges granted for each user"
+
+How Do I Access Plan Sponsor Website?
+"•	To access Plan Sponsor Website, go to"
+"•	Enter your assigned user ID and temporary Password.  You will be prompted to create your own unique password."
+What Levels of Access can I Grant to Additional Users at my Organization?
+There are three different levels of access roles you may grant additional users at your organization.  You are assigned the highest access level - Advanced.
+Below are descriptions of the different access level roles:
+"•	Basic allows a combination of options available to the user that you choose.  This includes: "
+"o	Transmitting files"
+"o	Obtaining plan level forms"
+"o	Running plan level reports"
+"•	Intermediate also allows a combination of options available to the user that you choose.  This includes the options listed above for the Basic access level role.  Additional options for the Intermediate access level role include:"
+"o	Viewing employer level statements"
+"o	Receiving notification of and approving loans (if applicable to your plan)"
+"o	Viewing information sharing data (if applicable to your plan)"
+"o	Viewing participant level details"
+"o	Adding/removing users to or from Plan Sponsor Website.  (Please note that a user on Plan Sponsor Website is only able to set up a new user with either his/her same level of access or lower).  "
+"•	Advanced allows access to all of the above information on the Plan Sponsor Website for your plan(s) plus the ability to update certain participant information.  "
+ 
+I have a Broker or Investment Consultant on my Plan.  What Levels of Access can I Grant to Additional Users Outside of my Organization?
+There are three different levels of access roles you may grant additional users outside of your organization.  Below are descriptions of the different access level roles:
+
+"•	Broker/Third Party allows a combination of options available to the user that you choose.  This includes: "
+"o	Obtaining plan level forms"
+"o	Transmitting Files"
+"o	Viewing employer level statements"
+"o	Running plan level reports"
+"o	Viewing participant level details"
+"•	Broker/Admin allows a combination of options available to the user that you choose.  This includes the options listed above for the Broker/Third Party access role.  Additional options for the Broker/Admin role include:"
+"o	The ability to update certain participant information"
+"o	The ability to receive notification of and approve loans (if applicable to your plan)"
+"o	The ability to view information sharing data (if applicable to your plan).  "
+"•	Investment Consultant allows access to plan features, such as:"
+"o	Plan detail reports"
+"o	Plan summary reports"
+"o	Employer level statements"
+
+ 
+
+How Do I Add Additional Users to Plan Sponsor Website?
+"•	Access the Plan Sponsor Website by going to "
+"•	On the right side of the screen in the “Log In” section, click on the tab that says “Sponsor” "
+"•	Enter your user ID and Password"
+Click on your plan and follow the screenshots below that demonstrate the process for adding additional users.
+"1)	Once you have entered your plan, click on the tab at the top of the page called “User Maintenance”:"
+ 
+ 
+
+"2)	Scroll to the bottom of the screen and select “Create New”:"
+ 
+"3)	Enter the user’s first and last name and e-mail address, and create a user ID for that user.  Then click “Save User Information”:"
+  
+"4)	Assign the user to a plan by clicking on the plan(s) that you would like to assign him/her to:"
+ 
+"5)	Choose the level of access role for the user as described at the beginning of this document.  Then, assign the plan features and participant information access allowed for this user to view.  If divisions are applicable to your plan, assign divisions allowed for this user."
+ 
+ 
+
+"6)	Click on “Save Plan Options”.  If adding additional users, click on “Back to User Maintenance” and follow same process."
+ 
+Once I Grant Access to New Users on Plan Sponsor Website, How are they Notified of their User IDs and Temporary Passwords?
+At the time new users are created on Plan Sponsor Website, their temporary passwords will be e-mailed to them directly from the site.  For security reasons, their User IDs are not included in the automated e-mail.  Please let the users know what their user IDs are when you grant them access to the Plan Sponsor Website.  
+Do temporary passwords expire?
+Yes.  Temporary passwords are a one-time use only and will expire 30 days after creation.  Once a temporary password expires, the user will need to have their access restored and their password re-set in order to access the Plan Sponsor Website.  This can be done by contacting Transamerica directly using one of the methods below:
+"•	Contacting your Transamerica Client Consultant via phone or e-mail"
+"•	Clicking “Contact Us” at the top of the web page "
+"•	Clicking “Technical Support” at the bottom of the page "

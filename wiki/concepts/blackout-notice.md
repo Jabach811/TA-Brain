@@ -5,11 +5,12 @@ tags: [concept, document, com, participant-communication, conversion]
 created: 2026-04-14
 updated: 2026-04-14
 sources: 1
+status: current
 ---
 
 # Blackout Notice
 
-A required participant communication created by the [[com]] that informs plan participants of the period during which they cannot make changes to their accounts while assets are being transferred.
+A required participant communication created by the [[roles/com]] that informs plan participants of the period during which they cannot make changes to their accounts while assets are being transferred.
 
 ## Definition
 
@@ -39,7 +40,7 @@ The COM main checklist tracks blackout dates as a field within the Prior Recordk
 
 ## See Also
 
-- [[com]]
+- [[roles/com]]
 - [[ellen-miller]]
 - [[prior-record-keeper]]
 - [[plan-conversion-handoffs]]

@@ -4,6 +4,8 @@ type: source
 tags: [source, brain-dump, payroll, auto-enrollment, loans, sequencing]
 created: 2026-05-03
 updated: 2026-05-03
+status: current
+sources: 1
 ---
 
 # DC Brain Dump #002

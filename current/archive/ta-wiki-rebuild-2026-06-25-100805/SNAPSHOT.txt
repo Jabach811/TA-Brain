@@ -1,0 +1,5 @@
+﻿TA Wiki rebuild safety snapshot
+Created: 2026-06-25-100805
+Root: C:\Users\mabac\OneDrive\Desktop\Joel's Workspaces\Work - Transamerica\TA Brain
+Snapshot: C:\Users\mabac\OneDrive\Desktop\Joel's Workspaces\Work - Transamerica\TA Brain\current\archive\ta-wiki-rebuild-2026-06-25-100805
+Contents: current rendered output, wiki markdown, root Python builder, fresh-rebuild namespace builder

@@ -5,6 +5,7 @@ tags: [payroll, go-live, handoff, fiduciary-services, filespecrq, process]
 created: 2026-04-15
 updated: 2026-05-03
 sources: 2
+status: current
 ---
 
 # Payroll Handoff at Go-Live
@@ -94,5 +95,5 @@ From the DC Training Notebook (February 26, 2026):
 - [[ftp-connection]]
 - [[payroll-support]]
 - [[nbi]]
-- [[lm-dc]]
-- [[com]]
+- [[roles/lm-dc]]
+- [[roles/com]]

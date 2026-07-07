@@ -5,6 +5,7 @@ tags: [eds, elections, defaults, census, conversion, auto-enrollment]
 created: 2026-05-03
 updated: 2026-05-03
 sources: 1
+status: current
 ---
 
 # Defaulting Elections via EDS

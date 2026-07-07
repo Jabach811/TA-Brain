@@ -5,6 +5,7 @@ tags: [mapping, sources, aqt, test-files, conversion]
 created: 2026-04-14
 updated: 2026-05-03
 sources: 3
+status: current
 ---
 
 # Source Mapping

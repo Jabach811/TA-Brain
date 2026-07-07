@@ -5,11 +5,12 @@ tags: [concept, document, com, qa, go-live]
 created: 2026-04-14
 updated: 2026-04-14
 sources: 1
+status: current
 ---
 
 # CSR — Conversion Summary Report
 
-A post-conversion report provided by the Quality Consultant at go-live. The [[com]] receives it and forwards it to the client as part of the go-live close-out process.
+A post-conversion report provided by the Quality Consultant at go-live. The [[roles/com]] receives it and forwards it to the client as part of the go-live close-out process.
 
 ## Definition
 
@@ -37,7 +38,7 @@ The CSR is one of the final go-live checklist items for COM. It represents the Q
 
 ## See Also
 
-- [[com]]
+- [[roles/com]]
 - [[qa]]
 - [[audit-pack]]
 - [[glossary/csr]]

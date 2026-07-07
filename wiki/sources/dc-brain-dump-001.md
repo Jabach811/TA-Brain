@@ -5,6 +5,7 @@ tags: [dc, workflow, retirement-plans, onboarding, conversion]
 created: 2026-04-14
 updated: 2026-04-14
 sources: 1
+status: current
 ---
 
 # DC Brain Dump 001 — Full Job Workflow
@@ -70,7 +71,7 @@ A DC handles all data-related work for onboarding new retirement plans. The work
 - [[payroll-template]] — payroll file format
 - [[fund-mapping]] — mapping prior funds to TA funds
 - [[source-mapping]] — mapping prior sources to TA source IDs
-- [[transfer-in-kind]] — re-registration process
+- [[processes/tik-transfer|transfer-in-kind]] — re-registration process
 - [[liquidation-day]] — the main event
 - [[final-files-processing]] — post-liquidation balance/data posting
 - [[eligibility-and-deferrals]] — enabling plan eligibility in P3
@@ -91,3 +92,4 @@ A DC handles all data-related work for onboarding new retirement plans. The work
 - [[dc-onboarding-workflow]]
 - [[conversion-types]]
 - [[liquidation-day]]
+

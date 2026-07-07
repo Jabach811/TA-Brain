@@ -5,6 +5,7 @@ tags: [eds, basis, process, system]
 created: 2026-04-16
 updated: 2026-04-20
 sources: 1
+status: current
 ---
 
 # Loading Basis through EDS
@@ -90,8 +91,7 @@ After loading, verify by summing contributions by source and plan year, then sub
 ## See Also
 
 - [[eds]]
-- [[loading-eligibility-eds]]
+- [[processes/eligibility-loading|loading-eligibility-eds]]
 - [[loading-ytd-contributions-eds]]
-- [[informatica-basis-module]]
 - [[final-files-processing]]
 - [[census-data]]

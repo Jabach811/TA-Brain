@@ -25,7 +25,7 @@
     <section class="index-grid">
     <article class="procedure-card" style="--procedure-accent: #2a6f73">
       <div class="procedure-card-head">
-        <img class="procedure-card-icon" src="assets/icons/census-loading.png" alt="">
+        <img class="procedure-card-icon" src="assets/icons/census-loading.svg" alt="">
         <h2>Census Loading</h2>
       </div>
       <p>Bring the plan population into EDS cleanly.</p>
@@ -38,7 +38,7 @@
   
     <article class="procedure-card" style="--procedure-accent: #3f7d5a">
       <div class="procedure-card-head">
-        <img class="procedure-card-icon" src="assets/icons/elections.png" alt="">
+        <img class="procedure-card-icon" src="assets/icons/elections.svg" alt="">
         <h2>Elections</h2>
       </div>
       <p>Default or map participant elections explicitly.</p>
@@ -51,7 +51,7 @@
   
     <article class="procedure-card" style="--procedure-accent: #2b6f89">
       <div class="procedure-card-head">
-        <img class="procedure-card-icon" src="assets/icons/source-mapping.png" alt="">
+        <img class="procedure-card-icon" src="assets/icons/source-mapping.svg" alt="">
         <h2>Source Mapping</h2>
       </div>
       <p>Map vendor source codes to TA source IDs.</p>
@@ -64,7 +64,7 @@
   
     <article class="procedure-card" style="--procedure-accent: #8a6f2a">
       <div class="procedure-card-head">
-        <img class="procedure-card-icon" src="assets/icons/cash-conversion-balances.png" alt="">
+        <img class="procedure-card-icon" src="assets/icons/cash-conversion-balances.svg" alt="">
         <h2>Cash Conversion Balances</h2>
       </div>
       <p>Book the wire, hold in Advanced Employer if needed, then invest by current elections.</p>
@@ -77,7 +77,7 @@
   
     <article class="procedure-card" style="--procedure-accent: #7b5b9f">
       <div class="procedure-card-head">
-        <img class="procedure-card-icon" src="assets/icons/fund-mapping.png" alt="">
+        <img class="procedure-card-icon" src="assets/icons/fund-mapping.svg" alt="">
         <h2>Fund Mapping</h2>
       </div>
       <p>Turn the TOA fund map into a QA-ready purchase/ref-number file.</p>
@@ -90,7 +90,7 @@
   
     <article class="procedure-card" style="--procedure-accent: #5b6f94">
       <div class="procedure-card-head">
-        <img class="procedure-card-icon" src="assets/icons/mapping-conversion-balances.png" alt="">
+        <img class="procedure-card-icon" src="assets/icons/mapping-conversion-balances.svg" alt="">
         <h2>Mapping Conversion Balances</h2>
       </div>
       <p>Use CONV and a dummy participant to hold fund-level purchases until final records arrive.</p>
@@ -103,7 +103,7 @@
   
     <article class="procedure-card" style="--procedure-accent: #2d7a78">
       <div class="procedure-card-head">
-        <img class="procedure-card-icon" src="assets/icons/transfer-in-kind.png" alt="">
+        <img class="procedure-card-icon" src="assets/icons/transfer-in-kind.svg" alt="">
         <h2>Transfer In Kind</h2>
       </div>
       <p>Coordinate re-registered shares through Matt O&#39;Connell and Fidelity accounts.</p>
@@ -116,7 +116,7 @@
   
     <article class="procedure-card" style="--procedure-accent: #9a593f">
       <div class="procedure-card-head">
-        <img class="procedure-card-icon" src="assets/icons/loan-loading.png" alt="">
+        <img class="procedure-card-icon" src="assets/icons/loan-loading.svg" alt="">
         <h2>Loan Loading</h2>
       </div>
       <p>Set up P3 conversion records, run Informatica, then take over loans.</p>
@@ -124,6 +124,123 @@
         <a href="procedures/loan-loading.md">Markdown source</a>
         <a href="decks/ops-loan-loading.html">Ops deck</a>
         <a href="decks/flow-loan-loading.html">Excalidraw deck</a>
+      </div>
+    </article>
+  
+    <article class="procedure-card" style="--procedure-accent: #6b6f2a">
+      <div class="procedure-card-head">
+        <img class="procedure-card-icon" src="assets/icons/final-files-processing.svg" alt="">
+        <h2>Final Files Processing</h2>
+      </div>
+      <p>Run the post-liquidation load sequence without breaking the order.</p>
+      <div class="link-row">
+        <a href="procedures/final-files-processing.md">Markdown source</a>
+        <a href="decks/ops-final-files-processing.html">Ops deck</a>
+        <a href="decks/flow-final-files-processing.html">Excalidraw deck</a>
+      </div>
+    </article>
+  
+    <article class="procedure-card" style="--procedure-accent: #8a4f7d">
+      <div class="procedure-card-head">
+        <img class="procedure-card-icon" src="assets/icons/deferral-processing.svg" alt="">
+        <h2>Deferral Processing</h2>
+      </div>
+      <p>Load elections and auto-enroll state before eligibility can fire.</p>
+      <div class="link-row">
+        <a href="procedures/deferral-processing.md">Markdown source</a>
+        <a href="decks/ops-deferral-processing.html">Ops deck</a>
+        <a href="decks/flow-deferral-processing.html">Excalidraw deck</a>
+      </div>
+    </article>
+  
+    <article class="procedure-card" style="--procedure-accent: #3d6f9f">
+      <div class="procedure-card-head">
+        <img class="procedure-card-icon" src="assets/icons/eligibility-processing.svg" alt="">
+        <h2>Eligibility Processing</h2>
+      </div>
+      <p>Enable rule-driven eligibility only after deferrals are clean.</p>
+      <div class="link-row">
+        <a href="procedures/eligibility-processing.md">Markdown source</a>
+        <a href="decks/ops-eligibility-processing.html">Ops deck</a>
+        <a href="decks/flow-eligibility-processing.html">Excalidraw deck</a>
+      </div>
+    </article>
+  
+    <article class="procedure-card" style="--procedure-accent: #7a6240">
+      <div class="procedure-card-head">
+        <img class="procedure-card-icon" src="assets/icons/basis-loading.svg" alt="">
+        <h2>Basis Loading</h2>
+      </div>
+      <p>Load Roth and after-tax basis without breaking tax history.</p>
+      <div class="link-row">
+        <a href="procedures/basis-loading.md">Markdown source</a>
+        <a href="decks/ops-basis-loading.html">Ops deck</a>
+        <a href="decks/flow-basis-loading.html">Excalidraw deck</a>
+      </div>
+    </article>
+  
+    <article class="procedure-card" style="--procedure-accent: #2d6b50">
+      <div class="procedure-card-head">
+        <img class="procedure-card-icon" src="assets/icons/payroll-vendor-onboarding.svg" alt="">
+        <h2>Payroll Vendor Onboarding</h2>
+      </div>
+      <p>Get vendor files, FTP, validation, and handoff ready for go-live.</p>
+      <div class="link-row">
+        <a href="procedures/payroll-vendor-onboarding.md">Markdown source</a>
+        <a href="decks/ops-payroll-vendor-onboarding.html">Ops deck</a>
+        <a href="decks/flow-payroll-vendor-onboarding.html">Excalidraw deck</a>
+      </div>
+    </article>
+  
+    <article class="procedure-card" style="--procedure-accent: #476b8d">
+      <div class="procedure-card-head">
+        <img class="procedure-card-icon" src="assets/icons/payroll-handoff-at-go-live.svg" alt="">
+        <h2>Payroll Handoff at Go-Live</h2>
+      </div>
+      <p>Move unfinished payroll testing to Fiduciary Services cleanly.</p>
+      <div class="link-row">
+        <a href="procedures/payroll-handoff-at-go-live.md">Markdown source</a>
+        <a href="decks/ops-payroll-handoff-at-go-live.html">Ops deck</a>
+        <a href="decks/flow-payroll-handoff-at-go-live.html">Excalidraw deck</a>
+      </div>
+    </article>
+  
+    <article class="procedure-card" style="--procedure-accent: #9a4d42">
+      <div class="procedure-card-head">
+        <img class="procedure-card-icon" src="assets/icons/reversal-submission.svg" alt="">
+        <h2>Reversal Submission</h2>
+      </div>
+      <p>Use the new form-first reversal path before opening AWD.</p>
+      <div class="link-row">
+        <a href="procedures/reversal-submission.md">Markdown source</a>
+        <a href="decks/ops-reversal-submission.html">Ops deck</a>
+        <a href="decks/flow-reversal-submission.html">Excalidraw deck</a>
+      </div>
+    </article>
+  
+    <article class="procedure-card" style="--procedure-accent: #7d6d2f">
+      <div class="procedure-card-head">
+        <img class="procedure-card-icon" src="assets/icons/fund-management-calendar.svg" alt="">
+        <h2>Fund Management Calendar</h2>
+      </div>
+      <p>Notify and record large trades before cut-off risk hits.</p>
+      <div class="link-row">
+        <a href="procedures/fund-management-calendar.md">Markdown source</a>
+        <a href="decks/ops-fund-management-calendar.html">Ops deck</a>
+        <a href="decks/flow-fund-management-calendar.html">Excalidraw deck</a>
+      </div>
+    </article>
+  
+    <article class="procedure-card" style="--procedure-accent: #5c6f8f">
+      <div class="procedure-card-head">
+        <img class="procedure-card-icon" src="assets/icons/tc-conversion-timeline.svg" alt="">
+        <h2>TC Conversion Timeline</h2>
+      </div>
+      <p>Track TC readiness from kickoff through closeout.</p>
+      <div class="link-row">
+        <a href="procedures/tc-conversion-timeline.md">Markdown source</a>
+        <a href="decks/ops-tc-conversion-timeline.html">Ops deck</a>
+        <a href="decks/flow-tc-conversion-timeline.html">Excalidraw deck</a>
       </div>
     </article>
   </section>

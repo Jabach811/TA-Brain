@@ -5,6 +5,7 @@ tags: [dummy, mapping, day-of-wire, processing, workaround]
 created: 2026-04-14
 updated: 2026-05-03
 sources: 3
+status: current
 ---
 
 # Dummy Participant
@@ -76,5 +77,6 @@ This is one of the most painful avoidable mistakes in a conversion. Check for th
 - [[liquidation-day]]
 - [[final-files-processing]]
 - [[p3]]
-- [[transfer-in-kind]]
+- [[processes/tik-transfer|transfer-in-kind]]
 - [[forfeiture-loading]]
+

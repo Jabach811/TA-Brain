@@ -3,8 +3,9 @@ title: "Transfer In Kind (TIK) Process"
 type: process
 tags: [process, tik, reregistration, conversion, fidelity, shares]
 created: 2026-04-16
-updated: 2026-04-16
+updated: 2026-06-25
 sources: 2
+status: current
 ---
 
 # Transfer In Kind (TIK) Process
@@ -90,8 +91,10 @@ Separate from the re-registration form. The DC maintains expected share amounts 
 
 - [[toa]]
 - [[matt-oconnell]]
+- [[informatica]]
 - [[liquidation-day]]
 - [[final-files-processing]]
 - [[conversion-types]]
 - [[plan-conversion-handoffs]]
-- [[lm-dc]]
+- [[dummy-participant]]
+- [[roles/lm-dc]]

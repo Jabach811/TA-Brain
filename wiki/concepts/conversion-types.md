@@ -5,6 +5,7 @@ tags: [conversion, cash, mapping, transfer-in-kind, core]
 created: 2026-04-14
 updated: 2026-04-14
 sources: 1
+status: current
 ---
 
 # Conversion Types
@@ -105,6 +106,7 @@ The three ways a plan's assets can be moved from a prior record keeper to TransA
 - [[liquidation-day]]
 - [[final-files-processing]]
 - [[dummy-participant]]
-- [[transfer-in-kind]]
+- [[processes/tik-transfer|transfer-in-kind]]
 - [[matt-oconnell]]
 - [[informatica]]
+

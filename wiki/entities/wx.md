@@ -5,11 +5,12 @@ tags: [system, tool, com, tc, plan-sponsor, participant]
 created: 2026-04-14
 updated: 2026-04-14
 sources: 1
+status: current
 ---
 
 # WX — Plan Sponsor Site
 
-Transamerica's web-based portal for plan sponsors. WX (also called "WX V2" when referencing payroll integration) is set up by [[tc]] and verified by [[com]].
+Transamerica's web-based portal for plan sponsors. WX (also called "WX V2" when referencing payroll integration) is set up by [[tc]] and verified by [[roles/com]].
 
 ## Overview
 
@@ -38,7 +39,7 @@ WX is the plan sponsor-facing web platform that allows plan administrators to ma
 
 ## See Also
 
-- [[com]]
+- [[roles/com]]
 - [[tc]]
 - [[ftp-connection]]
 - [[payroll-support]]

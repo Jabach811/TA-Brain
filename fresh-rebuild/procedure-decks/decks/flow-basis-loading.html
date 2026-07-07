@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Basis Loading - Excalidraw Flow Deck</title>
+  <link rel="stylesheet" href="../assets/deck-styles.css">
+  <style>:root { --procedure-accent: #7a6240; }</style>
+</head>
+<body class="flow-page">
+  <header class="deck-nav">
+    <a href="../index.html">Procedure decks</a>
+    <span>Basis Loading</span>
+    <span>Excalidraw</span>
+  </header>
+  <main class="deck flow" data-deck>
+    <section class="slide flow-title">
+      <div class="title-grid">
+        <div>
+          <div class="sketch-tag">EDS Loading / Excalidraw flow</div>
+          <h1>Basis Loading</h1>
+          <p>Load Roth and after-tax basis without breaking tax history.</p>
+        </div>
+        <figure class="title-art sketch-art"><img src="../assets/icons/basis-loading.svg" alt=""></figure>
+      </div>
+      <div class="sketch-route"><div class="flow-node"><b>1</b><span>Confirm whether the plan type and source setup allow the basis data being loaded.</span></div><div class="flow-node"><b>2</b><span>Prepare basis fields and validate required participant identifiers.</span></div><div class="flow-node"><b>3</b><span>Check Roth, after-tax, and other employee-basis values against the source file.</span></div><div class="flow-node"><b>4</b><span>Validate the file through EDS before loading.</span></div><div class="flow-node"><b>5</b><span>Load basis data and review EDS output for warnings or rejects.</span></div><div class="flow-node"><b>6</b><span>Run queries to confirm basis rows landed in the expected tables.</span></div><div class="flow-node"><b>7</b><span>Review transaction adjustments when mid-year conversion data affects basis.</span></div><div class="flow-node"><b>8</b><span>Document any exclusions or plan-type restrictions.</span></div></div>
+    </section>
+<section class="slide image-slide sketch-image-slide">
+      <div class="sketch-tag">Generated whiteboard</div>
+      <h2>Multi-branch visual route</h2>
+      <figure class="image-frame sketch-frame"><img src="../assets/flowcharts/basis-loading.svg" alt=""></figure>
+    </section>
+<section class="slide branch-slide">
+      <div class="sketch-tag">Branch map</div>
+      <h2>Decisions that change the route</h2>
+      <div class="branch-board"><div class="diamond"><span>1</span><p>Is basis allowed for this plan type?</p></div><div class="diamond"><span>2</span><p>Are Roth or after-tax sources present?</p></div><div class="diamond"><span>3</span><p>Do participant identifiers match the loaded census?</p></div><div class="diamond"><span>4</span><p>Did EDS report warnings that affect tax history?</p></div><div class="diamond"><span>5</span><p>Are transaction adjustments needed?</p></div></div>
+    </section>
+<section class="slide swimlane-slide">
+      <div class="sketch-tag">Swimlane</div>
+      <h2>Inputs -> action -> output</h2>
+      <div class="swimlane">
+        <div class="lane-head">Input</div><div class="lane-head">Action</div><div class="lane-head">Output</div>
+        <div><p>Basis source file</p><p>EE basis fields</p><p>Plan type</p><p>Roth start dates</p></div>
+        <div><p>Confirm whether the plan type and source setup allow the basis data being loaded.</p><p>Prepare basis fields and validate required participant identifiers.</p><p>Check Roth, after-tax, and other employee-basis values against the source file.</p><p>Validate the file through EDS before loading.</p></div>
+        <div><p>Loaded basis records</p><p>EDS output notes</p><p>Query verification</p><p>Restriction notes</p></div>
+      </div>
+    </section>
+<section class="slide systems-slide">
+      <div class="sketch-tag">System boxes</div>
+      <h2>Where the work happens</h2>
+      <div class="systems-map"><div class="system-box">EDS</div><div class="system-box">P3</div><div class="system-box">AQT</div><div class="system-box">Basis tables</div></div>
+    </section>
+<section class="slide sticky-slide">
+      <div class="sketch-tag">Sticky notes</div>
+      <h2>Do not miss these</h2>
+      <div class="sticky-grid"><article class="sticky-note">Do not load basis blindly on restricted plan types.</article><article class="sticky-note">Basis errors create downstream tax-reporting pain.</article><article class="sticky-note">Mid-year conversions may need special adjustment review.</article><article class="sticky-note">Participant matching depends on clean census data.</article><article class="sticky-note">The source document references TO_BASIS but the exact path is not captured here.</article></div>
+    </section>
+<section class="slide finish-slide">
+      <div class="sketch-tag">Done means done</div>
+      <h2>Closeout checklist</h2>
+      <div class="finish-list"><label><input type="checkbox"> Plan restrictions checked</label><label><input type="checkbox"> EDS validation complete</label><label><input type="checkbox"> Basis rows verified</label><label><input type="checkbox"> Adjustments reviewed</label><label><input type="checkbox"> Exceptions documented</label></div>
+    </section>
+  </main>
+  <div class="deck-controls">
+    <button type="button" data-prev>Prev</button>
+    <span data-progress>1 / 7</span>
+    <button type="button" data-next>Next</button>
+  </div>
+  <script src="../assets/deck-player.js"></script>
+</body>
+</html>

@@ -5,6 +5,7 @@ tags: [deferrals, auto-enrollment, p3, processing, final-files, adp]
 created: 2026-04-14
 updated: 2026-05-03
 sources: 4
+status: current
 ---
 
 # Deferral Processing

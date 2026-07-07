@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Final Files Processing - Excalidraw Flow Deck</title>
+  <link rel="stylesheet" href="../assets/deck-styles.css">
+  <style>:root { --procedure-accent: #6b6f2a; }</style>
+</head>
+<body class="flow-page">
+  <header class="deck-nav">
+    <a href="../index.html">Procedure decks</a>
+    <span>Final Files Processing</span>
+    <span>Excalidraw</span>
+  </header>
+  <main class="deck flow" data-deck>
+    <section class="slide flow-title">
+      <div class="title-grid">
+        <div>
+          <div class="sketch-tag">Final Files / Excalidraw flow</div>
+          <h1>Final Files Processing</h1>
+          <p>Run the post-liquidation load sequence without breaking the order.</p>
+        </div>
+        <figure class="title-art sketch-art"><img src="../assets/icons/final-files-processing.svg" alt=""></figure>
+      </div>
+      <div class="sketch-route"><div class="flow-node"><b>1</b><span>Confirm whether final-file data, base-file data, or a hybrid source policy governs each load.</span></div><div class="flow-node"><b>2</b><span>Build the participant-level CIT balance file by case, region, SSN, source, fund, and total.</span></div><div class="flow-node"><b>3</b><span>Run the CIT balance workflow in test mode and correct mapping or layout errors before production.</span></div><div class="flow-node"><b>4</b><span>Post balances using the correct conversion-type path: cash, mapping, or transfer in kind.</span></div><div class="flow-node"><b>5</b><span>Load deferral elections before any eligibility action.</span></div><div class="flow-node"><b>6</b><span>Enable and load eligibility only after deferrals are verified clean.</span></div><div class="flow-node"><b>7</b><span>Load YTD contributions, compensation, and hours through separate EDS layouts.</span></div><div class="flow-node"><b>8</b><span>Run verification queries, review EDS outputs, build the audit pack, and update NBI.</span></div></div>
+    </section>
+<section class="slide image-slide sketch-image-slide">
+      <div class="sketch-tag">Generated whiteboard</div>
+      <h2>Multi-branch visual route</h2>
+      <figure class="image-frame sketch-frame"><img src="../assets/flowcharts/final-files-processing.svg" alt=""></figure>
+    </section>
+<section class="slide branch-slide">
+      <div class="sketch-tag">Branch map</div>
+      <h2>Decisions that change the route</h2>
+      <div class="branch-board"><div class="diamond"><span>1</span><p>Which data source did the client approve for each record type?</p></div><div class="diamond"><span>2</span><p>Is this cash, mapping, or transfer in kind?</p></div><div class="diamond"><span>3</span><p>Has the balance workflow passed test mode?</p></div><div class="diamond"><span>4</span><p>Are deferrals verified before eligibility starts?</p></div><div class="diamond"><span>5</span><p>Did verification prove counts, totals, and sources?</p></div></div>
+    </section>
+<section class="slide swimlane-slide">
+      <div class="sketch-tag">Swimlane</div>
+      <h2>Inputs -> action -> output</h2>
+      <div class="swimlane">
+        <div class="lane-head">Input</div><div class="lane-head">Action</div><div class="lane-head">Output</div>
+        <div><p>Final files from the prior record keeper</p><p>Client source-policy decision</p><p>Prepared EDS layouts</p><p>CIT balance file</p></div>
+        <div><p>Confirm whether final-file data, base-file data, or a hybrid source policy governs each load.</p><p>Build the participant-level CIT balance file by case, region, SSN, source, fund, and total.</p><p>Run the CIT balance workflow in test mode and correct mapping or layout errors before production.</p><p>Post balances using the correct conversion-type path: cash, mapping, or transfer in kind.</p></div>
+        <div><p>Posted participant balances</p><p>Loaded deferrals</p><p>Enabled eligibility</p><p>Loaded YTD data</p></div>
+      </div>
+    </section>
+<section class="slide systems-slide">
+      <div class="sketch-tag">System boxes</div>
+      <h2>Where the work happens</h2>
+      <div class="systems-map"><div class="system-box">EDS</div><div class="system-box">Informatica</div><div class="system-box">P3</div><div class="system-box">ROC</div><div class="system-box">AQT</div><div class="system-box">NBI</div></div>
+    </section>
+<section class="slide sticky-slide">
+      <div class="sketch-tag">Sticky notes</div>
+      <h2>Do not miss these</h2>
+      <div class="sticky-grid"><article class="sticky-note">Do not run eligibility before deferrals.</article><article class="sticky-note">Wrong P3 processing mode can fire duplicate trades.</article><article class="sticky-note">Cash and mapping paths need dummy-participant cleanup.</article><article class="sticky-note">TIK needs fresh final-share estimates for Matt O&#39;Connell&#39;s team.</article><article class="sticky-note">EDS layouts should be ready before final files arrive.</article></div>
+    </section>
+<section class="slide finish-slide">
+      <div class="sketch-tag">Done means done</div>
+      <h2>Closeout checklist</h2>
+      <div class="finish-list"><label><input type="checkbox"> Balances posted</label><label><input type="checkbox"> Deferrals verified</label><label><input type="checkbox"> Eligibility enabled</label><label><input type="checkbox"> YTD loads complete</label><label><input type="checkbox"> Audit pack complete</label><label><input type="checkbox"> NBI updated</label></div>
+    </section>
+  </main>
+  <div class="deck-controls">
+    <button type="button" data-prev>Prev</button>
+    <span data-progress>1 / 7</span>
+    <button type="button" data-next>Next</button>
+  </div>
+  <script src="../assets/deck-player.js"></script>
+</body>
+</html>

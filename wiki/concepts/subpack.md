@@ -5,6 +5,7 @@ tags: [document, subpack, submission, transamerica-details]
 created: 2026-04-14
 updated: 2026-04-14
 sources: 3
+status: current
 ---
 
 # Subpack — Submission Package

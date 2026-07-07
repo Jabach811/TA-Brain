@@ -5,6 +5,7 @@ tags: [document, toa, fund-mapping, transfer-in-kind, client-signed]
 created: 2026-04-14
 updated: 2026-04-14
 sources: 2
+status: current
 ---
 
 # TOA — Transfer of Assets
@@ -30,7 +31,7 @@ The TOA is a spreadsheet/form containing one row per fund being transferred. Key
 | **Column T** | **Re-registering: Y or N** |
 | Current value (estimate) | Dollar value of fund (may be stale) |
 
-> Column T is the critical field. If any row = Y, [[transfer-in-kind]] process applies.
+> Column T is the critical field. If any row = Y, [[processes/tik-transfer|transfer-in-kind]] process applies.
 
 ![TOA spreadsheet — one row per fund, Column T flags re-registration (TIK).](SS/TOA.jpg)
 
@@ -73,8 +74,9 @@ For a pure cash conversion: the TOA will show no fund-level mapping — all asse
 ## See Also
 
 - [[fund-mapping]]
-- [[transfer-in-kind]]
+- [[processes/tik-transfer|transfer-in-kind]]
 - [[matt-oconnell]]
 - [[conversion-types]]
 - [[onboarding-package]]
 - [[dc-onboarding-workflow]]
+

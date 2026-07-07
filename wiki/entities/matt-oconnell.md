@@ -5,6 +5,7 @@ tags: [person, transfer-in-kind, reregistration, fidelity]
 created: 2026-04-14
 updated: 2026-04-14
 sources: 2
+status: current
 ---
 
 # Matt O'Connell
@@ -60,7 +61,8 @@ Yes — there is a separate **TIK tracker spreadsheet** from the re-registration
 
 ## See Also
 
-- [[transfer-in-kind]]
+- [[processes/tik-transfer|transfer-in-kind]]
 - [[toa]]
 - [[final-files-processing]]
 - [[conversion-types]]
+

@@ -5,6 +5,7 @@ tags: [glossary, auto-enrollment, deferrals, escalation, historical-data]
 created: 2026-05-03
 updated: 2026-05-03
 sources: 1
+status: current
 ---
 
 # Kit Mail Date

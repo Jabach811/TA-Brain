@@ -3,8 +3,9 @@ title: "EDS Load Beneficiary Requirements"
 type: process
 tags: [eds, beneficiary, process, system]
 created: 2026-04-16
-updated: 2026-04-16
-sources: 0
+updated: 2026-06-25
+sources: 1
+status: needs-review
 ---
 
 # EDS Load Beneficiary Requirements
@@ -25,12 +26,16 @@ Beneficiary loading fits within the standard EDS pattern:
 
 The source document (`raw/new mds/EDS LOAD BENEFICIARY REQUIREMENTS 06-17-2011.md.txt`, dated June 2011) exists but is currently empty. Note: the 2011 date means this document may describe legacy behavior — verify whether current procedures differ before relying on it.
 
+## Source Notes
+
+Current content is derived from the [[eds]] hub page general layout, validation, and output rules. Beneficiary-specific requirements still need a populated source document before this can be marked current.
+
 ## Full Documentation
 
 When the source is populated and ingested, this page will cover: beneficiary-specific layout fields, required data elements (primary/contingent beneficiary, relationship, percentage), validation rules, and any special handling for plans with beneficiary data from a prior vendor.
 
 ## See Also
 - [[eds]]
-- [[loading-eligibility-eds]]
+- [[processes/eligibility-loading|loading-eligibility-eds]]
 - [[loading-ytd-contributions-eds]]
 - [[final-files-processing]]

@@ -5,6 +5,7 @@ tags: [conv-file, informatica, liquidation, day-of-wire, mapping, tik]
 created: 2026-04-14
 updated: 2026-04-14
 sources: 2
+status: current
 ---
 
 # CONV File
@@ -70,6 +71,7 @@ Cash conversions do not use a CONV file. Money goes to the [[advanced-employer]]
 - [[fund-mapping]]
 - [[source-mapping]]
 - [[dummy-participant]]
-- [[transfer-in-kind]]
+- [[processes/tik-transfer|transfer-in-kind]]
 - [[conversion-types]]
 - [[advanced-employer]]
+

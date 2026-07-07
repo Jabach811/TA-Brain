@@ -5,6 +5,7 @@ tags: ["concept", "balance", "cash", "conversion", "informatica", "cits"]
 created: 2026-04-19
 updated: 2026-05-03
 sources: 2
+status: current
 ---
 
 # Balance Import — Cash Conversion

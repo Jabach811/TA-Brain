@@ -3,8 +3,9 @@ title: "Loading YTD Contributions through EDS"
 type: process
 tags: [eds, ytd, contributions, process, system]
 created: 2026-04-16
-updated: 2026-04-16
-sources: 0
+updated: 2026-06-25
+sources: 1
+status: needs-review
 ---
 
 # Loading YTD Contributions through EDS
@@ -27,13 +28,17 @@ YTD contribution loading context from other wiki pages:
 
 The source document (`raw/new mds/Loading YTD Contributions through EDS.md.txt`) exists but is currently empty. Full step-by-step documentation pending.
 
+## Source Notes
+
+Current content is derived from [[eds]] and [[final-files-processing]]. The dedicated YTD loading source still needs to be populated and ingested.
+
 ## Full Documentation
 
 When the source is populated and ingested, this page will cover: layout configuration for YTD data, required fields and formatting, source ID mapping requirements, processing order relative to other final files, and error handling.
 
 ## See Also
 - [[eds]]
-- [[loading-eligibility-eds]]
+- [[processes/eligibility-loading|loading-eligibility-eds]]
 - [[loading-basis-eds]]
 - [[final-files-processing]]
 - [[source-mapping]]

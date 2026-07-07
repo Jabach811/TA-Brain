@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Cadence — weekly view</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Hanken+Grotesk:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --ink:#121110; --surface:#1a1815; --surface-2:#211e19;
+    --line:rgba(237,234,224,.09); --line-2:rgba(237,234,224,.16);
+    --text:#ece7da; --text-2:#a8a294; --text-3:#6f6a5d;
+    --amber:#e8a64a; --amber-soft:rgba(232,166,74,.14); --amber-line:rgba(232,166,74,.35);
+    --terra:#d6674b; --terra-soft:rgba(214,103,75,.13);
+    --serif:'Fraunces',Georgia,serif; --sans:'Hanken Grotesk',system-ui,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--ink);color:var(--text);font-family:var(--sans);-webkit-font-smoothing:antialiased;line-height:1.5;font-feature-settings:"tnum" 1}
+  .app{display:grid;grid-template-columns:236px 1fr;max-width:1200px;margin:0 auto;min-height:100vh}
+
+  .side{border-right:1px solid var(--line);padding:30px 20px;position:sticky;top:0;height:100vh;display:flex;flex-direction:column;gap:24px}
+  .mark{font-family:var(--serif);font-weight:500;font-size:20px} .mark span{color:var(--amber)}
+  .sbtn{display:flex;align-items:center;gap:10px;width:100%;text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:9px 12px;color:var(--text-3);font-size:13px}
+  .sbtn svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.8}
+  .sbtn .kbd{margin-left:auto;font-size:11px;border:1px solid var(--line-2);border-radius:5px;padding:1px 6px}
+  .navlabel{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-3);margin:4px 0 2px 4px}
+  nav{display:flex;flex-direction:column;gap:1px}
+  .nav{display:flex;align-items:center;gap:11px;padding:8px 12px;border-radius:8px;color:var(--text-2);font-size:14px;border-left:2px solid transparent}
+  .nav svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.7;opacity:.8}
+  .nav .ct{margin-left:auto;font-size:12px;color:var(--text-3)}
+  .nav.on{color:var(--text);background:var(--amber-soft);border-left-color:var(--amber)}
+  .nav.on svg{color:var(--amber);opacity:1}
+  .side-foot{margin-top:auto;border-top:1px solid var(--line);padding-top:16px;font-size:12px;color:var(--text-3)}
+  .side-foot b{font-family:var(--serif);font-size:22px;color:var(--amber);font-weight:500;display:block;line-height:1}
+
+  .main{min-width:0}
+  .filterbar{position:sticky;top:0;z-index:5;background:var(--ink);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:8px;padding:16px 40px;flex-wrap:wrap}
+  .fpill{font-size:13px;color:var(--text-2);background:transparent;border:1px solid var(--line-2);border-radius:20px;padding:6px 14px}
+  .fpill.on{background:var(--amber);border-color:var(--amber);color:#1a1408;font-weight:500}
+  .fpill .n{opacity:.6;margin-left:5px}
+  .content{padding:24px 40px 80px}
+
+  .vhead{display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:14px}
+  .vtitle{font-family:var(--serif);font-size:34px;font-weight:400}
+  .weeknav{display:flex;align-items:center;gap:14px;color:var(--text-2);font-size:14px}
+  .weeknav button{background:var(--surface);border:1px solid var(--line-2);border-radius:8px;width:30px;height:30px;color:var(--text-2);display:flex;align-items:center;justify-content:center}
+  .weeknav svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2}
+  .vsum{margin-top:10px;color:var(--text-2);font-size:14px}
+  .vsum .ok{color:var(--amber)} .vsum .hot{color:var(--terra)}
+
+  .legend{display:flex;gap:18px;margin:30px 0 14px;font-size:12px;color:var(--text-3);align-items:center}
+  .legend i{display:inline-block;width:13px;height:13px;border-radius:3px;margin-right:6px;vertical-align:-2px}
+  .lg-done{background:var(--amber)} .lg-miss{background:rgba(214,103,75,.30)} .lg-na{background:rgba(237,234,224,.06)}
+  .lg-now{border:1.5px solid var(--amber-line);background:transparent}
+
+  /* matrix */
+  .matrix{border-top:1px solid var(--line)}
+  .mrow{display:grid;grid-template-columns:210px repeat(8,1fr) 60px;align-items:center;gap:6px;
+    padding:13px 0;border-bottom:1px solid var(--line)}
+  .mrow.head{padding:8px 0;border-bottom:1px solid var(--line)}
+  .mh{font-size:11px;color:var(--text-3);text-align:center;letter-spacing:.02em}
+  .mh.now{color:var(--amber)}
+  .mlabel{font-size:15px} .mlabel small{display:block;font-size:11.5px;color:var(--text-3);margin-top:2px;letter-spacing:.03em;text-transform:uppercase}
+  .cellwrap{display:flex;justify-content:center}
+  .mx{width:26px;height:26px;border-radius:6px;background:rgba(237,234,224,.06)}
+  .mx.done{background:var(--amber)} .mx.miss{background:rgba(214,103,75,.28)} .mx.na{background:transparent;border:1px solid var(--line)}
+  .mx.now{background:transparent;border:1.6px solid var(--amber-line);cursor:pointer;display:flex;align-items:center;justify-content:center}
+  .mx.now.checked{background:var(--amber);border-color:var(--amber)}
+  .mx.now svg{width:14px;height:14px;fill:none;stroke:#1a1408;stroke-width:2.6;opacity:0}
+  .mx.now.checked svg{opacity:1}
+  .rate{text-align:right;font-size:13px;color:var(--text-2)} .rate b{color:var(--amber);font-weight:500;font-family:var(--serif);font-size:15px}
+  .note{margin-top:30px;font-size:13px;color:var(--text-3);border-left:2px solid var(--line-2);padding-left:14px}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="side">
+    <div class="mark">ca<span>·</span>dence</div>
+    <button class="sbtn"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>Search or type /<span class="kbd">⌘K</span></button>
+    <div><div class="navlabel">Cadence</div><nav>
+      <div class="nav"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Right now<span class="ct">4</span></div>
+      <div class="nav"><svg viewBox="0 0 24 24"><circle cx="12" cy="13" r="6"/><path d="M12 3v2"/></svg>Daily<span class="ct">6</span></div>
+      <div class="nav on"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4"/></svg>Weekly<span class="ct">5</span></div>
+      <div class="nav"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/></svg>Biweekly<span class="ct">2</span></div>
+      <div class="nav"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M4 9h16"/></svg>Monthly<span class="ct">3</span></div>
+      <div class="nav"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 12l4-2"/></svg>Quarterly<span class="ct">1</span></div>
+      <div class="nav"><svg viewBox="0 0 24 24"><path d="M12 3l2.5 6 6.5.5-5 4 1.7 6.5L12 17.8 6.3 20l1.7-6.5-5-4 6.5-.5z"/></svg>Annual<span class="ct">1</span></div>
+    </nav></div>
+    <div><div class="navlabel">Progress</div><nav>
+      <div class="nav"><svg viewBox="0 0 24 24"><path d="M4 19V9M10 19V5M16 19v-8M22 19H2"/></svg>Consistency</div>
+      <div class="nav"><svg viewBox="0 0 24 24"><circle cx="12" cy="9" r="5"/><path d="M9 14l-1.5 7L12 18l4.5 3L15 14"/></svg>Achievements<span class="ct">2</span></div>
+    </nav></div>
+    <div class="side-foot"><b>72%</b>weekly kept · last 8 weeks</div>
+  </aside>
+
+  <div class="main">
+    <div class="filterbar">
+      <button class="fpill">All</button><button class="fpill">Daily<span class="n">6</span></button>
+      <button class="fpill on">Weekly<span class="n">5</span></button><button class="fpill">Biweekly<span class="n">2</span></button>
+      <button class="fpill">Monthly<span class="n">3</span></button><button class="fpill">Quarterly<span class="n">1</span></button><button class="fpill">Annual<span class="n">1</span></button>
+    </div>
+
+    <div class="content">
+      <div class="vhead">
+        <div><div class="vtitle">Weekly</div><div class="vsum"><span class="ok">2 of 5 done this week</span> · <span class="hot">1 overdue</span> · resets Monday</div></div>
+        <div class="weeknav"><button><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg></button><span>Week of Jun 9 – 15</span><button><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></button></div>
+      </div>
+
+      <div class="legend">
+        <span><i class="lg-done"></i>Done</span><span><i class="lg-miss"></i>Missed</span><span><i class="lg-na"></i>Not yet active</span><span><i class="lg-now"></i>This week — click to check</span>
+      </div>
+
+      <div class="matrix">
+        <div class="mrow head">
+          <div></div>
+          <div class="mh">Apr 21</div><div class="mh">Apr 28</div><div class="mh">May 5</div><div class="mh">May 12</div><div class="mh">May 19</div><div class="mh">May 26</div><div class="mh">Jun 2</div><div class="mh now">This wk</div><div class="mh" style="text-align:right">Kept</div>
+        </div>
+
+        <div class="mrow">
+          <div class="mlabel">Weekly review<small>Sun evening</small></div>
+          <div class="cellwrap"><div class="mx done"></div></div><div class="cellwrap"><div class="mx done"></div></div><div class="cellwrap"><div class="mx miss"></div></div><div class="cellwrap"><div class="mx done"></div></div><div class="cellwrap"><div class="mx done"></div></div><div class="cellwrap"><div class="mx done"></div></div><div class="cellwrap"><div class="mx miss"></div></div>
+          <div class="cellwrap"><div class="mx now"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div></div>
+          <div class="rate"><b>5</b>/7</div>
+        </div>
+
+        <div class="mrow">
+          <div class="mlabel">Grocery run<small>Weekend</small></div>
+          <div class="cellwrap"><div class="mx done"></div></div><div class="cellwrap"><div class="mx done"></div></div><div class="cellwrap"><div class="mx done"></div></div><div class="cellwrap"><div class="mx done"></div></div><div class="cellwrap"><div class="mx done"></div></div><div class="cellwrap"><div class="mx miss"></div></div><div class="cellwrap"><div class="mx done"></div></div>
+          <div class="cellwrap"><div class="mx now checked"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div></div>
+          <div class="rate"><b>7</b>/7</div>
+        </div>
+
+        <div class="mrow">
+          <div class="mlabel">Call mom</div>
+          <div class="cellwrap"><div class="mx done"></div></div><div class="cellwrap"><div class="mx miss"></div></div><div class="cellwrap"><div class="mx done"></div></div><div class="cellwrap"><div class="mx done"></div></div><div class="cellwrap"><div class="mx miss"></div></div><div class="cellwrap"><div class="mx done"></div></div><div class="cellwrap"><div class="mx done"></div></div>
+          <div class="cellwrap"><div class="mx now checked"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div></div>
+          <div class="rate"><b>5</b>/7</div>
+        </div>
+
+        <div class="mrow">
+          <div class="mlabel">Meal prep<small>Sunday</small></div>
+          <div class="cellwrap"><div class="mx miss"></div></div><div class="cellwrap"><div class="mx done"></div></div><div class="cellwrap"><div class="mx miss"></div></div><div class="cellwrap"><div class="mx miss"></div></div><div class="cellwrap"><div class="mx done"></div></div><div class="cellwrap"><div class="mx miss"></div></div><div class="cellwrap"><div class="mx done"></div></div>
+          <div class="cellwrap"><div class="mx now"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div></div>
+          <div class="rate"><b>3</b>/7</div>
+        </div>
+
+        <div class="mrow">
+          <div class="mlabel">Deep clean<small>Added 3 wks ago</small></div>
+          <div class="cellwrap"><div class="mx na"></div></div><div class="cellwrap"><div class="mx na"></div></div><div class="cellwrap"><div class="mx na"></div></div><div class="cellwrap"><div class="mx na"></div></div><div class="cellwrap"><div class="mx done"></div></div><div class="cellwrap"><div class="mx done"></div></div><div class="cellwrap"><div class="mx miss"></div></div>
+          <div class="cellwrap"><div class="mx now"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div></div>
+          <div class="rate"><b>2</b>/3</div>
+        </div>
+      </div>
+
+      <div class="note">Same grid everywhere: <b style="color:var(--text-2)">Monthly</b> shows columns of months, <b style="color:var(--text-2)">Quarterly</b> shows Q1–Q4, <b style="color:var(--text-2)">Annual</b> shows years. The rightmost column is always the live one you check off.</div>
+    </div>
+  </div>
+</div>
+<script>
+  document.querySelectorAll('.mx.now').forEach(c=>c.addEventListener('click',()=>c.classList.toggle('checked')));
+</script>
+</body>
+</html>

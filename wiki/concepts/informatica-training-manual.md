@@ -3,8 +3,9 @@ title: "Informatica Training Manual"
 type: process
 tags: [informatica, training, system]
 created: 2026-04-16
-updated: 2026-04-16
-sources: 0
+updated: 2026-06-25
+sources: 1
+status: needs-review
 ---
 
 # Informatica Training Manual
@@ -18,6 +19,10 @@ Until this manual's source is populated, the best reference for Informatica is t
 > **[[informatica]] — Day of Wire, Balance Module, Loan Module, Allocation Module**
 
 The hub page includes: parameter file settings, CONV file structure, 11-step SQL audit (Day of Wire), NPER rounding logic (Loan Module), allocation pre-run checks, source mapping SQL, and connection setup.
+
+## Source Notes
+
+Current content is derived from the [[informatica]] hub page. The actual training manual source still needs to be populated and ingested.
 
 ## What This Manual Will Cover
 
@@ -35,4 +40,3 @@ When the source document is populated and ingested, this page will consolidate:
 - [[informatica-balance-module]]
 - [[informatica-loan-module]]
 - [[informatica-troubleshooting-guide]]
-- [[informatica-basis-module]]

@@ -5,6 +5,7 @@ tags: [source, com, checklist, conversion, project-management]
 created: 2026-04-14
 updated: 2026-04-14
 sources: 1
+status: current
 ---
 
 # Source: COM Main Checklist
@@ -52,20 +53,20 @@ The checklist reveals that the COM role is far more than a meeting scheduler —
 **Teams:**
 - [[tc]] — provides QDIA notice, fee disclosure, enrollment guide, RDD form; reviews subpack; sets up WX; flips AWD for contribution monitoring; activates early access; sets up go-live review
 - [[doc-ops]] — creates OBP (PEP); provides AAA, Secure 2.0, SPD (PEP)
-- [[lm-dc]] — receives payroll questionnaire; provides early access file template; confirms asset receipt
+- [[roles/lm-dc]] — receives payroll questionnaire; provides early access file template; confirms asset receipt
 - [[cashiering]] — referenced indirectly (assets received confirmation comes through DC)
 
 ## Concepts Mentioned
 
-- [[nsa]] — New Sale Announcement; triggers COM workflow
+- [[concepts/nsa]] — New Sale Announcement; triggers COM workflow
 - [[project-plan-com]] — COM's master conversion tracker; two formats (PEP vs non-PEP); uploaded to NBI
 - [[prior-carrier-letter]] — letter notifying prior record keeper of transition
 - [[blackout-notice]] — notice of investment blackout period sent to participants
-- [[vef]] — Vendor Expense Form; routes through advisor → client → L&C setup
+- [[concepts/vef]] — Vendor Expense Form; routes through advisor → client → L&C setup
 - [[contribution-monitoring-form]] — payroll monitoring setup; requires TC AWD flip
 - [[rdd-form]] — form provided by TC, completed by client, submitted back to TC
 - [[early-access]] — pre-go-live participant access; COM-coordinated
-- [[csr]] — Conversion Summary Report; from Quality Consultant; sent to client at go-live
+- [[concepts/csr]] — Conversion Summary Report; from Quality Consultant; sent to client at go-live
 - [[subpack]] — COM creates; TC reviews and takes over maintenance
 - [[onboarding-package]] — PEP plans only; COM updates tabs and prepares PEA
 - [[toa]] — included in OBP for PEP plans
@@ -83,8 +84,8 @@ The checklist reveals that the COM role is far more than a meeting scheduler —
 
 ## See Also
 
-- [[com]] — full COM role reference built from this source
+- [[roles/com]] — full COM role reference built from this source
 - [[plan-conversion-handoffs]] — updated with COM-perspective handoffs
 - [[subpack]] — ownership now documented from COM's side
-- [[nsa]]
-- [[csr]]
+- [[concepts/nsa]]
+- [[concepts/csr]]

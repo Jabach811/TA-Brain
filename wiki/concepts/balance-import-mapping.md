@@ -5,6 +5,7 @@ tags: ["concept", "balance", "mapping", "conversion", "informatica", "day-of-wir
 created: 2026-04-19
 updated: 2026-05-03
 sources: 2
+status: current
 ---
 
 # Balance Import — Mapping

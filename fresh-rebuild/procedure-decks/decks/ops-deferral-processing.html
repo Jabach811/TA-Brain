@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Deferral Processing - Ops Training Deck</title>
+  <link rel="stylesheet" href="../assets/deck-styles.css">
+  <style>:root { --procedure-accent: #8a4f7d; }</style>
+</head>
+<body class="ops-page">
+  <header class="deck-nav">
+    <a href="../index.html">Procedure decks</a>
+    <span>Deferral Processing</span>
+    <span>Ops</span>
+  </header>
+  <main class="deck ops" data-deck>
+    <section class="slide title-slide">
+      <div class="title-grid">
+        <div>
+          <div class="kicker">Final Files / Ops deck</div>
+          <h1>Deferral Processing</h1>
+          <p class="slide-lede">Deferrals fill the system state. They capture participant elections, auto-enrollment status, and auto-enrollment start dates so eligibility does not trigger the wrong default actions later.</p>
+          <div class="lifecycle-rail"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span></div>
+        </div>
+        <figure class="title-art"><img src="../assets/icons/deferral-processing.svg" alt=""></figure>
+      </div>
+    </section>
+<section class="slide split-slide">
+      <div>
+        <div class="kicker">Inputs</div>
+        <h2>What has to be in hand</h2>
+        <ul class="check-list"><li>Client deferral data</li><li>Vendor election data</li><li>Payroll election data when needed</li><li>Auto-enrollment start dates</li><li>Plan escalation rules</li><li>EDS deferral layout</li></ul>
+      </div>
+      <aside class="callout-panel">
+        <h3>Systems touched</h3>
+        <div class="pill-grid"><span class="pill">EDS</span><span class="pill">P3</span><span class="pill">AQT</span><span class="pill">Client payroll system</span></div>
+      </aside>
+    </section>
+<section class="slide">
+      <div class="kicker">Run path</div>
+      <h2>Procedure sequence</h2>
+      <div class="step-grid">
+    <article class="step-card">
+      <div class="step-num">01</div>
+      <p>Confirm which data source the client chose for deferral elections.</p>
+    </article>
+  
+    <article class="step-card">
+      <div class="step-num">02</div>
+      <p>Identify participants enrolled under auto-enrollment defaults.</p>
+    </article>
+  
+    <article class="step-card">
+      <div class="step-num">03</div>
+      <p>Capture each participant&#39;s deferral rate and auto-enrollment start date.</p>
+    </article>
+  
+    <article class="step-card">
+      <div class="step-num">04</div>
+      <p>If ADP or another source cannot provide start dates, request them directly from the client.</p>
+    </article>
+  
+    <article class="step-card">
+      <div class="step-num">05</div>
+      <p>If start dates still cannot be provided, use the conservative assumption and notify the client of impacted participants.</p>
+    </article>
+  
+    <article class="step-card">
+      <div class="step-num">06</div>
+      <p>Load deferrals through EDS and review all warning and error outputs.</p>
+    </article>
+  
+    <article class="step-card">
+      <div class="step-num">07</div>
+      <p>Post to P3 and verify elections before eligibility begins.</p>
+    </article>
+  
+    <article class="step-card">
+      <div class="step-num">08</div>
+      <p>Proceed to eligibility only after deferrals and auto-enroll data are clean.</p>
+    </article>
+  </div>
+    </section>
+<section class="slide matrix-slide">
+      <div class="kicker">Decision points</div>
+      <h2>What decides the path</h2>
+      <div class="decision-grid"><div class="decision-card">Did the client choose vendor, client, payroll, or hybrid data?</div><div class="decision-card">Which participants are auto-enrollment defaults?</div><div class="decision-card">Are auto-enrollment start dates present and reliable?</div><div class="decision-card">Is the prior record keeper ADP or another weak source for dates?</div><div class="decision-card">Are all elections verified before eligibility runs?</div></div>
+    </section>
+<section class="slide warning-slide">
+      <div class="kicker">Watchouts</div>
+      <h2>Where this can bite</h2>
+      <div class="warning-grid"><article><span>!</span><p>Eligibility before deferrals can cause auto-enrollment to overwrite elections.</p></article><article><span>!</span><p>ADP does not reliably provide auto-enrollment dates.</p></article><article><span>!</span><p>Missing start dates can break escalation logic.</p></article><article><span>!</span><p>Wrong elections may not surface until payroll starts.</p></article><article><span>!</span><p>Deferral cleanup is usually harder than eligibility cleanup.</p></article></div>
+    </section>
+<section class="slide image-slide">
+      <div class="kicker">Visual map</div>
+      <h2>Use the flow when explaining the work</h2>
+      <figure class="image-frame"><img src="../assets/flowcharts/deferral-processing.svg" alt=""></figure>
+    </section>
+<section class="slide closeout-slide">
+      <div class="kicker">Closeout</div>
+      <h2>Proof that it is done</h2>
+      <div class="closeout-grid">
+        <div><h3>Outputs</h3><ul><li>Loaded deferral elections</li><li>Auto-enroll participant list</li><li>Client notice list for missing date risk</li><li>EDS output review</li><li>P3 verification evidence</li></ul></div>
+        <div><h3>Final checks</h3><ul><li>Source policy confirmed</li><li>Auto-enroll population identified</li><li>Start-date gaps handled</li><li>EDS warnings reviewed</li><li>P3 elections verified</li></ul></div>
+      </div>
+    </section>
+  </main>
+  <div class="deck-controls">
+    <button type="button" data-prev>Prev</button>
+    <span data-progress>1 / 7</span>
+    <button type="button" data-next>Next</button>
+  </div>
+  <script src="../assets/deck-player.js"></script>
+</body>
+</html>

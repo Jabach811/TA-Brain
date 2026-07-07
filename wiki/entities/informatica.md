@@ -5,6 +5,7 @@ tags: [system, etl, workflows, processing]
 created: 2026-04-14
 updated: 2026-04-15
 sources: 3
+status: current
 ---
 
 # Informatica
@@ -182,6 +183,7 @@ Alternatively, copy a working TRS module session from an existing workflow (whic
 - [[final-files-processing]]
 - [[dummy-participant]]
 - [[conversion-types]]
-- [[transfer-in-kind]]
+- [[processes/tik-transfer|transfer-in-kind]]
 - [[conv-file]]
 - [[aqt]]
+

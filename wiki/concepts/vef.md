@@ -5,11 +5,12 @@ tags: [concept, document, com, advisor, compliance]
 created: 2026-04-14
 updated: 2026-04-14
 sources: 1
+status: current
 ---
 
 # VEF — Vendor Expense Form
 
-A document used when a vendor expense arrangement needs to be established for a plan. Routed by the [[com]] through an advisor firm, the plan sponsor, and then submitted for internal L&C (Licensing and Compliance?) setup via Salesforce.
+A document used when a vendor expense arrangement needs to be established for a plan. Routed by the [[roles/com]] through an advisor firm, the plan sponsor, and then submitted for internal L&C (Licensing and Compliance?) setup via Salesforce.
 
 ## Definition
 
@@ -37,5 +38,5 @@ Some plans involve expense or fee arrangements with vendors that require formal 
 
 ## See Also
 
-- [[com]]
+- [[roles/com]]
 - [[glossary/vef]]

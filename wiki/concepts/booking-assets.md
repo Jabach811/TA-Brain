@@ -5,6 +5,7 @@ tags: [booking, wire, aeda, remit, rebook, cashiering, liquidation]
 created: 2026-04-15
 updated: 2026-04-15
 sources: 1
+status: current
 ---
 
 # Booking Assets
@@ -68,7 +69,7 @@ From the DC Training Notebook (August 13, 2025):
 - [[liquidation-day]] — when the wire arrives from State Street
 - [[final-files-processing]] — when AEDA funds are disbursed to participant accounts
 - [[cashiering]] — confirms wire receipt; emails NY Recon
-- [[reversal-process]] — when a booking is made in error
+- [[processes/reversal-submission|reversal-process]] — when a booking is made in error
 
 ## See Also
 
@@ -76,5 +77,6 @@ From the DC Training Notebook (August 13, 2025):
 - [[liquidation-day]]
 - [[final-files-processing]]
 - [[cashiering]]
-- [[reversal-process]]
-- [[lm-dc]]
+- [[processes/reversal-submission|reversal-process]]
+- [[roles/lm-dc]]
+

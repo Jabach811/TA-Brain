@@ -5,6 +5,7 @@ tags: [eds, census, process, data]
 created: 2026-04-20
 updated: 2026-04-20
 sources: 1
+status: current
 ---
 
 # Source: Census Data Documentation
@@ -50,6 +51,7 @@ Internal documentation describing the census data loading process. Covers partic
 ## See Also
 
 - [[census-data]]
-- [[loading-eligibility-eds]]
+- [[processes/eligibility-loading|loading-eligibility-eds]]
 - [[base-file]]
 - [[eds]]
+

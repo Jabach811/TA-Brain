@@ -3,8 +3,9 @@ title: "Informatica Balance Module"
 type: process
 tags: [informatica, balance, system]
 created: 2026-04-16
-updated: 2026-04-16
-sources: 0
+updated: 2026-06-25
+sources: 1
+status: needs-review
 ---
 
 # Informatica Balance Module
@@ -25,6 +26,10 @@ Key points documented there:
 - After running: DC reviews P3, then reverses dummy participant if applicable (mapping conversions)
 - Loan funds in prior vendor balances must be filtered out; load loan data via the Loan Module instead
 - FMC must be updated with FMC Estimate output by 4:00 PM (or 2:00 PM for Vanguard funds — see [[rich-lippoth]])
+
+## Source Notes
+
+Current content is derived from [[informatica]] and [[sources/lmdc-training-notebook]]. A dedicated module procedure is still needed before this can be marked current.
 
 ## Full Documentation
 

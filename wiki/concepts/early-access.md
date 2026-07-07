@@ -5,11 +5,12 @@ tags: [concept, process, com, tc, lm-dc, participant]
 created: 2026-04-14
 updated: 2026-04-14
 sources: 1
+status: current
 ---
 
 # Early Access
 
-A pre-go-live window during which participants can access the Transamerica platform before the full plan is live. Early access is optional and COM-coordinated, with the [[lm-dc]] providing the file and [[tc]] activating the feature.
+A pre-go-live window during which participants can access the Transamerica platform before the full plan is live. Early access is optional and COM-coordinated, with the [[roles/lm-dc]] providing the file and [[tc]] activating the feature.
 
 ## Definition
 
@@ -17,7 +18,7 @@ Some plans offer participants a period of early access — typically for enrollm
 
 ## Workflow
 
-1. COM requests the early access file template from [[lm-dc]]
+1. COM requests the early access file template from [[roles/lm-dc]]
 2. DC provides the template
 3. COM sends the template to the client for completion
 4. Client completes and returns the file to COM
@@ -37,12 +38,12 @@ The early access window gives participants time to log in, review their accounts
 
 ## Related Concepts
 
-- [[lm-dc]] — provides file template; loads completed file to system
+- [[roles/lm-dc]] — provides file template; loads completed file to system
 - [[tc]] — activates early access in the system
 
 ## See Also
 
-- [[com]]
-- [[lm-dc]]
+- [[roles/com]]
+- [[roles/lm-dc]]
 - [[tc]]
 - [[plan-conversion-handoffs]]

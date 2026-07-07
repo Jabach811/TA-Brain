@@ -5,6 +5,7 @@ tags: [eligibility, ltpt, secure-act-2, part-time, deferrals, concept]
 created: 2026-04-15
 updated: 2026-04-15
 sources: 1
+status: current
 ---
 
 # LTPT Eligibility (Long-Term Part-Time)
@@ -114,4 +115,4 @@ From the DC Training Notebook (June 10, 2024 / January 1, 2025 effective):
 - [[eligibility-and-deferrals]]
 - [[eds]]
 - [[plan-classes]]
-- [[lm-dc]]
+- [[roles/lm-dc]]

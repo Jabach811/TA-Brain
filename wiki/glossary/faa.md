@@ -5,6 +5,7 @@ tags: [glossary, fund, allocation, data]
 created: 2026-04-16
 updated: 2026-04-16
 sources: 1
+status: current
 ---
 
 # FAA
@@ -23,7 +24,6 @@ FAA refers to the fund asset allocation data requirements that the DC must satis
 
 ## See Also
 
-- [[faa-dc-data-requirements]]
 - [[fund-mapping]]
 - [[source-mapping]]
 - [[informatica-allocation-module]]

@@ -5,11 +5,12 @@ tags: [system, tool, com, e-signature, external]
 created: 2026-04-14
 updated: 2026-04-14
 sources: 1
+status: current
 ---
 
 # DocuSign
 
-An electronic signature platform used by the [[com]] to send plan documents and onboarding agreements to clients for signature.
+An electronic signature platform used by the [[roles/com]] to send plan documents and onboarding agreements to clients for signature.
 
 ## Overview
 
@@ -40,6 +41,6 @@ Non-PEP document signature workflows are not yet documented — unclear whether 
 
 ## See Also
 
-- [[com]]
+- [[roles/com]]
 - [[onboarding-package]]
 - [[doc-ops]]

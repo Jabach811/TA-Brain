@@ -5,11 +5,12 @@ tags: [concept, document, com, tc, payroll, tfs]
 created: 2026-04-14
 updated: 2026-04-14
 sources: 1
+status: current
 ---
 
 # Contribution Monitoring Form
 
-A payroll setup document used for TFS (Total File Solution?) plans that establishes contribution monitoring. The [[com]] manages the full routing workflow; completion requires [[tc]] to flip a specific AWD system setting.
+A payroll setup document used for TFS (Total File Solution?) plans that establishes contribution monitoring. The [[roles/com]] manages the full routing workflow; completion requires [[tc]] to flip a specific AWD system setting.
 
 ## Definition
 
@@ -42,6 +43,6 @@ The AWD flip step is a cross-team dependency that can delay payroll setup if not
 
 ## See Also
 
-- [[com]]
+- [[roles/com]]
 - [[tc]]
 - [[rdd-form]]

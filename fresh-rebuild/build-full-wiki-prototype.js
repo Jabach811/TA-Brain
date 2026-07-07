@@ -1,10 +1,13 @@
 const fs = require("fs");
 const path = require("path");
+const { classifyDuplicateBareSlugs } = require("../scripts/wiki-validation-rules");
 
 const root = path.resolve(__dirname, "..");
 const wikiRoot = path.join(root, "wiki");
 const rawRoot = path.join(root, "raw");
-const outPath = path.join(__dirname, "ta-brain-lifecycle-app.html");
+const outPath = process.env.TA_WIKI_OUTPUT
+  ? path.resolve(process.env.TA_WIKI_OUTPUT)
+  : path.join(root, "current", "TA Wiki.working.html");
 
 // Singular `type:` values in frontmatter map to plural namespace keys used by the UI.
 const NAMESPACE_PLURAL = {
@@ -138,7 +141,7 @@ const wikiFiles = walk(wikiRoot, file => file.endsWith(".md"));
 const pages = wikiFiles.map(file => {
   const rel = path.relative(wikiRoot, file).replace(/\\/g, "/");
   const slug = path.basename(file, ".md");
-  const text = fs.readFileSync(file, "utf8");
+  const text = fs.readFileSync(file, "utf8").replace(/^\uFEFF/, "");
   const parsed = parseFrontmatter(text);
   const body = parsed.body.trim();
   const heading = body.match(/^#\s+(.+)$/m);
@@ -153,6 +156,7 @@ const pages = wikiFiles.map(file => {
     updated: String(parsed.meta.updated || parsed.meta.created || ""),
     created: String(parsed.meta.created || ""),
     sources: Number(parsed.meta.sources || 0),
+    status: String(parsed.meta.status || ""),
     tags: Array.isArray(parsed.meta.tags) ? parsed.meta.tags : [],
     type: parsed.meta.type || "",
     extras: parseExtras(parsed.meta.extras),
@@ -171,31 +175,67 @@ const rawFiles = walk(rawRoot).map(file => {
   };
 }).sort((a, b) => a.rel.localeCompare(b.rel));
 
-// Build a slug → page index for resolving wikilinks server-side.
+// Build a slug index for resolving wikilinks server-side.
 const slugIndex = pages.reduce((acc, page) => {
   (acc[page.slug] ||= []).push(page);
+  const aliases = Array.isArray(page.meta.aliases) ? page.meta.aliases : [];
+  aliases.forEach(alias => {
+    const aliasSlug = String(alias).trim().toLowerCase().split("/").pop();
+    if (aliasSlug) (acc[aliasSlug] ||= []).push(page);
+  });
   return acc;
 }, {});
 
-function resolveWikilinkTarget(rawLink) {
-  const clean = rawLink.split("|")[0].trim().replace(/^wiki\//, "").replace(/\.md$/, "");
+const NAMESPACE_PRIORITY = ["roles", "processes", "documents", "systems", "departments", "people", "reference", "onboarding", "glossary", "sources", "analyses", "admin"];
+function namespaceRank(namespace) {
+  const rank = NAMESPACE_PRIORITY.indexOf(namespace);
+  return rank === -1 ? NAMESPACE_PRIORITY.length : rank;
+}
+function preferredPage(matches) {
+  return [...matches].sort((a, b) => namespaceRank(a.namespace) - namespaceRank(b.namespace) || a.title.localeCompare(b.title))[0];
+}
+function resolveWikilink(rawLink) {
+  const clean = rawLink.split("|")[0].split("#")[0].trim().replace(/^wiki\//, "").replace(/\.md$/, "");
   const directHit = pages.find(p => p.id === clean);
-  if (directHit) return directHit.id;
+  if (directHit) return { targetId: directHit.id, mode: "direct", candidates: [directHit.id] };
   const slug = clean.split("/").pop();
   const matches = slugIndex[slug] || [];
-  if (!matches.length) return "";
-  const preferred = matches.find(p => p.namespace !== "glossary") || matches[0];
-  return preferred.id;
+  if (!matches.length) return { targetId: "", mode: "missing", candidates: [] };
+  const preferred = preferredPage(matches);
+  return { targetId: preferred.id, mode: matches.length > 1 ? "ambiguous" : "slug", candidates: matches.map(page => page.id) };
+}
+function resolveWikilinkTarget(rawLink) {
+  return resolveWikilink(rawLink).targetId;
 }
 
-// Pre-compute the backlink graph once (was O(pages × regex) per page open in the browser).
+// Pre-compute the backlink graph once.
 const backlinksMap = {};
+const brokenLinks = [];
+const ambiguousLinks = [];
+const seenBrokenLinks = new Set();
+const seenAmbiguousLinks = new Set();
 pages.forEach(page => {
   const matches = Array.from(page.markdown.matchAll(/\[\[([^\]]+)\]\]/g));
   matches.forEach(match => {
-    const targetId = resolveWikilinkTarget(match[1]);
-    if (!targetId || targetId === page.id) return;
-    (backlinksMap[targetId] ||= []).push({ id: page.id, title: page.title, namespace: page.namespace });
+    const resolved = resolveWikilink(match[1]);
+    const rawTarget = match[1].split("|")[0].trim();
+    if (!resolved.targetId) {
+      const key = `${page.id}::${rawTarget}`;
+      if (!seenBrokenLinks.has(key)) {
+        seenBrokenLinks.add(key);
+        brokenLinks.push({ source: page.id, target: rawTarget });
+      }
+      return;
+    }
+    if (resolved.mode === "ambiguous") {
+      const key = `${page.id}::${rawTarget}::${resolved.targetId}`;
+      if (!seenAmbiguousLinks.has(key)) {
+        seenAmbiguousLinks.add(key);
+        ambiguousLinks.push({ source: page.id, target: rawTarget, resolvedTo: resolved.targetId, candidates: resolved.candidates });
+      }
+    }
+    if (resolved.targetId === page.id) return;
+    (backlinksMap[resolved.targetId] ||= []).push({ id: page.id, title: page.title, namespace: page.namespace });
   });
 });
 Object.keys(backlinksMap).forEach(targetId => {
@@ -205,23 +245,38 @@ Object.keys(backlinksMap).forEach(targetId => {
     .sort((a, b) => a.title.localeCompare(b.title));
 });
 
-// Real collisions = same slug in the same namespace. Same slug across namespaces
-// (e.g., a role page and its onboarding guide) is intentional and ignored.
-const slugNamespaceCounts = pages.reduce((acc, page) => {
-  const key = `${page.namespace}::${page.slug}`;
-  acc[key] = (acc[key] || 0) + 1;
-  return acc;
-}, {});
-
-const duplicateSlugs = Object.entries(slugNamespaceCounts)
-  .filter(([, count]) => count > 1)
-  .map(([key]) => key);
+const duplicateBareSlugs = Object.entries(slugIndex)
+  .filter(([, matches]) => matches.length > 1)
+  .map(([slug, matches]) => ({ slug, ids: matches.map(page => page.id) }));
+const duplicateSlugAudit = classifyDuplicateBareSlugs(duplicateBareSlugs);
+const duplicateSlugs = duplicateSlugAudit.unexpected.map(item => `${item.slug}: ${item.ids.join(", ")}`);
+const indexPage = pages.find(page => page.id === "index");
+const indexLinkSlugs = new Set(indexPage ? Array.from(indexPage.markdown.matchAll(/\[\[([^\]|#]+)(?:#[^\]|]+)?(?:\|[^\]]+)?\]\]/g)).map(match => match[1].trim().split("/").pop()) : []);
+const unindexedPages = pages
+  .filter(page => !["index", "log"].includes(page.id))
+  .filter(page => !indexLinkSlugs.has(page.slug))
+  .map(page => page.id);
+const health = {
+  brokenLinks,
+  ambiguousLinks,
+  duplicateBareSlugs: duplicateSlugAudit.unexpected,
+  allowedDuplicateBareSlugs: duplicateSlugAudit.allowed,
+  staleAllowedDuplicateBareSlugs: duplicateSlugAudit.staleAllowed,
+  unindexedPages,
+  missingStatus: pages.filter(page => !page.meta.status && !["index", "log"].includes(page.id)).map(page => page.id),
+  zeroSourcePages: pages
+    .filter(page => !["admin", "sources"].includes(page.namespace))
+    .filter(page => Number(page.sources) === 0)
+    .map(page => page.id),
+  stubLikePages: pages.filter(page => !["index", "log", "overview"].includes(page.id) && /stub|content pending/i.test(page.markdown)).map(page => page.id)
+};
 
 const payload = {
   generatedAt: new Date().toISOString(),
   pages,
   rawFiles,
   duplicateSlugs,
+  health,
   backlinks: backlinksMap,
   counts: {
     wikiPages: pages.length,
@@ -338,12 +393,36 @@ const html = `<!doctype html>
     .metadata-line { color: var(--muted); font-size: 12.5px; margin-bottom: 18px; }
     .article ul, .article ol { margin: 0 0 16px 24px; padding: 0; }
     .article li + li { margin-top: 5px; }
-    .article table { width: 100%; border-collapse: collapse; margin: 12px 0 20px; font-size: 14px; }
+    .article table { display: block; width: 100%; max-width: 100%; overflow-x: auto; border-collapse: collapse; margin: 12px 0 20px; font-size: 14px; }
     .article th, .article td { border: 1px solid var(--line-soft); padding: 8px 10px; vertical-align: top; }
     .article th { background: var(--surface-2); text-align: left; }
     .home-grid, .namespace-cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-top: 20px; }
     .wiki-panel, .namespace-card { border: 1px solid var(--line-soft); background: #fff; padding: 16px; }
     .wiki-panel h2 { margin-top: 0; font-size: 23px; }
+    .home-actions { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 8px; margin: 18px 0 22px; }
+    .home-action { border: 1px solid var(--line-soft); background: #fff; padding: 9px 10px; min-height: 54px; display: flex; flex-direction: column; justify-content: center; color: var(--muted); cursor: pointer; text-decoration: none; }
+    .home-action:hover { background: #eef5f5; border-color: #9ec6c8; color: var(--ink); text-decoration: none; }
+    .home-action strong { color: var(--link); font-size: 14px; line-height: 1.25; }
+    .home-action span { color: var(--muted); font-size: 12px; margin-top: 2px; }
+    .health-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; margin: 18px 0 22px; }
+    .health-grid--compact { margin-top: 0; grid-template-columns: repeat(6, minmax(0, 1fr)); }
+    .health-item { border: 1px solid var(--line-soft); background: #fff; padding: 11px 12px; min-width: 0; }
+    .health-item.is-ok { border-left: 4px solid var(--good); background: #f6fbf8; }
+    .health-item.is-watch { border-left: 4px solid var(--warning); background: #fffaf0; }
+    .health-item.is-info { border-left: 4px solid var(--accent); background: #f8fbfb; }
+    .health-value { display: block; color: var(--ink); font-size: 22px; font-weight: 700; line-height: 1.1; font-variant-numeric: tabular-nums; }
+    .health-label { display: block; color: var(--muted); font-size: 12px; line-height: 1.3; margin-top: 3px; }
+    .entry-list { list-style: none; margin: 0; padding: 0; }
+    .entry-list li + li { margin-top: 10px; }
+    .entry-link { display: inline-block; font-weight: 600; line-height: 1.25; }
+    .entry-meta { display: block; color: var(--muted); font-size: 12px; margin-top: 2px; overflow-wrap: anywhere; }
+    .namespace-card.issue-card { padding: 0; overflow: hidden; }
+    .issue-card h2 { margin: 0; padding: 12px 14px; font-size: 21px; background: #f5f7f9; border-bottom: 1px solid var(--line-soft); }
+    .issue-card ul { margin: 0; padding: 13px 16px 15px 30px; }
+    .issue-card.is-clear h2 { background: #f1fbf5; color: var(--good); }
+    .issue-card.is-watch h2 { background: #fff8e8; color: var(--warning); }
+    .issue-card.is-info h2 { background: #eef5f5; color: var(--accent); }
+    .issue-empty { color: var(--muted); list-style: none; margin-left: -14px; }
     .link-list { columns: 2; column-gap: 24px; list-style: none; padding: 0; margin: 0; }
     .link-list li { break-inside: avoid; margin: 0 0 7px; }
     .right-rail { display: grid; gap: 16px; align-content: start; }
@@ -416,7 +495,9 @@ const html = `<!doctype html>
       .brief-kicker { display: none; }
       .topbar-geometry { display: none; }
       .page-tools { display: none; }
-      .article { padding: 24px 18px 32px; }
+      .article { padding: 24px 8px 32px; overflow-x: hidden; }
+      .home-actions { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .health-grid, .health-grid--compact { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .home-grid, .namespace-cards { grid-template-columns: 1fr; }
       .link-list { columns: 1; }
     }
@@ -447,6 +528,7 @@ const html = `<!doctype html>
         <div class="page-tools">
           <button type="button" data-open="__home">Main page</button>
           <button type="button" data-open="__all-pages">All pages</button>
+          <button type="button" data-open="__needs-work">Needs work</button>
           <span class="meta-short" id="pageMetaShort">${payload.counts.wikiPages} pages / ${payload.counts.sources} sources</span>
         </div>
       </header>
@@ -483,7 +565,12 @@ const html = `<!doctype html>
       analyses: { label: "Analyses", description: "Filed synthesis pages." },
       admin: { label: "Wiki Admin", description: "Index, log, and build artifacts." }
     };
-    const namespaceOrder = ["roles", "departments", "systems", "documents", "processes", "people", "glossary", "reference", "onboarding", "sources", "analyses", "admin"];
+    const namespaceOrder = ["roles", "departments", "systems", "documents", "processes", "people", "reference", "glossary", "onboarding", "sources", "analyses", "admin"];
+    const namespacePriority = namespaceOrder;
+    function namespaceRank(namespace) {
+      const rank = namespacePriority.indexOf(namespace);
+      return rank === -1 ? namespacePriority.length : rank;
+    }
     const pageMap = new Map(pages.map(page => [page.id, page]));
     const slugMap = pages.reduce((acc, page) => {
       (acc[page.slug] ||= []).push(page);
@@ -493,12 +580,12 @@ const html = `<!doctype html>
     const qsa = selector => Array.from(document.querySelectorAll(selector));
     const escapeHtml = text => String(text ?? "").replace(/[&<>"']/g, char => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[char]));
     function resolveLink(raw) {
-      const clean = raw.split("|")[0].trim().replace(/^wiki\\//, "").replace(/\\.md$/, "");
+      const clean = raw.split("|")[0].split("#")[0].trim().replace(/^wiki\\//, "").replace(/\\.md$/, "");
       if (pageMap.has(clean)) return clean;
       const slug = clean.split("/").pop();
       const matches = slugMap[slug] || [];
       if (!matches.length) return "";
-      const preferred = matches.find(page => page.namespace !== "glossary") || matches[0];
+      const preferred = [...matches].sort((a,b) => namespaceRank(a.namespace) - namespaceRank(b.namespace) || a.title.localeCompare(b.title))[0];
       return preferred.id;
     }
     function linkifyInline(text) {
@@ -666,20 +753,63 @@ const html = `<!doctype html>
           '</ul></details>';
       }).join("");
     }
+    function listCount(value) {
+      return Array.isArray(value) ? value.length : 0;
+    }
+    function openIssueCount() {
+      const h = payload.health || {};
+      return listCount(h.brokenLinks) + listCount(h.unindexedPages) + listCount(h.missingStatus) + listCount(h.zeroSourcePages) + listCount(h.duplicateBareSlugs) + listCount(h.staleAllowedDuplicateBareSlugs);
+    }
+    function healthItem(label, value, mode) {
+      return '<div class="health-item ' + escapeHtml(mode || (value ? "is-watch" : "is-ok")) + '"><span class="health-value">' + escapeHtml(value) + '</span><span class="health-label">' + escapeHtml(label) + '</span></div>';
+    }
+    function renderHealthGrid(compact) {
+      const h = payload.health || {};
+      const cls = compact ? "health-grid health-grid--compact" : "health-grid";
+      return '<div class="' + cls + '">' +
+        healthItem("Broken links", listCount(h.brokenLinks)) +
+        healthItem("Unindexed", listCount(h.unindexedPages)) +
+        healthItem("Missing status", listCount(h.missingStatus)) +
+        healthItem("Zero-source pages", listCount(h.zeroSourcePages)) +
+        healthItem("Unexpected duplicates", listCount(h.duplicateBareSlugs)) +
+        (compact ? healthItem("Allowed pairs", listCount(h.allowedDuplicateBareSlugs), "is-info") : "") +
+        '</div>';
+    }
+    function renderEntryList(group, opts) {
+      return '<ul class="entry-list">' + group.map(page => {
+        const meta = opts && opts.date ? page.updated : page.rel;
+        return '<li><span class="wiki-link entry-link" data-open="' + escapeHtml(page.id) + '">' + escapeHtml(page.title) + '</span><span class="entry-meta">' + escapeHtml((namespaceInfo[page.namespace] || {}).label || page.namespace) + ' / ' + escapeHtml(meta || page.rel) + '</span></li>';
+      }).join("") + '</ul>';
+    }
     function renderHome() {
-      const recent = [...pages].filter(page => page.updated).sort((a,b) => String(b.updated).localeCompare(String(a.updated))).slice(0, 12);
-      const cornerstoneSlugs = ["lm-dc", "com", "plan-conversion-handoffs", "p3", "eds", "informatica", "toa", "subpack", "liquidation-day", "final-files-posting"];
-      const cornerstone = cornerstoneSlugs.map(slug => (slugMap[slug] || [])[0]).filter(Boolean);
+      const recent = [...pages].filter(page => page.updated).sort((a,b) => String(b.updated).localeCompare(String(a.updated))).slice(0, 10);
+      const cornerstoneIds = ["roles/lm-dc", "roles/com", "systems/alteryx", "processes/day-wire-audit-reference", "processes/plan-conversion-handoffs", "systems/p3", "systems/eds", "systems/informatica", "concepts/toa", "concepts/subpack", "concepts/liquidation-day", "processes/final-files-processing"];
+      const cornerstone = cornerstoneIds.map(id => pageMap.get(id)).filter(Boolean);
+      const topNamespaces = ["roles", "systems", "processes", "documents", "onboarding", "glossary"];
+      const issueTotal = openIssueCount();
       return '<h1>TA Brain</h1><p class="lede">A Wikipedia-style internal knowledge base generated from every markdown page in <code>wiki/</code>.</p>' +
         '<div class="metadata-line">Generated ' + escapeHtml(payload.generatedAt.slice(0, 19).replace("T", " ")) + ' / ' + payload.counts.wikiPages + ' wiki pages / ' + payload.counts.sources + ' source summaries / ' + payload.counts.rawFiles + ' raw files inventoried</div>' +
-        (payload.duplicateSlugs.length ? '<div class="callout warning"><div class="callout-title">Duplicate slugs detected</div><div>' + payload.duplicateSlugs.map(escapeHtml).join(", ") + '. This prototype uses path-based IDs so every page is still visible.</div></div>' : "") +
+        '<div class="home-actions">' + topNamespaces.map(ns => {
+          const count = pages.filter(page => page.namespace === ns).length;
+          return '<span class="home-action wiki-link" data-open="__namespace:' + escapeHtml(ns) + '"><strong>' + escapeHtml(namespaceInfo[ns].label) + '</strong><span>' + count + ' pages</span></span>';
+        }).join("") + '</div>' +
+        renderHealthGrid(false) +
+        (issueTotal ? '<div class="callout warning"><div class="callout-title">Needs Work has ' + issueTotal + ' open item' + (issueTotal === 1 ? "" : "s") + '</div><div><span class="wiki-link" data-open="__needs-work">Open the generated maintenance view</span> to clean them down.</div></div>' : '<div class="callout key"><div class="callout-title">Generated checks are clean</div><div>No broken links, unindexed pages, missing statuses, zero-source pages, or unexpected duplicate slugs are currently showing.</div></div>') +
+        (payload.duplicateSlugs.length ? '<div class="callout warning"><div class="callout-title">Unexpected duplicate slugs detected</div><div>' + payload.duplicateSlugs.map(escapeHtml).join(", ") + '. Path-based IDs keep pages visible, but these should be reviewed.</div></div>' : "") +
         '<div class="home-grid"><section class="wiki-panel"><h2>Browse Namespaces</h2><ul class="link-list">' + namespaceOrder.map(ns => {
           const count = pages.filter(page => page.namespace === ns).length;
-          return count ? '<li><span class="wiki-link" data-open="__all-pages">' + namespaceInfo[ns].label + '</span> <span class="metadata-line">' + count + '</span></li>' : "";
+          return count ? '<li><span class="wiki-link" data-open="__namespace:' + escapeHtml(ns) + '">' + namespaceInfo[ns].label + '</span> <span class="metadata-line">' + count + '</span></li>' : "";
         }).join("") + '</ul></section>' +
-        '<section class="wiki-panel"><h2>Cornerstone Articles</h2><ul>' + cornerstone.map(page => '<li><span class="wiki-link" data-open="' + escapeHtml(page.id) + '">' + escapeHtml(page.title) + '</span></li>').join("") + '</ul></section>' +
-        '<section class="wiki-panel"><h2>Recently Updated</h2><ul>' + recent.map(page => '<li><span class="wiki-link" data-open="' + escapeHtml(page.id) + '">' + escapeHtml(page.title) + '</span> <span class="metadata-line">' + escapeHtml(page.updated) + '</span></li>').join("") + '</ul></section>' +
+        '<section class="wiki-panel"><h2>Cornerstone Articles</h2>' + renderEntryList(cornerstone) + '</section>' +
+        '<section class="wiki-panel"><h2>Recently Updated</h2>' + renderEntryList(recent, { date: true }) + '</section>' +
         '<section class="wiki-panel"><h2>Raw Source Inventory</h2><p>' + payload.counts.rawFiles + ' files found under <code>raw/</code>. These are inventoried, while source summary articles remain under Sources.</p><p><span class="wiki-link" data-open="__raw-files">View raw inventory</span></p></section></div>';
+    }
+    function renderNamespacePage(ns) {
+      const info = namespaceInfo[ns] || { label: ns, description: "Wiki namespace." };
+      const group = pages.filter(page => page.namespace === ns).sort((a,b) => a.title.localeCompare(b.title));
+      return '<h1>' + escapeHtml(info.label) + '</h1><p class="lede">' + escapeHtml(info.description) + '</p><div class="metadata-line">' + group.length + ' page' + (group.length === 1 ? "" : "s") + ' in this namespace</div><div class="namespace-cards">' +
+        group.map(page => '<section class="namespace-card"><h2><span class="wiki-link" data-open="' + escapeHtml(page.id) + '">' + escapeHtml(page.title) + '</span></h2><p>' + linkifyInline(page.summary || "No summary available.") + '</p><span class="entry-meta"><code>' + escapeHtml(page.rel) + '</code> / ' + escapeHtml(page.status || "no status") + ' / ' + page.sources + ' source' + (page.sources === 1 ? "" : "s") + '</span></section>').join("") +
+        '</div>';
     }
     function renderAllPages() {
       return '<h1>All Pages</h1><p class="lede">Every markdown page from <code>wiki/</code>, classified into Wikipedia-style namespaces for this prototype.</p><div class="namespace-cards">' +
@@ -692,6 +822,24 @@ const html = `<!doctype html>
     function renderRawFiles() {
       return '<h1>Raw Source Inventory</h1><p class="lede">Files currently present under <code>raw/</code>. They are not rewritten here; this is an inventory so the source pile stays visible.</p><table><tbody>' +
         rawFiles.map(file => '<tr><td><code>' + escapeHtml(file.rel) + '</code></td><td>' + file.size.toLocaleString() + ' bytes</td><td>' + escapeHtml(file.updated) + '</td></tr>').join("") + '</tbody></table>';
+    }
+    function renderNeedsWork() {
+      const h = payload.health || {};
+      const section = (title, items, formatter, infoMode) => {
+        const count = listCount(items);
+        const state = infoMode ? "is-info" : (count ? "is-watch" : "is-clear");
+        return '<section class="namespace-card issue-card ' + state + '"><h2>' + escapeHtml(title) + ' <span class="metadata-line">' + count + '</span></h2><ul>' + (count ? items.map(formatter).join("") : '<li class="issue-empty">No issues found.</li>') + '</ul></section>';
+      };
+      return '<h1>Needs Work</h1><p class="lede">Generated maintenance view for broken links, stale bookkeeping, stubs, and classification gaps.</p>' +
+        renderHealthGrid(true) +
+        '<div class="namespace-cards">' +
+        section('Broken links', h.brokenLinks || [], item => '<li><code>' + escapeHtml(item.source) + '</code> -> <code>[[ ' + escapeHtml(item.target) + ' ]]</code></li>') +
+        section('Unindexed pages', h.unindexedPages || [], id => '<li><span class="wiki-link" data-open="' + escapeHtml(id) + '">' + escapeHtml((pageMap.get(id) || {}).title || id) + '</span> <span class="metadata-line">' + escapeHtml(id) + '</span></li>') +
+        section('Missing status', h.missingStatus || [], id => '<li><span class="wiki-link" data-open="' + escapeHtml(id) + '">' + escapeHtml((pageMap.get(id) || {}).title || id) + '</span></li>') +
+        section('Source count zero', h.zeroSourcePages || [], id => '<li><span class="wiki-link" data-open="' + escapeHtml(id) + '">' + escapeHtml((pageMap.get(id) || {}).title || id) + '</span></li>') +
+        section('Unexpected duplicate bare slugs', h.duplicateBareSlugs || [], item => '<li><code>' + escapeHtml(item.slug) + '</code>: ' + item.ids.map(id => '<span class="wiki-link" data-open="' + escapeHtml(id) + '">' + escapeHtml(id) + '</span>').join(', ') + '</li>') +
+        section('Allowed namespace pairs', h.allowedDuplicateBareSlugs || [], item => '<li><code>' + escapeHtml(item.slug) + '</code>: ' + item.ids.map(id => '<span class="wiki-link" data-open="' + escapeHtml(id) + '">' + escapeHtml(id) + '</span>').join(', ') + '<div class="metadata-line">' + escapeHtml(item.reason || 'Intentional namespace pair.') + '</div></li>', true) +
+        '</div>';
     }
     const extraIcons = {
       animation: '<svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M4 3 L13 8 L4 13 Z"/></svg>',
@@ -738,15 +886,18 @@ const html = `<!doctype html>
     }
     function renderRightRail(page) {
       if (!page) {
-        qs("#rightRail").innerHTML = '<div class="infobox"><div class="infobox-title">TA Brain</div><div class="infobox-row"><div class="infobox-key">Pages</div><div class="infobox-value">' + payload.counts.wikiPages + '</div></div><div class="infobox-row"><div class="infobox-key">Sources</div><div class="infobox-value">' + payload.counts.sources + '</div></div><div class="infobox-row"><div class="infobox-key">Raw files</div><div class="infobox-value">' + payload.counts.rawFiles + '</div></div></div>';
+        const h = payload.health || {};
+        qs("#rightRail").innerHTML = '<div class="infobox"><div class="infobox-title">TA Brain</div><div class="infobox-row"><div class="infobox-key">Pages</div><div class="infobox-value">' + payload.counts.wikiPages + '</div></div><div class="infobox-row"><div class="infobox-key">Sources</div><div class="infobox-value">' + payload.counts.sources + '</div></div><div class="infobox-row"><div class="infobox-key">Raw files</div><div class="infobox-value">' + payload.counts.rawFiles + '</div></div><div class="infobox-row"><div class="infobox-key">Open issues</div><div class="infobox-value">' + openIssueCount() + '</div></div><div class="infobox-row"><div class="infobox-key">Allowed pairs</div><div class="infobox-value">' + listCount(h.allowedDuplicateBareSlugs) + '</div></div></div>' +
+          '<section class="rail-box"><h3>Maintenance</h3><ul class="backlink-list"><li><span class="wiki-link" data-open="__needs-work">Needs Work</span></li><li><span class="wiki-link" data-open="__all-pages">All Pages</span></li><li><span class="wiki-link" data-open="__raw-files">Raw Inventory</span></li></ul></section>';
         return;
       }
       const toc = tocFor(articleBodyMarkdown(page));
       const backlinks = getBacklinks(page.id);
       const rows = [
         ["Type", namespaceInfo[page.namespace].label],
+        page.status ? ["Status", page.status] : null,
         ["Updated", page.updated || "unknown"],
-        page.sources ? ["Sources", page.sources + " ingested"] : null,
+        page.sources !== undefined && page.sources !== null ? ["Sources", page.sources + " ingested"] : null,
         backlinks.length ? ["Linked from", backlinks.length + " page" + (backlinks.length === 1 ? "" : "s")] : null
       ].filter(Boolean);
       const mediaIcons = {
@@ -789,7 +940,23 @@ const html = `<!doctype html>
         renderSidebar("");
         setTopbarExtras(null);
         qs("#breadcrumbs").textContent = "TA Brain / All Pages";
+        qs("#pageMetaShort").textContent = payload.counts.wikiPages + " pages";
+        document.title = "All Pages - TA Brain";
         if (updateHash) history.replaceState(null, "", "#__all-pages");
+        return;
+      }
+      if (id.startsWith("__namespace:")) {
+        const ns = id.slice("__namespace:".length);
+        const info = namespaceInfo[ns] || { label: ns };
+        const count = pages.filter(page => page.namespace === ns).length;
+        qs("#article").innerHTML = renderNamespacePage(ns);
+        renderRightRail(null);
+        renderSidebar("");
+        setTopbarExtras(null);
+        qs("#breadcrumbs").textContent = "TA Brain / " + info.label;
+        qs("#pageMetaShort").textContent = count + " page" + (count === 1 ? "" : "s") + " / " + info.label;
+        document.title = info.label + " - TA Brain";
+        if (updateHash) history.replaceState(null, "", "#" + encodeURIComponent(id));
         return;
       }
       if (id === "__raw-files") {
@@ -798,7 +965,20 @@ const html = `<!doctype html>
         renderSidebar("");
         setTopbarExtras(null);
         qs("#breadcrumbs").textContent = "TA Brain / Raw Source Inventory";
+        qs("#pageMetaShort").textContent = payload.counts.rawFiles + " raw files";
+        document.title = "Raw Source Inventory - TA Brain";
         if (updateHash) history.replaceState(null, "", "#__raw-files");
+        return;
+      }
+      if (id === "__needs-work") {
+        qs("#article").innerHTML = renderNeedsWork();
+        renderRightRail(null);
+        renderSidebar("");
+        setTopbarExtras(null);
+        qs("#breadcrumbs").textContent = "TA Brain / Needs Work";
+        qs("#pageMetaShort").textContent = openIssueCount() + " open issues";
+        document.title = "Needs Work - TA Brain";
+        if (updateHash) history.replaceState(null, "", "#__needs-work");
         return;
       }
       if (!page) page = pages[0];
@@ -814,12 +994,15 @@ const html = `<!doctype html>
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
     function search(query) {
-      const term = query.trim().toLowerCase();
+      const normalizeSearch = value => String(value || "").toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
+      const term = normalizeSearch(query);
       if (!term) return [];
+      const tokens = term.split(" ").filter(Boolean);
       return pages.map(page => {
-        const text = [page.title, page.slug, page.rel, page.summary, page.namespace, page.type, (page.tags || []).join(" "), page.markdown].join(" ").toLowerCase();
-        if (!text.includes(term)) return null;
-        const score = page.title.toLowerCase().includes(term) || page.slug.toLowerCase().includes(term) ? 2 : 1;
+        const text = normalizeSearch([page.title, page.slug, page.rel, page.summary, page.namespace, page.type, (page.tags || []).join(" "), page.markdown].join(" "));
+        if (!text.includes(term) && !tokens.every(token => text.includes(token))) return null;
+        const titleText = normalizeSearch(page.title + " " + page.slug);
+        const score = titleText.includes(term) || tokens.every(token => titleText.includes(token)) ? 2 : 1;
         return { page, score };
       }).filter(Boolean).sort((a,b) => b.score - a.score || a.page.title.localeCompare(b.page.title)).slice(0, 18);
     }
@@ -877,6 +1060,9 @@ const html = `<!doctype html>
       });
     }
     bindEvents();
+    window.addEventListener("hashchange", () => {
+      openPage(location.hash ? decodeURIComponent(location.hash.slice(1)) : "__home", false);
+    });
     openPage(location.hash ? decodeURIComponent(location.hash.slice(1)) : "__home", false);
   </script>
 </body>

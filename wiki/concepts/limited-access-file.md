@@ -5,6 +5,7 @@ tags: [census, elections, blackout, cash-conversion, client-input]
 created: 2026-05-03
 updated: 2026-05-03
 sources: 1
+status: current
 ---
 
 # Limited Access File

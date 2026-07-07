@@ -5,6 +5,7 @@ tags: [remitter, day-of-wire, p3, processing, conversion]
 created: 2026-04-15
 updated: 2026-04-15
 sources: 1
+status: current
 ---
 
 # Common Remitter Plans
@@ -61,5 +62,5 @@ From the DC Training Notebook (November 19, 2025):
 - [[liquidation-day]]
 - [[p3]]
 - [[conversion-types]]
-- [[lm-dc]]
+- [[roles/lm-dc]]
 - [[dc-onboarding-workflow]]

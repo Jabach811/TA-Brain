@@ -5,6 +5,7 @@ tags: [eligibility, deferrals, p3, processing, auto-enrollment, sequence]
 created: 2026-04-14
 updated: 2026-04-14
 sources: 3
+status: current
 ---
 
 # Eligibility and Deferrals

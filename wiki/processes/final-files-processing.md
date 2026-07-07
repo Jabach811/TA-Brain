@@ -5,6 +5,7 @@ tags: [process, final-files, balances, posting, cit, eds, conversion]
 created: 2026-04-14
 updated: 2026-05-03
 sources: 3
+status: current
 ---
 
 # Final Files Processing
@@ -88,7 +89,7 @@ Run the balance workflow in test mode. Catch layout and mapping errors before pr
 Load via EDS deferral layout. Must happen before eligibility — see [[eligibility-and-deferrals]].
 
 ### 6. Enable Eligibility — DC
-Load via EDS eligibility layout. Triggers the CIT Eligibility job. See [[loading-eligibility-eds]] for the detailed subprocess.
+Load via EDS eligibility layout. Triggers the CIT Eligibility job. See [[processes/eligibility-loading|loading-eligibility-eds]] for the detailed subprocess.
 
 ### 7. Post YTD Data — DC
 Three separate EDS loads: YTD contributions, YTD compensation, hours. See [[loading-ytd-contributions-eds]] and [[hours-procedure]].
@@ -161,17 +162,18 @@ For eligibility and deferral data specifically: **the client decides** whether t
 
 - [[liquidation-day]]
 - [[tik-transfer]]
-- [[loading-eligibility-eds]]
+- [[processes/eligibility-loading|loading-eligibility-eds]]
 - [[loading-ytd-contributions-eds]]
 - [[dummy-participant]]
 - [[conversion-types]]
 - [[eligibility-and-deferrals]]
 - [[audit-pack]]
 - [[plan-conversion-handoffs]]
-- [[lm-dc]]
+- [[roles/lm-dc]]
 - [[informatica]]
 - [[eds]]
 - [[p3]]
 - [[base-file]]
 - [[conv-file]]
 - [[loan-setup]]
+

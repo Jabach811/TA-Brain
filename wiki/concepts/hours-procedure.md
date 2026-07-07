@@ -3,8 +3,9 @@ title: "Hours Procedure"
 type: process
 tags: [hours, eligibility, ltpt, process, eds]
 created: 2026-04-16
-updated: 2026-04-16
-sources: 0
+updated: 2026-06-25
+sources: 1
+status: needs-review
 ---
 
 # Hours Procedure
@@ -37,15 +38,19 @@ Hours data is loaded via EDS following the same general process as other data ty
 - Each plan may have a unique hours data format from the prior vendor — confirm via data discovery
 - EDS output must be reviewed for errors and warnings after every run
 
+## Source Notes
+
+Current content is derived from [[sources/lmdc-training-notebook]] and [[ltpt-eligibility]]. Procedure-level EDS steps still need direct source confirmation.
+
 ## Related Concepts
 
 - [[eligibility]] — hours data feeds directly into eligibility rule processing
 - [[ltpt-eligibility]] — LTPT-specific hours tracking requirements
-- [[loading-eligibility-eds]] — eligibility EDS loading; hours often loaded alongside or before eligibility
+- [[processes/eligibility-loading|loading-eligibility-eds]] — eligibility EDS loading; hours often loaded alongside or before eligibility
 - [[eds]] — the system through which hours data is loaded
 
 ## See Also
 - [[eligibility]]
 - [[ltpt-eligibility]]
-- [[loading-eligibility-eds]]
+- [[processes/eligibility-loading|loading-eligibility-eds]]
 - [[eds]]

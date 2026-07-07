@@ -5,11 +5,12 @@ tags: [concept, document, com, prior-record-keeper, conversion]
 created: 2026-04-14
 updated: 2026-04-14
 sources: 1
+status: current
 ---
 
 # Prior Carrier Letter
 
-A formal letter authored by the [[com]] notifying the prior record keeper that their plan is transitioning to Transamerica. Sent to the plan sponsor and used to notify the prior carrier directly.
+A formal letter authored by the [[roles/com]] notifying the prior record keeper that their plan is transitioning to Transamerica. Sent to the plan sponsor and used to notify the prior carrier directly.
 
 ## Definition
 
@@ -35,7 +36,7 @@ Formal notification to the prior carrier is a required step in the transition. W
 
 ## See Also
 
-- [[com]]
+- [[roles/com]]
 - [[prior-record-keeper]]
 - [[blackout-notice]]
 - [[plan-conversion-handoffs]]

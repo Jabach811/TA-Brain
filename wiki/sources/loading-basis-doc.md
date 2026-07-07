@@ -5,6 +5,7 @@ tags: [eds, basis, process, data]
 created: 2026-04-20
 updated: 2026-04-20
 sources: 1
+status: current
 ---
 
 # Source: Loading Basis through EDS Documentation
@@ -53,6 +54,7 @@ Internal documentation describing the basis loading process through EDS. Covers 
 ## See Also
 
 - [[loading-basis-eds]]
-- [[loading-eligibility-eds]]
+- [[processes/eligibility-loading|loading-eligibility-eds]]
 - [[final-files-processing]]
 - [[eds]]
+

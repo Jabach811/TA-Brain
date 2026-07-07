@@ -5,6 +5,7 @@ tags: [fund-management-calendar, trades, cutoff, liquidation, critical, fmc]
 created: 2026-04-14
 updated: 2026-05-03
 sources: 4
+status: current
 ---
 
 # Fund Management Calendar

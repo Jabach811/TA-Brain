@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fund Management Calendar - Excalidraw Flow Deck</title>
+  <link rel="stylesheet" href="../assets/deck-styles.css">
+  <style>:root { --procedure-accent: #7d6d2f; }</style>
+</head>
+<body class="flow-page">
+  <header class="deck-nav">
+    <a href="../index.html">Procedure decks</a>
+    <span>Fund Management Calendar</span>
+    <span>Excalidraw</span>
+  </header>
+  <main class="deck flow" data-deck>
+    <section class="slide flow-title">
+      <div class="title-grid">
+        <div>
+          <div class="sketch-tag">Trading / Excalidraw flow</div>
+          <h1>Fund Management Calendar</h1>
+          <p>Notify and record large trades before cut-off risk hits.</p>
+        </div>
+        <figure class="title-art sketch-art"><img src="../assets/icons/fund-management-calendar.svg" alt=""></figure>
+      </div>
+      <div class="sketch-route"><div class="flow-node"><b>1</b><span>Determine whether the trade type requires calendar notification.</span></div><div class="flow-node"><b>2</b><span>Identify the conversion type and which trade event is occurring.</span></div><div class="flow-node"><b>3</b><span>Enter trade details before the cut-off window whenever the file is accessible.</span></div><div class="flow-node"><b>4</b><span>Send the required notification email to the distribution list.</span></div><div class="flow-node"><b>5</b><span>If the calendar file is locked, send the email anyway and keep trying to update the file.</span></div><div class="flow-node"><b>6</b><span>For cash conversions, track the wire, Advanced Employer, and participant balance events separately.</span></div><div class="flow-node"><b>7</b><span>Exclude small-money trailing dividends when the procedure says calendar entry is not needed.</span></div><div class="flow-node"><b>8</b><span>Confirm the intended trade is documented before downstream processing.</span></div></div>
+    </section>
+<section class="slide image-slide sketch-image-slide">
+      <div class="sketch-tag">Generated whiteboard</div>
+      <h2>Multi-branch visual route</h2>
+      <figure class="image-frame sketch-frame"><img src="../assets/flowcharts/fund-management-calendar.svg" alt=""></figure>
+    </section>
+<section class="slide branch-slide">
+      <div class="sketch-tag">Branch map</div>
+      <h2>Decisions that change the route</h2>
+      <div class="branch-board"><div class="diamond"><span>1</span><p>Does this event require FMC entry?</p></div><div class="diamond"><span>2</span><p>Is this mapping, cash, participant balance, or TIK?</p></div><div class="diamond"><span>3</span><p>Is the calendar file accessible?</p></div><div class="diamond"><span>4</span><p>Is the trade before SSBT cut-off?</p></div><div class="diamond"><span>5</span><p>Is this small trailing money that can be excluded?</p></div></div>
+    </section>
+<section class="slide swimlane-slide">
+      <div class="sketch-tag">Swimlane</div>
+      <h2>Inputs -> action -> output</h2>
+      <div class="swimlane">
+        <div class="lane-head">Input</div><div class="lane-head">Action</div><div class="lane-head">Output</div>
+        <div><p>Conversion type</p><p>Trade date</p><p>Expected trade amount</p><p>Fund details</p></div>
+        <div><p>Determine whether the trade type requires calendar notification.</p><p>Identify the conversion type and which trade event is occurring.</p><p>Enter trade details before the cut-off window whenever the file is accessible.</p><p>Send the required notification email to the distribution list.</p></div>
+        <div><p>Calendar entry</p><p>Notification email</p><p>Locked-file evidence if applicable</p><p>Trade timing record</p></div>
+      </div>
+    </section>
+<section class="slide systems-slide">
+      <div class="sketch-tag">System boxes</div>
+      <h2>Where the work happens</h2>
+      <div class="systems-map"><div class="system-box">Fund management calendar</div><div class="system-box">Email</div><div class="system-box">Cashiering</div><div class="system-box">Trading groups</div><div class="system-box">SSBT</div></div>
+    </section>
+<section class="slide sticky-slide">
+      <div class="sketch-tag">Sticky notes</div>
+      <h2>Do not miss these</h2>
+      <div class="sticky-grid"><article class="sticky-note">The 4 PM EST SSBT cut-off matters.</article><article class="sticky-note">Vanguard and other timing exceptions can be stricter.</article><article class="sticky-note">TIK shares are generally outside the cash-trade calendar logic.</article><article class="sticky-note">Locked files do not remove the email-notification requirement.</article><article class="sticky-note">Cash conversions can have three separate trading events.</article></div>
+    </section>
+<section class="slide finish-slide">
+      <div class="sketch-tag">Done means done</div>
+      <h2>Closeout checklist</h2>
+      <div class="finish-list"><label><input type="checkbox"> Applicability checked</label><label><input type="checkbox"> Calendar updated or lock documented</label><label><input type="checkbox"> Email sent</label><label><input type="checkbox"> Trade timing confirmed</label><label><input type="checkbox"> Exceptions noted</label></div>
+    </section>
+  </main>
+  <div class="deck-controls">
+    <button type="button" data-prev>Prev</button>
+    <span data-progress>1 / 7</span>
+    <button type="button" data-next>Next</button>
+  </div>
+  <script src="../assets/deck-player.js"></script>
+</body>
+</html>

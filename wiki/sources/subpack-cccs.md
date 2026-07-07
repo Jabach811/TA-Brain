@@ -5,6 +5,7 @@ tags: [subpack, cccs, plan-setup, conversion, source]
 created: 2026-04-16
 updated: 2026-04-16
 sources: 1
+status: current
 ---
 
 # Source: New Plan Submission Package — CCCS Document

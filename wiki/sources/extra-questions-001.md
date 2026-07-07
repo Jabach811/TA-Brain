@@ -5,6 +5,7 @@ tags: [q-and-a, clarifications, open-questions]
 created: 2026-04-14
 updated: 2026-04-14
 sources: 1
+status: current
 ---
 
 # Extra Questions — Round 4 Answers
@@ -58,7 +59,7 @@ This source resolves nearly every open question flagged during the initial brain
 
 ## Concepts Mentioned
 
-[[audit-pack]], [[base-file]], [[dummy-participant]], [[eligibility-and-deferrals]], [[final-files-processing]], [[ftp-connection]], [[fund-management-calendar]], [[fund-mapping]], [[liquidation-day]], [[onboarding-package]], [[payroll-template]], [[plan-classes]], [[prd]], [[prior-record-keeper]], [[source-mapping]], [[subpack]], [[toa]], [[transfer-in-kind]], [[wire-instructions]]
+[[audit-pack]], [[base-file]], [[dummy-participant]], [[eligibility-and-deferrals]], [[final-files-processing]], [[ftp-connection]], [[fund-management-calendar]], [[fund-mapping]], [[liquidation-day]], [[onboarding-package]], [[payroll-template]], [[plan-classes]], [[prd]], [[prior-record-keeper]], [[source-mapping]], [[subpack]], [[toa]], [[processes/tik-transfer|transfer-in-kind]], [[wire-instructions]]
 
 ## Contradictions / Open Questions
 
@@ -74,3 +75,4 @@ This source resolves nearly every open question flagged during the initial brain
 - [[sources/dc-brain-dump-001]]
 - [[overview]]
 - [[dc-onboarding-workflow]]
+

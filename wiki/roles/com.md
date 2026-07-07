@@ -5,6 +5,7 @@ tags: [role, com, project-management, conversion, onboarding]
 created: 2026-04-14
 updated: 2026-04-14
 sources: 2
+status: current
 ---
 
 # Communications Coordinator (COM)
@@ -18,7 +19,7 @@ The COM is not just a meeting scheduler — they are the **document factory, rou
 **Phase by phase:**
 
 ### 1. Kickoff
-- Receives the [[nsa]] (New Sale Announcement), which triggers the entire COM workflow
+- Receives the [[concepts/nsa]] (New Sale Announcement), which triggers the entire COM workflow
 - Schedules and runs the internal kickoff call with the full project team
 - Schedules and runs the external kickoff call with the client and all parties
 - Creates the [[project-plan-com]] (format depends on plan type: Active Project Plan for non-PEP, Excelwise for PEP)
@@ -42,7 +43,7 @@ The COM is not just a meeting scheduler — they are the **document factory, rou
 - For non-PEP: creates Transition Communications Checklist and routes to Samantha C.
 
 ### 4. Vendor Expense Form (if applicable)
-- Sends [[vef]] to advisor firm → collects approval → sends to client for signature
+- Sends [[concepts/vef]] to advisor firm → collects approval → sends to client for signature
 - Submits L&C ticket via SF for setup; collects confirmation
 
 ### 5. Pricing Review
@@ -54,7 +55,7 @@ The COM is not just a meeting scheduler — they are the **document factory, rou
 - Sends payroll specs; runs payroll call with all parties
 - Coordinates test file receipt and pass/fail with DC
 - Notifies [[jen-curtin]] for 360° payroll plans
-- Sends Payroll Questionnaire to client; forwards completed questionnaire to [[lm-dc]]
+- Sends Payroll Questionnaire to client; forwards completed questionnaire to [[roles/lm-dc]]
 - Manages [[contribution-monitoring-form]] (TFS plans): sends to client, receives back, routes to TC for AWD flip, saves to FILESERVE
 - Manages [[rdd-form]]: receives from TC → sends to client → receives back → submits to TC
 
@@ -63,7 +64,7 @@ The COM is not just a meeting scheduler — they are the **document factory, rou
 - Routes loan analysis request to the Quality Consultant (QC)
 
 ### 8. Early Access (if applicable)
-- Requests early access file template from [[lm-dc]]
+- Requests early access file template from [[roles/lm-dc]]
 - Routes template to client for completion; receives and submits back to DC
 - Verifies with DC that early access file has been loaded
 - Notifies [[tc]] to activate early access the day before it starts
@@ -104,7 +105,7 @@ The COM is not just a meeting scheduler — they are the **document factory, rou
 - Submits to Plan Services Workflow Team
 
 ### 16. Assets Received
-- Receives confirmation from [[lm-dc]] that assets were received and deposited
+- Receives confirmation from [[roles/lm-dc]] that assets were received and deposited
 - Sends email to plan confirming asset receipt and amount
 
 ### 17. Go-Live
@@ -115,7 +116,7 @@ The COM is not just a meeting scheduler — they are the **document factory, rou
 - Adds plan to Survey Spreadsheet
 - Completes Audit Checklist in [[nbi]]
 - Sends SPD to [[ellen-miller]] for participants (PEP only)
-- Receives [[csr]] from Quality Consultant; forwards to client
+- Receives [[concepts/csr]] from Quality Consultant; forwards to client
 - Adds NBI Transition out of CIT Date
 - Notifies [[ellen-miller]] that the plan is LIVE
 
@@ -140,7 +141,7 @@ The COM is not just a meeting scheduler — they are the **document factory, rou
 
 | Team / Person | Nature of Relationship |
 |---------------|----------------------|
-| [[lm-dc]] | Receives project plan and payroll questionnaire; coordinates early access; receives asset confirmation |
+| [[roles/lm-dc]] | Receives project plan and payroll questionnaire; coordinates early access; receives asset confirmation |
 | [[tc]] | Receives QDIA, fee disclosure, enrollment guide, RDD form; TC reviews subpack; TC flips AWD; TC activates early access; TC sets up WX |
 | [[doc-ops]] | Receives OBP, AAA, Secure 2.0, SPD (PEP plans) |
 | [[ellen-miller]] | Routes prior docs; sends notice mailing requests; confirms SF setup; notifies at go-live; sends SPD |
@@ -199,7 +200,7 @@ The COM is not just a meeting scheduler — they are the **document factory, rou
 
 ## See Also
 
-- [[lm-dc]]
+- [[roles/lm-dc]]
 - [[tc]]
 - [[doc-ops]]
 - [[plan-conversion-handoffs]]
@@ -207,9 +208,9 @@ The COM is not just a meeting scheduler — they are the **document factory, rou
 - [[prd]]
 - [[onboarding-package]]
 - [[toa]]
-- [[nsa]]
-- [[csr]]
-- [[vef]]
+- [[concepts/nsa]]
+- [[concepts/csr]]
+- [[concepts/vef]]
 - [[contribution-monitoring-form]]
 - [[rdd-form]]
 - [[early-access]]

@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fund Management Calendar - Ops Training Deck</title>
+  <link rel="stylesheet" href="../assets/deck-styles.css">
+  <style>:root { --procedure-accent: #7d6d2f; }</style>
+</head>
+<body class="ops-page">
+  <header class="deck-nav">
+    <a href="../index.html">Procedure decks</a>
+    <span>Fund Management Calendar</span>
+    <span>Ops</span>
+  </header>
+  <main class="deck ops" data-deck>
+    <section class="slide title-slide">
+      <div class="title-grid">
+        <div>
+          <div class="kicker">Trading / Ops deck</div>
+          <h1>Fund Management Calendar</h1>
+          <p class="slide-lede">The fund management calendar documents trade intent for large conversion-related trades. It varies by conversion type and has strict timing expectations around SSBT cut-off and trade-notification groups.</p>
+          <div class="lifecycle-rail"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span></div>
+        </div>
+        <figure class="title-art"><img src="../assets/icons/fund-management-calendar.svg" alt=""></figure>
+      </div>
+    </section>
+<section class="slide split-slide">
+      <div>
+        <div class="kicker">Inputs</div>
+        <h2>What has to be in hand</h2>
+        <ul class="check-list"><li>Conversion type</li><li>Trade date</li><li>Expected trade amount</li><li>Fund details</li><li>Calendar access</li><li>Email distribution list</li></ul>
+      </div>
+      <aside class="callout-panel">
+        <h3>Systems touched</h3>
+        <div class="pill-grid"><span class="pill">Fund management calendar</span><span class="pill">Email</span><span class="pill">Cashiering</span><span class="pill">Trading groups</span><span class="pill">SSBT</span></div>
+      </aside>
+    </section>
+<section class="slide">
+      <div class="kicker">Run path</div>
+      <h2>Procedure sequence</h2>
+      <div class="step-grid">
+    <article class="step-card">
+      <div class="step-num">01</div>
+      <p>Determine whether the trade type requires calendar notification.</p>
+    </article>
+  
+    <article class="step-card">
+      <div class="step-num">02</div>
+      <p>Identify the conversion type and which trade event is occurring.</p>
+    </article>
+  
+    <article class="step-card">
+      <div class="step-num">03</div>
+      <p>Enter trade details before the cut-off window whenever the file is accessible.</p>
+    </article>
+  
+    <article class="step-card">
+      <div class="step-num">04</div>
+      <p>Send the required notification email to the distribution list.</p>
+    </article>
+  
+    <article class="step-card">
+      <div class="step-num">05</div>
+      <p>If the calendar file is locked, send the email anyway and keep trying to update the file.</p>
+    </article>
+  
+    <article class="step-card">
+      <div class="step-num">06</div>
+      <p>For cash conversions, track the wire, Advanced Employer, and participant balance events separately.</p>
+    </article>
+  
+    <article class="step-card">
+      <div class="step-num">07</div>
+      <p>Exclude small-money trailing dividends when the procedure says calendar entry is not needed.</p>
+    </article>
+  
+    <article class="step-card">
+      <div class="step-num">08</div>
+      <p>Confirm the intended trade is documented before downstream processing.</p>
+    </article>
+  </div>
+    </section>
+<section class="slide matrix-slide">
+      <div class="kicker">Decision points</div>
+      <h2>What decides the path</h2>
+      <div class="decision-grid"><div class="decision-card">Does this event require FMC entry?</div><div class="decision-card">Is this mapping, cash, participant balance, or TIK?</div><div class="decision-card">Is the calendar file accessible?</div><div class="decision-card">Is the trade before SSBT cut-off?</div><div class="decision-card">Is this small trailing money that can be excluded?</div></div>
+    </section>
+<section class="slide warning-slide">
+      <div class="kicker">Watchouts</div>
+      <h2>Where this can bite</h2>
+      <div class="warning-grid"><article><span>!</span><p>The 4 PM EST SSBT cut-off matters.</p></article><article><span>!</span><p>Vanguard and other timing exceptions can be stricter.</p></article><article><span>!</span><p>TIK shares are generally outside the cash-trade calendar logic.</p></article><article><span>!</span><p>Locked files do not remove the email-notification requirement.</p></article><article><span>!</span><p>Cash conversions can have three separate trading events.</p></article></div>
+    </section>
+<section class="slide image-slide">
+      <div class="kicker">Visual map</div>
+      <h2>Use the flow when explaining the work</h2>
+      <figure class="image-frame"><img src="../assets/flowcharts/fund-management-calendar.svg" alt=""></figure>
+    </section>
+<section class="slide closeout-slide">
+      <div class="kicker">Closeout</div>
+      <h2>Proof that it is done</h2>
+      <div class="closeout-grid">
+        <div><h3>Outputs</h3><ul><li>Calendar entry</li><li>Notification email</li><li>Locked-file evidence if applicable</li><li>Trade timing record</li></ul></div>
+        <div><h3>Final checks</h3><ul><li>Applicability checked</li><li>Calendar updated or lock documented</li><li>Email sent</li><li>Trade timing confirmed</li><li>Exceptions noted</li></ul></div>
+      </div>
+    </section>
+  </main>
+  <div class="deck-controls">
+    <button type="button" data-prev>Prev</button>
+    <span data-progress>1 / 7</span>
+    <button type="button" data-next>Next</button>
+  </div>
+  <script src="../assets/deck-player.js"></script>
+</body>
+</html>

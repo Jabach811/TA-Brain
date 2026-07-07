@@ -5,6 +5,7 @@ tags: [person, manager, direct-manager]
 created: 2026-04-14
 updated: 2026-04-14
 sources: 1
+status: current
 ---
 
 # Nick Lister

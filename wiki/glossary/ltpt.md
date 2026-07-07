@@ -5,6 +5,7 @@ tags: [glossary, eligibility, secure-act, ltpt]
 created: 2026-04-15
 updated: 2026-04-15
 sources: 1
+status: current
 ---
 
 # LTPT
@@ -19,7 +20,7 @@ LTPT employees may only make **elective deferrals**; they are not eligible for e
 
 ## Used By
 
-- [[lm-dc]] — must track hours for LTPT eligibility even for excluded-class employees; uses EDS status codes 5 and 6
+- [[roles/lm-dc]] — must track hours for LTPT eligibility even for excluded-class employees; uses EDS status codes 5 and 6
 - [[eds]] — two new status codes added for LTPT: **5** = Not eligible, kit mailed due to LTPT; **6** = Eligible, LTPT
 
 ## See Also

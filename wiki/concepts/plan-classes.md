@@ -5,6 +5,7 @@ tags: [classes, p3, plan-setup, doc-ops]
 created: 2026-04-14
 updated: 2026-04-14
 sources: 2
+status: current
 ---
 
 # Plan Classes

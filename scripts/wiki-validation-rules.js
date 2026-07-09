@@ -1,27 +1,7 @@
 const allowedDuplicateBareSlugs = [
   {
-    slug: "csr",
-    ids: ["concepts/csr", "glossary/csr"],
-    reason: "Concept/document page plus glossary acronym entry."
-  },
-  {
-    slug: "nsa",
-    ids: ["concepts/nsa", "glossary/nsa"],
-    reason: "Concept page plus glossary acronym entry."
-  },
-  {
-    slug: "vef",
-    ids: ["concepts/vef", "glossary/vef"],
-    reason: "Document page plus glossary acronym entry."
-  },
-  {
-    slug: "com",
-    ids: ["onboarding/com", "roles/com"],
-    reason: "Role reference and onboarding guide intentionally share the role slug."
-  },
-  {
     slug: "lm-dc",
-    ids: ["onboarding/lm-dc", "roles/lm-dc"],
+    ids: ["lifecycle/lm-dc", "onboarding/lm-dc"],
     reason: "Role reference and onboarding guide intentionally share the role slug."
   }
 ];

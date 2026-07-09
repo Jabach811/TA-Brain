@@ -3,7 +3,7 @@ title: "Balance Import — Cash Conversion"
 type: data-loading
 tags: ["concept", "balance", "cash", "conversion", "informatica", "cits"]
 created: 2026-04-19
-updated: 2026-05-03
+updated: 2026-07-08
 sources: 2
 status: current
 ---
@@ -62,9 +62,25 @@ The CITS Balances workflow uses this ref number to tie the cash distribution bac
 
 This is the cash-conversion equivalent of how mapping uses per-fund ref numbers in the [[fund-mapping|fund mapping file]] — same idea, different file location.
 
+## Trailing Cash — AE Accrued Interest and Friends
+
+The Advanced Employer account earns a small accrued interest between the wire arriving and the AE liquidation. **The day after the participant distribution, distribute that interest pro-rata across participants.** This is DC-triggered — it does not run automatically, and it's easy to forget because the participant distribution looks done. (from the balance import guide)
+
+The same DC-triggered pro-rata pattern applies to anything that lands after the main distribution:
+
+- Trailing dividends paid by the prior RK after conversion
+- Uncashed checks / recovered cash from the prior RK
+- Any other late cash
+
+None of these require [[fund-management-calendar|FMC]] entries — they're pure cash movement. The AE **purchase** on wire day and the AE **liquidation** post-wire do require FMC entries.
+
+## Limited Access File
+
+Limited access files are mostly used on cash conversions — they let participants update allocations during an open window before blackout. Confirm with the COM whether one applies. (from the balance import guide)
+
 ## See Also
 - [[balance-import]]
 - [[informatica-balance-module]]
-- [[informatica-training-manual]]
+- Informatica Training Manual
 - [[dummy-participant]]
 - [[conv-file]]

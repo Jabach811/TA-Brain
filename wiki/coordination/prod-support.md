@@ -3,35 +3,29 @@ title: "Prod Support"
 type: coordination
 tags: [team, prod-support, awd, tables, corrections]
 created: 2026-04-14
-updated: 2026-04-14
+updated: 2026-07-08
 sources: 2
 status: current
 ---
 
 # Prod Support
 
-The team that makes direct database table modifications when something goes wrong or needs correction. Engaged via AWD (All Working Data) ticket.
+Makes direct database table corrections that DCs cannot perform themselves. Engaged via AWD ticket.
 
-## Overview
+## What they own
 
-Prod Support handles back-end database corrections that DCs cannot perform themselves. When a file is imported incorrectly, data needs to be deleted or changed, or a table value needs to be adjusted, the DC submits an AWD ticket and Prod Support makes the change.
+- Modifying table entries, deleting incorrect records, changing field values
+- Any data correction that can't be done through [[p3]], the ROC tool, or standard DC tools
 
-## What They Do
-
-- Modify table entries
-- Delete incorrect records
-- Change field values in the database
-- Handle any kind of data correction that can't be done through standard DC tools
-
-## When to Engage
+## When to engage
 
 - Incorrect file import (wrong data loaded into the system)
 - Data needs to be deleted or adjusted after posting
-- Any table-level change that cannot be made via P3 or the ROC tool
+- Any table-level change beyond your tools
 
-## How to Submit an AWD Ticket
+## How to submit an AWD ticket
 
-Log into the **AWD site** (web portal). The submission flow:
+Log into the AWD site (web portal):
 
 1. **Create Work** — select "Create Work" to open a new ticket
 2. **Enter case number** and **ticket type**
@@ -40,13 +34,11 @@ Log into the **AWD site** (web portal). The submission flow:
 
 Prod Support responds back to your queue with comments or a completion confirmation. Review it, verify the fix, then close.
 
-### Best Practices for the Comments Field
+### Writing the Comments field
 
-The quality of the ticket determines how fast and accurately Prod Support resolves it.
+The quality of the ticket determines how fast and accurately it resolves.
 
-**Step 1 — Isolate the data first.** Run a query in AQT that returns **exactly** the records that need to be changed. Do not reference the whole table.
-
-> "Get the actual query that holds exactly the data that you want to be modified. Don't do the entire table, the whole gigantic thing."
+**Step 1 — Isolate the data first.** Run a query in AQT that returns exactly the records to change. Don't reference the whole table.
 
 **Step 2 — Write a thorough description.** Include:
 - What happened and what needs to be done
@@ -54,22 +46,26 @@ The quality of the ticket determines how fast and accurately Prod Support resolv
 - The action needed: delete / modify / update a specific value
 - All relevant identifiers (case number, SSN, plan name, ref number, etc.)
 
-> "Get a thorough description in your comment and make sure that it's all out there so they don't have to go back and forth."
+Thorough tickets mean fewer back-and-forth exchanges and faster resolution.
 
-Thorough tickets = fewer back-and-forth exchanges = faster resolution.
-
-**Step 3 — Verify when done.** Once Prod Support marks the ticket done, go verify in the system. Run the isolating query again and confirm results look right.
+**Step 3 — Verify when done.** Run the isolating query again and confirm results look right.
 
 **Step 4 — Close it.** Set to **Complete**, clear from your queue.
 
-## Turnaround Times
+## Turnaround
 
 - **Standard tickets:** 1–2 business days
-- **Urgent tickets (e.g., liquidation day):** Same day — flag as urgent when submitting
+- **Urgent tickets (e.g., liquidation day):** same day — flag as urgent when submitting
+
+## Common issues
+
+- Vague comments or no isolating query → back-and-forth and slow resolution
+- Ticket marked done but never verified in the system — always re-run the query before closing
+- Urgent work not flagged as urgent, so it sits in the standard queue
 
 ## See Also
 
 - [[p3]]
 - [[eds]]
 - [[final-files-processing]]
-- [[dc-onboarding-workflow]]
+- [[plan-conversion-handoffs]]

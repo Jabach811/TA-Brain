@@ -3,7 +3,7 @@ title: "Balance Import — Transfer In-Kind"
 type: data-loading
 tags: ["concept", "balance", "tik", "conversion", "informatica", "re-registration", "day-of-wire"]
 created: 2026-04-19
-updated: 2026-05-03
+updated: 2026-07-08
 sources: 2
 status: current
 ---
@@ -33,6 +33,12 @@ Step 05 — Forward results to prior record keeper for verification
 Step 06 — Receive all-clear from prior record keeper
 
 Field best practice: Build the request early but send in the actual window (~3 weeks before liquidation), while making the send date hard to miss.
+
+Additional working rules (from the balance import guide):
+
+- **SLA on Matt O'Connell's team: ~14 business days** (D1 + 22 days from form submission). They're the bottleneck — submit early and **confirm receipt explicitly**; don't assume the form landed.
+- **Don't open the Fidelity receiving accounts too early.** They begin reporting immediately, and stale open-account time is noise. But they must exist before transfer day — receiving accounts missing on transfer day is a multi-week recovery.
+- Once accounts are confirmed, **forward the re-registered account details to the vendor** — they need them to direct the in-kind transfer.
 
 ## Balance Import Steps
 
@@ -65,6 +71,10 @@ Step 18 — Run all associated queries for backup
 3. **Wait for in-kind spreadsheet confirmation** — do not run Day of Wire until Matt O'Connell's team confirms shares arrived
 4. **4-week lead time** — if the re-registration template is submitted late, the whole TIK path may fail
 
+## Expected Share Tracker
+
+On final file receipt, **update the expected share tracker immediately** — it's the trigger action, not a cleanup task (from the balance import guide). Final files include share counts; tie them against the tracker. Matt O'Connell's team may populate the initial numbers, but from final-file receipt onward the tracker is the DC's working record.
+
 ## Share-Count Tolerance
 
 Once the CIT balance file runs and participant balances are whole, compare the actual shares received against the expected shares from the in-kind spreadsheet:
@@ -76,7 +86,7 @@ Once the CIT balance file runs and participant balances are whole, compare the a
 - [[balance-import]]
 - [[balance-import-mapping]]
 - [[processes/tik-transfer|transfer-in-kind]]
-- [[matt-oconnell]]
+- Matt O'Connell
 - [[informatica-balance-module]]
 - [[conv-file]]
 - [[dummy-participant]]

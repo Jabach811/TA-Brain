@@ -1,219 +1,181 @@
 # Wiki Index
-*Last updated: 2026-07-01 - 133 pages, 11 sources*
+*Last updated: 2026-07-08 — 124 pages, 11 sources*
+
+The operational catalog of the DC Operations Wiki. Also see [[overview]] and [[log]].
 
 ---
 
-## Sources
-| Page | Summary | Date |
-|------|---------|------|
-| [[sources/dc-brain-dump-001]] | Voice transcript brain dump — complete DC job workflow, end-to-end | 2026-04-14 |
-| [[sources/extra-questions-001]] | Answers to all open questions across 20+ wiki pages — Round 4 Q&A | 2026-04-14 |
-| [[sources/com-main-checklist]] | COM Main Checklist app — full 18-phase COM workflow from NSA through go-live | 2026-04-14 |
-| [[sources/lmdc-training-notebook]] | DC Team Training OneNote notebook — procedures through April 2026; most recent entries per topic | 2026-04-15 |
-| [[sources/subpack-cccs]] | New Plan Submission Package — CCCS template; full plan configuration intake form for new conversions | 2026-04-16 |
-| [[sources/census-data-doc]] | Census data loading procedure — data fields, EDS process, audit checks, vendor data rules | 2026-04-20 |
-| [[sources/loading-basis-doc]] | Basis loading procedure - EE basis fields, tables, Roth rules, transaction adjustments | 2026-04-20 |
-| [[sources/dc-brain-dump-002]] | Payroll, order of processing, loan quirks, and auto-enroll follow-up brain dump | 2026-05-03 |
-| [[sources/balances-census-loans-brain-dump]] | LM-DC reference for census, elections, balance imports, fund/source mapping, loans, forfeitures, and FMC discipline | 2026-05-03 |
-| [[sources/tc-stuff]] | Legacy TC/QC source bundle - charters, go-live controls, case notes, divisions, automation, CPMA, and PSD setup | 2026-05-13 |
-| [[sources/tc-details-from-dan]] | TC role summary - administrative support, P3/notice controls, participant website audit, and DDOL/VRU/PSD readiness | 2026-07-01 |
-
----
-
-## Reference Hubs
-| Page | Summary | Sources |
+## Case Lifecycle
+| Page | Summary | Updated |
 |------|---------|---------|
-| [[overview]] | High-level synthesis of the whole TA Wiki: roles, systems, conversion lanes, known gaps, and operating model | 10 |
+| [[lifecycle/cccs-submission-package|CCCS Submission Package]] | The CCCS (Client Conversion Configuration Sheet) is Part 1 of the New Plan Submission Package — a standardized form completed once per plan  | 2026-07-08 |
+| [[lifecycle/dc-onboarding-workflow|DC Onboarding Workflow]] | The complete end-to-end process a Data Consultant follows to onboard a new retirement plan, from assignment through final posting. This is t | 2026-04-14 |
+| [[lifecycle/lm-dc|Large Market Data Consultant (LM DC)]] | The person responsible for all data-related work when onboarding a new retirement plan onto Transamerica's platform. | 2026-04-15 |
+| [[lifecycle/nbi|NBI]] | Internal system where new plan assignments are loaded and tracked. The starting point for every DC's involvement in a new plan. | 2026-07-08 |
+| [[lifecycle/onboarding-package|Onboarding Package]] | An all-in-one Excel document used for certain plan types (especially PEP plans) in place of or alongside the PRD. Contains plan provisions,  | 2026-04-14 |
+| [[lifecycle/prd|PRD — Plan Review Document]] | A detailed document comparing the prior provider's plan design to the TransAmerica plan design. Reviewed internally first, then with the cli | 2026-04-14 |
+| [[lifecycle/subpack|Subpack — Submission Package]] | TransAmerica's internal document specifying exactly what will be done during the conversion — the "how we're doing it" complement to the PRD | 2026-04-14 |
 
----
-
-## Roles
-| Page | Summary | Sources |
+## Data Loading
+| Page | Summary | Updated |
 |------|---------|---------|
-| [[roles/lm-dc]] | Large Market Data Consultant — full role reference; systems, handoffs, relationships | 1 |
-| [[roles/com]] | Communications Coordinator — full 18-phase workflow; project manager for plan conversions | 2 |
-| [[roles/qa]] | Quality Assurance / QC - audit and control partner for conversion data, setup, defaults, participant records, and financial-risk items | 2 |
-| [[roles/tc]] | Transition Consultant - administrative setup, case notes, P3/notice audits, DDOL/VRU/PSD readiness, go-live controls, and closeout handoff | 3 |
-| [[roles/doc-ops]] | Document Operations - P3 setup, special plan class additions, and PEP document workflow support; needs direct Doc Ops source | 2 |
+| [[data-loading/balance-import-cash|Balance Import — Cash Conversion]] | The simplest balance import method. Used when the prior record keeper sends a single cash wire rather than a fund-mapped wire or in-kind sha | 2026-07-08 |
+| [[data-loading/balance-import-mapping|Balance Import — Mapping]] | Balance import method where prior-record-keeper funds map directly to corresponding TA funds. The wire is received and balances are applied  | 2026-07-08 |
+| [[data-loading/balance-import-tik|Balance Import — Transfer In-Kind]] | Balance import method used when the prior record keeper transfers shares directly rather than liquidating and sending cash. Requires re-regi | 2026-07-08 |
+| [[data-loading/balance-import|Balance Import]] | The process of loading prior-record-keeper balances into P3 after a conversion wire or share transfer. Three distinct methods exist dependin | 2026-07-08 |
+| [[data-loading/base-file|Base File]] | The census template provided to the client that seeds the TransAmerica system with participant data. This is the foundation of all participa | 2026-04-14 |
+| [[data-loading/census-data|Census Data]] | Information gathering and loading of all active and terminated participants (within the last two years) into the system at the start of a pl | 2026-05-03 |
+| [[data-loading/defaulting-elections-eds|Defaulting Elections via EDS]] | The technique for setting a participant's investment elections to the plan default, loaded through EDS as part of (or just after) the census | 2026-05-03 |
+| [[data-loading/deferrals|Deferral Processing]] | The process of loading participant contribution elections into P3 during the final files phase. More complex and exception-heavy than eligib | 2026-05-03 |
+| [[data-loading/eds-load-beneficiary-requirements|EDS Load Beneficiary Requirements]] | Requirements and data elements for loading participant beneficiary designation data through EDS. | 2026-06-25 |
+| [[data-loading/eligibility-and-deferrals|Eligibility and Deferrals]] | Overview of the relationship between deferral processing and eligibility processing during the final files phase. These are separate process | 2026-04-14 |
+| [[data-loading/eligibility-loading|Eligibility Loading Through EDS]] | How eligibility data for plan participants is loaded into p3 using eds — replacing the legacy AQT path into `Part_Elig_src`. | 2026-06-25 |
+| [[data-loading/eligibility|Eligibility Processing]] | The process of enabling plan eligibility rules in P3 so the system begins applying them to participants. Always runs after deferrals — eligi | 2026-07-08 |
+| [[data-loading/final-files-processing|Final Files Processing]] | How the DC processes authoritative as-of-liquidation files from the prior record keeper to populate p3 with real participant data. | 2026-05-03 |
+| [[data-loading/forfeiture-loading|Forfeiture Loading]] | When a balance file from the prior record keeper includes forfeiture entries, the DC loads them as participant-shaped records using a stand- | 2026-05-03 |
+| [[data-loading/hours-procedure|Hours Procedure]] | The procedure for loading or tracking participant hours data — used in eligibility processing to determine whether participants meet service | 2026-06-25 |
+| [[data-loading/informatica-allocation-module|Informatica Allocation Module]] | Maps prior fund allocations to TA funds for participant investment elections during conversion. | 2026-07-08 |
+| [[data-loading/informatica-balance-module|Informatica Balance Module]] | Posts individual participant balances from final files into the plan in P3. | 2026-07-08 |
+| [[data-loading/informatica-loan-module|Informatica Loan Module]] | The Informatica module that loads participant loan header records and source-balance allocations from a prior record keeper into P3. | 2026-07-08 |
+| [[data-loading/limited-access-file|Limited Access File]] | A census variant the client provides during an open period right before the plan goes into blackout. Lets participants update their allocati | 2026-05-03 |
+| [[data-loading/loading-basis-eds|Loading Basis through EDS]] | Procedure for loading cost basis data for plan participants through EDS during a plan conversion. | 2026-04-20 |
+| [[data-loading/loading-ytd-contributions-eds|Loading YTD Contributions through EDS]] | Procedure for loading year-to-date contribution data through EDS during plan conversion. | 2026-06-25 |
+| [[data-loading/loan-setup|Loan Setup & Processing]] | How a plan's outstanding participant loans move from a prior record keeper into P3 — a 14-step workflow across two systems (P3 + Informatica | 2026-07-08 |
+| [[data-loading/ltpt-eligibility|LTPT Eligibility (Long-Term Part-Time)]] | A Secure Act 2.0 eligibility requirement that entitles long-term part-time employees to make elective deferrals, even if they have not met t | 2026-04-15 |
 
----
-
-## Departments
-*No department pages yet — to be built as brain dumps come in from other roles.*
-
----
-
-## Processes
-| Page | Summary | Sources |
+## Payroll
+| Page | Summary | Updated |
 |------|---------|---------|
-| [[processes/plan-conversion-handoffs]] | How work moves between all teams during a plan conversion - now includes TC source mapping and administrative readiness gates | 5 |
-| [[processes/tc-conversion-timeline]] | TC operating timeline from project initiation through notices, audits, access activation, go-live, and closeout | 2 |
-| [[processes/source-mapping-tc]] | TC-supported source mapping process: DC identifies balances; TC completes source attributes and administrative details | 1 |
-| [[processes/plan-sponsor-website-user-setup]] | Plan Sponsor Website user setup and access verification process, including permissions and divisional access risks | 1 |
-| [[processes/day-of-wire-audit]] | Day-of-wire validation checklist for wire/ref confirmation, Informatica evidence, P3 posting controls, and balance backup | 2 |
-| [[processes/tik-transfer]] | TIK (re-registration): moving fund shares directly from prior custodian to Fidelity pooled accounts; DC + Matt O'Connell coordination | 2 |
-| [[processes/final-files-processing]] | Post-liquidation file loading sequence: balance → deferrals → eligibility → YTD; three P3 modes by conversion type | 3 |
-| [[processes/eligibility-loading]] | EDS eligibility subprocess: layout, data elements, processing types, CIT Eligibility job | 1 |
-| [[processes/reversal-submission]] | Post-03/06/26 reversal flow: Reversal Form → automated email → AWD ticket; approval tiers; retires Plan Correction Checklist | 1 |
+| [[payroll/bonus-election-setup|Bonus Election Setup]] | Plan setup pattern for allowing participants to make separate regular and bonus deferral elections. | 2026-05-13 |
+| [[payroll/ftp-connection|FTP Connection]] | The automated file transfer channel used by payroll vendors to upload payroll files to TransAmerica's systems. | 2026-07-08 |
+| [[payroll/payroll-file-automation|Payroll File Automation]] | Setup rules for automated payroll file submission through PSD or FTP. | 2026-07-08 |
+| [[payroll/payroll-handoff-at-go-live|Payroll Handoff at Go-Live]] | The formal procedure for transferring an incomplete payroll testing project to the Fiduciary Services team at go-live. Effective February 26 | 2026-07-08 |
+| [[payroll/payroll-template|Payroll Template]] | The file format specification provided to clients and payroll vendors for ongoing payroll contribution uploads after conversion. | 2026-07-08 |
+| [[payroll/payroll-vendor-onboarding|Payroll Vendor Onboarding]] | The full vendor-side payroll work that happens before FTP automation is live and before the go-live handoff. Covers the moment the prior pay | 2026-07-08 |
+| [[payroll/wx|WX — Plan Sponsor Site]] | Transamerica's web-based portal for plan sponsors. WX (also called "WX V2" when referencing payroll integration) is set up by tc and verifie | 2026-07-08 |
 
----
+## Conversion Operations
+| Page | Summary | Updated |
+|------|---------|---------|
+| [[conversion-ops/advanced-employer|Advanced Employer Account]] | A temporary holding account in P3 used during cash conversions to park the incoming wire until participant-level balance posting can occur. | 2026-07-08 |
+| [[conversion-ops/audit-pack|Audit Pack]] | A structured summary document the DC builds after every plan conversion. Reviewed by QA and stored in client folders for the audit team. | 2026-04-14 |
+| [[conversion-ops/booking-assets|Booking Assets]] | The process of posting wire receipts and balance disbursements to plan accounts in P3. As of August 13, 2025, two distinct booking types app | 2026-04-15 |
+| [[conversion-ops/conv-file|CONV File]] | The input file for the Informatica Day of Wire workflow. Built in advance as a skeleton; fund totals and transfer reference numbers are fill | 2026-04-14 |
+| [[conversion-ops/conversion-types|Conversion Types]] | The three ways a plan's assets can be moved from a prior record keeper to TransAmerica. Conversion type is determined early in discovery and | 2026-04-14 |
+| [[conversion-ops/dummy-participant|Dummy Participant]] | A placeholder participant (SSN 999-00-0000) required in the census before running the Day of Wire Informatica workflow for mapping conversio | 2026-07-08 |
+| [[conversion-ops/fund-management-calendar|Fund Management Calendar]] | A daily trade log that must be updated — and a distribution email sent — before the 4:00 PM EST SSBT (State Street Bank & Trust) cut-off on  | 2026-07-08 |
+| [[conversion-ops/fund-mapping|Fund Mapping]] | The process of establishing which prior record keeper fund maps to which TransAmerica fund. Required for mapping and TIK conversions. | 2026-05-03 |
+| [[conversion-ops/liquidation-day|Liquidation Day]] | The day the prior record keeper liquidates (or transfers) plan assets and sends them to TransAmerica. The highest-stakes day in the conversi | 2026-05-03 |
+| [[conversion-ops/source-mapping|Source Mapping]] | The process of mapping prior record keeper contribution source codes to TransAmerica source IDs. Required for all conversions that carry ove | 2026-05-03 |
+| [[conversion-ops/subsequent-cash-imports|Subsequent Cash Imports]] | The family of small DC-triggered cash applications that land in participant accounts after the main conversion balances post. All of these f | 2026-05-03 |
+| [[conversion-ops/tik-transfer|Transfer In Kind (TIK) Process]] | How specific investment funds move as shares — not cash — from the prior record keeper to Transamerica's Fidelity pooled accounts during a p | 2026-07-08 |
+| [[conversion-ops/toa|TOA — Transfer of Assets]] | Client-signed legal document that authorizes the asset transfer and serves as the fund mapping source. No action on the transfer begins unti | 2026-04-14 |
+| [[conversion-ops/wire-instructions|Wire Instructions]] | Banking instructions sent to the prior record keeper telling them where to send the liquidated assets on liquidation day. | 2026-04-14 |
 
-## Onboarding Guides
-| Page | For Role | Date |
-|------|---------|------|
-| [[onboarding/lm-dc]] | Large Market Data Consultant | 2026-04-14 |
-| [[onboarding/com]] | Communications Coordinator | 2026-04-14 |
+## Department Coordination
+| Page | Summary | Updated |
+|------|---------|---------|
+| [[coordination/cashiering|Cashiering]] | Receives, books, and confirms incoming wires from prior record keepers on liquidation day — their confirmation is your green light for Day o | 2026-07-08 |
+| [[coordination/com|Communications Coordinator (COM)]] | The project manager for every plan conversion and the DC's route to the client — anything that needs to reach the client, or come from the c | 2026-07-08 |
+| [[coordination/doc-ops|Document Operations (Doc Ops)]] | Sets up plan details in p3 and adds new special plan classes — the one setup change a DC cannot make directly. | 2026-07-08 |
+| [[coordination/ftp-team|FTP Team]] | Sets up and manages the FTP connections that let payroll vendors upload files to Transamerica's systems. Setup takes 1–2 weeks — engage as e | 2026-07-08 |
+| [[coordination/payroll-support|Payroll Support (OnePayroll Team)]] | Runs production-level payroll file simulations — the final validation gate before a payroll setup goes live. | 2026-07-08 |
+| [[coordination/plan-conversion-handoffs|Plan Conversion Handoffs]] | The handoffs where the DC is on one end during a plan conversion — what moves, between whom, and when. | 2026-07-08 |
+| [[coordination/prod-support|Prod Support]] | Makes direct database table corrections that DCs cannot perform themselves. Engaged via AWD ticket. | 2026-07-08 |
+| [[coordination/qa|Quality Assurance (QA)]] | Audits conversion data, setup, defaults, and participant records so the plan can go live without silent setup errors. | 2026-07-08 |
+| [[coordination/tc|Transition Consultant (TC)]] | Owns the administrative setup of the plan during conversion — the person who makes sure the plan can actually operate before participants an | 2026-07-08 |
 
----
+## Troubleshooting
+| Page | Summary | Updated |
+|------|---------|---------|
+| [[troubleshooting/common-remitter-plans|Common Remitter Plans]] | Plans coded as "common remitter" in P3 use a different Day of Wire processing flow than standard plans — the standard Pre-Process option is  | 2026-04-15 |
+| [[troubleshooting/informatica-troubleshooting-guide|Informatica Troubleshooting Guide]] | Common Informatica errors, their causes, and how to resolve them. | 2026-07-08 |
+| [[troubleshooting/loan-failures|Loan Load Failures]] | Three loan-load failures that come up in practice where the loan file looks structurally fine but the numbers don't reconcile. These are bus | 2026-07-08 |
+| [[troubleshooting/reversal-submission|Reversal Process]] | How to reverse an erroneous transaction in p3. Both a Reversal Form submission and a Reversal AWD ticket are required — in that order. | 2026-06-25 |
+
+## Checklists
+| Page | Summary | Updated |
+|------|---------|---------|
+| [[checklists/day-of-wire-audit|Day of Wire Audit]] | Validation pass for the high-risk checks the DC performs around day-of-wire processing. | 2026-06-25 |
+| [[checklists/go-live-checklist|Go Live Checklist]] | TC/QC control checklist for turning on limited access or full access during conversion. | 2026-05-13 |
+
+## Reference
+| Page | Summary | Updated |
+|------|---------|---------|
+| [[reference/alteryx|Alteryx]] | Data blending and workflow tool associated with the Large Market data toolchain. | 2026-06-25 |
+| [[reference/aqt|AQT]] | Standalone SQL query application used by DCs throughout the conversion lifecycle. Read-only — cannot modify data. | 2026-05-03 |
+| [[reference/case-notes-template|Case Notes Template]] | Structured plan-level notes used to preserve conversion and administration rules for downstream teams. | 2026-05-13 |
+| [[reference/creative-planning-managed-accounts|Creative Planning Managed Accounts]] | Plan setup and participant-service pattern for Financial Guide / Creative Planning Managed Accounts. | 2026-05-13 |
+| [[reference/divisions-and-affiliates|Divisions and Affiliates]] | Plan setup pattern for division tracking, divisional reporting, and multi-affiliate plan administration. | 2026-05-13 |
+| [[reference/eds|EDS]] | File validation and processing system used to test and run data file uploads (payroll, balance, census, etc.) before and during conversions. | 2026-04-14 |
+| [[reference/file-naming|File Naming Conventions]] | The naming and identifier conventions used across DC file exchanges — payroll files, Financial Guide uploads, and the stand-out conventions  | 2026-07-08 |
+| [[reference/informatica|Informatica]] | ETL/workflow processing tool used to run the four main conversion workflows: Day of Wire, Participant Balance (CIT Balance), Loan Module, an | 2026-07-08 |
+| [[reference/navigation-paths|System Navigation Paths]] | Verbatim click-paths for the P2 and P3 tasks DCs do most often, plus known shared-drive locations. | 2026-07-08 |
+| [[reference/p2|P2]] | A back-end system region used primarily for creating and modifying transfer reference numbers. Separate from p3 but connected — changes in P | 2026-05-03 |
+| [[reference/p3|P3]] | The main plan administration system. Central hub for plan configuration, participant data, processing, and queries. | 2026-04-14 |
+| [[reference/plan-classes|Plan Classes]] | Groupings within a plan (e.g., employee categories) that determine contribution rules, eligibility, and other plan parameters. Defined in P3 | 2026-04-14 |
+| [[reference/query-library|SQL Query Library]] | Every SQL query and named .sql file the DC sources mention, with verbatim SQL where a source actually contains it. | 2026-07-08 |
+| [[reference/wire-routing|Wire Routing & Cutoff Times]] | Where incoming conversion wires land at State Street, when Cashiering pulls them, and the daily cutoffs that decide whether money books toda | 2026-07-08 |
+
+## Vendors
+| Page | Summary | Updated |
+|------|---------|---------|
+| [[vendors/adp|ADP]] | Large payroll vendor where terminology and platform routing matter — keep ADP pointed at large-market/MR Report work, not Mid-Market, Paysta | 2026-07-08 |
+| [[vendors/creative-planning|Creative Planning]] | Creative Planning is a TPA relationship — first determine whether payroll actually runs through Creative Planning or through the underlying  | 2026-07-08 |
+| [[vendors/datamoov|Datamoov]] | Datamoov large-market work is different from Paystart mid-market — be specific about market, template, naming, and SFTP route. | 2026-07-08 |
+| [[vendors/dayforce|Dayforce / Ceridian]] | Dayforce/Ceridian has enough helper-table and mapping nuance that it should be treated as a custom-path vendor until proven otherwise. | 2026-07-08 |
+| [[vendors/docusign|DocuSign]] | An electronic signature platform used by the com to send plan documents and onboarding agreements to clients for signature. | 2026-04-14 |
+| [[vendors/exponenthr|ExponentHR]] | ExponentHR currently does not support a full 360 inbound/outbound setup with Transamerica — treat it as inbound SFTP only. | 2026-07-08 |
+| [[vendors/kelly-benefits|Kelly Benefits]] | Kelly Benefits has multiple platforms — identify the platform first before assuming this is large-market payroll work. | 2026-07-08 |
+| [[vendors/paycom|Paycom]] | Paycom is a high-specificity vendor: no test-file rhythm, PGP outbound, and careful loan-number handling. | 2026-07-08 |
+| [[vendors/paycor|Paycor]] | Paycor is often really a PayKonnect route under the covers — name both pieces clearly. | 2026-07-08 |
+| [[vendors/paykonnect|PayKonnect]] | PayKonnect is the third-party payroll route behind some named payroll vendors. | 2026-07-08 |
+| [[vendors/paylocity|Paylocity]] | Paylocity has a relatively clear large-market path, but loan seeding and inbound readiness still matter. | 2026-07-08 |
+| [[vendors/payroll-integrations|Payroll Integrations]] | Payroll Integrations (PI) is a third-party payroll provider with a special relationship with Transamerica — do not work it the same way as A | 2026-07-08 |
+| [[vendors/prior-record-keeper|Prior Record Keeper]] | The outgoing retirement plan administrator from whom TransAmerica is taking over the plan. A critical external relationship that must be est | 2026-04-14 |
+| [[vendors/ukg|UKG]] | UKG splits sharply between inbound ULTIMATE routing and outbound Turnkey/non-Turnkey handling. | 2026-07-08 |
+| [[vendors/vendor-quick-reference|Vendor Quick Reference]] | Cross-vendor "Quick Hits" comparison for payroll outbound decisions: who takes the standard file, who needs custom 1116, loan-number handlin | 2026-07-08 |
+| [[vendors/workday|Workday]] | Workday may be the system of record while another implementation partner (such as KPMG) owns the actual integration work — confirm ownership | 2026-07-08 |
 
 ## Glossary
-| Page | Definition | Sources |
-|------|-----------|---------|
-| [[glossary/nsa]] | NSA — New Sale Announcement; triggers COM workflow | 1 |
-| [[glossary/csr]] | CSR — Conversion Summary Report; Quality Consultant deliverable at go-live | 1 |
-| [[glossary/vef]] | VEF — Vendor Expense Form; routed by COM through advisor, client, and L&C | 1 |
-| [[glossary/awd]] | AWD — Automatic Work Distribution; internal work-ticketing and routing system | 1 |
-| [[glossary/ltpt]] | LTPT — Long-Term Part-Time; Secure Act 2.0 eligibility category effective Jan 1, 2025 | 1 |
-| [[glossary/ssbt]] | SSBT — State Street Bank & Trust; external bank receiving plan wires; 4 PM EST cut-off | 1 |
-| [[glossary/filespecrq]] | FILESPECRQ — AWD ticket type; DC submits at go-live to hand off incomplete payroll to Fiduciary Services | 1 |
-| [[glossary/tm]] | TM — Transition Manager; legacy name for the COM role; all current references use COM | 1 |
-| [[glossary/faa]] | FAA — Fund Asset Allocation; DC data requirements for allocation processing | 1 |
-| [[glossary/pea]] | PEA — Plan Enrollment Agreement; PEP plan enrollment document routed by COM | 1 |
-| [[glossary/aaa]] | AAA — Adoption Agreement Addendum; PEP plan document addendum routed by COM | 1 |
-| [[glossary/holb]] | HOLB — Highest Outstanding Loan Balance; used for takeover loan hierarchy and repayment allocation | 1 |
-| [[glossary/kit-mail-date]] | Kit Mail Date — auto-enrollment welcome-kit date used to calculate escalation timing | 1 |
-
----
-
-## Entities — People
-| Page | Summary | Sources |
+| Page | Summary | Updated |
 |------|---------|---------|
-| [[entities/ellen-miller]] | Central routing contact — DC assignment, notice mailing, SF setup, go-live notification | 2 |
-| [[entities/matt-oconnell]] | Leads TIK re-registration; sets up Fidelity pooled accounts for share transfers | 2 |
-| [[entities/stacey-fortune]] | Cross-department manager; Large Market; AE liquidation and general knowledge resource | 2 |
-| [[entities/nick-lister]] | DC's direct manager; into AI; contact for AE liquidation and escalations | 1 |
-| [[entities/scott-vrba]] | Primary eligibility SME — go-to for complex eligibility rule questions | 1 |
-| [[entities/eric-leytem]] | FTP Team key contact — handles final account setup and confirmation | 1 |
-| [[entities/jen-curtin]] | Head of the FTP Team — authoritative go-to for internal payroll integration; COM notifies for 360° plans | 2 |
-| [[entities/earl-sanford]] | Lead Data Consultant — primary training resource for new DCs; 25+ year TA veteran | 1 |
-| [[entities/dave-shloat]] | Large Market data guru — Alteryx and Informatica authority; deep team resource | 1 |
-| [[entities/rich-lippoth]] | Go-to for incoming shares and regular trades; Vanguard FMC deadline approvals | 1 |
+| [[glossary/aaa|AAA]] | The AAA is a plan document addendum used in the PEP (Pooled Employer Plan) structure. It appears in the COM's TRS Plan Documents section for | 2026-04-16 |
+| [[glossary/awd|AWD]] | AWD is Transamerica's internal work-ticketing and routing system. Teams submit AWD tickets to request actions from other departments — data  | 2026-05-03 |
+| [[glossary/csr|CSR]] |  | 2026-04-14 |
+| [[glossary/faa|FAA]] | FAA refers to the fund asset allocation data requirements that the DC must satisfy during a conversion — the specific data fields and format | 2026-04-16 |
+| [[glossary/filespecrq|FILESPECRQ]] | FILESPECRQ is an awd ticket type used by the lm-dc to hand off incomplete payroll testing to Fiduciary Services at go-live. When payroll tes | 2026-04-15 |
+| [[glossary/holb|HOLB]] | HOLB is the highest outstanding balance a participant's loan has reached over its life. It's used to drive the hierarchy of loans when a par | 2026-05-03 |
+| [[glossary/kit-mail-date|Kit Mail Date]] | The date the auto-enrollment welcome kit was mailed to a participant. On plans that auto-escalate deferral rates over time, this date is wha | 2026-05-03 |
+| [[glossary/ltpt|LTPT]] | LTPT refers to the Long-Term Part-Time eligibility category established by the SECURE Act 2.0. Effective January 1, 2025, employees who work | 2026-04-15 |
+| [[glossary/nsa|NSA]] |  | 2026-04-14 |
+| [[glossary/pea|PEA]] | The PEA is the enrollment agreement document used in the PEP (Pooled Employer Plan) onboarding workflow. It appears in the COM's OBP (Onboar | 2026-04-16 |
+| [[glossary/ssbt|SSBT]] | SSBT is the external custodial bank through which incoming wires from prior record keepers are received during plan conversions. The fund-ma | 2026-04-15 |
+| [[glossary/tm|TM (Transition Manager)]] | TM (Transition Manager) was the former name for the role now called com (Communications Coordinator / Conversion Operations Manager). Older  | 2026-04-15 |
+| [[glossary/vef|VEF]] |  | 2026-04-14 |
 
-## Entities — Systems
-| Page | Summary | Sources |
+## Onboarding
+| Page | Summary | Updated |
 |------|---------|---------|
-| [[entities/nbi]] | Plan assignment tracking system; universal plan checklist; project plan repository | 2 |
-| [[entities/p3]] | Main plan administration system; used for setup, processing, and queries | 1 |
-| [[entities/p2]] | Back-end region for creating and modifying transfer reference numbers | 1 |
-| [[entities/eds]] | File validation and processing system; must set up layouts before test files | 1 |
-| [[entities/informatica]] | ETL tool running Day of Wire and Participant Balance workflows | 1 |
-| [[entities/alteryx]] | Data blending and workflow tool used by the Large Market data team; associated with Dave Shloat's data-toolchain expertise | 1 |
-| [[entities/aqt]] | Standalone SQL query app; read-only; used for source IDs and isolating queries | 2 |
-| [[entities/docusign]] | E-signature platform used by COM for OBP, plan documents, and agreements | 1 |
-| [[entities/wx]] | Plan Sponsor Site (WX V2 = payroll functionality); set up by TC, verified by COM | 1 |
+| [[onboarding/lm-dc|Onboarding Guide: Large Market Data Consultant]] | A reading list for anyone new to the LM DC role at Transamerica. Read these pages in order. Each one builds on the last. | 2026-07-08 |
 
-## Entities — Teams
-| Page | Summary | Sources |
+## Sources
+| Page | Summary | Updated |
 |------|---------|---------|
-| [[entities/prod-support]] | Makes direct DB table corrections via AWD tickets; engaged when data needs to be fixed | 1 |
-| [[entities/cashiering]] | Receives and books incoming wires; provides transfer reference number on liquidation day | 1 |
-| [[entities/ftp-team]] | Sets up FTP accounts for payroll vendor file uploads; led by Jen Curtin; key contact Eric Leytem | 2 |
-| [[entities/payroll-support]] | OnePayroll Team; production-level payroll test validation; final gate before go-live | 1 |
+| [[sources/balances-census-loans-brain-dump|Source: Balances, Census, Loans Brain Dump]] | LM-DC voice-memo brain dump captured as a single text file in `new TA Brain/Balances, Census, Loans.txt`. Intended by the author as the "all | 2026-05-03 |
+| [[sources/census-data-doc|Source: Census Data Documentation]] | Structured documentation file covering census data loading procedures, audit checks, and error handling for plan conversions. | 2026-04-20 |
+| [[sources/com-main-checklist|Source: COM Main Checklist]] | A structured web-based checklist application used by Communications Coordinators (COMs) to track every task across a plan conversion lifecyc | 2026-04-14 |
+| [[sources/dc-brain-dump-001|DC Brain Dump 001 — Full Job Workflow]] | Voice transcript brain dump covering the complete end-to-end workflow of a Data Consultant (DC) at TransAmerica, from new plan assignment th | 2026-04-14 |
+| [[sources/dc-brain-dump-002|DC Brain Dump #002 — Payroll, Order of Processing, Loan Quirks, Auto-Enroll]] | Voice transcript follow-up to dc-brain-dump-001. Filling gaps and adding context. Original audio recorded by Joel; transcript saved at `new  | 2026-05-03 |
+| [[sources/extra-questions-001|Extra Questions — Round 4 Answers]] | Answers to all outstanding open questions across the wiki. Provided by DC (Marcus) via written Q&A. Covers 20+ pages. | 2026-04-14 |
+| [[sources/lmdc-training-notebook|LMDC Training Notebook]] | The official DC Team training OneNote notebook, exported as a web archive (.mht). A living document spanning 2015–2026 with the full DC work | 2026-04-15 |
+| [[sources/loading-basis-doc|Source: Loading Basis through EDS Documentation]] | Structured documentation file covering basis data loading procedures, field definitions, tables, and special rules for plan conversions. | 2026-04-20 |
+| [[sources/subpack-cccs|Source: New Plan Submission Package — CCCS Document]] | Raw template for the CCCS (Client Conversion Configuration Sheet) submission package — the internal TA document completed once per plan at t | 2026-04-16 |
+| [[sources/tc-details-from-dan|TC Details from Dan]] | Role summary for the Transition Consultant, focused on administrative support, operational continuity, recordkeeping setup audits, notice co | 2026-07-01 |
+| [[sources/tc-stuff|TC Stuff]] | Mixed legacy source bundle containing team charters, TC/QC role definitions, go-live controls, case note template language, plan setup proce | 2026-05-13 |
 
----
-
-## Concepts — Process
-| Page | Summary | Sources |
+## Admin
+| Page | Summary | Updated |
 |------|---------|---------|
-| [[concepts/dc-onboarding-workflow]] | Master end-to-end DC workflow checklist, Phase 1–7 | 1 |
-| [[concepts/conversion-types]] | Three asset transfer types: cash, mapping, transfer in kind | 1 |
-| [[concepts/liquidation-day]] | The high-stakes day money moves; sequenced by conversion type | 1 |
-| [[concepts/eligibility-and-deferrals]] | Hub page — sequence overview; links to full eligibility and deferrals pages | 3 |
-| [[concepts/eligibility]] | Eligibility processing — data sources, P3 rules, workflow, SME Scott Vrba | 3 |
-| [[concepts/deferrals]] | Deferral processing — auto-enrollment data, ADP limitation, escalation logic | 3 |
-| [[concepts/balance-import]] | Hub for cash, mapping, and TIK balance import methods after conversion wire/share movement | 1 |
-| [[concepts/balance-import-cash]] | Cash-conversion balance import path: wire-triggered CITS Balances workflow with test mode | 2 |
-| [[concepts/balance-import-mapping]] | Mapping balance import path: fund-mapped wire, Day of Wire workflow, Re-Reg = N | 2 |
-| [[concepts/balance-import-tik]] | TIK balance import path: share-triggered import, re-registration, Day of Wire workflow, Re-Reg = Y | 2 |
-| [[concepts/fund-mapping]] | Mapping prior funds to TA funds; done immediately after TOA signing | 1 |
-| [[concepts/source-mapping]] | Mapping prior source codes to TA source IDs via AQT; requires test files | 1 |
-| [[concepts/transfer-in-kind]] | Superseded pointer to [[processes/tik-transfer]] | 2 |
-| [[concepts/loan-setup]] | Loan Setup & Processing — 14-step workflow across P3 + Informatica; includes generated diagram for setup, validation, Informatica, takeover, HOLB, and audit verification | 4 |
-| [[concepts/prior-record-keeper]] | Outgoing administrator; questionnaire, test files, wire coordination | 1 |
-| [[concepts/wire-instructions]] | Banking instructions to prior RK; send early, resend 1 week before liquidation | 1 |
-| [[concepts/ftp-connection]] | Payroll vendor automated file upload channel; request setup early | 1 |
-| [[concepts/advanced-employer]] | Temporary holding account in P3 for cash conversion wires; released after final files | 2 |
-| [[concepts/conv-file]] | Input file for the Informatica Day of Wire workflow; one row per fund | 2 |
-| [[concepts/nsa]] | New Sale Announcement — trigger that starts the COM workflow | 1 |
-| [[concepts/early-access]] | Pre-go-live participant access window; COM-coordinated, TC-activated, DC-loaded | 1 |
-| [[concepts/team-charters]] | Legacy team charter hub for DC plans, start-up projects, external mergers, and internal mergers | 1 |
-| [[concepts/go-live-checklist]] | TC/QC limited-access and full-access control checklist for DDOL/VRU/PSD activation | 1 |
-| [[concepts/divisions-and-affiliates]] | Division, affiliate, PSD reporting, outbound file, participant experience, and common remitter risk reference | 1 |
-| [[concepts/bonus-election-setup]] | Setup pattern for separate regular and bonus deferral elections, source ordering, and OBF display-name limits | 1 |
-| [[concepts/defaulting-elections-eds]] | EDS method for defaulting participant investment elections during census/conversion loading | 1 |
-| [[concepts/forfeiture-loading]] | Forfeiture-balance loading pattern using stand-out participant-shaped records and date conventions | 1 |
-| [[concepts/payroll-vendor-onboarding]] | Full vendor-side payroll onboarding flow from file spec through upload demo and go-live handoff | 1 |
-| [[concepts/subsequent-cash-imports]] | Post-conversion cash application family for AE interest, dividends, stale checks, and other small follow-up amounts | 1 |
-
-## Concepts — Documents
-| Page | Summary | Sources |
-|------|---------|---------|
-| [[concepts/prd]] | Plan Review Document; DC focuses on eligibility, vesting, sources sections | 1 |
-| [[concepts/onboarding-package]] | All-in-one PRD+TOA alternative; used for PEP plans | 1 |
-| [[concepts/subpack]] | TA internal execution plan; COM creates, distributes; TC reviews and maintains | 3 |
-| [[concepts/toa]] | Transfer of Assets; client-signed fund map; column T = TIK indicator | 1 |
-| [[concepts/base-file]] | Census template given to client to seed the system with participant data | 1 |
-| [[concepts/payroll-template]] | Payroll file format shared with client and payroll vendor | 1 |
-| [[concepts/limited-access-file]] | Census/election file variant used during open periods before blackout, especially for cash conversions | 1 |
-| [[concepts/project-plan-com]] | COM's master conversion tracker; two formats (PEP vs non-PEP); uploaded to NBI | 1 |
-| [[concepts/prior-carrier-letter]] | Formal letter from COM notifying prior RK of plan transition | 1 |
-| [[concepts/blackout-notice]] | Required participant notice of investment blackout period; legally time-sensitive | 1 |
-| [[concepts/vef]] | Vendor Expense Form; routes through advisor → client → L&C setup | 1 |
-| [[concepts/contribution-monitoring-form]] | TFS plan payroll setup form; requires TC AWD flip after client completion | 1 |
-| [[concepts/rdd-form]] | TC-originated, client-completed, COM-routed payroll form | 1 |
-| [[concepts/csr]] | Conversion Summary Report; Quality Consultant provides at go-live; COM routes to client | 1 |
-| [[concepts/case-notes-template]] | Structured plan case note template for special alerts, CPMA, asset gathering, deferrals, loans, web portal, and withdrawals | 1 |
-
-## Concepts — System Details
-| Page | Summary | Sources |
-|------|---------|---------|
-| [[concepts/dummy-participant]] | SSN 999-00-0000; required before Day of Wire for mapping conversions | 1 |
-| [[concepts/plan-classes]] | P3 class types; DC can update traditional classes; Doc Ops adds special ones | 1 |
-| [[concepts/audit-pack]] | Post-conversion summary (ref numbers, amounts, prior vendor data); QA reviewed | 1 |
-| [[concepts/fund-management-calendar]] | Daily trade log; SSBT cut-off 4 PM EST; new Feb 2026 procedure requires email to 4 distribution addresses | 2 |
-| [[concepts/reversal-process]] | Superseded pointer to [[processes/reversal-submission]] | 1 |
-| [[concepts/ltpt-eligibility]] | LTPT — Long-Term Part-Time; 500 hrs × 2 years; EDS codes 5 and 6; effective Jan 1, 2025 | 1 |
-| [[concepts/common-remitter-plans]] | Plans coded as common remitter; use "Verify Batch After Funding" instead of Pre-Process in P3 | 1 |
-| [[concepts/payroll-handoff-at-go-live]] | When payroll testing is incomplete at go-live; DC submits FILESPECRQ; Fiduciary Services takes over | 1 |
-| [[concepts/booking-assets]] | Two booking types: 4=Remit (wire from State Street) vs. 3=Rebook (AEDA disbursement) | 1 |
-| [[concepts/payroll-file-automation]] | Payroll file automation setup across P3 remittance settings, EDS PSD Availability, PSD permissions, FTP mapping, and INFRA routing | 1 |
-| [[concepts/creative-planning-managed-accounts]] | CPMA / Financial Guide setup reference for Salesforce, service-exclusive funds, fees, defaults, DDOL/VRU, and OnTrack conflict | 1 |
-
-## Concepts — EDS Loading Procedures
-| Page | Summary | Sources |
-|------|---------|---------|
-| [[concepts/loading-eligibility-eds]] | Superseded pointer to [[processes/eligibility-loading]] | 1 |
-| [[concepts/loading-basis-eds]] | Procedure for loading basis data through EDS — EE basis fields, tables, Roth rules, transaction adjustments | 1 |
-| [[concepts/loading-ytd-contributions-eds]] | YTD contribution loading through EDS; derived from EDS/final-files context, dedicated procedure source still pending | 1 |
-| [[concepts/eds-load-beneficiary-requirements]] | Beneficiary loading requirements through EDS; derived from EDS layout/output rules, dedicated beneficiary source still pending | 1 |
-
-## Concepts — Informatica Modules
-| Page | Summary | Sources |
-|------|---------|---------|
-| [[concepts/informatica-training-manual]] | Informatica training-manual placeholder derived from the Informatica hub; direct manual source still pending | 1 |
-| [[concepts/informatica-allocation-module]] | Allocation Module notes from Informatica hub and training source; dedicated module procedure still pending | 1 |
-| [[concepts/informatica-balance-module]] | Balance Module notes from Informatica hub and training source; dedicated module procedure still pending | 1 |
-| [[concepts/informatica-loan-module]] | Informatica Loan Module: targets `CONV_LOAN` / `CONV_LOAN_PRIN`, NPER rounding, parameter file requirements, common error causes | 1 |
-| [[concepts/informatica-troubleshooting-guide]] | Common Informatica errors from hub documentation; dedicated troubleshooting source still pending | 1 |
-
-## Concepts — Plan Setup & Data
-| Page | Summary | Sources |
-|------|---------|---------|
-| [[concepts/cccs-submission-package]] | CCCS (Client Conversion Configuration Sheet) — master plan configuration intake form completed once per plan | 1 |
-| [[concepts/census-data]] | Census Data — participant data loading: fields, EDS process, audit checks, vendor data rules | 1 |
-| [[concepts/hours-procedure]] | Hours tracking for eligibility and LTPT; derived from LMDC training and LTPT references, procedure detail still needs review | 1 |
-
----
-
-## Analyses
-*No analysis pages yet.*
+| [[overview]] | High-level synthesis of the DC operations wiki. | 2026-07-08 |
+| [[log]] | Append-only activity log. | 2026-07-08 |

@@ -3,7 +3,7 @@ title: "Eligibility Processing"
 type: data-loading
 tags: [eligibility, p3, processing, auto-enrollment, final-files, ltpt]
 created: 2026-04-14
-updated: 2026-04-15
+updated: 2026-07-08
 sources: 4
 status: current
 ---
@@ -99,9 +99,16 @@ As of **January 1, 2025**, a new federal eligibility category applies to all 401
 
 See [[ltpt-eligibility]] for the full concept reference.
 
-## SME
+## Escalating Complex Eligibility Questions
 
-**[[scott-vrba]]** is the primary eligibility resource. Go to him for complex eligibility questions, unusual rule configurations, or anything outside standard class/service patterns.
+First check the [[prd]] and [[onboarding-package]] — most eligibility setup questions are answered there. When they aren't, escalate to the eligibility SME (currently Scott Vrba), the primary internal resource for eligibility rules and P3 eligibility configuration.
+
+Escalate when:
+- Complex class-based eligibility rules don't fit standard patterns
+- Service requirement configurations are unusual
+- Eligibility date / entry date logic isn't straightforward
+- An eligibility setup question isn't answered by the [[prd]] or [[onboarding-package]]
+- Processing produces unusual eligibility outcomes that need verification
 
 ## Characteristics
 
@@ -117,5 +124,4 @@ See [[ltpt-eligibility]] for the full concept reference.
 - [[final-files-processing]] — broader final files context
 - [[plan-classes]] — class-based eligibility rules
 - [[p3]] — system where eligibility is enabled
-- [[scott-vrba]] — eligibility SME
 - [[dc-onboarding-workflow]]

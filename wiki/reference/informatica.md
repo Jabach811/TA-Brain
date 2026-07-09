@@ -3,7 +3,7 @@ title: "Informatica"
 type: reference
 tags: [system, etl, workflows, processing]
 created: 2026-04-14
-updated: 2026-04-15
+updated: 2026-07-08
 sources: 3
 status: current
 ---
@@ -15,6 +15,32 @@ ETL/workflow processing tool used to run the four main conversion workflows: Day
 ## Overview
 
 Informatica handles the heavy-lifting data processing workflows during a conversion. DCs import a CONV file or census-derived file into Informatica and trigger the appropriate workflow. It is distinct from [[eds]] (which handles layout validation) — Informatica runs the actual conversion processing logic.
+
+## Finding and Running Your Workflow
+
+From the Informatica quick-start guide:
+
+1. **Log in early.** The login/connection can be flaky for no reason. Make logging in part of the morning routine so any connection fight happens with no pressure — any day you might need Informatica, it should already be open.
+2. **Navigate:** Production area → **DC Implementation** folder → **Workflows** folder → find the workflow with **your name** → drag it into the workflow designer.
+3. **Run:** right-click inside the body of the workflow designer → **Start Workflow**. Then jump to the Monitor window (launch it *before* starting) — scroll all the way down, the DC folder is at the very bottom of the list — and find your name and activity. If it fails, double-click into the error.
+
+**Why everyone has their own workflow:** the workflows are identical except one parameter pointing at a personal parameter file in the parameter files folder. Selecting your name selects your parameter file. This keeps people from crossing wires — a shared central parameter file would mean one person forgetting to update it breaks everyone.
+
+## Parameter File Discipline
+
+Parameter file mistakes fail silently — the workflow runs, looks fine, and produces wrong results with no error output. Five safeguards, every run (from the balance import guide):
+
+1. **Build parameter files in advance** — one prepared file per workflow type (Mapping · Balances · TIK · Loans). Activate the right one when the run starts; no scrambling on the day.
+2. **Prepare folders and paths in advance.** Use case/affiliate-specific input file names — if the wrong folder is selected, a unique file name makes the workflow fail to find the file instead of finding the wrong plan's file.
+3. **Keep the active parameter file open during the run.** Visually confirm the file name, source folder, input file names, test flag, and workflow type before starting. Don't rely on memory.
+4. **Check the test flag every single time.** Running live with test = Y, or test with test = N, produces results that look correct but aren't.
+5. **Archive after the run** — move the used file into the plan folder; keep the working folder clean.
+
+Practical tips (from the Informatica quick-start guide):
+
+- Case number and affiliate need **proper spacing** — wrong spacing can produce no error at all, just nothing happening.
+- The **order of lines in the parameter file doesn't matter** — put the parts you check most (file and folder names) at the very top so you see them the moment you open it.
+- Before any run, eyeball the input file itself: know what it's supposed to look like and confirm it matches.
 
 ## Key Workflows
 
@@ -147,6 +173,11 @@ The CONV file is the input for the Day of Wire workflow. One row per fund. Save 
 | Ref Number | Transfer reference number (created in P2) |
 | Amount | Total dollar amount for this fund |
 | ReReg | Y or N (Y = transfer in kind; N = mapping/cash) |
+
+> [!contradiction] CONV field count
+> This page lists 6 CONV fields (Case Number, Prior Fund Code, TA Fund Code, Ref Number, Amount, ReReg). The balance import guide lists **7**, adding **"Source I — unique internal source ID used by the workflow to route the line correctly"** between Ref Number and ReReg. Verify against a current CONV template before building.
+
+The guide also adds two CONV rules: one ref number per fund — do not reuse one ref across multiple funds unless the approved setup explicitly says to; and keep the file **tab-delimited text** — do not save as CSV and expect the workflow to read it the same way. By type: Mapping (Re-Reg = N) creates 1006 activity + trades, loading mapped assets to the dummy participant; TIK (Re-Reg = Y) creates 1119 activity with no trades, setting up the book record/placeholder for the securities. (from the balance import guide)
 
 **CONV vs. CIT Balance File:**
 - CONV file = **fund-specific** (one row per fund) — used for Day of Wire

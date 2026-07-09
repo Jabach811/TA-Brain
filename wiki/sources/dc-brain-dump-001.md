@@ -51,8 +51,8 @@ A DC handles all data-related work for onboarding new retirement plans. The work
 
 ## Entities Mentioned
 
-- [[ellen-miller]] — manages plan assignment from NBI side
-- [[matt-oconnell]] — leads TIK/re-registration Fidelity account setup
+- Ellen Miller — manages plan assignment from NBI side
+- Matt O'Connell — leads TIK/re-registration Fidelity account setup
 - [[p3]] — main plan administration system
 - [[eds]] — file validation and processing system
 - [[informatica]] — ETL workflow tool

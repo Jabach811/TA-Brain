@@ -42,22 +42,30 @@ TA Brain/                          ← repo root
 │   ├── index.md                   ← master catalog
 │   ├── log.md                     ← append-only activity log
 │   ├── overview.md                ← high-level synthesis
-│   ├── roles/ departments/ processes/ onboarding/
-│   ├── glossary/ entities/ concepts/ sources/ analyses/
+│   ├── lifecycle/ data-loading/ payroll/ conversion-ops/
+│   ├── coordination/ troubleshooting/ checklists/
+│   ├── reference/ vendors/ glossary/ onboarding/ sources/
 └── current/                       ← rendered output (governed by Write Protocol below)
     ├── TA Wiki.html               ← canonical rendered file
     ├── assets/
     └── archive/                   ← timestamped pre-edit snapshots
 ```
 
-**Folder guide for `wiki/`:**
-- `roles/` — what a job *is*
-- `departments/` — what a team *is*
-- `processes/` — how work *moves* across teams
-- `onboarding/` — what a new hire should *read first*
-- `glossary/` — what words *mean*
-- `entities/` — named people and tools
-- `concepts/` — process steps and document types
+**Folder guide for `wiki/`** (DC-only operations wiki — every page answers "what does a DC need to do this task correctly"):
+- `lifecycle/` — the conversion project spine: assignment, kickoff docs, workflow (`type: lifecycle`)
+- `data-loading/` — one page per load: census, eligibility, balances, loans, basis, YTD (`type: data-loading`)
+- `payroll/` — vendor onboarding, FTP, file specs, testing, go-live handoff (`type: payroll`)
+- `conversion-ops/` — mapping, wires, liquidation day, TIK, asset movement (`type: conversion-ops`)
+- `coordination/` — DC-facing interface pages for other teams: handoffs, escalation, nothing more (`type: coordination`)
+- `troubleshooting/` — symptom-indexed fixes and recovery procedures (`type: troubleshooting`)
+- `checklists/` — control checklists for high-stakes moments (`type: checklist`)
+- `reference/` — systems, SQL queries, navigation paths, wire routing, naming rules (`type: reference`)
+- `vendors/` — prior recordkeepers and external platforms (`type: vendor`)
+- `glossary/` — what acronyms *mean* (`type: glossary`)
+- `onboarding/` — what a new DC should *read first* (`type: onboarding`)
+- `sources/` — locked source summaries (`type: source`)
+
+Non-DC content (other roles' charters, people pages, COM/TC-owned processes) does not belong in `wiki/` — it goes to `_archive/`. The frontmatter `type:` must match the folder; the renderer builds navigation from `type`.
 
 ---
 
@@ -93,7 +101,7 @@ Every wiki page (except `index.md` and `log.md`) uses this frontmatter:
 ```markdown
 ---
 title: "Page Title"
-type: role | department | process | onboarding | glossary | entity | concept | source | analysis
+type: lifecycle | data-loading | payroll | conversion-ops | coordination | troubleshooting | checklist | reference | vendor | glossary | onboarding | source | analysis
 tags: [tag1, tag2]
 created: YYYY-MM-DD
 updated: YYYY-MM-DD

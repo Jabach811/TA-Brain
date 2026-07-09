@@ -21,8 +21,8 @@ All current references use **COM**. TM is retained here only to aid interpretati
 ## Used By
 
 - Historical: DC training materials pre-dating the rename
-- Current equivalent: [[roles/com]]
+- Current equivalent: COM
 
 ## See Also
 
-- [[roles/com]] — current role page (replaces all TM references)
+- COM — current role page (replaces all TM references)

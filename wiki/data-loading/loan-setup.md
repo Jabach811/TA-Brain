@@ -3,7 +3,7 @@ title: "Loan Setup & Processing"
 type: data-loading
 tags: [loans, p3, informatica, conversion, takeover-loans, holb]
 created: 2026-04-18
-updated: 2026-05-05
+updated: 2026-07-08
 sources: 4
 status: current
 ---
@@ -168,11 +168,12 @@ The traps above are mostly procedural. Loans also break for **business-state rea
 - **Recent refinance that didn't fully complete.** A participant refinanced shortly before the conversion cutoff and the prior RK's records didn't fully settle the old loan / activate the new one. The file shows partial state. Goes back to the vendor for a re-pull.
 - **Detail report ≠ source breakdown by ~one principal payment.** When the loan detail report disagrees with the source breakdown by an amount that suspiciously matches one principal payment, it usually means **one of the two reports dropped the last payment**. Easy to spot once you know to look — the variance is too clean a number to be anything else. Identify which report is stale and re-request it.
 
-These are the ones that take judgment, not just a checklist. When something doesn't add up, don't reach for the file — reach for the prior RK.
+These are the ones that take judgment, not just a checklist. When something doesn't add up, don't reach for the file — reach for the prior RK. Full symptom/resolution detail for each scenario: [[loan-failures]].
 
 ## See Also
 
 - [[informatica-loan-module]]
+- [[loan-failures]]
 - [[loan-setup]]
 - [[informatica]]
 - [[final-files-processing]]

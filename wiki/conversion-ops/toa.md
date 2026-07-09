@@ -40,7 +40,7 @@ The TOA is a spreadsheet/form containing one row per fund being transferred. Key
 ### Step 1: Check Column T (Re-registering)
 
 - **All N:** Everything will be liquidated and mapped. No TIK action needed.
-- **Any Y:** Fill out the re-registration form and send to [[matt-oconnell]]'s team. Do this with proper timing (~12 business days before liquidation).
+- **Any Y:** Fill out the re-registration form and send to Matt O'Connell's team. Do this with proper timing (~12 business days before liquidation).
 
 ### Step 2: Build Fund Mapping
 
@@ -75,7 +75,7 @@ For a pure cash conversion: the TOA will show no fund-level mapping — all asse
 
 - [[fund-mapping]]
 - [[processes/tik-transfer|transfer-in-kind]]
-- [[matt-oconnell]]
+- Matt O'Connell
 - [[conversion-types]]
 - [[onboarding-package]]
 - [[dc-onboarding-workflow]]

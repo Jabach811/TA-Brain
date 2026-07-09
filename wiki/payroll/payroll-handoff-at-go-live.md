@@ -3,7 +3,7 @@ title: "Payroll Handoff at Go-Live"
 type: payroll
 tags: [payroll, go-live, handoff, fiduciary-services, filespecrq, process]
 created: 2026-04-15
-updated: 2026-05-03
+updated: 2026-07-08
 sources: 2
 status: current
 ---
@@ -23,6 +23,8 @@ Plans go live regardless of whether payroll is ready. Payroll testing delays are
 ## When This Applies
 
 This procedure activates **only when payroll testing is still underway at go-live**. If testing is complete before go-live, no action is needed.
+
+**The LM DC initiates the handoff — not the COM, not the AM** (from the payroll/OBF knowledge-transfer guide). Payroll testing status comes up as a discussion topic during the go-live meetings; if it's still underway, the LM DC kicks off the steps below.
 
 ## Operating Model — DC Owns Bridge Work, Still Hands Off At Live
 

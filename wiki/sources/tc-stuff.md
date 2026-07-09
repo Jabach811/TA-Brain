@@ -42,20 +42,20 @@ The source is especially valuable because the existing wiki had TC and QA/QC mos
 - [[nbi]]
 - [[prod-support]]
 - [[ftp-team]]
-- [[jen-curtin]]
+- Jen Curtin
 
 ## Concepts Mentioned
 
-- [[team-charters]]
-- [[tc-conversion-timeline]]
+- Team Charters
+- TC Conversion Timeline
 - [[go-live-checklist]]
 - [[case-notes-template]]
 - [[divisions-and-affiliates]]
 - [[payroll-file-automation]]
 - [[bonus-election-setup]]
 - [[creative-planning-managed-accounts]]
-- [[source-mapping-tc]]
-- [[plan-sponsor-website-user-setup]]
+- Source Mapping TC
+- Plan Sponsor Website User Setup
 - [[source-mapping]]
 - [[subpack]]
 - [[payroll-template]]
@@ -67,12 +67,12 @@ The source is especially valuable because the existing wiki had TC and QA/QC mos
 - The document marks charter sections as outdated and needing QC.
 - Some sections depend on screenshots that were never included.
 - Some named teams or fields may have changed since the material was created.
-- The typo "Jen Curtain" appears in the source and likely refers to [[jen-curtin]].
+- The typo "Jen Curtain" appears in the source and likely refers to Jen Curtin.
 
 ## See Also
 
 - [[tc]]
 - [[qa]]
 - [[plan-conversion-handoffs]]
-- [[tc-conversion-timeline]]
+- TC Conversion Timeline
 - [[go-live-checklist]]

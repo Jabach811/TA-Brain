@@ -28,14 +28,14 @@ The complete end-to-end process a Data Consultant follows to onboard a new retir
 
 ## Phase 1 — Assignment & Discovery
 
-**Trigger:** [[ellen-miller]] notifies manager → manager assigns to DC → plan tagged in [[nbi]]
+**Trigger:** Ellen Miller notifies manager → manager assigns to DC → plan tagged in [[nbi]]
 
 ### Steps
 - [ ] Confirm plan is assigned in NBI
 - [ ] Check if [[p3]] is already set up (may be done early for mergers/some new plans)
 - [ ] Note plan type: **new plan**, **merger**, or **startup** (startup = no prior record keeper)
 - [ ] Note [[conversion-types|conversion type]]: cash, mapping, or transfer in kind
-- [ ] Attend internal kickoff meetings set up by [[roles/com|COM]]
+- [ ] Attend internal kickoff meetings set up by COM
 - [ ] Review [[prd]] (Plan Review Document) or [[onboarding-package]] — focus on: eligibility, vesting, sources, classes
 - [ ] Review [[subpack]] (Submission Package) if available — details what TA will do
 - [ ] Note any frozen sources, new sources, special strategies
@@ -90,7 +90,7 @@ See [[prior-record-keeper]]
 
 ### Steps
 - [ ] Review [[toa]] — note column T (re-registering Y/N) for each fund
-- [ ] If any fund has re-reg = Y → fill out re-registration form → send to [[matt-oconnell]] (time accordingly — ~10 business days before liquidation)
+- [ ] If any fund has re-reg = Y → fill out re-registration form → send to Matt O'Connell (time accordingly — ~10 business days before liquidation)
 - [ ] Build **[[fund-mapping]]** template from TOA data — no test files needed
 - [ ] Send fund mapping to COM, TC, QA for approval
 - [ ] Once test files arrive: run source summaries → identify sources with money

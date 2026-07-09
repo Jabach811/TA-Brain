@@ -53,7 +53,7 @@ Voice transcript follow-up to [[dc-brain-dump-001]]. Filling gaps and adding con
 
 ## Entities Mentioned
 
-- [[jen-curtin]] — head of FTP team; vendor connection setup goes through her team
+- Jen Curtin — head of FTP team; vendor connection setup goes through her team
 - [[ftp-team]]
 - [[payroll-support]] — OnePayroll team; production-level deeper validation
 - ADP — re-mention of auto-enrollment date reporting limitation

@@ -3,7 +3,7 @@ title: "WX — Plan Sponsor Site"
 type: payroll
 tags: [system, tool, com, tc, plan-sponsor, participant]
 created: 2026-04-14
-updated: 2026-04-14
+updated: 2026-07-08
 sources: 1
 status: current
 ---
@@ -29,6 +29,10 @@ WX is the plan sponsor-facing web platform that allows plan administrators to ma
 2. COM checks whether the plan is set up on WX
 3. If not set up, COM emails TC to request WX access setup
 4. TC sets up WX; plan sponsor can then access the portal
+
+## Outbound Files Posted to WX
+
+The large-market **standard outbound setup posts both Excel and text files to WX** — separate deferral and loan files — at the frequency confirmed during installation (from the payroll/OBF knowledge-transfer guide). When a vendor has no outbound SFTP with Transamerica (e.g., ExponentHR is inbound-only today), the client downloads the outbound files from WX and makes the updates in the payroll system themselves. See [[payroll-file-automation]] for the full outbound-file rules.
 
 ## Open Questions
 

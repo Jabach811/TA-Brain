@@ -3,99 +3,56 @@ title: "Transition Consultant (TC)"
 type: coordination
 tags: [role, tc, transition, conversion, administration, audit]
 created: 2026-04-14
-updated: 2026-07-01
+updated: 2026-07-08
 sources: 3
 status: current
 ---
 
 # Transition Consultant (TC)
 
-Owns the administrative setup, control checklist, plan-specific procedures, case notes, participant access readiness, and closeout handoff for a conversion.
+Owns the administrative setup of the plan during conversion — the person who makes sure the plan can actually operate before participants and downstream teams start using it.
 
-## What This Role Does
+## What they own
 
-The TC is the administrative systems and procedures owner during conversion. Where COM/TM keeps the project and client communication moving, and DC owns data movement, the TC makes sure the plan can actually operate: plan sponsor access, participant website readiness, special service setup, case notes, remittance/admin guides, DDOL/VRU/PSD activation, audit controls, and ongoing-team handoff.
+- Administrative setup and audit in [[p3]]: DDOL/VRU settings, service indicators, plan defaults, go-live controls
+- [[wx]]/PSD sponsor access, user setup, and training
+- The [[subpack]] after COM's initial draft, plus case notes and admin procedures for ongoing teams
+- Early access activation in the system (you load the file; TC flips it on)
+- Approval of your fund and source mapping (jointly with [[qa]], routed via COM)
+- The go-ahead on the eligibility gate (jointly with QA)
 
-Dan's role summary confirms the TC is also the internal administrative backup for COM on day-to-day plan administration issues. TC helps answer administration questions, joins internal or external calls when needed, and makes sure the Plan Administrator understands the administrative processes required to operate the plan with Transamerica.
+## What you hand them
 
-The older wiki described TC as "higher-level back-end systematic work." [[tc-stuff]] sharpens that: TC is the person making sure the administrative reality matches the plan design before participants and downstream teams start using the plan.
+- **Source mapping working spreadsheet** — once you've identified all prior-vendor sources with balances: source list, balances, contribution type codes, contribution frequency, withdrawal provisions, vesting, and any unresolved frozen-source questions. TC completes the administrative attributes and may ask you to chase missing prior-vendor details. See Source Mapping TC
+- **Fund/source mapping documents for approval** — routed through COM
+- **Eligibility notification email** — sent to TC + QA + COM only after deferrals are posted and all data is in good order. Do not enable eligibility in P3 until their go-ahead comes back
+- **Data answers during their audit** — source-balance and data questions while TC audits the recordkeeping setup
 
-## Systems They Use
+## What they hand you
 
-| System / Artifact | How TC Uses It |
-|---|---|
-| [[p3]] | Reviews setup, DDOL/VRU settings, outsourcing tabs, service indicators, plan defaults, and go-live controls. |
-| [[wx]] / PSD | Supports plan sponsor website training, user setup, divisional access, and sponsor-facing payroll/file submission setup. |
-| [[nbi]] | Tracks checklist progress and closes out conversion milestones where required. |
-| AWD | Routes tickets, special service requests, final subpack, and administrative documentation. |
-| Case Notes | Documents plan-specific rules, special alerts, participant handling, and ongoing administration guidance. |
-| Submission Package / Subpack | Maintains administrative details after the preliminary draft, circulates revisions after the new business conference call, and keeps updates current through project completion. |
-| Outsourcing Addendum | Creates outsourcing addenda and makes sure they are reviewed for accuracy. |
-| TC Conversion Action Plan | Tracks TC-owned setup, audit, and control work through the implementation period. |
+- **Mapping approvals** — via COM
+- **Eligibility go-ahead email** — your green light to enable eligibility in P3
+- **Completed source mapping attributes** — the plan-provision detail that makes your source mapping usable
+- **Early access activation confirmation** — after you've loaded the file and COM has notified them
 
-## Who They Work With
+## When to contact them / escalation
 
-| Team | Nature of Relationship |
-|---|---|
-| [[roles/lm-dc]] | Collaborates on source mapping, payroll/data questions, eligibility/enrollment setup, live-data audit support, and conversion handoffs. |
-| [[qa]] | Partners on system audits, financial-risk checks, participant website audits, conversion records/assets, eligibility services, enrollment kit mailings, statements, and go-live controls. |
-| [[roles/com]] | Acts as internal backup for day-to-day administration questions, receives project context, routes client-facing questions, coordinates notices, and joins conversion closeout communication. |
-| Plan Sponsor | Receives PSD training, user setup support, remittance/file transmission education, and administrative procedure guidance. |
-| Contact Center / Processing | Receives plan-specific administrative information so downstream teams can handle calls, conversion inquiries, and processing work correctly. |
-| Remit Loaders / Account Manager | Receives information needed to administer the plan properly after setup decisions are made. |
-| Ongoing Account Team | Receives case notes, special processes, manuals, relationship status, milestone action items, final subpack, and transition call context. |
-| [[prod-support]] | Supports special service/system tickets when setup requires back-end support. |
+- Plan-provision or administration questions during setup — TC is the internal admin expert and COM's backup for administration questions
+- Loop TC in early; a late TC means admin setup, participant access, and closeout all get squeezed
+- TC is not QA: TC sets up and administers, QA validates. Audit findings go to QA; setup questions go to TC
 
-## Key Handoffs
+## Common issues
 
-**Comes in:**
-- New sale, PRD, submission package, and project strategy from COM/TM.
-- Source-balance information and data questions from DC.
-- Audit findings and participant test support from QC/QA.
-- Client administrative choices, payroll approach, and special service requirements.
-
-**Goes out:**
-- Completed or updated subpack.
-- Outsourcing Addendum documents reviewed for accuracy.
-- Case notes and administrative procedures.
-- Special administrative form guidance where needed.
-- Setup requests for special services such as PX, CMP, and MA.
-- Remittance guides and administration manuals.
-- WX/PSD access, user manuals, training, and access setup support.
-- DDOL/VRU/PSD activation confirmation.
-- P3 recordkeeping audit documentation, required tab checks, entity group setup, Fee Disclosure Notice checklist review, and initial notice review confirmation.
-- Go-live checklist signoff package.
-- Conversion closure call and final handoff to ongoing teams.
-
-## What Other Teams Should Know
-
-- TC work is a control layer. If TC is looped in late, admin setup, notices, participant access, and closeout can all get squeezed.
-- TC and QA are different. TC owns the administrative setup and procedural continuity; QA/QC owns audit and validation.
-- TC depends on DC for accurate source and data information, but TC adds the plan-provision and administrative attributes that make the source mapping usable.
-- TC is a practical admin escalation partner for COM. If COM gets administration questions during conversion, TC is one of the internal people who can help answer or route them.
-- TC is responsible for making sure the administrative setup is documented enough for Remit Loaders, Processors, Contact Center, AM, and ongoing support teams to administer the plan without guessing.
-- Case notes are a downstream operating artifact, not just documentation. Bad case notes create call-center and processing confusion later.
-- P3 setup is not considered ready just because setup exists. TC audits the recordkeeping system, required tabs, notices, conversion records/assets, and participant website behavior before access and closeout gates.
-- Limited access and full access should be treated as separate activation gates, each with its own audit and service checks.
-
-## Open Questions
-
-- Which TC responsibilities in the legacy charter have changed under the current operating model?
-- Which current team owns each special service ticket type: PX, CMP, MA, CPMA, statements, logos, and non-dynamic forms?
-- What are the current definitions and request paths for PX, CMP, MA, and PoD materials?
-- What is the current source of truth for TC go-live signoff?
-- Are case notes still maintained in the same structure shown in the legacy template?
-- Does CE in the Dan source map to the current COM/client-facing communications role?
+- Frozen or legacy sources mapped without verified attributes — TC catches this, but only if you flag the open questions in the spreadsheet
+- Eligibility enabled before the go-ahead, or eligibility notification sent before deferrals are posted — both break the gate
+- Early access timing: TC must be notified (via COM) the day before early access starts, so your file load has to be done before that
 
 ## See Also
 
-- [[tc-stuff]]
-- [[tc-details-from-dan]]
-- [[tc-conversion-timeline]]
+- Source Mapping TC
+- TC Conversion Timeline
 - [[go-live-checklist]]
-- [[case-notes-template]]
-- [[source-mapping-tc]]
-- [[plan-sponsor-website-user-setup]]
+- [[eligibility-and-deferrals]]
 - [[qa]]
 - [[roles/lm-dc]]
 - [[plan-conversion-handoffs]]

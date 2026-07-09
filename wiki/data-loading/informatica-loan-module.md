@@ -3,7 +3,7 @@ title: "Informatica Loan Module"
 type: data-loading
 tags: [informatica, loans, system, conversion]
 created: 2026-04-16
-updated: 2026-04-18
+updated: 2026-07-08
 sources: 1
 status: current
 ---
@@ -40,6 +40,34 @@ Before invoking the module, the [[roles/lm-dc]] must have:
 - **Loan import file** validated: Header outstanding = Source totals, exactly to the cent.
 - **Deemed fields** verified: Deemed Date blank or populated; Deemed Amount **never blank** (use `0` if no deemed amount).
 - **Record Keeper Name** matches `censuslookupfile.xls` character-for-character.
+
+### If Header ≠ Source totals
+
+Work through these in order (from the balance import guide): the detail report often misses the latest payment — reconcile against the source breakdown first; if a refinance was in flight at conversion, get the prior RK to confirm current terms; if the plan is frozen with no re-amortization, terms shouldn't move — confirm the snapshot is from the right date; loop in the prior RK if numbers still don't tie.
+
+### P3 conversion record — the date trick
+
+When creating the conversion record, set **Conversion Date and Assign Date to effective date − 3 months** — not the effective date itself (from the balance import guide). The offset gives P3 the runway to process loan records against an "already-existing" conversion; without it, the workflow either rejects the record or applies wrong timing downstream. It's a P3 quirk — follow it. Also capture the Conversion Number P3 generates at save time; you'll need it for the upload step.
+
+## File Formats
+
+From the balance import guide:
+
+- **Loan Header** and **Loan Source** are both **pipe-delimited** text files. Practical method: save as CSV, then replace the commas with `|`.
+- Loan Header is one row per loan (11 fields, including SSN, loan index, original amount, start date, payment frequency, payment amount, current balance, default date, default amount, interest rate, payoff date). Loan Source is one row per source per loan (SSN, loan index, source code, amount); the loan index is the join point between the two files.
+- **Default date** may arrive in a separate vendor report — don't assume it's missing just because it's not in the main loan file. **Default amount** is very likely the same as current balance, but verify against the vendor report.
+- **HOLB** (Highest Outstanding Loan Balance — the historical maximum a participant has had outstanding, used for IRS new-loan limits) is one row per participant. If the prior RK provides it, upload it alongside the loan files; if not, click **Upload and Create** in P3 and it's generated from the loan files.
+
+## Test Toggle and Outputs
+
+The loan workflow has its own test mode (from the balance import guide):
+
+1. Run with **test = Y** first — validates end-to-end without committing loan records. Check the output carefully.
+2. If clean, flip to **test = N** for the production run.
+3. **One of the test outputs becomes the next input** when you flip from test to production — do not overwrite, rename, or archive it too early. Keep Header, Source, test output, and the production-ready input together in the plan folder until the upload completes.
+4. Archive the parameter file to the plan folder after the run.
+
+The **Loan Header file feeds the audit pack that goes to QA** — whatever's in the Header is what QA reviews, so clean the data before the test-mode run, not after.
 
 ## Parameter File
 
@@ -102,7 +130,7 @@ The Loan Module runs **once per plan, mid-conversion** — after P3 setup is com
 - [[loan-setup|Loan Setup & Processing (process page)]]
 - [[loan-setup|Loan Setup (concept)]]
 - [[informatica]]
-- [[informatica-training-manual]]
+- Informatica Training Manual
 - [[informatica-balance-module]]
 - [[informatica-troubleshooting-guide]]
 - [[final-files-processing]]

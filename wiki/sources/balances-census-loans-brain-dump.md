@@ -56,7 +56,7 @@ Long-form narrative covering the full census-to-balances-to-loans pipeline from 
 - [[informatica]] — Day-of-Wire and CIT balance workflows; loan workflow
 - [[awd]] — testing leg between PRD/onboarding and base file finalization
 - [[cashiering]] — wire pulls and confirmation
-- [[matt-oconnell]] — TIK / Fidelity pooled accounts
+- Matt O'Connell — TIK / Fidelity pooled accounts
 - [[ssbt]] — 4 PM EST cutoff context
 
 ## Concepts Mentioned

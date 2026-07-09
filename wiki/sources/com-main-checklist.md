@@ -38,8 +38,8 @@ The checklist reveals that the COM role is far more than a meeting scheduler —
 ## Entities Mentioned
 
 **People:**
-- [[ellen-miller]] — receives prior docs and notice requests; plan setup in SF; notified at go-live; receives SPD for PEP participants
-- [[jen-curtin]] — notified by COM for 360° payroll plans
+- Ellen Miller — receives prior docs and notice requests; plan setup in SF; notified at go-live; receives SPD for PEP participants
+- Jen Curtin — notified by COM for 360° payroll plans
 - Samantha C. — receives Transition Communications Checklist (non-PEP); team unknown
 - Quality Consultant — sends CSR to COM at go-live; handles loan analysis
 
@@ -59,13 +59,13 @@ The checklist reveals that the COM role is far more than a meeting scheduler —
 ## Concepts Mentioned
 
 - [[concepts/nsa]] — New Sale Announcement; triggers COM workflow
-- [[project-plan-com]] — COM's master conversion tracker; two formats (PEP vs non-PEP); uploaded to NBI
-- [[prior-carrier-letter]] — letter notifying prior record keeper of transition
-- [[blackout-notice]] — notice of investment blackout period sent to participants
+- Project Plan COM — COM's master conversion tracker; two formats (PEP vs non-PEP); uploaded to NBI
+- Prior Carrier Letter — letter notifying prior record keeper of transition
+- Blackout Notice — notice of investment blackout period sent to participants
 - [[concepts/vef]] — Vendor Expense Form; routes through advisor → client → L&C setup
-- [[contribution-monitoring-form]] — payroll monitoring setup; requires TC AWD flip
-- [[rdd-form]] — form provided by TC, completed by client, submitted back to TC
-- [[early-access]] — pre-go-live participant access; COM-coordinated
+- Contribution Monitoring Form — payroll monitoring setup; requires TC AWD flip
+- Rdd Form — form provided by TC, completed by client, submitted back to TC
+- Early Access — pre-go-live participant access; COM-coordinated
 - [[concepts/csr]] — Conversion Summary Report; from Quality Consultant; sent to client at go-live
 - [[subpack]] — COM creates; TC reviews and takes over maintenance
 - [[onboarding-package]] — PEP plans only; COM updates tabs and prepares PEA
@@ -87,5 +87,5 @@ The checklist reveals that the COM role is far more than a meeting scheduler —
 - [[roles/com]] — full COM role reference built from this source
 - [[plan-conversion-handoffs]] — updated with COM-perspective handoffs
 - [[subpack]] — ownership now documented from COM's side
-- [[concepts/nsa]]
-- [[concepts/csr]]
+- Nsa
+- Csr

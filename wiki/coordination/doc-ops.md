@@ -3,90 +3,46 @@ title: "Document Operations (Doc Ops)"
 type: coordination
 tags: [role, doc-ops, documents, p3, plan-setup, pep]
 created: 2026-04-14
-updated: 2026-06-25
+updated: 2026-07-08
 sources: 2
 status: needs-review
 ---
 
 # Document Operations (Doc Ops)
 
-Document Operations supports plan setup, plan document handling, and special plan class setup during a conversion. Current documentation is mostly from DC and COM perspective, so this page should be treated as a working role map until a direct Doc Ops source is ingested.
+Sets up plan details in [[p3]] and adds new special plan classes — the one setup change a DC cannot make directly.
 
-## What This Role Does
+## What they own
 
-Doc Ops appears in the wiki in two operating lanes:
+- Plan setup / P3 configuration, including plan-class rules from the [[prd]] or [[onboarding-package]]
+- Adding **new** special plan classes in P3 (DC-only boundary: you can update existing class names and codes, but only Doc Ops can add new classes — see [[plan-classes]])
+- PEP plan document handling (OBP, AAA, Secure 2.0, SPD) — routed by COM, doesn't touch you
 
-1. **Plan setup / P3 configuration**
-   - Sets up plan details in [[p3]].
-   - Adds new special plan classes when the plan design requires classes that do not already exist.
-   - Supports plan-class rules that come from the [[prd]] or [[onboarding-package]].
+## What you hand them
 
-2. **Plan documents / communications support**
-   - Receives document workflow inputs from [[roles/com]].
-   - For PEP plans, provides or supports OBP, AAA, Secure 2.0 amendment, and SPD document handling.
-   - Includes a Communication Consultant function tied to conversion newsletter coordination.
+- **Special class addition request** — when the plan design requires a class that doesn't exist in P3. Exact request channel (email vs. ticket vs. AWD) is not yet documented; ask your team lead
+- **Setup discrepancy flags** — if P3 setup doesn't match the PRD/onboarding package, flag it; COM and Doc Ops coordinate the fix
 
-## Boundaries
+## What they hand you
 
-| Work Area | Doc Ops Role | DC / COM Boundary |
-|---|---|---|
-| New special classes | Adds the class in P3 | [[roles/lm-dc]] identifies need and requests the addition |
-| Existing class names/codes | Not the primary owner in current notes | DC can update existing class names and codes |
-| PRD / onboarding package conflicts | Coordinates with COM when setup does not match documents | DC flags discrepancy; COM and Doc Ops coordinate fix |
-| PEP plan documents | Provides or supports OBP, AAA, Secure 2.0, SPD | COM routes and tracks document execution |
-| Conversion newsletter | Communication Consultant role participates | COM coordinates the checklist and collects address/email files |
+- **P3 setup readiness** — plan structure, classes, sources, eligibility, vesting, divisions available in P3. You review and verify before finalizing specs and downstream files. Setup can land before or after your assignment; earlier is better for starting specs
 
-## Key Handoffs
+## When to contact them / escalation
 
-### Special Plan Classes
+- As soon as you identify the need for a new special class — Doc Ops has its own queue and waiting on them is a timing dependency
+- P3 setup blocking your specs — chase readiness through COM if the setup lane is unclear
 
-- **From:** [[roles/lm-dc]] to Doc Ops
-- **Trigger:** Plan requires a new special class not already available in P3
-- **What moves:** Request for class addition
-- **Doc Ops action:** Adds the class in P3
-- **Risk:** DC cannot add these directly; waiting on Doc Ops can become a timing dependency
+## Common issues
 
-### P3 Setup Readiness
-
-- **From:** Doc Ops / setup workflow to [[roles/lm-dc]]
-- **Trigger:** Plan setup becomes available in P3
-- **What moves:** P3 plan structure, classes, sources, eligibility setup, vesting, divisions
-- **DC action:** Reviews and verifies setup before specs and downstream files are finalized
-- **Risk:** If P3 is not ready, the DC may be blocked from completing specs or validating plan rules
-
-### PEP Plan Documents
-
-- **From:** Doc Ops / docs team to [[roles/com]]
-- **Trigger:** PEP plan document workflow
-- **What moves:** OBP, AAA, Secure 2.0 amendment, SPD, and related plan document materials
-- **COM action:** Routes documents for review, signature, and client-facing execution
-
-## Known References
-
-- [[plan-classes]] documents the clearest Doc Ops boundary: new special classes are Doc Ops only.
-- [[p3]] notes that P3 setup can happen before or after DC assignment, and earlier setup helps the DC begin specs.
-- [[roles/com]] documents Doc Ops interactions in the PEP plan document workflow and conversion newsletter workflow.
-- [[plan-conversion-handoffs]] captures Doc Ops as part of the conversion handoff model.
-
-## Source Notes
-
-This page is assembled from [[sources/com-main-checklist]], [[plan-classes]], [[p3]], [[roles/lm-dc]], and [[plan-conversion-handoffs]]. It is still `needs-review` because there is no direct Doc Ops procedure source or role interview yet.
-
-## Open Questions
-
-- What is the exact request channel for special class additions: email, ticket, AWD, or another queue?
-- What fields does Doc Ops require when a new special class is requested?
-- Which P3 setup steps are owned by Doc Ops versus another setup team?
-- What does the Communication Consultant function own inside Doc Ops?
-- What Doc Ops tasks are PEP-only versus applicable to all plans?
-- What systems does Doc Ops use beyond P3, DocuSign-adjacent document routing, and internal document queues?
+- DC tries to add a special class directly in P3 — this will fail; only Doc Ops can
+- Class addition sits in the Doc Ops queue while your spec work is blocked — request early
+- P3 not ready when you need to validate plan rules — you're blocked on specs until it is
 
 ## See Also
 
-- [[roles/lm-dc]]
-- [[roles/com]]
 - [[plan-classes]]
 - [[p3]]
-- [[plan-conversion-handoffs]]
+- [[roles/lm-dc]]
 - [[prd]]
 - [[onboarding-package]]
+- [[plan-conversion-handoffs]]

@@ -67,7 +67,7 @@ Run the balance workflow in test mode. Catch layout and mapping errors before pr
 **Processing mode depends on conversion type.** Trades fire only once per fund, so choose carefully.
 
 #### Cash conversion
-1. Request [[advanced-employer]] liquidation — email [[stacey-fortune]] or [[nick-lister]].
+1. Request [[advanced-employer]] liquidation — email Stacey Fortune or Nick Lister.
 2. Run participant balance workflow (production).
 3. In P3: **Process Immediate + Batch**. Trades go out to invest participant cash.
 4. Reverse [[dummy-participant]] via ROC tool.
@@ -80,7 +80,7 @@ Run the balance workflow in test mode. Catch layout and mapping errors before pr
 4. Verify balances in P3.
 
 #### Transfer in Kind
-1. Update [[matt-oconnell]]'s share estimates with final-file totals immediately.
+1. Update Matt O'Connell's share estimates with final-file totals immediately.
 2. Run participant balance workflow — fills the placeholder from Day of Wire.
 3. In P3: **Online + No Hold**. Shares are at Fidelity; no trades needed.
 4. Verify. See [[tik-transfer]] for the full TIK track.
@@ -125,7 +125,7 @@ For eligibility and deferral data specifically: **the client decides** whether t
 | 1 | Prior RK → DC | Final files | Late delivery stalls every downstream step |
 | 2 | DC → Informatica → P3 | CIT balance file | Wrong processing mode → duplicate or missing trades |
 | 3 | DC → ROC tool in P3 | Dummy participant reversal (cash + mapping only) | Skipped reversal leaves phantom balance in plan |
-| 4 | DC → [[matt-oconnell]]'s team | Updated share estimates (TIK) | Stale estimates → shares sit unclaimed |
+| 4 | DC → Matt O'Connell's team | Updated share estimates (TIK) | Stale estimates → shares sit unclaimed |
 | 5 | DC → QA / TC | Completed posting + audit pack | Missing verification queries → errors discovered after go-live |
 
 ## P3 Processing Mode Reference

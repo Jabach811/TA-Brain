@@ -55,7 +55,7 @@ This source resolves nearly every open question flagged during the initial brain
 
 ## Entities Mentioned
 
-[[ellen-miller]], [[matt-oconnell]], [[stacey-fortune]], [[nick-lister]], [[prod-support]], [[eds]], [[informatica]], [[nbi]], [[p2]], [[p3]]
+Ellen Miller, Matt O'Connell, Stacey Fortune, Nick Lister, [[prod-support]], [[eds]], [[informatica]], [[nbi]], [[p2]], [[p3]]
 
 ## Concepts Mentioned
 

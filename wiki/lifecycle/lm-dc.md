@@ -36,7 +36,7 @@ The DC is not client-facing by default. They attend external meetings only when 
 
 | Team / Person | Nature of Relationship |
 |---------------|----------------------|
-| [[roles/com]] | COM sets meetings, manages PRD/subpack, routes approvals; DC sends mappings through COM |
+| COM | COM sets meetings, manages PRD/subpack, routes approvals; DC sends mappings through COM |
 | [[qa]] | DC sends source and fund mappings to QA for approval; QA clears eligibility |
 | [[tc]] | Transition Consultant; CC'd on key communications alongside QA |
 | [[doc-ops]] | DC requests special plan class additions; Doc Ops sets up P3 |
@@ -44,16 +44,16 @@ The DC is not client-facing by default. They attend external meetings only when 
 | [[ftp-team]] | DC requests FTP account setup for payroll vendors |
 | [[payroll-support]] | DC sends validated payroll test files for final green-light |
 | [[prod-support]] | DC submits AWD tickets for data corrections that can't be made through standard tools |
-| [[ellen-miller]] | Manages assignment pipeline; notifies managers of open DC slots in NBI |
-| [[matt-oconnell]] | Leads TIK re-registration; DC fills out re-reg form and coordinates timing |
-| [[stacey-fortune]] | Cross-department manager; contact for AE liquidation requests and major approvals |
-| [[nick-lister]] | DC's direct manager; escalation contact |
+| Ellen Miller | Manages assignment pipeline; notifies managers of open DC slots in NBI |
+| Matt O'Connell | Leads TIK re-registration; DC fills out re-reg form and coordinates timing |
+| Stacey Fortune | Cross-department manager; contact for AE liquidation requests and major approvals |
+| Nick Lister | DC's direct manager; escalation contact |
 
 ## Key Handoffs
 
 **Comes in:**
-- Plan assignment notification via [[ellen-miller]] → manager → DC tagged in [[nbi]]
-- PRD / onboarding package from [[roles/com]]
+- Plan assignment notification via Ellen Miller → manager → DC tagged in [[nbi]]
+- PRD / onboarding package from COM
 - TOA (client-signed fund map) — triggers fund mapping phase
 - Test files from prior record keeper
 - Payroll test files from payroll vendor
@@ -63,10 +63,10 @@ The DC is not client-facing by default. They attend external meetings only when 
 **Goes out:**
 - Base file template → client
 - Payroll template → client + payroll vendor
-- Fund mapping → [[roles/com]], [[qa]], [[tc]] for approval
-- Source mapping → [[roles/com]], [[qa]], [[tc]] for approval
+- Fund mapping → COM, [[qa]], [[tc]] for approval
+- Source mapping → COM, [[qa]], [[tc]] for approval
 - Wire instructions → prior record keeper
-- Re-registration form → [[matt-oconnell]]
+- Re-registration form → Matt O'Connell
 - Test payroll files → [[payroll-support]] for final validation
 - Liquidation day heads-up → [[cashiering]]
 - Eligibility notification → [[qa]], [[tc]], [[roles/com]] (waits for go-ahead before enabling)

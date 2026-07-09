@@ -168,7 +168,7 @@
   - `entities/scott-vrba` — fixed frontmatter title from "Scott Verba" to "Scott Vrba"
   - `concepts/source-mapping` — added [[aqt]] as a proper wiki link
   - `onboarding/lm-dc` — expanded from 22 to 27 items; added [[plan-conversion-handoffs]], [[p2]], [[subpack]], [[fund-management-calendar]], [[conv-file]]; added Scott Vrba and Eric Leyten to Key People
-  - `index` — fixed [[scott-vrba]] → [[entities/scott-vrba]]; added all 7 new pages; corrected page count to 51; updated eligibility summary to "Scott Vrba"
+  - `index` — fixed Scott Vrba → Scott Vrba; added all 7 new pages; corrected page count to 51; updated eligibility summary to "Scott Vrba"
 - Issues resolved: broken links (3), contradiction (1), stale open questions (2), SSN inconsistency (1), name inconsistency (1), index error (1), orphan page (1), missing pages (7), onboarding guide gaps (5+)
 
 ## [2026-04-14] edit | Name fix + three new entity pages (Jen Curtin, Earl Sanford, Dave Shloat)
@@ -177,8 +177,8 @@
   - `entities/earl-sanford` — Lead Data Consultant; primary training resource for new DCs; 25+ year veteran
   - `entities/dave-shloat` — Large Market data guru; Alteryx and Informatica authority
 - Pages updated:
-  - `entities/eric-leyten` — corrected spelling: Leyten → Leytem; added [[jen-curtin]] to See Also; closed "Eric's full title" open question (no longer needed given Jen Curtin context)
-  - `entities/ftp-team` — corrected Leyten → Leytem throughout; added Jen Curtin as head in Key Contacts section; added [[jen-curtin]] and [[eric-leytem]] to See Also
+  - `entities/eric-leyten` — corrected spelling: Leyten → Leytem; added Jen Curtin to See Also; closed "Eric's full title" open question (no longer needed given Jen Curtin context)
+  - `entities/ftp-team` — corrected Leyten → Leytem throughout; added Jen Curtin as head in Key Contacts section; added Jen Curtin and Eric Leytem to See Also
   - `index` — corrected spelling; updated FTP team summary; added three new entity rows; updated page count to 54
 - Notes: Eric Leytem spelling corrected everywhere. Jen Curtin established as FTP Team head and internal payroll integration SME. Earl Sanford and Dave Shloat added as key Large Market team resources.
 
@@ -467,3 +467,13 @@ Type: tooling
 - Pages created: `sources/tc-details-from-dan`
 - Pages updated: `roles/tc`, `processes/tc-conversion-timeline`, `processes/plan-conversion-handoffs`, `index`
 - Notes: Added TC administrative backup responsibilities, outsourcing addendum ownership, subpack revision ownership, downstream admin-information handoffs, P3/notice/participant website audit controls, eligibility/enrollment kit collaboration, and DDOL/VRU/PSD setup/testing/activation detail.
+
+## [2026-07-08] edit | DC-Only Rebuild: workflow-based restructure of the entire wiki
+- Brief: `TA_Wiki_Rebuild_Prompt.md` + `docs/dc-wiki-rebuild-plan.md` (full audit of all 133 pages).
+- Restructured `wiki/` from note-type folders (concepts/entities/processes/roles) into workflow sections: `lifecycle/`, `data-loading/`, `payroll/`, `conversion-ops/`, `coordination/`, `troubleshooting/`, `checklists/`, `reference/`, `vendors/`. Frontmatter `type:` retyped to match; renderer namespaces, dashboard, and branding updated (`DC Operations Wiki`).
+- Archived 28 non-DC pages (people pages, COM/TC-owned processes, superseded stubs) to `_archive/wiki-cut-2026-07-08/`. Salvaged embedded procedures first: TIK timing (Matt O'Connell page → tik-transfer), NBI assignment pipeline (ellen-miller → nbi), trade-approval escalation (rich-lippoth → fund-management-calendar), AE liquidation approval (nick-lister/stacey-fortune → advanced-employer), eligibility escalation (scott-vrba → eligibility), FTP contacts (eric-leytem/jen-curtin → ftp-team).
+- Rewrote 9 `coordination/` pages from role charters into DC-interface pages (what they own / what you hand them / what they hand you / escalation).
+- Pages created: `reference/wire-routing`, `reference/navigation-paths`, `reference/query-library`, `reference/file-naming` (mined from lmdc-training-notebook, extra-questions-001, brain dumps); `troubleshooting/loan-failures`; 14 `vendors/` pages (ADP, Paylocity, UKG, Workday, Paycom, Paycor, Dayforce, PayKonnect, Payroll Integrations, Datamoov, ExponentHR, Kelly Benefits, Creative Planning, vendor-quick-reference) mined from the FTP Stuf payroll guide.
+- Pages enriched from FTP Stuf guides and source dumps: all balance-import pages, loan-setup, loading-basis-eds, census-data, all Informatica module pages, all payroll pages, cccs-submission-package ("Reading the CCCS as a DC"), fund-management-calendar, dummy-participant, common-remitter-plans.
+- Links to archived pages converted to plain-text role references throughout. `overview.md`, `index.md`, `onboarding/lm-dc.md` rewritten for the DC-only structure. `garage/CLAUDE.md` + root `CLAUDE.md` schema updated.
+- Result: 124 pages, 0 broken links, 0 unindexed, 0 unexpected duplicates. Rendered output verified in browser at `current/TA Wiki.working.html` (canonical untouched pending promotion).

@@ -3,14 +3,14 @@ title: "Dummy Participant"
 type: conversion-ops
 tags: [dummy, mapping, day-of-wire, processing, workaround]
 created: 2026-04-14
-updated: 2026-05-03
+updated: 2026-07-08
 sources: 3
 status: current
 ---
 
 # Dummy Participant
 
-A placeholder participant (SSN 999-00-00) required in the census before running the Day of Wire Informatica workflow for mapping conversions.
+A placeholder participant (SSN 999-00-0000) required in the census before running the Day of Wire Informatica workflow for mapping conversions.
 
 ## Overview
 

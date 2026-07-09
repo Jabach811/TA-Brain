@@ -63,7 +63,7 @@ The three ways a plan's assets can be moved from a prior record keeper to TransA
 - Only applies to specific funds (identified in [[toa]], column T = "Y")
 - A plan may have SOME funds TIK and SOME funds mapping/cash
 - No trades occur — shares are physically moved
-- [[matt-oconnell]]'s team must set up Fidelity accounts in advance (~10 business days)
+- Matt O'Connell's team must set up Fidelity accounts in advance (~10 business days)
 - Shares are identified by expected amounts (not account numbers)
 
 **Processing flow:**
@@ -107,6 +107,6 @@ The three ways a plan's assets can be moved from a prior record keeper to TransA
 - [[final-files-processing]]
 - [[dummy-participant]]
 - [[processes/tik-transfer|transfer-in-kind]]
-- [[matt-oconnell]]
+- Matt O'Connell
 - [[informatica]]
 

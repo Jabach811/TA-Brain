@@ -44,5 +44,5 @@ The [[base-file]] is the broad census/eligibility/YTD seed for every conversion.
 - [[census-data]]
 - [[base-file]]
 - [[balance-import-cash]]
-- [[blackout-notice]]
+- Blackout Notice
 - [[defaulting-elections-eds]]

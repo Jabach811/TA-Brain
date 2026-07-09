@@ -50,7 +50,7 @@ Access activation changes what participants and plan sponsors can do. If DDOL/VR
 - Notify TM/COM and the conversion team once the plan is live.
 - Complete DDOL/VRU audits.
 - Activate outbound file if deferrals are outsourced.
-- Notify [[jen-curtin]] when custom or automated OBF is activated.
+- Notify Jen Curtin when custom or automated OBF is activated.
 - Confirm VRU, phone transfer, DDOL, eligibility/enrollment kit, Loan PoG, Info Share tab, and Managed Advice notifications.
 
 ### Post-Go-Live Cleanup
@@ -63,7 +63,7 @@ Access activation changes what participants and plan sponsors can do. If DDOL/VR
 
 ## Related Concepts
 
-- [[tc-conversion-timeline]]
+- TC Conversion Timeline
 - [[case-notes-template]]
 - [[creative-planning-managed-accounts]]
 - [[wx]]

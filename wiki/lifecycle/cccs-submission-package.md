@@ -3,7 +3,7 @@ title: "CCCS Submission Package"
 type: lifecycle
 tags: [subpack, cccs, plan-setup, conversion, document]
 created: 2026-04-16
-updated: 2026-04-16
+updated: 2026-07-08
 sources: 1
 status: current
 ---
@@ -40,6 +40,18 @@ The CCCS establishes the plan's parameters before any system setup occurs. Decis
 - **Auto-Increase**: Must not be offered for NQDC or 457 plans.
 - **457(f) Plans**: Always use IDP document type; Transamerica does not draft these documents.
 - **Limited Access Period**: A start/end window configured in plan setup — not yet separately documented in this wiki.
+
+## Reading the CCCS as a DC
+
+When the CCCS lands, these are the fields to actually check — each one changes downstream data work:
+
+- **Plan type** — 401(k), 401(a), 403(b), 457(b), 457(f), or Corporate NQDC. Plan type drives which rules below apply.
+- **457(f) = IDP** — all 457(f) plans use the IDP document type, and Transamerica does not draft these documents.
+- **System effective date** — should generally be one month before the plan effective date. If it isn't, question it.
+- **Auto-increase** — must not be offered for NQDC or 457 plans. If the CCCS shows auto-increase on one of these, flag it.
+- **Payroll setup** — submission method (PSD vs. FTP) and funding method (ACH vs. Wire). FTP means an [[ftp-connection]] request needs to go in early; the funding method tells you how the money moves.
+- **Asset transfer strategy** — Plan Level Conversion, Participant Directed, or Hybrid. This determines which balance-import path the conversion will follow.
+- **Takeover loan repayment method** — Payroll, Coupon, or EFT. Sets how converted loans get repaid and what the payroll file needs to carry.
 
 ## Evidence / Examples
 

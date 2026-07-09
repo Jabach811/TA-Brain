@@ -72,7 +72,7 @@ Reversing incorrect auto-enrollment entries is possible but painful. Don't allow
 | Complexity | High — data-driven, exception-heavy | Structured — rules-driven |
 | Main challenge | Auto-enrollment dates (esp. ADP) | Class/service rule configuration |
 | Error recoverability | Harder to unwind | Easier, but still painful |
-| SME | — | [[scott-vrba]] |
+| SME | — | Scott Vrba |
 
 ---
 
@@ -81,6 +81,6 @@ Reversing incorrect auto-enrollment entries is possible but painful. Don't allow
 - [[deferrals]] — full detail on deferral processing
 - [[eligibility]] — full detail on eligibility processing
 - [[final-files-processing]] — the broader final files context
-- [[scott-vrba]] — eligibility SME
+- Scott Vrba — eligibility SME
 - [[p3]]
 - [[dc-onboarding-workflow]]

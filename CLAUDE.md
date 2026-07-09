@@ -26,8 +26,9 @@ TA Brain/
 │   └── resources/           ← cloned repos, skill files, reference images
 ├── wiki/                    ← markdown content (garage writes here)
 │   ├── index.md log.md overview.md
-│   ├── roles/ departments/ processes/ onboarding/
-│   └── glossary/ entities/ concepts/ sources/ analyses/
+│   ├── lifecycle/ data-loading/ payroll/ conversion-ops/
+│   ├── coordination/ troubleshooting/ checklists/
+│   └── reference/ vendors/ glossary/ onboarding/ sources/
 ├── current/                 ← rendered output area
 │   ├── TA Wiki.html         ← canonical rendered file
 │   ├── assets/

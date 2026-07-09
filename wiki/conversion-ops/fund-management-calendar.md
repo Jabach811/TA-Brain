@@ -3,7 +3,7 @@ title: "Fund Management Calendar"
 type: conversion-ops
 tags: [fund-management-calendar, trades, cutoff, liquidation, critical, fmc]
 created: 2026-04-14
-updated: 2026-05-03
+updated: 2026-07-08
 sources: 4
 status: current
 ---
@@ -92,7 +92,7 @@ Not every cash movement requires an FMC entry. The rule is **big money only**. T
 
 The threshold is judgment-based, not a hard dollar number. If it would make a fund company raise an eyebrow when the trade hit, it goes on the FMC.
 
-**Participant Balance Processing (special case):** No FMC action for the Day of Wire / initial wire step. However, when participant balance posting is run via the Informatica Balance Workflow, the FMC **must be updated with the FMC Estimate from the Informatica Balance Workflow output by 4:00 PM** on the day of processing. If Vanguard (VG) funds are involved, this must be done by **2:00 PM EST** — or approval must be obtained from Rich Lippoth via email (followed up by IM or phone).
+**Participant Balance Processing (special case):** No FMC action for the Day of Wire / initial wire step. However, when participant balance posting is run via the Informatica Balance Workflow, the FMC **must be updated with the FMC Estimate from the Informatica Balance Workflow output by 4:00 PM** on the day of processing. If Vanguard (VG) funds are involved, this must be done by **2:00 PM EST** — or approval must be obtained from the fund trade approver (see below).
 
 ## Procedure by Conversion Type
 
@@ -124,8 +124,31 @@ The threshold is judgment-based, not a hard dollar number. If it would make a fu
 ### Participant Balance Processing (Cash Conversions)
 
 - Update FMC with the **FMC Estimate from the Informatica Balance Workflow output** by 4:00 PM on the day of balance processing
-- If Vanguard funds involved: update by **2:00 PM EST** or get approval from Rich Lippoth
+- If Vanguard funds involved: update by **2:00 PM EST** or get approval from the fund trade approver
 - Send the FMC notification email when updating
+
+## Estimate Ladder
+
+Use the best available number, then keep updating it as better data arrives. Early and directionally useful beats late and perfect.
+
+1. **TOA estimate** — fallback if nothing better exists yet. May be stale by the time assets move, but better than leaving the calendar blank.
+2. **Test file balances** — use as soon as available; usually stronger than the TOA.
+3. **Refresh files / PRK updates** — if refreshed balances or PRK/client fund details arrive, update the FMC rather than leaving the old number in place.
+4. **Informatica test output** — when test output gives better fund-level detail, use it to tighten the entry.
+5. **Final files / actuals** — should replace estimates when available before wire/trade timing. Do not leave stale estimates when better data is in hand.
+
+## Trade Approval Beyond the Cutoff
+
+When a trade needs approval or coordination beyond the normal processing window, escalate to the fund trade approver (currently Rich Lippoth) — the go-to contact for incoming share activity and regular fund trades.
+
+Most common trigger: participant balance posting where **Vanguard funds are involved and the 2:00 PM EST FMC update deadline was missed**. In that case, trades cannot proceed until the approver signs off.
+
+Escalation flow:
+1. Email the fund trade approver describing the plan, funds, and amounts
+2. Follow up by IM or phone — email alone is not enough for same-day approval
+3. Proceed with trades only after approval
+
+The same escalation path applies to any trade-related issue requiring approval beyond the standard cutoff window, not just Vanguard.
 
 ## If the FMC File Is Locked
 

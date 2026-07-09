@@ -3,7 +3,7 @@ title: "Advanced Employer Account"
 type: conversion-ops
 tags: [advanced-employer, cash-conversion, liquidation, balances, p3]
 created: 2026-04-14
-updated: 2026-05-03
+updated: 2026-07-08
 sources: 3
 status: current
 ---
@@ -25,17 +25,22 @@ In a cash conversion, assets arrive as undifferentiated cash with no per-fund or
 1. **Liquidation Day:** Wire received → DC verifies total matches vendor breakdown → DC moves money to AE account in [[p3]] (via [[p2]] ref number)
 2. **Notification:** DC emails QA, COM, and PC confirming wire received and posted to Advanced Employer. Standard wording: *"Wire has been booked and transferred to the Advanced Employer account, where it will be liquidated when final records are available."*
 3. **Waiting period:** DC waits for final files from the prior record keeper. AE accrues a small interest while sitting.
-4. **Final Files Arrive:** DC emails [[stacey-fortune]] or [[nick-lister]] requesting AE liquidation
+4. **Final Files Arrive:** DC emails a manager-level approver requesting AE liquidation (see below)
 5. **After liquidation:** DC creates the **AE liquidation ref number** and attaches it to the CIT balance workflow parameter file → runs CIT balance workflow in [[informatica]] → posts participant balances → P3 processes with Immediate + Batch mode (trades go out)
 6. **Reverse [[dummy-participant]]** via ROC tool in P3
 7. **Next business day:** DC distributes the accrued AE interest pro-rata to participants — see [[subsequent-cash-imports]]
 
 ## Requesting AE Liquidation
 
-A simple email to [[stacey-fortune]] and/or [[nick-lister]]:
+AE liquidation requires manager-level sign-off. Two approval paths — either can handle the request:
+
+- **The DC's direct manager** (currently Nick Lister)
+- **The Large Market cross-department approver** (currently Stacey Fortune) — a manager-level contact who floats between departments and can act on approvals quickly
+
+Send a simple email to one or both:
 > "Please liquidate the Advanced Employer account for [Plan Name] so I can proceed with balance posting."
 
-Either contact can handle the request. No complex process — just the email.
+No complex process — just the email. Once approved and liquidated, final balance posting can proceed.
 
 ## Cash Conversion Only
 
@@ -53,7 +58,5 @@ Setting up the AE account transfer reference number is done in [[p2]] — the sa
 - [[p2]]
 - [[p3]]
 - [[informatica]]
-- [[stacey-fortune]]
-- [[nick-lister]]
 - [[dummy-participant]]
 - [[subsequent-cash-imports]]

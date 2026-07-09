@@ -3,78 +3,49 @@ title: "Quality Assurance (QA)"
 type: coordination
 tags: [role, qa, qc, validation, conversion, audit]
 created: 2026-04-14
-updated: 2026-05-13
+updated: 2026-07-08
 sources: 2
 status: current
 ---
 
 # Quality Assurance (QA)
 
-Audits conversion data, setup, defaults, participant records, and financial-risk items so the plan can go live without silent setup errors.
+Audits conversion data, setup, defaults, and participant records so the plan can go live without silent setup errors.
 
-## What This Role Does
+## What they own
 
-QA/QC is the conversion control partner. The role validates the accuracy of conversion records and participant assets, reviews mapping and setup decisions, checks default allocations and default deferrals, supports participant website testing, reviews statement-related work, and helps catch financial-risk issues in recordkeeping setup.
+- Validation of imported conversion records and participant assets in [[p3]]
+- Approval of your fund and source mapping (jointly with [[tc]], routed via COM)
+- The go-ahead on the eligibility gate (jointly with TC)
+- Default allocation / default deferral / QDIA checks, loan analysis, duplicate-SSN checks
+- The CSR / go-live quality summary that COM sends to the client
 
-The earlier wiki page captured QA mostly from the DC perspective: mapping approval, eligibility clearance, and audit pack review. [[tc-stuff]] adds the setup-control view: QC also checks TC's recordkeeping audit, works with TC on statements and website testing, loads or supports target-date/default setup, and documents findings for TC/DC.
+## What you hand them
 
-## Systems They Use
+- **Fund/source mapping documents for approval** — routed through COM
+- **Eligibility notification email** — to QA + TC + COM, only after deferrals are posted and data is in good order
+- **Conversion records, assets, and audit evidence** — imported data, census details, [[audit-pack]] materials for their review
 
-| System / Artifact | How QA/QC Uses It |
-|---|---|
-| [[p3]] | Reviews recordkeeping setup, defaults, participant data, loans, divisions, and participant access behavior. |
-| [[aqt]] | Supports ad hoc reporting and validation when query-based evidence is needed. |
-| [[wx]] / DDOL | Supports test participant website audits and participant-facing access validation. |
-| Audit Control Checklists | Documents signoff and evidence for system and conversion controls. |
-| Conversion Summary / CSR | Provides or supports go-live summary information. |
+## What they hand you
 
-## Key People
+- **Mapping and default validation** — approval back via COM
+- **Eligibility go-ahead** — jointly with TC; required before you enable eligibility in P3
+- **Audit findings and corrections** — issues in imported data, mapping, duplicates, or source/fund setup that you fix before go-live
 
-| Name | Notes |
-|---|---|
-| **Paul** | QA/QC team member; last name unknown. |
-| **Danny** | QA/QC team member; last name unknown. |
+## When to contact them / escalation
 
-## Who They Work With
+- Loop QA in early on conversion strategy — QDIA, defaults, loans, divisions, duplicate SSNs. The later they see it, the less room they have to catch problems before access turns on
+- QA validates; TC sets up. Send setup questions to TC, validation questions and audit evidence to QA
+- Corrections QA can't make through standard tools go to [[prod-support]]
 
-| Team | Nature of Relationship |
-|---|---|
-| [[tc]] | Quality-checks TC system audit items, supports DDOL/PSD testing, statements, enrollment kits, and go-live controls. |
-| [[roles/lm-dc]] | Reviews imported data, mapping, census details, duplicate SSNs, conversion records/assets, and source/fund setup impacts. |
-| [[roles/com]] | Provides audit/CSR information that COM may route to the client at go-live. |
-| [[prod-support]] | May support system corrections, loan PoG setup, participant notes, or special service setup. |
+## Common issues
 
-## Key Handoffs
-
-**Comes in:**
-- Conversion records/assets and audit evidence from DC.
-- TC system setup package, DDOL/VRU/PSD readiness, statements, and participant website test needs.
-- Conversion strategy, QDIA/default setup, and plan-specific provisions.
-
-**Goes out:**
-- Audit findings and corrections.
-- Mapping and default validation.
-- Loan analysis and participant-note setup support.
-- Website/statement audit feedback.
-- CSR or go-live quality summary support.
-
-## What Other Teams Should Know
-
-- QA/QC is not only a final reviewer. They participate in control design during setup, especially where financial risk or participant-facing errors can appear.
-- QC review is strongest when they know the conversion strategy early: QDIA, default allocation, default deferral, loans, divisions, duplicate SSNs, and statement handling.
-- TC and QA/QC are paired but not interchangeable. TC prepares/administers; QA/QC validates and documents risk.
-- If participant test IDs, enrollment kits, statement audits, or default setup are late, QA/QC has less room to catch problems before access is turned on.
-
-## Open Questions
-
-- Should the wiki standardize the page title as QA or QC for this role?
-- What are Paul and Danny's last names and current responsibilities?
-- Which QC checklist is current for system audit, participant website audit, and go-live?
-- Which tasks listed in the legacy source have moved to other teams?
+- Mapping approval delayed because QA wasn't looped in promptly — pushes liquidation prep
+- Eligibility enabled before QA's go-ahead
+- Audit evidence delivered late, compressing the review window before access is turned on
 
 ## See Also
 
-- [[tc-stuff]]
 - [[tc]]
 - [[go-live-checklist]]
 - [[audit-pack]]

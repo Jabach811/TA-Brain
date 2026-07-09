@@ -3,7 +3,7 @@ title: "Balance Import — Mapping"
 type: data-loading
 tags: ["concept", "balance", "mapping", "conversion", "informatica", "day-of-wire"]
 created: 2026-04-19
-updated: 2026-05-03
+updated: 2026-07-08
 sources: 2
 status: current
 ---
@@ -50,6 +50,28 @@ Step 13 — Run all balance import queries to confirm clean load
 Step 15 — Apply balances once wire confirmed (No Hold · Batch · Process Immediate)
 Step 17 — Apply balances to participant accounts
 Step 18 — Run all associated queries for backup
+
+## Fund Splits
+
+Roughly **1 in 25 mapping plans** involves a fund split: one prior fund maps to **two** TA funds at a set ratio (50/50, 75/25, etc.). The split ratio comes from the TOA, same as the rest of the mapping.
+
+Two things to watch:
+
+- Build the split into the fund mapping file so the workflow divides the prior fund's balance at the stated ratio — it is not a manual post-load adjustment.
+- Sometimes the prior fund codes on the actual balance files don't match what the TOA shows. When that happens, document how you resolved each mismatch — show your work rather than silently reconciling.
+
+## Post-Wire: Mapping Reversal, Then Re-Apply
+
+Fund mapping applies **twice**, and they're not the same run (from the balance import guide):
+
+1. **Wire day** — the Day of Wire workflow applies fund mapping to the incoming assets (CONV file fed in, booked to the dummy participant).
+2. **Post-wire** — once final files arrive and completeness is confirmed, process the **mapping reversal** (reverses the day-of-wire booking so balances are ready to be re-mapped), then run the CIT balance workflow to apply fund mapping against the final-file participant data.
+
+Skipping the reversal before applying fund mapping to final files is a known high-severity failure mode. After participant balances post and reconcile, reverse the dummy participant: **P3 → ROC → "ROC No Reversal"**.
+
+## Forfeiture Entries
+
+Forfeiture entries in balance files use the vendor's naming convention (often year-based, e.g. "Forfeiture Account 2024") and the same stand-out date convention as the [[dummy-participant]] — an extra signal that the row isn't a normal participant. (from the balance import guide)
 
 ## Where the Ref Number Lives
 

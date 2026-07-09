@@ -120,9 +120,9 @@ Full CTS-relevant acronym definitions per notebook's March 13, 2017 entry. Key C
 - [[cashiering]] — wire receipt, booking
 - [[informatica]] — Day of Wire, Balance, Loan, Allocation modules
 - [[p2]], [[p3]], [[eds]], [[aqt]], [[nbi]] — all primary DC systems
-- [[ellen-miller]] — assignment routing
-- [[matt-oconnell]] — TIK re-registration
-- [[stacey-fortune]], [[earl-sanford]], [[dave-shloat]], [[scott-vrba]] — named SMEs throughout
+- Ellen Miller — assignment routing
+- Matt O'Connell — TIK re-registration
+- Stacey Fortune, Earl Sanford, Dave Shloat, Scott Vrba — named SMEs throughout
 - [[prod-support]] — AWD tickets, database corrections
 - [[ftp-team]] — payroll vendor FTP setup
 - [[payroll-support]] — One Payroll team

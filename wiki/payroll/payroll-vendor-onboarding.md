@@ -3,7 +3,7 @@ title: "Payroll Vendor Onboarding"
 type: payroll
 tags: [payroll, vendor, onboarding, ftp, eds, onepayroll, demo, conversion]
 created: 2026-05-03
-updated: 2026-05-03
+updated: 2026-07-08
 sources: 1
 status: current
 ---
@@ -18,6 +18,15 @@ This page is the narrative spine. The supporting pages — [[payroll-template]] 
 
 Once the conversion kicks off and the payroll vendor is identified, the DC has a parallel workstream to run alongside everything else: get the vendor producing files in TA's format, get those files validated, get the upload channel set up, and demo the upload flow to whoever on the client side will be running it. The goal is to be in good enough shape by go-live that the project can be passed off to Fiduciary Services regardless of how far testing got.
 
+## Phase 0 — Is payroll even yours?
+
+Before assuming DC ownership, check NBI for the **payroll integration consultant (PIC)** field (from the payroll/OBF knowledge-transfer guide). The PIC team is being built to take payroll work off the DC plate. If a PIC is assigned, they may own inbound FTP, outbound FTP, the payroll questionnaire, WX setup, and One Payroll setup. Project plans are often copied from older plans and may not use the correct with-PIC or without-PIC version — confirm ownership directly when it matters.
+
+Also confirm the **upload path** with the client before submitting anything:
+
+- **Path A — Manual upload.** Client uploads directly. Nothing to set up for transmission; the template is the deliverable.
+- **Path B — Automated FTP.** An SFTP connection or existing/global vendor route must be used. Confirm the source, contact ownership, and special handling before submitting — see [[ftp-connection]].
+
 ## Phase 1 — Identify and contact
 
 As soon as the conversion starts, find out two things:
@@ -26,6 +35,12 @@ As soon as the conversion starts, find out two things:
 2. **Who on the client side** will be uploading files — that person needs FTP credentials
 
 Both pieces are upstream of everything else. Don't wait on either.
+
+Confirm three things about the contact before any setup request goes out (from the payroll/OBF knowledge-transfer guide):
+
+- **Who owns inbound** — the exact person and company responsible for sending payroll files to Transamerica (client, payroll vendor, or third-party integrator).
+- **Who owns outbound** — ask whether the same contact also owns files from Transamerica back to the vendor. If not, the client may need a separate vendor ticket.
+- **Special handling** — flag PGP encryption or true Excel files early; both need extra setup. Also check whether the named vendor routes through an existing/global connection or third-party integrator (see [[ftp-connection]]).
 
 ### Vendor intro email
 
@@ -49,7 +64,7 @@ Thanks,
 
 ### FTP setup request — fire it off early
 
-Once the upload contact is identified on the client side, fill out the FTP form and send it to [[jen-curtin]]'s [[ftp-team]]. **Don't sit on this.** That team has a backlog and setup takes real time. The earlier the request lands, the more breathing room you have.
+Once the upload contact is identified on the client side, fill out the FTP form and send it to Jen Curtin's [[ftp-team]]. **Don't sit on this.** That team has a backlog and setup takes real time. The earlier the request lands, the more breathing room you have.
 
 See [[ftp-connection]] for the full setup process.
 
@@ -98,6 +113,29 @@ The reason OnePayroll is its own gate (and not just "EDS again"): the warnings a
 
 See [[payroll-support]] for what OnePayroll catches and how the back-and-forth works.
 
+### The LM DC ↔ MM review handoff
+
+Internal layout validation is a two-role handoff, current as of the 7/29/2025 LM DC process update (from the payroll/OBF knowledge-transfer guide). Neither role loads data during this step.
+
+**LM DC sends to MM:** case number and plan name, conversion date, One Payroll yes/no, the test payroll file plus Architect layouts file saved to the test folder, all contacts to include on feedback to the client, and any reviewer notes (who to address, who's just cc).
+
+**MM reviews and returns:**
+- Creates a `Review Payroll File_JT` folder and copies the test file + specs into it
+- Manual file review — if any field is marked TBD, it goes back to the LM DC
+- Notes pass/fail and comments on the Architect layouts
+- Creates EDS layouts in P3 — naming convention **Remit Layout** for every plan tested
+- Runs the file through the EDS validator (no data loaded); saves warning and error reports to the test folder
+- Returns feedback with layout + control totals (file sums vs. EDS sums), and saves review emails to the folder
+
+MM also forwards to One Payroll if applicable, and once One Payroll signs off, emails the client confirming all set — provided their totals match. Update NBI screens after review. Field-by-field validation rules live on [[payroll-template]].
+
+### Control totals
+
+Request **control totals** up front — summary figures (hours, deferrals, match, loans) validated against every file. No totals = can't confirm the file is right. During the first live files, control totals are still required until Payroll Support confirms successful loads and turns on the automatic sweep into One Payroll. If a client says they sent a file and heard nothing, check whether the COM/account manager confirmed control totals.
+
+> [!warning] Request One Payroll testing before the first live file
+> Once the test file is signed off, send Payroll Support the file and layout name right away. If One Payroll testing isn't complete before the first live file arrives, Payroll Support may push back on loading it because they still need a test file. (from the payroll/OBF knowledge-transfer guide)
+
 ### Manual email validation as the interim
 
 If the FTP isn't live yet but the vendor wants validation, they can send the file as an email attachment directly to the DC. Validate it the same way (EDS → OnePayroll) and feed results back. Once FTP comes online, validate the next FTP-delivered file too — confirm both channels work.
@@ -107,6 +145,17 @@ If the FTP isn't live yet but the vendor wants validation, they can send the fil
 Once a clean test file is through OnePayroll, demo the upload flow to whoever on the client side will be running uploads. Eventually the FTP will move to auto-sweep and the client doesn't have to log in at all, but **that's not the day-one state**. Day one, someone on the client team is uploading files manually through the upload page.
 
 `<CLIENT-DEMO-WALKTHROUGH-LINK>`
+
+Talking points for the walkthrough meeting (from the payroll/OBF knowledge-transfer guide):
+
+1. Confirm upload method — manual portal or FTP — and that they know how to do it
+2. Walk through the file format briefly; don't deep-dive unless they have questions
+3. Explain control totals — what they are, which fields, how and when to send them (often new to clients)
+4. Set processing expectations — what happens after a file + totals are submitted, and turnaround
+5. Confirm their contact — who sends files and totals, and what happens if that person changes
+6. Leave room for Q&A
+
+Common client misunderstandings to preempt: they think files process automatically without control totals; they send totals in the wrong format or forget them; they don't realize changing their payroll file format breaks the layout; they assume FTP users can be swapped without telling us.
 
 ## Phase 6 — Auto-sweep / batch eligibility
 
@@ -118,6 +167,20 @@ The current operating model is: at the live date, the project gets passed to Fid
 
 The shift from prior practice: DC now does ALL the bridge validation work themselves (mid-market is no longer carrying the testing). DC still hands off cleanly at go-live. We don't stay handcuffed to the plan for months after live just to finish payroll.
 
+## Auto-enrollment carryover — two traps
+
+Plans converting with auto-enrollment in place carry two issues the DC needs to surface during onboarding, not after go-live.
+
+### Auto-escalation does not continue at TA
+
+Participants whose deferral rate was auto-escalating at the prior record keeper will **not** keep escalating after conversion. The escalation ceases at TA — a participant expecting to climb to, say, 10% will stall at whatever rate they converted with unless they **opt back in**. This is a client-communication item: the client needs to know so participants can be told.
+
+### Finding the auto-enroll defaulters — the "min or max-minus-one" heuristic
+
+Prior-RK data often doesn't say cleanly who is sitting in the auto-enrollment default. The working heuristic: a participant flagged as default who is **at the plan's minimum rate, or at the maximum minus one**, probably got there via auto-enrollment rather than an active election. The DC pulls a list of participants (SSNs) who look like defaulters by this test and **sends it to the client** so the client can warn them about the escalation stopping.
+
+Related: the **kit mail date** drives the auto-escalation clock, so it must be requested as part of the historical data. (ADP in particular can't reliably report auto-enrollment dates.)
+
 ## Multiple payroll vendors
 
 If a plan has more than one payroll vendor, run the above flow for each — there's no single standardized procedure for the multi-vendor case. Best-effort coordination per vendor.
@@ -128,7 +191,7 @@ If a plan has more than one payroll vendor, run the above flow for each — ther
 - [[ftp-connection]]
 - [[payroll-support]]
 - [[payroll-handoff-at-go-live]]
-- [[jen-curtin]]
+- Jen Curtin
 - [[ftp-team]]
 - [[eds]]
 - [[dc-onboarding-workflow]]

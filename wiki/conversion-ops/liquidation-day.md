@@ -91,7 +91,7 @@ After wire confirmed and total matches breakdown:
 Same as mapping for CONV file setup, except:
 - CONV file has **re-reg = Y** for TIK funds
 - Day of Wire creates placeholder (no details, no trades)
-- Notify [[matt-oconnell]]'s team that assets are moving
+- Notify Matt O'Connell's team that assets are moving
 - Shares will arrive at Fidelity — Matt's team will identify and apply
 
 ## Wire Total Mismatch

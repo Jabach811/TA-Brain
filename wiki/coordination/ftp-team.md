@@ -3,53 +3,46 @@ title: "FTP Team"
 type: coordination
 tags: [team, ftp, payroll, file-transfer]
 created: 2026-04-14
-updated: 2026-04-14
+updated: 2026-07-08
 sources: 2
 status: current
 ---
 
 # FTP Team
 
-The internal team responsible for setting up and managing FTP connections that allow payroll vendors to upload files to TransAmerica's systems.
+Sets up and manages the FTP connections that let payroll vendors upload files to Transamerica's systems. Setup takes **1–2 weeks** — engage as early as possible.
 
-## Overview
+## What they own
 
-The FTP Team sets up automated file transfer accounts for payroll vendors. Each plan requires its own FTP account and destination folder. The team also supports payroll meetings and manages the outbound file process. Setup takes approximately 1–2 weeks — engage early.
+- FTP user credentials and plan-specific destination folders (each plan gets its own account and folder)
+- Confirmation to the DC once a connection is live
+- The outbound file process (not DC-owned, but critical to the overall payroll flow)
+- Payroll meeting support as needed
 
-## Key Contacts
+Two roles matter to you: the **team lead** (currently Jen Curtin) is the authoritative escalation point for anything about internal payroll integration — file formats, vendor connections, troubleshooting; the **setup contact** (currently Eric Leytem) handles final FTP account setup, sends the completion confirmation, and is the day-to-day contact for requests and status.
 
-**[[jen-curtin]]** — Head of the FTP Team. The authoritative go-to for anything related to internal payroll integration. Deep institutional knowledge; direct and efficient in meetings.
+## What you hand them
 
-**[[eric-leytem]]** — handles final FTP account setup and sends the completion confirmation to the DC. Primary contact for FTP requests and status updates.
+- **FTP setup request by email** — as soon as you identify who at the payroll vendor (or client) will upload payroll files. Do not wait; the team has a large caseload and delays here mean an extended manual payroll period
 
-## Responsibilities
+## What they hand you
 
-- Setting up FTP user credentials for payroll vendors
-- Configuring file transfer connections and plan-specific destination folders
-- Sending setup confirmation once live (Eric Leytem)
-- Supporting payroll meetings as needed
-- Managing the outbound file process (not DC-owned but critical to the overall payroll flow)
+- **Setup confirmation** — from the setup contact once credentials and the destination folder are live, typically within 1–2 weeks. You then pass the login credentials to the payroll upload contact, who tests the connection (they see a simple upload page on their end)
 
-## DC Interaction
+## When to contact them / escalation
 
-1. DC identifies who at the payroll vendor (or client) will upload payroll files
-2. DC emails the FTP Team to request account setup — **as early as possible**
-3. FTP Team creates credentials and sets up the destination folder
-4. Eric Leytem confirms setup is complete
-5. DC provides login credentials to the payroll upload contact
-6. Vendor tests the connection — they see a simple upload page on their end
+- Routine setup and status: the setup contact
+- Complex, strategic, or unclear payroll-integration questions: the team lead
+- Confirmation delayed past ~2 weeks: follow up with the setup contact
 
-## Timing
+## Common issues
 
-Setup takes approximately **1–2 weeks**. The FTP Team has a large caseload. Request as soon as the payroll vendor contact is identified — do not wait.
-
-> Delays in FTP setup = extended manual payroll period. Identify the contact → immediately request setup.
+- Late setup request → payroll stays manual longer than it needs to. Identify the upload contact, then immediately request setup
+- Confirmation received but credentials never forwarded to the vendor — the connection sits unused
 
 ## See Also
 
 - [[ftp-connection]]
-- [[jen-curtin]]
-- [[eric-leytem]]
 - [[payroll-template]]
+- [[payroll-support]]
 - [[eds]]
-- [[dc-onboarding-workflow]]

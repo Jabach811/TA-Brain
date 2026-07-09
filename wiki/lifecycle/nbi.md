@@ -3,7 +3,7 @@ title: "NBI"
 type: lifecycle
 tags: [system, assignment, plan-tracking]
 created: 2026-04-14
-updated: 2026-04-14
+updated: 2026-07-08
 sources: 2
 status: current
 ---
@@ -14,7 +14,7 @@ Internal system where new plan assignments are loaded and tracked. The starting 
 
 ## Overview
 
-When a new sale is finalized, the plan assignment is entered into NBI. NBI tracks which DCs, COMs, and other roles are assigned to each plan. Empty spots in NBI trigger [[ellen-miller]] to reach out to managers for assignment.
+When a new sale is finalized, the plan assignment is entered into NBI. NBI tracks which DCs, COMs, and other roles are assigned to each plan. Empty spots in NBI trigger the NBI assignment coordinator to reach out to managers for assignment.
 
 ## Key Functions
 
@@ -25,9 +25,13 @@ When a new sale is finalized, the plan assignment is entered into NBI. NBI track
 ## Assignment Flow
 
 1. New sale → loaded into NBI
-2. Empty DC slots detected → [[ellen-miller]] notifies DC manager
-3. Manager reviews caseload and distributes to a DC
-4. Plan is now tagged to the DC in NBI
+2. Empty DC slots detected → the NBI assignment coordinator (currently Ellen Miller) notifies the DC's manager
+3. Manager reviews caseload, conversion type, and capacity, then distributes the plan to a DC
+4. Plan is now tagged to the DC in NBI — officially on the DC's radar
+
+Notes on the coordinator role:
+- The coordinator contacts DC **managers**, not DCs directly — the manager makes the assignment decision.
+- The coordinator handles **all plans**, regardless of type or market segment.
 
 ## DC Interaction
 
@@ -50,6 +54,5 @@ The DC updates NBI continuously throughout the conversion — not just at the en
 
 ## See Also
 
-- [[ellen-miller]]
 - [[p3]]
 - [[dc-onboarding-workflow]]

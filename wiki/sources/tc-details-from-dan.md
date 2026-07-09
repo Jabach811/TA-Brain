@@ -56,11 +56,11 @@ The source is especially useful because it gives a clean role-level description 
 
 ## Concepts Mentioned
 
-- [[tc-conversion-timeline]]
+- TC Conversion Timeline
 - [[plan-conversion-handoffs]]
 - [[case-notes-template]]
-- [[plan-sponsor-website-user-setup]]
-- [[source-mapping-tc]]
+- Plan Sponsor Website User Setup
+- Source Mapping TC
 - [[go-live-checklist]]
 
 ## Contradictions / Open Questions
@@ -72,6 +72,6 @@ The source is especially useful because it gives a clean role-level description 
 ## See Also
 
 - [[roles/tc]]
-- [[tc-conversion-timeline]]
+- TC Conversion Timeline
 - [[plan-conversion-handoffs]]
 - [[tc-stuff]]

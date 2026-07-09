@@ -323,7 +323,7 @@ const html = `<!doctype html>
       --mono: "JetBrains Mono", "Cascadia Mono", Consolas, monospace;
     }
     * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; overflow-y: scroll; }
     body { margin: 0; min-height: 100vh; background: var(--bg); color: var(--ink); font-family: var(--serif); font-size: 15.5px; line-height: 1.58; -webkit-font-smoothing: antialiased; }
     button, input { font: inherit; }
     a, .wiki-link { color: var(--link); text-decoration: none; cursor: pointer; }
@@ -375,7 +375,7 @@ const html = `<!doctype html>
     .page-tools { display: flex; gap: 4px; align-items: center; }
     .page-tools button { border: none; background: transparent; padding: 6px 12px; border-radius: 8px; cursor: pointer; color: var(--muted); font-family: var(--sans); font-size: 13px; font-weight: 500; transition: color 0.15s ease, background 0.15s ease; }
     .page-tools button:hover { background: var(--surface-2); color: var(--link-hover); }
-    .page-tools .meta-short { color: var(--faint); font-family: var(--mono); font-size: 10.5px; padding-left: 12px; border-left: 1px solid var(--line-soft); margin-left: 6px; }
+    .page-tools .meta-short { color: var(--faint); font-family: var(--mono); font-size: 10.5px; padding-left: 12px; border-left: 1px solid var(--line-soft); margin-left: 6px; width: 210px; flex: 0 0 auto; text-align: right; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
     .article-shell { display: grid; grid-template-columns: minmax(0, 1fr) 280px; gap: 32px; width: min(1360px, calc(100% - 56px)); margin: 0 auto; padding: 32px 0 96px; }
     .article { min-width: 0; }
     .article h1 { margin: 0 0 6px; padding: 18px 0 12px; border-bottom: 1px solid var(--line); font-family: var(--sans); font-size: clamp(30px, 3.2vw, 38px); line-height: 1.1; font-weight: 600; letter-spacing: -0.025em; position: sticky; top: 52px; z-index: 5; background: var(--bg); display: flex; align-items: baseline; gap: 14px; }
@@ -1009,7 +1009,7 @@ const html = `<!doctype html>
       document.title = page.title + " - DC Ops Wiki";
       if (updateHash) history.replaceState(null, "", "#" + encodeURIComponent(page.id));
       qs("#sidebar").classList.remove("open");
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      window.scrollTo({ top: 0, behavior: "instant" });
     }
     function search(query) {
       const normalizeSearch = value => String(value || "").toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();

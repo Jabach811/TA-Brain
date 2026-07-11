@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TA Brain — Direction A: Warm Paper</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f2f1ed;
+  --surface: #ebeae5;
+  --surface-deep: #e6e5e0;
+  --ink: #26251e;
+  --ink-55: rgba(38, 37, 30, 0.55);
+  --ink-40: rgba(38, 37, 30, 0.4);
+  --border: rgba(38, 37, 30, 0.1);
+  --border-med: rgba(38, 37, 30, 0.2);
+  --accent: #f54e00;
+  --crimson: #cf2d56;
+  --success: #1f8a65;
+  --display: "Archivo", system-ui, sans-serif;
+  --serif: "Source Serif 4", "Iowan Old Style", Georgia, serif;
+  --mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { font-size: 16px; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--serif);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---------- top bar ---------- */
+.topbar {
+  position: sticky; top: 0; z-index: 10;
+  display: flex; align-items: center; gap: 24px;
+  padding: 0 32px; height: 56px;
+  background: rgba(242, 241, 237, 0.92);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--border);
+}
+.wordmark {
+  font-family: var(--display); font-weight: 600; font-size: 15px;
+  letter-spacing: -0.2px; cursor: pointer;
+}
+.wordmark span { color: var(--accent); }
+.crumb {
+  font-family: var(--display); font-size: 13px; color: var(--ink-55);
+  letter-spacing: 0.1px;
+}
+.crumb b { color: var(--ink); font-weight: 500; }
+.topbar .spacer { flex: 1; }
+.searchbox {
+  display: flex; align-items: center; gap: 8px;
+  font-family: var(--display); font-size: 13px; color: var(--ink-40);
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 8px; padding: 7px 14px; width: 260px; cursor: text;
+  transition: border-color 150ms ease;
+}
+.searchbox:hover { border-color: var(--border-med); }
+.searchbox kbd {
+  margin-left: auto; font-family: var(--mono); font-size: 10.5px;
+  color: var(--ink-40); border: 1px solid var(--border); border-radius: 4px;
+  padding: 1px 5px; background: var(--bg);
+}
+.navlinks { display: flex; gap: 4px; }
+.navlinks button {
+  font-family: var(--display); font-size: 13px; font-weight: 500;
+  color: var(--ink-55); background: none; border: none;
+  padding: 7px 12px; border-radius: 8px; cursor: pointer;
+  transition: color 150ms ease, background 150ms ease;
+}
+.navlinks button:hover { color: var(--crimson); background: var(--surface); }
+.navlinks button.active { color: var(--ink); background: var(--surface); }
+
+.page { max-width: 1080px; margin: 0 auto; padding: 0 32px 96px; }
+
+/* ---------- home ---------- */
+.hero { padding: 72px 0 40px; }
+.hero h1 {
+  font-family: var(--display); font-weight: 600; font-size: 46px;
+  letter-spacing: -1.4px; line-height: 1.05;
+}
+.hero .lede {
+  margin-top: 14px; font-size: 19px; color: var(--ink-55);
+  font-style: italic; max-width: 560px;
+}
+.hero .meta {
+  margin-top: 20px; font-family: var(--mono); font-size: 11.5px;
+  color: var(--ink-40); letter-spacing: 0.2px;
+}
+.hero .meta .ok { color: var(--success); }
+
+.tilegrid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;
+  margin-top: 32px;
+}
+.tile {
+  background: var(--surface-deep); border: 1px solid var(--border);
+  border-radius: 8px; padding: 18px 18px 15px; cursor: pointer;
+  transition: box-shadow 200ms ease, border-color 150ms ease;
+}
+.tile:hover {
+  border-color: var(--border-med);
+  box-shadow: rgba(0,0,0,0.05) 0 8px 24px;
+}
+.tile .name {
+  font-family: var(--display); font-weight: 500; font-size: 14.5px;
+  letter-spacing: -0.1px;
+}
+.tile .count {
+  margin-top: 10px; font-family: var(--display); font-weight: 600;
+  font-size: 26px; letter-spacing: -0.6px;
+}
+.tile .unit { font-family: var(--mono); font-size: 10.5px; color: var(--ink-40); margin-left: 5px; }
+
+.homecols {
+  display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 56px;
+  margin-top: 64px;
+}
+.sectionhead {
+  font-family: var(--display); font-weight: 600; font-size: 13px;
+  letter-spacing: 0.7px; text-transform: uppercase; color: var(--ink-55);
+  padding-bottom: 10px; border-bottom: 1px solid var(--border-med);
+  margin-bottom: 6px;
+}
+.articlelist { list-style: none; }
+.articlelist li {
+  display: flex; align-items: baseline; gap: 14px;
+  padding: 13px 2px; border-bottom: 1px solid var(--border); cursor: pointer;
+}
+.articlelist li:hover .t { color: var(--accent); }
+.articlelist .t {
+  font-family: var(--serif); font-weight: 600; font-size: 16.5px;
+  transition: color 150ms ease;
+}
+.articlelist .ns {
+  margin-left: auto; font-family: var(--mono); font-size: 10.5px;
+  color: var(--ink-40); white-space: nowrap;
+}
+.nslist { list-style: none; column-count: 2; column-gap: 32px; }
+.nslist li {
+  display: flex; justify-content: space-between; align-items: baseline;
+  padding: 9px 2px; border-bottom: 1px solid var(--border);
+  break-inside: avoid; cursor: pointer;
+  font-family: var(--display); font-size: 14px; font-weight: 500;
+}
+.nslist li:hover { color: var(--crimson); }
+.nslist .n { font-family: var(--mono); font-size: 11px; color: var(--ink-40); }
+
+/* ---------- article ---------- */
+.article { padding-top: 64px; max-width: 760px; }
+.article .kicker {
+  font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.4px;
+  color: var(--accent);
+}
+.article h1 {
+  margin-top: 10px; font-family: var(--display); font-weight: 600;
+  font-size: 40px; letter-spacing: -1.1px; line-height: 1.08;
+}
+.article .summary {
+  margin-top: 16px; font-size: 20px; line-height: 1.5;
+  color: var(--ink-55); font-style: italic;
+}
+.article .byline {
+  margin-top: 20px; padding: 12px 0; border-top: 1px solid var(--border-med);
+  border-bottom: 1px solid var(--border);
+  font-family: var(--mono); font-size: 11px; color: var(--ink-40);
+  display: flex; gap: 20px;
+}
+.article h2 {
+  margin: 44px 0 14px; font-family: var(--display); font-weight: 600;
+  font-size: 22px; letter-spacing: -0.35px;
+}
+.article p { margin: 0 0 16px; font-size: 16.5px; }
+.article p a { color: var(--accent); text-decoration: none; border-bottom: 1px solid rgba(245,78,0,0.3); }
+.article p a:hover { border-bottom-color: var(--accent); }
+
+.article table {
+  width: 100%; border-collapse: collapse; margin: 8px 0 24px;
+  font-size: 14.5px; background: #f7f7f4;
+  border: 1px solid var(--border); border-radius: 8px; overflow: hidden;
+}
+.article th {
+  font-family: var(--display); font-weight: 600; font-size: 12px;
+  letter-spacing: 0.5px; text-transform: uppercase; color: var(--ink-55);
+  text-align: left; padding: 10px 16px;
+  background: var(--surface-deep); border-bottom: 1px solid var(--border-med);
+}
+.article td { padding: 11px 16px; border-bottom: 1px solid var(--border); vertical-align: top; }
+.article tr:last-child td { border-bottom: none; }
+.article td:first-child {
+  font-family: var(--display); font-weight: 500; font-size: 13.5px; white-space: nowrap;
+}
+.article td a { color: var(--accent); text-decoration: none; }
+
+.sources {
+  margin-top: 56px; padding: 20px 24px; background: var(--surface);
+  border: 1px solid var(--border); border-radius: 8px;
+}
+.sources .sectionhead { border: none; padding: 0; margin-bottom: 10px; }
+.sources ul { list-style: none; }
+.sources li {
+  font-family: var(--mono); font-size: 12px; color: var(--ink-55);
+  padding: 4px 0; cursor: pointer;
+}
+.sources li:hover { color: var(--accent); }
+
+.hidden { display: none; }
+@media (max-width: 900px) {
+  .tilegrid { grid-template-columns: repeat(2, 1fr); }
+  .homecols { grid-template-columns: 1fr; gap: 40px; }
+  .searchbox { display: none; }
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wordmark" onclick="show('home')">TA<span>&nbsp;Brain</span></div>
+  <div class="crumb" id="crumb">Home</div>
+  <div class="spacer"></div>
+  <div class="searchbox">Search the wiki… <kbd>/</kbd></div>
+  <nav class="navlinks">
+    <button class="active" onclick="show('home')">Main page</button>
+    <button>All pages</button>
+    <button>Needs work</button>
+  </nav>
+</header>
+
+<main class="page">
+
+  <!-- HOME VIEW -->
+  <section id="view-home">
+    <div class="hero">
+      <h1>TA Brain</h1>
+      <p class="lede">Everything the conversions team knows, in one place — generated from every markdown page in the wiki.</p>
+      <div class="meta">133 pages &nbsp;·&nbsp; 11 sources &nbsp;·&nbsp; built 2026-07-07 &nbsp;·&nbsp; <span class="ok">all checks clean</span></div>
+    </div>
+
+    <div class="tilegrid">
+      <div class="tile"><div class="name">Processes</div><div class="count">40<span class="unit">pages</span></div></div>
+      <div class="tile"><div class="name">Documents</div><div class="count">20<span class="unit">pages</span></div></div>
+      <div class="tile"><div class="name">Reference</div><div class="count">17<span class="unit">pages</span></div></div>
+      <div class="tile"><div class="name">Glossary</div><div class="count">12<span class="unit">pages</span></div></div>
+      <div class="tile"><div class="name">Systems</div><div class="count">10<span class="unit">pages</span></div></div>
+      <div class="tile"><div class="name">People</div><div class="count">10<span class="unit">pages</span></div></div>
+      <div class="tile"><div class="name">Sources</div><div class="count">11<span class="unit">pages</span></div></div>
+      <div class="tile"><div class="name">Roles</div><div class="count">5<span class="unit">pages</span></div></div>
+    </div>
+
+    <div class="homecols">
+      <div>
+        <div class="sectionhead">Cornerstone Articles</div>
+        <ul class="articlelist">
+          <li onclick="show('article')"><span class="t">Transition Consultant (TC)</span><span class="ns">roles</span></li>
+          <li><span class="t">Large Market Data Consultant (LM&nbsp;DC)</span><span class="ns">roles</span></li>
+          <li><span class="t">Plan Conversion Handoffs</span><span class="ns">processes</span></li>
+          <li><span class="t">TOA — Transfer of Assets</span><span class="ns">documents</span></li>
+          <li><span class="t">Subpack — Submission Package</span><span class="ns">documents</span></li>
+          <li><span class="t">Liquidation Day</span><span class="ns">processes</span></li>
+          <li><span class="t">Final Files Processing</span><span class="ns">processes</span></li>
+        </ul>
+      </div>
+      <div>
+        <div class="sectionhead">Browse Namespaces</div>
+        <ul class="nslist">
+          <li>Roles <span class="n">5</span></li>
+          <li>Departments <span class="n">4</span></li>
+          <li>Systems <span class="n">10</span></li>
+          <li>Documents <span class="n">20</span></li>
+          <li>Processes <span class="n">40</span></li>
+          <li>People <span class="n">10</span></li>
+          <li>Reference <span class="n">17</span></li>
+          <li>Glossary <span class="n">12</span></li>
+          <li>Onboarding <span class="n">2</span></li>
+          <li>Sources <span class="n">11</span></li>
+          <li>Wiki Admin <span class="n">2</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ARTICLE VIEW -->
+  <section id="view-article" class="article hidden">
+    <div class="kicker">ROLES</div>
+    <h1>Transition Consultant (TC)</h1>
+    <p class="summary">Owns the administrative setup, control checklist, plan-specific procedures, case notes, participant access readiness, and closeout handoff for a conversion.</p>
+    <div class="byline">
+      <span>roles/tc.md</span><span>updated 2026-07-01</span><span>3 sources</span>
+    </div>
+
+    <h2>What This Role Does</h2>
+    <p>The TC is the administrative systems and procedures owner during conversion. Where COM/TM keeps the project and client communication moving, and DC owns data movement, the TC makes sure the plan can actually operate: plan sponsor access, participant website readiness, special service setup, case notes, remittance/admin guides, DDOL/VRU/PSD activation, audit controls, and ongoing-team handoff.</p>
+    <p>Dan's role summary confirms the TC is also the internal administrative backup for COM on day-to-day plan administration issues. TC helps answer administration questions, joins internal or external calls when needed, and makes sure the Plan Administrator understands the administrative processes required to operate the plan with Transamerica.</p>
+    <p>The older wiki described TC as "higher-level back-end systematic work." <a href="#">tc-stuff</a> sharpens that: TC is the person making sure the administrative reality matches the plan design before participants and downstream teams start using the plan.</p>
+
+    <h2>Systems They Use</h2>
+    <table>
+      <tr><th>System / Artifact</th><th>How TC Uses It</th></tr>
+      <tr><td><a href="#">P3</a></td><td>Reviews setup, DDOL/VRU settings, outsourcing tabs, service indicators, plan defaults, and go-live controls.</td></tr>
+      <tr><td><a href="#">WX</a> / PSD</td><td>Supports plan sponsor website training, user setup, divisional access, and sponsor-facing payroll/file submission setup.</td></tr>
+      <tr><td><a href="#">NBI</a></td><td>Tracks checklist progress and closes out conversion milestones where required.</td></tr>
+      <tr><td>AWD</td><td>Routes tickets, special service requests, final subpack, and administrative documentation.</td></tr>
+      <tr><td>Case Notes</td><td>Documents plan-specific rules, special alerts, participant handling, and ongoing administration guidance.</td></tr>
+      <tr><td>Subpack</td><td>Maintains administrative details after the preliminary draft, circulates revisions after the new business conference call, and keeps updates current through project completion.</td></tr>
+    </table>
+
+    <div class="sources">
+      <div class="sectionhead">Sources</div>
+      <ul>
+        <li>sources/tc-details-from-dan.md</li>
+        <li>sources/tc-stuff.md</li>
+        <li>sources/old-wiki-export.md</li>
+      </ul>
+    </div>
+  </section>
+
+</main>
+
+<script>
+function show(view) {
+  document.getElementById('view-home').classList.toggle('hidden', view !== 'home');
+  document.getElementById('view-article').classList.toggle('hidden', view !== 'article');
+  document.getElementById('crumb').innerHTML = view === 'home'
+    ? 'Home'
+    : 'Roles / <b>Transition Consultant (TC)</b>';
+  window.scrollTo(0, 0);
+}
+</script>
+</body>
+</html>

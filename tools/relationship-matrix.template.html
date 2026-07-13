@@ -1,0 +1,688 @@
+<title>TA Brain — Relationship Switchboard</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root {
+    --page: #f9f9f7;
+    --board: #fcfcfb;
+    --ink: #0b0b0b;
+    --ink2: #52514e;
+    --muted: #898781;
+    --hair: #e1e0d9;
+    --ring: rgba(11, 11, 11, 0.10);
+    --c-roles: #2a78d6;
+    --c-entities: #1baf7a;
+    --c-concepts: #eda100;
+    --c-processes: #008300;
+    --c-glossary: #4a3aa7;
+    --c-sources: #e34948;
+    --c-onboarding: #e87ba4;
+    --c-root: #eb6834;
+    --wash: 14%;
+    --wash-active: 26%;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --page: #0d0d0d;
+      --board: #1a1a19;
+      --ink: #ffffff;
+      --ink2: #c3c2b7;
+      --muted: #898781;
+      --hair: #2c2c2a;
+      --ring: rgba(255, 255, 255, 0.10);
+      --c-roles: #3987e5;
+      --c-entities: #199e70;
+      --c-concepts: #c98500;
+      --c-glossary: #9085e9;
+      --c-sources: #e66767;
+      --c-onboarding: #d55181;
+      --c-root: #d95926;
+      --wash: 20%;
+      --wash-active: 34%;
+    }
+  }
+  :root[data-theme="light"] {
+    --page: #f9f9f7;
+    --board: #fcfcfb;
+    --ink: #0b0b0b;
+    --ink2: #52514e;
+    --muted: #898781;
+    --hair: #e1e0d9;
+    --ring: rgba(11, 11, 11, 0.10);
+    --c-roles: #2a78d6;
+    --c-entities: #1baf7a;
+    --c-concepts: #eda100;
+    --c-processes: #008300;
+    --c-glossary: #4a3aa7;
+    --c-sources: #e34948;
+    --c-onboarding: #e87ba4;
+    --c-root: #eb6834;
+    --wash: 14%;
+    --wash-active: 26%;
+  }
+  :root[data-theme="dark"] {
+    --page: #0d0d0d;
+    --board: #1a1a19;
+    --ink: #ffffff;
+    --ink2: #c3c2b7;
+    --muted: #898781;
+    --hair: #2c2c2a;
+    --ring: rgba(255, 255, 255, 0.10);
+    --c-roles: #3987e5;
+    --c-entities: #199e70;
+    --c-concepts: #c98500;
+    --c-processes: #008300;
+    --c-glossary: #9085e9;
+    --c-sources: #e66767;
+    --c-onboarding: #d55181;
+    --c-root: #d95926;
+    --wash: 20%;
+    --wash-active: 34%;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body {
+    background: var(--page);
+    color: var(--ink);
+    font: 15px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  .mono {
+    font-family: ui-monospace, "SF Mono", "Cascadia Mono", Menlo, Consolas, monospace;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .app {
+    max-width: 1480px;
+    margin: 0 auto;
+    padding: 20px clamp(12px, 3vw, 32px) 48px;
+  }
+
+  /* ---------- header ---------- */
+  header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 12px 24px;
+    padding-bottom: 16px;
+  }
+  .masthead { margin-right: auto; }
+  .eyebrow {
+    font-family: ui-monospace, "SF Mono", "Cascadia Mono", Menlo, Consolas, monospace;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 0 0 4px;
+  }
+  h1 {
+    font-size: clamp(20px, 3vw, 26px);
+    line-height: 1.15;
+    letter-spacing: -0.015em;
+    margin: 0;
+    text-wrap: balance;
+  }
+  .stats {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .stat {
+    font-family: ui-monospace, "SF Mono", "Cascadia Mono", Menlo, Consolas, monospace;
+    font-variant-numeric: tabular-nums;
+    font-size: 12px;
+    color: var(--ink2);
+    background: var(--board);
+    border: 1px solid var(--hair);
+    border-radius: 999px;
+    padding: 4px 11px;
+    white-space: nowrap;
+  }
+  .stat b { color: var(--ink); font-weight: 650; }
+  .controls {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+  #search {
+    font: inherit;
+    font-size: 13px;
+    color: var(--ink);
+    background: var(--board);
+    border: 1px solid var(--hair);
+    border-radius: 8px;
+    padding: 7px 12px;
+    width: 220px;
+  }
+  #search::placeholder { color: var(--muted); }
+  #search:focus-visible, button:focus-visible {
+    outline: 2px solid var(--c-roles);
+    outline-offset: 1px;
+  }
+  #reset {
+    font: inherit;
+    font-size: 13px;
+    color: var(--ink2);
+    background: var(--board);
+    border: 1px solid var(--hair);
+    border-radius: 8px;
+    padding: 7px 14px;
+    cursor: pointer;
+  }
+  #reset:hover { color: var(--ink); border-color: var(--muted); }
+
+  .hint {
+    font-size: 13px;
+    color: var(--muted);
+    margin: 0 0 14px;
+  }
+  .hint kbd {
+    font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    font-size: 11px;
+    border: 1px solid var(--hair);
+    border-bottom-width: 2px;
+    border-radius: 4px;
+    padding: 0 5px;
+    background: var(--board);
+  }
+
+  /* ---------- layout ---------- */
+  .layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 300px;
+    gap: 16px;
+    align-items: start;
+  }
+  @media (max-width: 1020px) {
+    .layout { grid-template-columns: minmax(0, 1fr); }
+    aside { position: static !important; }
+  }
+
+  /* ---------- board ---------- */
+  .board {
+    position: relative;
+    background: var(--board);
+    border: 1px solid var(--hair);
+    border-radius: 14px;
+    padding: 6px 0;
+    overflow: hidden;
+  }
+  #cables {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+  }
+  .row {
+    display: grid;
+    grid-template-columns: 158px minmax(0, 1fr);
+    gap: 12px;
+    padding: 10px 14px;
+  }
+  .row + .row { border-top: 1px solid var(--hair); }
+  .row-label {
+    padding-top: 7px;
+    min-width: 0;
+  }
+  .row-name {
+    font-family: ui-monospace, "SF Mono", "Cascadia Mono", Menlo, Consolas, monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink2);
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    line-height: 1.3;
+  }
+  .row-name .chip {
+    flex: none;
+    width: 8px;
+    height: 8px;
+    border-radius: 2px;
+    background: var(--cat);
+  }
+  .row-count {
+    font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    font-variant-numeric: tabular-nums;
+    font-size: 10.5px;
+    color: var(--muted);
+    margin: 3px 0 0 15px;
+  }
+  .cells {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    min-width: 0;
+  }
+  @media (max-width: 640px) {
+    .row { grid-template-columns: minmax(0, 1fr); gap: 6px; }
+    .row-label { padding-top: 0; display: flex; align-items: baseline; gap: 10px; }
+    .row-count { margin: 0; }
+  }
+
+  /* ---------- node pills ---------- */
+  .node {
+    position: relative;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font: inherit;
+    font-size: 12.5px;
+    line-height: 1.2;
+    color: var(--ink2);
+    background: var(--board);
+    border: 1px solid var(--hair);
+    border-radius: 999px;
+    padding: 5px 10px 5px 8px;
+    cursor: pointer;
+    text-align: left;
+    transition: opacity 140ms ease, border-color 140ms ease,
+                background-color 140ms ease, color 140ms ease;
+  }
+  .node .port {
+    flex: none;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    border: 1.5px solid var(--cat);
+    background: transparent;
+    transition: background-color 140ms ease, box-shadow 140ms ease;
+  }
+  .node .deg {
+    font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    font-variant-numeric: tabular-nums;
+    font-size: 10px;
+    color: var(--muted);
+  }
+  .node:hover { border-color: var(--cat); color: var(--ink); }
+
+  /* switchboard states */
+  .has-sel .node.off { opacity: 0.22; }
+  .node.lit {
+    opacity: 1;
+    border-color: var(--cat);
+    background: color-mix(in srgb, var(--cat) var(--wash), var(--board));
+    color: var(--ink);
+  }
+  .node.lit .port { background: var(--cat); }
+  .node.lit .deg { color: var(--ink2); }
+  .node.active {
+    opacity: 1;
+    border: 2px solid var(--cat);
+    background: color-mix(in srgb, var(--cat) var(--wash-active), var(--board));
+    color: var(--ink);
+    font-weight: 650;
+    padding: 4px 9px 4px 7px;
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--cat) 25%, transparent);
+  }
+  .node.active .port {
+    background: var(--cat);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--cat) 30%, transparent);
+  }
+  .node:focus-visible { outline: 2px solid var(--cat); outline-offset: 2px; }
+
+  /* search states */
+  .searching .node:not(.hit) { opacity: 0.18; }
+  .searching .node.hit { border-color: var(--cat); color: var(--ink); }
+
+  /* ---------- sidebar ---------- */
+  aside {
+    position: sticky;
+    top: 16px;
+    background: var(--board);
+    border: 1px solid var(--hair);
+    border-radius: 14px;
+    padding: 16px;
+    max-height: calc(100vh - 32px);
+    overflow-y: auto;
+  }
+  aside h2 {
+    font-size: 15px;
+    line-height: 1.25;
+    margin: 0 0 2px;
+    letter-spacing: -0.01em;
+  }
+  .aside-kicker {
+    font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 0 0 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .aside-kicker .chip {
+    width: 8px; height: 8px; border-radius: 2px; background: var(--cat);
+  }
+  .aside-sub {
+    font-size: 12.5px;
+    color: var(--ink2);
+    margin: 0 0 14px;
+  }
+  .conn-group { margin: 0 0 12px; }
+  .conn-group h3 {
+    font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 0 0 6px;
+    font-weight: 500;
+  }
+  .conn-list { display: flex; flex-direction: column; gap: 3px; }
+  .conn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font: inherit;
+    font-size: 12.5px;
+    color: var(--ink2);
+    background: none;
+    border: 0;
+    border-radius: 7px;
+    padding: 4px 6px;
+    cursor: pointer;
+    text-align: left;
+    width: 100%;
+  }
+  .conn:hover { background: color-mix(in srgb, var(--cat) 12%, var(--board)); color: var(--ink); }
+  .conn .dot {
+    flex: none;
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--cat);
+  }
+  .empty-note { font-size: 12.5px; color: var(--muted); margin: 0; }
+
+  footer {
+    margin-top: 18px;
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .node, .node .port { transition: none; }
+  }
+</style>
+
+<div class="app">
+  <header>
+    <div class="masthead">
+      <p class="eyebrow">TA Brain · Switchboard View</p>
+      <h1>Wiki Relationship Matrix</h1>
+    </div>
+    <div class="stats" id="stats"></div>
+    <div class="controls">
+      <input id="search" type="search" placeholder="Find a page…" autocomplete="off">
+      <button id="reset" type="button">Reset</button>
+    </div>
+  </header>
+  <p class="hint">Every page in the wiki is a jack on this board. Click one and everything it connects
+    to lights up, with cables running to each related page. Click it again — or press <kbd>Esc</kbd> — to switch it off.</p>
+
+  <div class="layout">
+    <div class="board" id="board">
+      <svg id="cables" aria-hidden="true"></svg>
+    </div>
+    <aside id="panel" aria-live="polite"></aside>
+  </div>
+
+  <footer>Generated from the live wiki by <span class="mono">tools/build_relationship_matrix.py</span> —
+    re-run it after any ingest to refresh this board.</footer>
+</div>
+
+<script>
+  const DATA = /*__DATA__*/null;
+
+  const CAT = {
+    roles: "--c-roles", entities: "--c-entities", concepts: "--c-concepts",
+    processes: "--c-processes", glossary: "--c-glossary", sources: "--c-sources",
+    onboarding: "--c-onboarding", root: "--c-root",
+    departments: "--c-processes", analyses: "--c-root",
+  };
+  const catVar = folder => `var(${CAT[folder] || "--c-root"})`;
+
+  // adjacency
+  const adj = new Map(Object.keys(DATA.nodes).map(id => [id, new Set()]));
+  for (const [a, b] of DATA.edges) { adj.get(a).add(b); adj.get(b).add(a); }
+
+  const board = document.getElementById("board");
+  const svg = document.getElementById("cables");
+  const panel = document.getElementById("panel");
+  const searchBox = document.getElementById("search");
+
+  // stats
+  document.getElementById("stats").innerHTML =
+    `<span class="stat"><b>${DATA.stats.pages}</b> pages</span>` +
+    `<span class="stat"><b>${DATA.stats.connections}</b> connections</span>` +
+    `<span class="stat"><b>${DATA.stats.categories}</b> rows</span>`;
+
+  // build rows
+  const pillOf = new Map();
+  for (const row of DATA.rows) {
+    const rowEl = document.createElement("div");
+    rowEl.className = "row";
+    rowEl.style.setProperty("--cat", catVar(row.folder));
+    const label = document.createElement("div");
+    label.className = "row-label";
+    label.innerHTML =
+      `<div class="row-name"><span class="chip"></span><span>${row.label}</span></div>` +
+      `<div class="row-count">${row.ids.length} page${row.ids.length === 1 ? "" : "s"}</div>`;
+    const cells = document.createElement("div");
+    cells.className = "cells";
+    for (const id of row.ids) {
+      const n = DATA.nodes[id];
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "node";
+      b.dataset.id = id;
+      b.style.setProperty("--cat", catVar(n.folder));
+      b.title = `${n.title} — ${n.deg} connection${n.deg === 1 ? "" : "s"}`;
+      b.innerHTML = `<span class="port"></span><span class="name"></span><span class="deg">${n.deg}</span>`;
+      b.querySelector(".name").textContent = n.title;
+      b.addEventListener("click", e => { e.stopPropagation(); toggle(id); });
+      b.addEventListener("mouseenter", () => { if (!selected) preview(id, true); });
+      b.addEventListener("mouseleave", () => { if (!selected) preview(id, false); });
+      cells.appendChild(b);
+      pillOf.set(id, b);
+    }
+    rowEl.append(label, cells);
+    board.appendChild(rowEl);
+  }
+
+  // ---------- selection ----------
+  let selected = null;
+
+  function preview(id, on) {
+    pillOf.get(id).classList.toggle("lit", on);
+    for (const nb of adj.get(id)) pillOf.get(nb).classList.toggle("lit", on);
+  }
+
+  function toggle(id) { (selected === id) ? clear() : select(id); }
+
+  function select(id) {
+    selected = id;
+    board.classList.add("has-sel");
+    const neighbors = adj.get(id);
+    for (const [pid, el] of pillOf) {
+      el.classList.toggle("active", pid === id);
+      el.classList.toggle("lit", neighbors.has(pid));
+      el.classList.toggle("off", pid !== id && !neighbors.has(pid));
+    }
+    drawCables(id);
+    renderPanel(id);
+    const el = pillOf.get(id);
+    if (el.scrollIntoView) el.scrollIntoView({ block: "nearest", behavior: "auto" });
+  }
+
+  function clear() {
+    selected = null;
+    board.classList.remove("has-sel");
+    for (const el of pillOf.values()) el.classList.remove("active", "lit", "off");
+    svg.replaceChildren();
+    renderIdlePanel();
+  }
+
+  // ---------- cables ----------
+  function anchor(el, side) {
+    const b = board.getBoundingClientRect();
+    const r = el.getBoundingClientRect();
+    const x = r.left - b.left + r.width / 2;
+    if (side === "top") return [x, r.top - b.top];
+    if (side === "bottom") return [x, r.bottom - b.top];
+    return [r.left - b.left + (side === "left" ? 0 : r.width), r.top - b.top + r.height / 2];
+  }
+
+  function drawCables(id) {
+    svg.replaceChildren();
+    const w = board.clientWidth, h = board.scrollHeight;
+    svg.setAttribute("viewBox", `0 0 ${w} ${h}`);
+    const from = pillOf.get(id);
+    const fromRect = from.getBoundingClientRect();
+    for (const nb of adj.get(id)) {
+      const to = pillOf.get(nb);
+      const toRect = to.getBoundingClientRect();
+      const dy = toRect.top - fromRect.top;
+      let p1, p2;
+      if (Math.abs(dy) < 8) {           // same visual line → arc between sides
+        const leftFirst = fromRect.left < toRect.left;
+        p1 = anchor(from, leftFirst ? "right" : "left");
+        p2 = anchor(to, leftFirst ? "left" : "right");
+      } else if (dy > 0) {              // neighbor below
+        p1 = anchor(from, "bottom");
+        p2 = anchor(to, "top");
+      } else {                          // neighbor above
+        p1 = anchor(from, "top");
+        p2 = anchor(to, "bottom");
+      }
+      const [x1, y1] = p1, [x2, y2] = p2;
+      const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+      let d;
+      if (Math.abs(dy) < 8) {
+        const lift = Math.min(26, 10 + Math.abs(x2 - x1) * 0.06);
+        d = `M ${x1} ${y1} C ${x1} ${y1 - lift}, ${x2} ${y2 - lift}, ${x2} ${y2}`;
+      } else {
+        const sag = (y2 - y1) * 0.5;
+        d = `M ${x1} ${y1} C ${x1} ${y1 + sag}, ${x2} ${y2 - sag}, ${x2} ${y2}`;
+      }
+      path.setAttribute("d", d);
+      path.setAttribute("fill", "none");
+      path.setAttribute("stroke", catVar(DATA.nodes[nb].folder));
+      path.setAttribute("stroke-width", "1.6");
+      path.setAttribute("stroke-opacity", "0.65");
+      path.setAttribute("stroke-linecap", "round");
+      svg.appendChild(path);
+    }
+  }
+
+  // ---------- sidebar ----------
+  function groupLabelOf(id) {
+    for (const row of DATA.rows) if (row.ids.includes(id)) return row.label;
+    return DATA.nodes[id].folder;
+  }
+
+  function connButton(id) {
+    const n = DATA.nodes[id];
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = "conn";
+    b.style.setProperty("--cat", catVar(n.folder));
+    b.innerHTML = `<span class="dot"></span><span></span>`;
+    b.lastElementChild.textContent = n.title;
+    b.addEventListener("click", () => select(id));
+    return b;
+  }
+
+  function renderPanel(id) {
+    const n = DATA.nodes[id];
+    panel.replaceChildren();
+    const kicker = document.createElement("p");
+    kicker.className = "aside-kicker";
+    kicker.style.setProperty("--cat", catVar(n.folder));
+    kicker.innerHTML = `<span class="chip"></span><span></span>`;
+    kicker.lastElementChild.textContent = groupLabelOf(id);
+    const h = document.createElement("h2");
+    h.textContent = n.title;
+    const sub = document.createElement("p");
+    sub.className = "aside-sub";
+    sub.textContent = `${n.deg} connection${n.deg === 1 ? "" : "s"} across the wiki`;
+    panel.append(kicker, h, sub);
+
+    // group neighbors by board row, in row order
+    const neighbors = adj.get(id);
+    for (const row of DATA.rows) {
+      const hits = row.ids.filter(pid => neighbors.has(pid));
+      if (!hits.length) continue;
+      const g = document.createElement("div");
+      g.className = "conn-group";
+      const gh = document.createElement("h3");
+      gh.textContent = `${row.label} · ${hits.length}`;
+      const list = document.createElement("div");
+      list.className = "conn-list";
+      for (const pid of hits) list.appendChild(connButton(pid));
+      g.append(gh, list);
+      panel.appendChild(g);
+    }
+  }
+
+  function renderIdlePanel() {
+    panel.replaceChildren();
+    const kicker = document.createElement("p");
+    kicker.className = "aside-kicker";
+    kicker.textContent = "Nothing selected";
+    const h = document.createElement("h2");
+    h.textContent = "Start with a hub";
+    const sub = document.createElement("p");
+    sub.className = "aside-sub";
+    sub.textContent = "These are the most-connected pages on the board — the pages most of the wiki runs through.";
+    panel.append(kicker, h, sub);
+    const list = document.createElement("div");
+    list.className = "conn-list";
+    const hubs = Object.entries(DATA.nodes)
+      .sort((a, b) => b[1].deg - a[1].deg).slice(0, 12);
+    for (const [id, n] of hubs) {
+      const b = connButton(id);
+      const deg = document.createElement("span");
+      deg.className = "deg mono";
+      deg.style.cssText = "margin-left:auto;font-size:10.5px;color:var(--muted)";
+      deg.textContent = n.deg;
+      b.appendChild(deg);
+      list.appendChild(b);
+    }
+    panel.appendChild(list);
+  }
+
+  // ---------- search ----------
+  searchBox.addEventListener("input", () => {
+    const q = searchBox.value.trim().toLowerCase();
+    board.classList.toggle("searching", q.length > 0);
+    for (const [id, el] of pillOf) {
+      el.classList.toggle("hit", q.length > 0 && DATA.nodes[id].title.toLowerCase().includes(q));
+    }
+  });
+
+  // ---------- global ----------
+  document.getElementById("reset").addEventListener("click", () => {
+    clear();
+    searchBox.value = "";
+    board.classList.remove("searching");
+    for (const el of pillOf.values()) el.classList.remove("hit");
+  });
+  document.addEventListener("keydown", e => {
+    if (e.key === "Escape") {
+      if (searchBox.value) {
+        searchBox.value = "";
+        board.classList.remove("searching");
+        for (const el of pillOf.values()) el.classList.remove("hit");
+      } else clear();
+    }
+  });
+  board.addEventListener("click", e => { if (e.target === board) clear(); });
+  new ResizeObserver(() => { if (selected) drawCables(selected); }).observe(board);
+
+  renderIdlePanel();
+</script>

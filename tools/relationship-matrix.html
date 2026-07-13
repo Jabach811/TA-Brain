@@ -1,0 +1,688 @@
+<title>TA Brain — Relationship Switchboard</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root {
+    --page: #f9f9f7;
+    --board: #fcfcfb;
+    --ink: #0b0b0b;
+    --ink2: #52514e;
+    --muted: #898781;
+    --hair: #e1e0d9;
+    --ring: rgba(11, 11, 11, 0.10);
+    --c-roles: #2a78d6;
+    --c-entities: #1baf7a;
+    --c-concepts: #eda100;
+    --c-processes: #008300;
+    --c-glossary: #4a3aa7;
+    --c-sources: #e34948;
+    --c-onboarding: #e87ba4;
+    --c-root: #eb6834;
+    --wash: 14%;
+    --wash-active: 26%;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --page: #0d0d0d;
+      --board: #1a1a19;
+      --ink: #ffffff;
+      --ink2: #c3c2b7;
+      --muted: #898781;
+      --hair: #2c2c2a;
+      --ring: rgba(255, 255, 255, 0.10);
+      --c-roles: #3987e5;
+      --c-entities: #199e70;
+      --c-concepts: #c98500;
+      --c-glossary: #9085e9;
+      --c-sources: #e66767;
+      --c-onboarding: #d55181;
+      --c-root: #d95926;
+      --wash: 20%;
+      --wash-active: 34%;
+    }
+  }
+  :root[data-theme="light"] {
+    --page: #f9f9f7;
+    --board: #fcfcfb;
+    --ink: #0b0b0b;
+    --ink2: #52514e;
+    --muted: #898781;
+    --hair: #e1e0d9;
+    --ring: rgba(11, 11, 11, 0.10);
+    --c-roles: #2a78d6;
+    --c-entities: #1baf7a;
+    --c-concepts: #eda100;
+    --c-processes: #008300;
+    --c-glossary: #4a3aa7;
+    --c-sources: #e34948;
+    --c-onboarding: #e87ba4;
+    --c-root: #eb6834;
+    --wash: 14%;
+    --wash-active: 26%;
+  }
+  :root[data-theme="dark"] {
+    --page: #0d0d0d;
+    --board: #1a1a19;
+    --ink: #ffffff;
+    --ink2: #c3c2b7;
+    --muted: #898781;
+    --hair: #2c2c2a;
+    --ring: rgba(255, 255, 255, 0.10);
+    --c-roles: #3987e5;
+    --c-entities: #199e70;
+    --c-concepts: #c98500;
+    --c-processes: #008300;
+    --c-glossary: #9085e9;
+    --c-sources: #e66767;
+    --c-onboarding: #d55181;
+    --c-root: #d95926;
+    --wash: 20%;
+    --wash-active: 34%;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body {
+    background: var(--page);
+    color: var(--ink);
+    font: 15px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  .mono {
+    font-family: ui-monospace, "SF Mono", "Cascadia Mono", Menlo, Consolas, monospace;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .app {
+    max-width: 1480px;
+    margin: 0 auto;
+    padding: 20px clamp(12px, 3vw, 32px) 48px;
+  }
+
+  /* ---------- header ---------- */
+  header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 12px 24px;
+    padding-bottom: 16px;
+  }
+  .masthead { margin-right: auto; }
+  .eyebrow {
+    font-family: ui-monospace, "SF Mono", "Cascadia Mono", Menlo, Consolas, monospace;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 0 0 4px;
+  }
+  h1 {
+    font-size: clamp(20px, 3vw, 26px);
+    line-height: 1.15;
+    letter-spacing: -0.015em;
+    margin: 0;
+    text-wrap: balance;
+  }
+  .stats {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .stat {
+    font-family: ui-monospace, "SF Mono", "Cascadia Mono", Menlo, Consolas, monospace;
+    font-variant-numeric: tabular-nums;
+    font-size: 12px;
+    color: var(--ink2);
+    background: var(--board);
+    border: 1px solid var(--hair);
+    border-radius: 999px;
+    padding: 4px 11px;
+    white-space: nowrap;
+  }
+  .stat b { color: var(--ink); font-weight: 650; }
+  .controls {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+  #search {
+    font: inherit;
+    font-size: 13px;
+    color: var(--ink);
+    background: var(--board);
+    border: 1px solid var(--hair);
+    border-radius: 8px;
+    padding: 7px 12px;
+    width: 220px;
+  }
+  #search::placeholder { color: var(--muted); }
+  #search:focus-visible, button:focus-visible {
+    outline: 2px solid var(--c-roles);
+    outline-offset: 1px;
+  }
+  #reset {
+    font: inherit;
+    font-size: 13px;
+    color: var(--ink2);
+    background: var(--board);
+    border: 1px solid var(--hair);
+    border-radius: 8px;
+    padding: 7px 14px;
+    cursor: pointer;
+  }
+  #reset:hover { color: var(--ink); border-color: var(--muted); }
+
+  .hint {
+    font-size: 13px;
+    color: var(--muted);
+    margin: 0 0 14px;
+  }
+  .hint kbd {
+    font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    font-size: 11px;
+    border: 1px solid var(--hair);
+    border-bottom-width: 2px;
+    border-radius: 4px;
+    padding: 0 5px;
+    background: var(--board);
+  }
+
+  /* ---------- layout ---------- */
+  .layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 300px;
+    gap: 16px;
+    align-items: start;
+  }
+  @media (max-width: 1020px) {
+    .layout { grid-template-columns: minmax(0, 1fr); }
+    aside { position: static !important; }
+  }
+
+  /* ---------- board ---------- */
+  .board {
+    position: relative;
+    background: var(--board);
+    border: 1px solid var(--hair);
+    border-radius: 14px;
+    padding: 6px 0;
+    overflow: hidden;
+  }
+  #cables {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+  }
+  .row {
+    display: grid;
+    grid-template-columns: 158px minmax(0, 1fr);
+    gap: 12px;
+    padding: 10px 14px;
+  }
+  .row + .row { border-top: 1px solid var(--hair); }
+  .row-label {
+    padding-top: 7px;
+    min-width: 0;
+  }
+  .row-name {
+    font-family: ui-monospace, "SF Mono", "Cascadia Mono", Menlo, Consolas, monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink2);
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    line-height: 1.3;
+  }
+  .row-name .chip {
+    flex: none;
+    width: 8px;
+    height: 8px;
+    border-radius: 2px;
+    background: var(--cat);
+  }
+  .row-count {
+    font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    font-variant-numeric: tabular-nums;
+    font-size: 10.5px;
+    color: var(--muted);
+    margin: 3px 0 0 15px;
+  }
+  .cells {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    min-width: 0;
+  }
+  @media (max-width: 640px) {
+    .row { grid-template-columns: minmax(0, 1fr); gap: 6px; }
+    .row-label { padding-top: 0; display: flex; align-items: baseline; gap: 10px; }
+    .row-count { margin: 0; }
+  }
+
+  /* ---------- node pills ---------- */
+  .node {
+    position: relative;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font: inherit;
+    font-size: 12.5px;
+    line-height: 1.2;
+    color: var(--ink2);
+    background: var(--board);
+    border: 1px solid var(--hair);
+    border-radius: 999px;
+    padding: 5px 10px 5px 8px;
+    cursor: pointer;
+    text-align: left;
+    transition: opacity 140ms ease, border-color 140ms ease,
+                background-color 140ms ease, color 140ms ease;
+  }
+  .node .port {
+    flex: none;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    border: 1.5px solid var(--cat);
+    background: transparent;
+    transition: background-color 140ms ease, box-shadow 140ms ease;
+  }
+  .node .deg {
+    font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    font-variant-numeric: tabular-nums;
+    font-size: 10px;
+    color: var(--muted);
+  }
+  .node:hover { border-color: var(--cat); color: var(--ink); }
+
+  /* switchboard states */
+  .has-sel .node.off { opacity: 0.22; }
+  .node.lit {
+    opacity: 1;
+    border-color: var(--cat);
+    background: color-mix(in srgb, var(--cat) var(--wash), var(--board));
+    color: var(--ink);
+  }
+  .node.lit .port { background: var(--cat); }
+  .node.lit .deg { color: var(--ink2); }
+  .node.active {
+    opacity: 1;
+    border: 2px solid var(--cat);
+    background: color-mix(in srgb, var(--cat) var(--wash-active), var(--board));
+    color: var(--ink);
+    font-weight: 650;
+    padding: 4px 9px 4px 7px;
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--cat) 25%, transparent);
+  }
+  .node.active .port {
+    background: var(--cat);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--cat) 30%, transparent);
+  }
+  .node:focus-visible { outline: 2px solid var(--cat); outline-offset: 2px; }
+
+  /* search states */
+  .searching .node:not(.hit) { opacity: 0.18; }
+  .searching .node.hit { border-color: var(--cat); color: var(--ink); }
+
+  /* ---------- sidebar ---------- */
+  aside {
+    position: sticky;
+    top: 16px;
+    background: var(--board);
+    border: 1px solid var(--hair);
+    border-radius: 14px;
+    padding: 16px;
+    max-height: calc(100vh - 32px);
+    overflow-y: auto;
+  }
+  aside h2 {
+    font-size: 15px;
+    line-height: 1.25;
+    margin: 0 0 2px;
+    letter-spacing: -0.01em;
+  }
+  .aside-kicker {
+    font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 0 0 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .aside-kicker .chip {
+    width: 8px; height: 8px; border-radius: 2px; background: var(--cat);
+  }
+  .aside-sub {
+    font-size: 12.5px;
+    color: var(--ink2);
+    margin: 0 0 14px;
+  }
+  .conn-group { margin: 0 0 12px; }
+  .conn-group h3 {
+    font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 0 0 6px;
+    font-weight: 500;
+  }
+  .conn-list { display: flex; flex-direction: column; gap: 3px; }
+  .conn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font: inherit;
+    font-size: 12.5px;
+    color: var(--ink2);
+    background: none;
+    border: 0;
+    border-radius: 7px;
+    padding: 4px 6px;
+    cursor: pointer;
+    text-align: left;
+    width: 100%;
+  }
+  .conn:hover { background: color-mix(in srgb, var(--cat) 12%, var(--board)); color: var(--ink); }
+  .conn .dot {
+    flex: none;
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--cat);
+  }
+  .empty-note { font-size: 12.5px; color: var(--muted); margin: 0; }
+
+  footer {
+    margin-top: 18px;
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .node, .node .port { transition: none; }
+  }
+</style>
+
+<div class="app">
+  <header>
+    <div class="masthead">
+      <p class="eyebrow">TA Brain · Switchboard View</p>
+      <h1>Wiki Relationship Matrix</h1>
+    </div>
+    <div class="stats" id="stats"></div>
+    <div class="controls">
+      <input id="search" type="search" placeholder="Find a page…" autocomplete="off">
+      <button id="reset" type="button">Reset</button>
+    </div>
+  </header>
+  <p class="hint">Every page in the wiki is a jack on this board. Click one and everything it connects
+    to lights up, with cables running to each related page. Click it again — or press <kbd>Esc</kbd> — to switch it off.</p>
+
+  <div class="layout">
+    <div class="board" id="board">
+      <svg id="cables" aria-hidden="true"></svg>
+    </div>
+    <aside id="panel" aria-live="polite"></aside>
+  </div>
+
+  <footer>Generated from the live wiki by <span class="mono">tools/build_relationship_matrix.py</span> —
+    re-run it after any ingest to refresh this board.</footer>
+</div>
+
+<script>
+  const DATA = {"nodes":{"root/overview":{"title":"Overview","folder":"root","deg":27},"processes/plan-conversion-handoffs":{"title":"Plan Conversion Handoffs","folder":"processes","deg":26},"glossary/aaa":{"title":"AAA","folder":"glossary","deg":4},"glossary/awd":{"title":"AWD","folder":"glossary","deg":8},"glossary/csr":{"title":"CSR","folder":"glossary","deg":3},"glossary/faa":{"title":"FAA","folder":"glossary","deg":7},"glossary/filespecrq":{"title":"FILESPECRQ","folder":"glossary","deg":3},"glossary/ltpt":{"title":"LTPT","folder":"glossary","deg":4},"glossary/nsa":{"title":"NSA","folder":"glossary","deg":2},"glossary/pea":{"title":"PEA","folder":"glossary","deg":4},"glossary/ssbt":{"title":"SSBT","folder":"glossary","deg":6},"glossary/tm":{"title":"TM (Transition Manager)","folder":"glossary","deg":1},"glossary/vef":{"title":"VEF","folder":"glossary","deg":2},"concepts/advanced-employer":{"title":"Advanced Employer Account","folder":"concepts","deg":11},"concepts/audit-pack":{"title":"Audit Pack","folder":"concepts","deg":9},"concepts/base-file":{"title":"Base File","folder":"concepts","deg":11},"concepts/blackout-notice":{"title":"Blackout Notice","folder":"concepts","deg":7},"concepts/booking-assets":{"title":"Booking Assets","folder":"concepts","deg":9},"concepts/cccs-submission-package":{"title":"CCCS Submission Package","folder":"concepts","deg":7},"concepts/common-remitter-plans":{"title":"Common Remitter Plans","folder":"concepts","deg":6},"concepts/contribution-monitoring-form":{"title":"Contribution Monitoring Form","folder":"concepts","deg":7},"concepts/conv-file":{"title":"CONV File","folder":"concepts","deg":12},"concepts/conversion-types":{"title":"Conversion Types","folder":"concepts","deg":26},"concepts/csr":{"title":"CSR \u2014 Conversion Summary Report","folder":"concepts","deg":7},"concepts/data-discovery-document":{"title":"Data Discovery Document","folder":"concepts","deg":5},"concepts/dc-onboarding-workflow":{"title":"DC Onboarding Workflow","folder":"concepts","deg":45},"concepts/deferrals":{"title":"Deferral Processing","folder":"concepts","deg":11},"concepts/dummy-participant":{"title":"Dummy Participant","folder":"concepts","deg":13},"concepts/early-access":{"title":"Early Access","folder":"concepts","deg":6},"concepts/eds-load-beneficiary-requirements":{"title":"EDS Load Beneficiary Requirements","folder":"concepts","deg":4},"concepts/eligibility-and-deferrals":{"title":"Eligibility and Deferrals","folder":"concepts","deg":13},"concepts/eligibility":{"title":"Eligibility Processing","folder":"concepts","deg":18},"concepts/faa-dc-data-requirements":{"title":"FAA \u2014 DC Data Requirements","folder":"concepts","deg":6},"concepts/final-files-processing":{"title":"Final Files Processing","folder":"concepts","deg":34},"concepts/ftp-connection":{"title":"FTP Connection","folder":"concepts","deg":16},"concepts/fund-management-calendar":{"title":"Fund Management Calendar","folder":"concepts","deg":15},"concepts/fund-mapping":{"title":"Fund Mapping","folder":"concepts","deg":16},"concepts/hours-procedure":{"title":"Hours Procedure","folder":"concepts","deg":4},"concepts/informatica-allocation-module":{"title":"Informatica Allocation Module","folder":"concepts","deg":9},"concepts/informatica-balance-module":{"title":"Informatica Balance Module","folder":"concepts","deg":8},"concepts/informatica-basis-module":{"title":"Informatica Basis Module","folder":"concepts","deg":4},"concepts/informatica-loan-module":{"title":"Informatica Loan Module","folder":"concepts","deg":6},"concepts/informatica-training-manual":{"title":"Informatica Training Manual","folder":"concepts","deg":6},"concepts/informatica-troubleshooting-guide":{"title":"Informatica Troubleshooting Guide","folder":"concepts","deg":5},"concepts/liquidation-day":{"title":"Liquidation Day","folder":"concepts","deg":28},"concepts/loading-basis-eds":{"title":"Loading Basis through EDS","folder":"concepts","deg":5},"concepts/loading-eligibility-eds":{"title":"Loading Eligibility through EDS","folder":"concepts","deg":8},"concepts/loading-ytd-contributions-eds":{"title":"Loading YTD Contributions through EDS","folder":"concepts","deg":6},"concepts/ltpt-eligibility":{"title":"LTPT Eligibility (Long-Term Part-Time)","folder":"concepts","deg":9},"concepts/nsa":{"title":"NSA \u2014 New Sale Announcement","folder":"concepts","deg":7},"concepts/onboarding-package":{"title":"Onboarding Package","folder":"concepts","deg":17},"concepts/payroll-handoff-at-go-live":{"title":"Payroll Handoff at Go-Live","folder":"concepts","deg":10},"concepts/payroll-template":{"title":"Payroll Template","folder":"concepts","deg":14},"concepts/plan-classes":{"title":"Plan Classes","folder":"concepts","deg":11},"concepts/prd":{"title":"PRD \u2014 Plan Review Document","folder":"concepts","deg":18},"concepts/prior-carrier-letter":{"title":"Prior Carrier Letter","folder":"concepts","deg":6},"concepts/prior-record-keeper":{"title":"Prior Record Keeper","folder":"concepts","deg":15},"concepts/project-plan-com":{"title":"Project Plan (COM)","folder":"concepts","deg":7},"concepts/rdd-form":{"title":"RDD Form","folder":"concepts","deg":6},"concepts/reversal-process":{"title":"Reversal Process","folder":"concepts","deg":7},"concepts/source-mapping":{"title":"Source Mapping","folder":"concepts","deg":20},"concepts/subpack":{"title":"Subpack \u2014 Submission Package","folder":"concepts","deg":14},"concepts/toa":{"title":"TOA \u2014 Transfer of Assets","folder":"concepts","deg":15},"concepts/transfer-in-kind":{"title":"Transfer In Kind (TIK / Re-registration)","folder":"concepts","deg":12},"concepts/vef":{"title":"VEF \u2014 Vendor Expense Form","folder":"concepts","deg":6},"concepts/wire-instructions":{"title":"Wire Instructions","folder":"concepts","deg":11},"sources/com-main-checklist":{"title":"Source: COM Main Checklist","folder":"sources","deg":24},"sources/dc-brain-dump-001":{"title":"DC Brain Dump 001 \u2014 Full Job Workflow","folder":"sources","deg":27},"sources/extra-questions-001":{"title":"Extra Questions \u2014 Round 4 Answers","folder":"sources","deg":32},"sources/lmdc-training-notebook":{"title":"LMDC Training Notebook","folder":"sources","deg":36},"sources/subpack-cccs":{"title":"Source: New Plan Submission Package \u2014 CCCS Document","folder":"sources","deg":9},"roles/com":{"title":"Communications Coordinator (COM)","folder":"roles","deg":33},"roles/doc-ops":{"title":"Document Operations (Doc Ops)","folder":"roles","deg":9},"roles/lm-dc":{"title":"Large Market Data Consultant (LM DC)","folder":"roles","deg":41},"roles/qa":{"title":"Quality Assurance (QA)","folder":"roles","deg":11},"roles/tc":{"title":"Transition Consultant (TC)","folder":"roles","deg":13},"entities/aqt":{"title":"AQT","folder":"entities","deg":8},"entities/cashiering":{"title":"Cashiering","folder":"entities","deg":14},"entities/dave-shloat":{"title":"Dave Shloat","folder":"entities","deg":5},"entities/docusign":{"title":"DocuSign","folder":"entities","deg":5},"entities/earl-sanford":{"title":"Earl Sanford","folder":"entities","deg":5},"entities/eds":{"title":"EDS","folder":"entities","deg":31},"entities/ellen-miller":{"title":"Ellen Miller","folder":"entities","deg":14},"entities/eric-leyten":{"title":"Eric Leytem","folder":"entities","deg":6},"entities/ftp-team":{"title":"FTP Team","folder":"entities","deg":10},"entities/informatica":{"title":"Informatica","folder":"entities","deg":31},"entities/internal-teams":{"title":"Internal Teams","folder":"entities","deg":32},"entities/jen-curtin":{"title":"Jen Curtin","folder":"entities","deg":9},"entities/matt-oconnell":{"title":"Matt O'Connell","folder":"entities","deg":14},"entities/nbi":{"title":"NBI","folder":"entities","deg":20},"entities/nick-lister":{"title":"Nick Lister","folder":"entities","deg":7},"entities/p2":{"title":"P2","folder":"entities","deg":11},"entities/p3":{"title":"P3","folder":"entities","deg":28},"entities/payroll-support":{"title":"Payroll Support (OnePayroll Team)","folder":"entities","deg":12},"entities/prod-support":{"title":"Prod Support","folder":"entities","deg":13},"entities/rich-lippoth":{"title":"Rich Lippoth","folder":"entities","deg":5},"entities/scott-vrba":{"title":"Scott Vrba","folder":"entities","deg":7},"entities/stacey-fortune":{"title":"Stacey Fortune","folder":"entities","deg":9},"entities/wx":{"title":"WX \u2014 Plan Sponsor Site","folder":"entities","deg":7},"onboarding/com":{"title":"Onboarding Guide: Communications Coordinator (COM)","folder":"onboarding","deg":25},"onboarding/lm-dc":{"title":"Onboarding Guide: Large Market Data Consultant","folder":"onboarding","deg":34}},"edges":[["concepts/advanced-employer","concepts/booking-assets"],["concepts/advanced-employer","concepts/conv-file"],["concepts/advanced-employer","concepts/conversion-types"],["concepts/advanced-employer","concepts/dummy-participant"],["concepts/advanced-employer","concepts/final-files-processing"],["concepts/advanced-employer","concepts/liquidation-day"],["concepts/advanced-employer","entities/informatica"],["concepts/advanced-employer","entities/nick-lister"],["concepts/advanced-employer","entities/p2"],["concepts/advanced-employer","entities/p3"],["concepts/advanced-employer","entities/stacey-fortune"],["concepts/audit-pack","concepts/conversion-types"],["concepts/audit-pack","concepts/csr"],["concepts/audit-pack","concepts/dc-onboarding-workflow"],["concepts/audit-pack","concepts/final-files-processing"],["concepts/audit-pack","entities/internal-teams"],["concepts/audit-pack","onboarding/com"],["concepts/audit-pack","onboarding/lm-dc"],["concepts/audit-pack","roles/qa"],["concepts/audit-pack","sources/extra-questions-001"],["concepts/base-file","concepts/data-discovery-document"],["concepts/base-file","concepts/dc-onboarding-workflow"],["concepts/base-file","concepts/final-files-processing"],["concepts/base-file","concepts/payroll-template"],["concepts/base-file","concepts/prd"],["concepts/base-file","entities/eds"],["concepts/base-file","entities/p3"],["concepts/base-file","root/overview"],["concepts/base-file","sources/dc-brain-dump-001"],["concepts/base-file","sources/extra-questions-001"],["concepts/base-file","sources/lmdc-training-notebook"],["concepts/blackout-notice","concepts/prior-carrier-letter"],["concepts/blackout-notice","concepts/prior-record-keeper"],["concepts/blackout-notice","entities/ellen-miller"],["concepts/blackout-notice","onboarding/com"],["concepts/blackout-notice","processes/plan-conversion-handoffs"],["concepts/blackout-notice","roles/com"],["concepts/blackout-notice","sources/com-main-checklist"],["concepts/booking-assets","concepts/final-files-processing"],["concepts/booking-assets","concepts/fund-management-calendar"],["concepts/booking-assets","concepts/liquidation-day"],["concepts/booking-assets","concepts/reversal-process"],["concepts/booking-assets","entities/cashiering"],["concepts/booking-assets","glossary/awd"],["concepts/booking-assets","roles/lm-dc"],["concepts/booking-assets","sources/lmdc-training-notebook"],["concepts/cccs-submission-package","concepts/conversion-types"],["concepts/cccs-submission-package","concepts/deferrals"],["concepts/cccs-submission-package","concepts/eligibility"],["concepts/cccs-submission-package","concepts/ftp-connection"],["concepts/cccs-submission-package","concepts/subpack"],["concepts/cccs-submission-package","entities/eds"],["concepts/cccs-submission-package","sources/subpack-cccs"],["concepts/common-remitter-plans","concepts/conversion-types"],["concepts/common-remitter-plans","concepts/dc-onboarding-workflow"],["concepts/common-remitter-plans","concepts/liquidation-day"],["concepts/common-remitter-plans","entities/p3"],["concepts/common-remitter-plans","roles/lm-dc"],["concepts/common-remitter-plans","sources/lmdc-training-notebook"],["concepts/contribution-monitoring-form","concepts/rdd-form"],["concepts/contribution-monitoring-form","entities/payroll-support"],["concepts/contribution-monitoring-form","onboarding/com"],["concepts/contribution-monitoring-form","processes/plan-conversion-handoffs"],["concepts/contribution-monitoring-form","roles/com"],["concepts/contribution-monitoring-form","roles/tc"],["concepts/contribution-monitoring-form","sources/com-main-checklist"],["concepts/conv-file","concepts/conversion-types"],["concepts/conv-file","concepts/dummy-participant"],["concepts/conv-file","concepts/fund-mapping"],["concepts/conv-file","concepts/liquidation-day"],["concepts/conv-file","concepts/source-mapping"],["concepts/conv-file","concepts/transfer-in-kind"],["concepts/conv-file","entities/cashiering"],["concepts/conv-file","entities/informatica"],["concepts/conv-file","entities/p2"],["concepts/conv-file","entities/p3"],["concepts/conv-file","onboarding/lm-dc"],["concepts/conversion-types","concepts/dc-onboarding-workflow"],["concepts/conversion-types","concepts/dummy-participant"],["concepts/conversion-types","concepts/final-files-processing"],["concepts/conversion-types","concepts/fund-management-calendar"],["concepts/conversion-types","concepts/fund-mapping"],["concepts/conversion-types","concepts/liquidation-day"],["concepts/conversion-types","concepts/source-mapping"],["concepts/conversion-types","concepts/subpack"],["concepts/conversion-types","concepts/toa"],["concepts/conversion-types","concepts/transfer-in-kind"],["concepts/conversion-types","entities/informatica"],["concepts/conversion-types","entities/matt-oconnell"],["concepts/conversion-types","entities/p2"],["concepts/conversion-types","entities/stacey-fortune"],["concepts/conversion-types","onboarding/com"],["concepts/conversion-types","onboarding/lm-dc"],["concepts/conversion-types","roles/lm-dc"],["concepts/conversion-types","root/overview"],["concepts/conversion-types","sources/dc-brain-dump-001"],["concepts/conversion-types","sources/lmdc-training-notebook"],["concepts/conversion-types","sources/subpack-cccs"],["concepts/csr","glossary/csr"],["concepts/csr","onboarding/com"],["concepts/csr","processes/plan-conversion-handoffs"],["concepts/csr","roles/com"],["concepts/csr","roles/qa"],["concepts/csr","sources/com-main-checklist"],["concepts/data-discovery-document","concepts/loading-eligibility-eds"],["concepts/data-discovery-document","concepts/prior-record-keeper"],["concepts/data-discovery-document","concepts/source-mapping"],["concepts/data-discovery-document","entities/eds"],["concepts/dc-onboarding-workflow","concepts/deferrals"],["concepts/dc-onboarding-workflow","concepts/dummy-participant"],["concepts/dc-onboarding-workflow","concepts/eligibility"],["concepts/dc-onboarding-workflow","concepts/eligibility-and-deferrals"],["concepts/dc-onboarding-workflow","concepts/final-files-processing"],["concepts/dc-onboarding-workflow","concepts/ftp-connection"],["concepts/dc-onboarding-workflow","concepts/fund-management-calendar"],["concepts/dc-onboarding-workflow","concepts/fund-mapping"],["concepts/dc-onboarding-workflow","concepts/liquidation-day"],["concepts/dc-onboarding-workflow","concepts/onboarding-package"],["concepts/dc-onboarding-workflow","concepts/payroll-template"],["concepts/dc-onboarding-workflow","concepts/plan-classes"],["concepts/dc-onboarding-workflow","concepts/prd"],["concepts/dc-onboarding-workflow","concepts/prior-record-keeper"],["concepts/dc-onboarding-workflow","concepts/project-plan-com"],["concepts/dc-onboarding-workflow","concepts/reversal-process"],["concepts/dc-onboarding-workflow","concepts/source-mapping"],["concepts/dc-onboarding-workflow","concepts/subpack"],["concepts/dc-onboarding-workflow","concepts/toa"],["concepts/dc-onboarding-workflow","concepts/wire-instructions"],["concepts/dc-onboarding-workflow","entities/aqt"],["concepts/dc-onboarding-workflow","entities/cashiering"],["concepts/dc-onboarding-workflow","entities/dave-shloat"],["concepts/dc-onboarding-workflow","entities/earl-sanford"],["concepts/dc-onboarding-workflow","entities/eds"],["concepts/dc-onboarding-workflow","entities/ellen-miller"],["concepts/dc-onboarding-workflow","entities/ftp-team"],["concepts/dc-onboarding-workflow","entities/informatica"],["concepts/dc-onboarding-workflow","entities/internal-teams"],["concepts/dc-onboarding-workflow","entities/matt-oconnell"],["concepts/dc-onboarding-workflow","entities/nbi"],["concepts/dc-onboarding-workflow","entities/p3"],["concepts/dc-onboarding-workflow","entities/payroll-support"],["concepts/dc-onboarding-workflow","entities/prod-support"],["concepts/dc-onboarding-workflow","onboarding/lm-dc"],["concepts/dc-onboarding-workflow","processes/plan-conversion-handoffs"],["concepts/dc-onboarding-workflow","roles/lm-dc"],["concepts/dc-onboarding-workflow","root/overview"],["concepts/dc-onboarding-workflow","sources/dc-brain-dump-001"],["concepts/dc-onboarding-workflow","sources/extra-questions-001"],["concepts/dc-onboarding-workflow","sources/lmdc-training-notebook"],["concepts/deferrals","concepts/eligibility"],["concepts/deferrals","concepts/eligibility-and-deferrals"],["concepts/deferrals","concepts/final-files-processing"],["concepts/deferrals","concepts/ltpt-eligibility"],["concepts/deferrals","concepts/prior-record-keeper"],["concepts/deferrals","entities/eds"],["concepts/deferrals","entities/p3"],["concepts/deferrals","sources/lmdc-training-notebook"],["concepts/deferrals","sources/subpack-cccs"],["concepts/dummy-participant","concepts/final-files-processing"],["concepts/dummy-participant","concepts/liquidation-day"],["concepts/dummy-participant","concepts/transfer-in-kind"],["concepts/dummy-participant","entities/informatica"],["concepts/dummy-participant","entities/p3"],["concepts/dummy-participant","onboarding/lm-dc"],["concepts/dummy-participant","sources/dc-brain-dump-001"],["concepts/dummy-participant","sources/extra-questions-001"],["concepts/dummy-participant","sources/lmdc-training-notebook"],["concepts/early-access","onboarding/com"],["concepts/early-access","processes/plan-conversion-handoffs"],["concepts/early-access","roles/com"],["concepts/early-access","roles/lm-dc"],["concepts/early-access","roles/tc"],["concepts/early-access","sources/com-main-checklist"],["concepts/eds-load-beneficiary-requirements","concepts/final-files-processing"],["concepts/eds-load-beneficiary-requirements","concepts/loading-eligibility-eds"],["concepts/eds-load-beneficiary-requirements","concepts/loading-ytd-contributions-eds"],["concepts/eds-load-beneficiary-requirements","entities/eds"],["concepts/eligibility","concepts/eligibility-and-deferrals"],["concepts/eligibility","concepts/final-files-processing"],["concepts/eligibility","concepts/hours-procedure"],["concepts/eligibility","concepts/loading-eligibility-eds"],["concepts/eligibility","concepts/ltpt-eligibility"],["concepts/eligibility","concepts/onboarding-package"],["concepts/eligibility","concepts/plan-classes"],["concepts/eligibility","concepts/prd"],["concepts/eligibility","concepts/source-mapping"],["concepts/eligibility","entities/eds"],["concepts/eligibility","entities/p3"],["concepts/eligibility","entities/scott-vrba"],["concepts/eligibility","glossary/ltpt"],["concepts/eligibility","sources/lmdc-training-notebook"],["concepts/eligibility","sources/subpack-cccs"],["concepts/eligibility-and-deferrals","concepts/final-files-processing"],["concepts/eligibility-and-deferrals","concepts/loading-eligibility-eds"],["concepts/eligibility-and-deferrals","concepts/ltpt-eligibility"],["concepts/eligibility-and-deferrals","entities/p3"],["concepts/eligibility-and-deferrals","entities/scott-vrba"],["concepts/eligibility-and-deferrals","onboarding/lm-dc"],["concepts/eligibility-and-deferrals","processes/plan-conversion-handoffs"],["concepts/eligibility-and-deferrals","roles/qa"],["concepts/eligibility-and-deferrals","sources/dc-brain-dump-001"],["concepts/eligibility-and-deferrals","sources/extra-questions-001"],["concepts/faa-dc-data-requirements","concepts/fund-mapping"],["concepts/faa-dc-data-requirements","concepts/informatica-allocation-module"],["concepts/faa-dc-data-requirements","concepts/source-mapping"],["concepts/faa-dc-data-requirements","entities/eds"],["concepts/faa-dc-data-requirements","entities/informatica"],["concepts/faa-dc-data-requirements","glossary/faa"],["concepts/final-files-processing","concepts/fund-management-calendar"],["concepts/final-files-processing","concepts/informatica-allocation-module"],["concepts/final-files-processing","concepts/informatica-balance-module"],["concepts/final-files-processing","concepts/informatica-basis-module"],["concepts/final-files-processing","concepts/informatica-loan-module"],["concepts/final-files-processing","concepts/liquidation-day"],["concepts/final-files-processing","concepts/loading-basis-eds"],["concepts/final-files-processing","concepts/loading-ytd-contributions-eds"],["concepts/final-files-processing","concepts/prior-record-keeper"],["concepts/final-files-processing","concepts/transfer-in-kind"],["concepts/final-files-processing","entities/eds"],["concepts/final-files-processing","entities/informatica"],["concepts/final-files-processing","entities/matt-oconnell"],["concepts/final-files-processing","entities/nbi"],["concepts/final-files-processing","entities/nick-lister"],["concepts/final-files-processing","entities/p3"],["concepts/final-files-processing","entities/prod-support"],["concepts/final-files-processing","entities/stacey-fortune"],["concepts/final-files-processing","onboarding/lm-dc"],["concepts/final-files-processing","roles/lm-dc"],["concepts/final-files-processing","root/overview"],["concepts/final-files-processing","sources/dc-brain-dump-001"],["concepts/final-files-processing","sources/extra-questions-001"],["concepts/ftp-connection","concepts/payroll-handoff-at-go-live"],["concepts/ftp-connection","concepts/payroll-template"],["concepts/ftp-connection","entities/eds"],["concepts/ftp-connection","entities/eric-leyten"],["concepts/ftp-connection","entities/ftp-team"],["concepts/ftp-connection","entities/internal-teams"],["concepts/ftp-connection","entities/jen-curtin"],["concepts/ftp-connection","entities/payroll-support"],["concepts/ftp-connection","entities/wx"],["concepts/ftp-connection","onboarding/com"],["concepts/ftp-connection","onboarding/lm-dc"],["concepts/ftp-connection","sources/dc-brain-dump-001"],["concepts/ftp-connection","sources/extra-questions-001"],["concepts/ftp-connection","sources/subpack-cccs"],["concepts/fund-management-calendar","concepts/informatica-balance-module"],["concepts/fund-management-calendar","concepts/liquidation-day"],["concepts/fund-management-calendar","entities/cashiering"],["concepts/fund-management-calendar","entities/informatica"],["concepts/fund-management-calendar","entities/rich-lippoth"],["concepts/fund-management-calendar","glossary/ssbt"],["concepts/fund-management-calendar","onboarding/lm-dc"],["concepts/fund-management-calendar","roles/lm-dc"],["concepts/fund-management-calendar","root/overview"],["concepts/fund-management-calendar","sources/extra-questions-001"],["concepts/fund-management-calendar","sources/lmdc-training-notebook"],["concepts/fund-mapping","concepts/informatica-allocation-module"],["concepts/fund-mapping","concepts/onboarding-package"],["concepts/fund-mapping","concepts/prd"],["concepts/fund-mapping","concepts/source-mapping"],["concepts/fund-mapping","concepts/toa"],["concepts/fund-mapping","entities/internal-teams"],["concepts/fund-mapping","glossary/faa"],["concepts/fund-mapping","onboarding/lm-dc"],["concepts/fund-mapping","roles/qa"],["concepts/fund-mapping","sources/dc-brain-dump-001"],["concepts/fund-mapping","sources/extra-questions-001"],["concepts/fund-mapping","sources/lmdc-training-notebook"],["concepts/hours-procedure","concepts/loading-eligibility-eds"],["concepts/hours-procedure","concepts/ltpt-eligibility"],["concepts/hours-procedure","entities/eds"],["concepts/informatica-allocation-module","concepts/informatica-balance-module"],["concepts/informatica-allocation-module","concepts/informatica-loan-module"],["concepts/informatica-allocation-module","concepts/informatica-training-manual"],["concepts/informatica-allocation-module","concepts/informatica-troubleshooting-guide"],["concepts/informatica-allocation-module","entities/informatica"],["concepts/informatica-allocation-module","glossary/faa"],["concepts/informatica-balance-module","concepts/informatica-loan-module"],["concepts/informatica-balance-module","concepts/informatica-training-manual"],["concepts/informatica-balance-module","concepts/informatica-troubleshooting-guide"],["concepts/informatica-balance-module","entities/informatica"],["concepts/informatica-balance-module","entities/rich-lippoth"],["concepts/informatica-basis-module","concepts/informatica-training-manual"],["concepts/informatica-basis-module","concepts/loading-basis-eds"],["concepts/informatica-basis-module","entities/informatica"],["concepts/informatica-loan-module","concepts/informatica-training-manual"],["concepts/informatica-loan-module","concepts/informatica-troubleshooting-guide"],["concepts/informatica-loan-module","entities/informatica"],["concepts/informatica-training-manual","concepts/informatica-troubleshooting-guide"],["concepts/informatica-training-manual","entities/informatica"],["concepts/informatica-troubleshooting-guide","entities/informatica"],["concepts/liquidation-day","concepts/prior-record-keeper"],["concepts/liquidation-day","concepts/reversal-process"],["concepts/liquidation-day","concepts/transfer-in-kind"],["concepts/liquidation-day","concepts/wire-instructions"],["concepts/liquidation-day","entities/cashiering"],["concepts/liquidation-day","entities/informatica"],["concepts/liquidation-day","entities/internal-teams"],["concepts/liquidation-day","entities/matt-oconnell"],["concepts/liquidation-day","entities/p2"],["concepts/liquidation-day","entities/p3"],["concepts/liquidation-day","entities/rich-lippoth"],["concepts/liquidation-day","glossary/ssbt"],["concepts/liquidation-day","onboarding/lm-dc"],["concepts/liquidation-day","processes/plan-conversion-handoffs"],["concepts/liquidation-day","roles/lm-dc"],["concepts/liquidation-day","root/overview"],["concepts/liquidation-day","sources/dc-brain-dump-001"],["concepts/liquidation-day","sources/extra-questions-001"],["concepts/liquidation-day","sources/lmdc-training-notebook"],["concepts/loading-basis-eds","concepts/loading-eligibility-eds"],["concepts/loading-basis-eds","concepts/loading-ytd-contributions-eds"],["concepts/loading-basis-eds","entities/eds"],["concepts/loading-eligibility-eds","concepts/loading-ytd-contributions-eds"],["concepts/loading-eligibility-eds","entities/eds"],["concepts/loading-ytd-contributions-eds","concepts/source-mapping"],["concepts/loading-ytd-contributions-eds","entities/eds"],["concepts/ltpt-eligibility","concepts/plan-classes"],["concepts/ltpt-eligibility","entities/eds"],["concepts/ltpt-eligibility","glossary/ltpt"],["concepts/ltpt-eligibility","roles/lm-dc"],["concepts/ltpt-eligibility","sources/lmdc-training-notebook"],["concepts/nsa","concepts/project-plan-com"],["concepts/nsa","entities/nbi"],["concepts/nsa","glossary/nsa"],["concepts/nsa","onboarding/com"],["concepts/nsa","processes/plan-conversion-handoffs"],["concepts/nsa","roles/com"],["concepts/nsa","sources/com-main-checklist"],["concepts/onboarding-package","concepts/plan-classes"],["concepts/onboarding-package","concepts/prd"],["concepts/onboarding-package","concepts/subpack"],["concepts/onboarding-package","concepts/toa"],["concepts/onboarding-package","entities/docusign"],["concepts/onboarding-package","entities/scott-vrba"],["concepts/onboarding-package","glossary/aaa"],["concepts/onboarding-package","glossary/pea"],["concepts/onboarding-package","onboarding/com"],["concepts/onboarding-package","roles/com"],["concepts/onboarding-package","root/overview"],["concepts/onboarding-package","sources/com-main-checklist"],["concepts/onboarding-package","sources/dc-brain-dump-001"],["concepts/onboarding-package","sources/extra-questions-001"],["concepts/payroll-handoff-at-go-live","concepts/payroll-template"],["concepts/payroll-handoff-at-go-live","entities/nbi"],["concepts/payroll-handoff-at-go-live","entities/payroll-support"],["concepts/payroll-handoff-at-go-live","glossary/awd"],["concepts/payroll-handoff-at-go-live","glossary/filespecrq"],["concepts/payroll-handoff-at-go-live","processes/plan-conversion-handoffs"],["concepts/payroll-handoff-at-go-live","roles/com"],["concepts/payroll-handoff-at-go-live","roles/lm-dc"],["concepts/payroll-handoff-at-go-live","sources/lmdc-training-notebook"],["concepts/payroll-template","concepts/source-mapping"],["concepts/payroll-template","entities/eds"],["concepts/payroll-template","entities/eric-leyten"],["concepts/payroll-template","entities/ftp-team"],["concepts/payroll-template","entities/internal-teams"],["concepts/payroll-template","entities/payroll-support"],["concepts/payroll-template","root/overview"],["concepts/payroll-template","sources/dc-brain-dump-001"],["concepts/payroll-template","sources/extra-questions-001"],["concepts/payroll-template","sources/lmdc-training-notebook"],["concepts/plan-classes","concepts/prd"],["concepts/plan-classes","entities/internal-teams"],["concepts/plan-classes","entities/p3"],["concepts/plan-classes","entities/scott-vrba"],["concepts/plan-classes","roles/doc-ops"],["concepts/plan-classes","sources/dc-brain-dump-001"],["concepts/plan-classes","sources/extra-questions-001"],["concepts/prd","concepts/source-mapping"],["concepts/prd","concepts/subpack"],["concepts/prd","concepts/vef"],["concepts/prd","entities/p3"],["concepts/prd","entities/scott-vrba"],["concepts/prd","onboarding/com"],["concepts/prd","onboarding/lm-dc"],["concepts/prd","roles/com"],["concepts/prd","root/overview"],["concepts/prd","sources/com-main-checklist"],["concepts/prd","sources/dc-brain-dump-001"],["concepts/prd","sources/extra-questions-001"],["concepts/prior-carrier-letter","concepts/prior-record-keeper"],["concepts/prior-carrier-letter","onboarding/com"],["concepts/prior-carrier-letter","processes/plan-conversion-handoffs"],["concepts/prior-carrier-letter","roles/com"],["concepts/prior-carrier-letter","sources/com-main-checklist"],["concepts/prior-record-keeper","concepts/source-mapping"],["concepts/prior-record-keeper","concepts/toa"],["concepts/prior-record-keeper","concepts/wire-instructions"],["concepts/prior-record-keeper","entities/informatica"],["concepts/prior-record-keeper","entities/internal-teams"],["concepts/prior-record-keeper","onboarding/lm-dc"],["concepts/prior-record-keeper","sources/dc-brain-dump-001"],["concepts/prior-record-keeper","sources/extra-questions-001"],["concepts/project-plan-com","entities/nbi"],["concepts/project-plan-com","onboarding/com"],["concepts/project-plan-com","processes/plan-conversion-handoffs"],["concepts/project-plan-com","roles/com"],["concepts/project-plan-com","sources/com-main-checklist"],["concepts/rdd-form","onboarding/com"],["concepts/rdd-form","processes/plan-conversion-handoffs"],["concepts/rdd-form","roles/com"],["concepts/rdd-form","roles/tc"],["concepts/rdd-form","sources/com-main-checklist"],["concepts/reversal-process","entities/prod-support"],["concepts/reversal-process","glossary/awd"],["concepts/reversal-process","roles/lm-dc"],["concepts/reversal-process","sources/lmdc-training-notebook"],["concepts/source-mapping","concepts/toa"],["concepts/source-mapping","entities/aqt"],["concepts/source-mapping","entities/internal-teams"],["concepts/source-mapping","glossary/faa"],["concepts/source-mapping","onboarding/lm-dc"],["concepts/source-mapping","roles/qa"],["concepts/source-mapping","sources/dc-brain-dump-001"],["concepts/source-mapping","sources/extra-questions-001"],["concepts/source-mapping","sources/lmdc-training-notebook"],["concepts/subpack","entities/internal-teams"],["concepts/subpack","onboarding/com"],["concepts/subpack","onboarding/lm-dc"],["concepts/subpack","roles/com"],["concepts/subpack","root/overview"],["concepts/subpack","sources/com-main-checklist"],["concepts/subpack","sources/dc-brain-dump-001"],["concepts/subpack","sources/extra-questions-001"],["concepts/subpack","sources/subpack-cccs"],["concepts/toa","concepts/transfer-in-kind"],["concepts/toa","entities/matt-oconnell"],["concepts/toa","onboarding/com"],["concepts/toa","onboarding/lm-dc"],["concepts/toa","roles/com"],["concepts/toa","root/overview"],["concepts/toa","sources/com-main-checklist"],["concepts/toa","sources/dc-brain-dump-001"],["concepts/toa","sources/extra-questions-001"],["concepts/transfer-in-kind","entities/informatica"],["concepts/transfer-in-kind","entities/matt-oconnell"],["concepts/transfer-in-kind","onboarding/lm-dc"],["concepts/transfer-in-kind","sources/dc-brain-dump-001"],["concepts/transfer-in-kind","sources/extra-questions-001"],["concepts/transfer-in-kind","sources/lmdc-training-notebook"],["concepts/vef","entities/nbi"],["concepts/vef","glossary/vef"],["concepts/vef","onboarding/com"],["concepts/vef","roles/com"],["concepts/vef","sources/com-main-checklist"],["concepts/wire-instructions","entities/cashiering"],["concepts/wire-instructions","entities/internal-teams"],["concepts/wire-instructions","entities/p3"],["concepts/wire-instructions","glossary/ssbt"],["concepts/wire-instructions","onboarding/lm-dc"],["concepts/wire-instructions","sources/dc-brain-dump-001"],["concepts/wire-instructions","sources/extra-questions-001"],["concepts/wire-instructions","sources/lmdc-training-notebook"],["entities/aqt","entities/informatica"],["entities/aqt","entities/p3"],["entities/aqt","entities/prod-support"],["entities/aqt","roles/lm-dc"],["entities/aqt","root/overview"],["entities/aqt","sources/lmdc-training-notebook"],["entities/cashiering","entities/informatica"],["entities/cashiering","entities/internal-teams"],["entities/cashiering","entities/p2"],["entities/cashiering","glossary/ssbt"],["entities/cashiering","processes/plan-conversion-handoffs"],["entities/cashiering","roles/lm-dc"],["entities/cashiering","sources/com-main-checklist"],["entities/cashiering","sources/lmdc-training-notebook"],["entities/dave-shloat","entities/informatica"],["entities/dave-shloat","entities/internal-teams"],["entities/dave-shloat","roles/lm-dc"],["entities/dave-shloat","sources/lmdc-training-notebook"],["entities/docusign","roles/com"],["entities/docusign","roles/doc-ops"],["entities/docusign","root/overview"],["entities/docusign","sources/com-main-checklist"],["entities/earl-sanford","entities/internal-teams"],["entities/earl-sanford","onboarding/lm-dc"],["entities/earl-sanford","roles/lm-dc"],["entities/earl-sanford","sources/lmdc-training-notebook"],["entities/eds","entities/ftp-team"],["entities/eds","entities/informatica"],["entities/eds","entities/internal-teams"],["entities/eds","entities/p3"],["entities/eds","entities/payroll-support"],["entities/eds","entities/prod-support"],["entities/eds","glossary/faa"],["entities/eds","glossary/ltpt"],["entities/eds","onboarding/lm-dc"],["entities/eds","roles/lm-dc"],["entities/eds","root/overview"],["entities/eds","sources/dc-brain-dump-001"],["entities/eds","sources/extra-questions-001"],["entities/eds","sources/lmdc-training-notebook"],["entities/eds","sources/subpack-cccs"],["entities/ellen-miller","entities/internal-teams"],["entities/ellen-miller","entities/nbi"],["entities/ellen-miller","onboarding/com"],["entities/ellen-miller","onboarding/lm-dc"],["entities/ellen-miller","processes/plan-conversion-handoffs"],["entities/ellen-miller","roles/com"],["entities/ellen-miller","roles/lm-dc"],["entities/ellen-miller","root/overview"],["entities/ellen-miller","sources/com-main-checklist"],["entities/ellen-miller","sources/dc-brain-dump-001"],["entities/ellen-miller","sources/extra-questions-001"],["entities/ellen-miller","sources/lmdc-training-notebook"],["entities/eric-leyten","entities/ftp-team"],["entities/eric-leyten","entities/internal-teams"],["entities/eric-leyten","entities/jen-curtin"],["entities/eric-leyten","onboarding/lm-dc"],["entities/ftp-team","entities/internal-teams"],["entities/ftp-team","entities/jen-curtin"],["entities/ftp-team","entities/payroll-support"],["entities/ftp-team","roles/lm-dc"],["entities/ftp-team","sources/lmdc-training-notebook"],["entities/informatica","entities/p2"],["entities/informatica","entities/p3"],["entities/informatica","entities/rich-lippoth"],["entities/informatica","glossary/faa"],["entities/informatica","onboarding/lm-dc"],["entities/informatica","roles/lm-dc"],["entities/informatica","root/overview"],["entities/informatica","sources/dc-brain-dump-001"],["entities/informatica","sources/extra-questions-001"],["entities/informatica","sources/lmdc-training-notebook"],["entities/internal-teams","entities/jen-curtin"],["entities/internal-teams","entities/matt-oconnell"],["entities/internal-teams","entities/nbi"],["entities/internal-teams","entities/nick-lister"],["entities/internal-teams","entities/p3"],["entities/internal-teams","entities/payroll-support"],["entities/internal-teams","entities/prod-support"],["entities/internal-teams","entities/stacey-fortune"],["entities/internal-teams","onboarding/com"],["entities/internal-teams","onboarding/lm-dc"],["entities/internal-teams","roles/doc-ops"],["entities/internal-teams","roles/qa"],["entities/internal-teams","roles/tc"],["entities/internal-teams","sources/dc-brain-dump-001"],["entities/jen-curtin","entities/payroll-support"],["entities/jen-curtin","onboarding/com"],["entities/jen-curtin","roles/com"],["entities/jen-curtin","root/overview"],["entities/jen-curtin","sources/com-main-checklist"],["entities/matt-oconnell","onboarding/lm-dc"],["entities/matt-oconnell","processes/plan-conversion-handoffs"],["entities/matt-oconnell","roles/lm-dc"],["entities/matt-oconnell","root/overview"],["entities/matt-oconnell","sources/dc-brain-dump-001"],["entities/matt-oconnell","sources/extra-questions-001"],["entities/matt-oconnell","sources/lmdc-training-notebook"],["entities/nbi","entities/p3"],["entities/nbi","onboarding/com"],["entities/nbi","onboarding/lm-dc"],["entities/nbi","processes/plan-conversion-handoffs"],["entities/nbi","roles/com"],["entities/nbi","roles/lm-dc"],["entities/nbi","roles/tc"],["entities/nbi","root/overview"],["entities/nbi","sources/com-main-checklist"],["entities/nbi","sources/dc-brain-dump-001"],["entities/nbi","sources/extra-questions-001"],["entities/nbi","sources/lmdc-training-notebook"],["entities/nick-lister","entities/stacey-fortune"],["entities/nick-lister","onboarding/lm-dc"],["entities/nick-lister","roles/lm-dc"],["entities/nick-lister","sources/extra-questions-001"],["entities/p2","entities/p3"],["entities/p2","onboarding/lm-dc"],["entities/p2","roles/lm-dc"],["entities/p2","sources/extra-questions-001"],["entities/p2","sources/lmdc-training-notebook"],["entities/p3","entities/prod-support"],["entities/p3","onboarding/lm-dc"],["entities/p3","roles/doc-ops"],["entities/p3","roles/lm-dc"],["entities/p3","root/overview"],["entities/p3","sources/dc-brain-dump-001"],["entities/p3","sources/extra-questions-001"],["entities/p3","sources/lmdc-training-notebook"],["entities/payroll-support","entities/wx"],["entities/payroll-support","roles/lm-dc"],["entities/payroll-support","sources/lmdc-training-notebook"],["entities/prod-support","glossary/awd"],["entities/prod-support","onboarding/lm-dc"],["entities/prod-support","processes/plan-conversion-handoffs"],["entities/prod-support","roles/lm-dc"],["entities/prod-support","sources/extra-questions-001"],["entities/prod-support","sources/lmdc-training-notebook"],["entities/rich-lippoth","root/overview"],["entities/scott-vrba","onboarding/lm-dc"],["entities/scott-vrba","sources/lmdc-training-notebook"],["entities/stacey-fortune","onboarding/lm-dc"],["entities/stacey-fortune","roles/lm-dc"],["entities/stacey-fortune","sources/extra-questions-001"],["entities/stacey-fortune","sources/lmdc-training-notebook"],["entities/wx","roles/com"],["entities/wx","roles/tc"],["entities/wx","root/overview"],["entities/wx","sources/com-main-checklist"],["entities/wx","sources/subpack-cccs"],["glossary/aaa","glossary/pea"],["glossary/aaa","roles/com"],["glossary/aaa","root/overview"],["glossary/awd","glossary/filespecrq"],["glossary/awd","roles/com"],["glossary/awd","roles/lm-dc"],["glossary/awd","roles/tc"],["glossary/csr","roles/com"],["glossary/csr","roles/qa"],["glossary/faa","roles/lm-dc"],["glossary/filespecrq","roles/lm-dc"],["glossary/ltpt","roles/lm-dc"],["glossary/nsa","roles/com"],["glossary/pea","roles/com"],["glossary/pea","root/overview"],["glossary/ssbt","roles/lm-dc"],["glossary/ssbt","sources/subpack-cccs"],["glossary/tm","roles/com"],["glossary/vef","roles/com"],["onboarding/com","processes/plan-conversion-handoffs"],["onboarding/com","roles/com"],["onboarding/com","roles/lm-dc"],["onboarding/com","roles/tc"],["onboarding/com","root/overview"],["onboarding/lm-dc","processes/plan-conversion-handoffs"],["onboarding/lm-dc","roles/lm-dc"],["processes/plan-conversion-handoffs","roles/com"],["processes/plan-conversion-handoffs","roles/doc-ops"],["processes/plan-conversion-handoffs","roles/lm-dc"],["processes/plan-conversion-handoffs","roles/qa"],["processes/plan-conversion-handoffs","roles/tc"],["processes/plan-conversion-handoffs","sources/com-main-checklist"],["processes/plan-conversion-handoffs","sources/lmdc-training-notebook"],["roles/com","roles/doc-ops"],["roles/com","roles/lm-dc"],["roles/com","roles/qa"],["roles/com","roles/tc"],["roles/com","sources/com-main-checklist"],["roles/doc-ops","roles/lm-dc"],["roles/doc-ops","root/overview"],["roles/doc-ops","sources/com-main-checklist"],["roles/lm-dc","roles/qa"],["roles/lm-dc","roles/tc"],["roles/lm-dc","sources/com-main-checklist"],["roles/lm-dc","sources/lmdc-training-notebook"],["roles/qa","roles/tc"],["roles/tc","sources/com-main-checklist"],["root/overview","sources/extra-questions-001"],["sources/dc-brain-dump-001","sources/extra-questions-001"]],"rows":[{"label":"Overview","folder":"root","ids":["root/overview"]},{"label":"Roles","folder":"roles","ids":["roles/lm-dc","roles/com","roles/tc","roles/qa","roles/doc-ops"]},{"label":"Processes","folder":"processes","ids":["processes/plan-conversion-handoffs"]},{"label":"Onboarding Guides","folder":"onboarding","ids":["onboarding/lm-dc","onboarding/com"]},{"label":"Entities \u2014 People","folder":"entities","ids":["entities/ellen-miller","entities/matt-oconnell","entities/jen-curtin","entities/stacey-fortune","entities/nick-lister","entities/scott-vrba","entities/eric-leyten","entities/dave-shloat","entities/earl-sanford","entities/rich-lippoth"]},{"label":"Entities \u2014 Systems","folder":"entities","ids":["entities/eds","entities/informatica","entities/p3","entities/nbi","entities/p2","entities/aqt","entities/wx","entities/docusign"]},{"label":"Entities \u2014 Teams","folder":"entities","ids":["entities/internal-teams","entities/cashiering","entities/prod-support","entities/payroll-support","entities/ftp-team"]},{"label":"Concepts \u2014 Process","folder":"concepts","ids":["concepts/dc-onboarding-workflow","concepts/final-files-processing","concepts/liquidation-day","concepts/conversion-types","concepts/source-mapping","concepts/eligibility","concepts/ftp-connection","concepts/fund-mapping","concepts/prior-record-keeper","concepts/eligibility-and-deferrals","concepts/conv-file","concepts/transfer-in-kind","concepts/advanced-employer","concepts/deferrals","concepts/wire-instructions","concepts/nsa","concepts/early-access"]},{"label":"Concepts \u2014 Documents","folder":"concepts","ids":["concepts/prd","concepts/onboarding-package","concepts/toa","concepts/payroll-template","concepts/subpack","concepts/base-file","concepts/blackout-notice","concepts/contribution-monitoring-form","concepts/csr","concepts/project-plan-com","concepts/prior-carrier-letter","concepts/rdd-form","concepts/vef"]},{"label":"Concepts \u2014 System Details","folder":"concepts","ids":["concepts/fund-management-calendar","concepts/dummy-participant","concepts/plan-classes","concepts/payroll-handoff-at-go-live","concepts/audit-pack","concepts/booking-assets","concepts/ltpt-eligibility","concepts/reversal-process","concepts/common-remitter-plans"]},{"label":"Concepts \u2014 EDS Loading Procedures","folder":"concepts","ids":["concepts/loading-eligibility-eds","concepts/loading-ytd-contributions-eds","concepts/loading-basis-eds","concepts/eds-load-beneficiary-requirements"]},{"label":"Concepts \u2014 Informatica Modules","folder":"concepts","ids":["concepts/informatica-allocation-module","concepts/informatica-balance-module","concepts/informatica-loan-module","concepts/informatica-training-manual","concepts/informatica-troubleshooting-guide","concepts/informatica-basis-module"]},{"label":"Concepts \u2014 Plan Setup & Data","folder":"concepts","ids":["concepts/cccs-submission-package","concepts/faa-dc-data-requirements","concepts/data-discovery-document","concepts/hours-procedure"]},{"label":"Glossary","folder":"glossary","ids":["glossary/awd","glossary/faa","glossary/ssbt","glossary/aaa","glossary/ltpt","glossary/pea","glossary/csr","glossary/filespecrq","glossary/nsa","glossary/vef","glossary/tm"]},{"label":"Sources","folder":"sources","ids":["sources/lmdc-training-notebook","sources/extra-questions-001","sources/dc-brain-dump-001","sources/com-main-checklist","sources/subpack-cccs"]}],"stats":{"pages":101,"connections":651,"categories":15}};
+
+  const CAT = {
+    roles: "--c-roles", entities: "--c-entities", concepts: "--c-concepts",
+    processes: "--c-processes", glossary: "--c-glossary", sources: "--c-sources",
+    onboarding: "--c-onboarding", root: "--c-root",
+    departments: "--c-processes", analyses: "--c-root",
+  };
+  const catVar = folder => `var(${CAT[folder] || "--c-root"})`;
+
+  // adjacency
+  const adj = new Map(Object.keys(DATA.nodes).map(id => [id, new Set()]));
+  for (const [a, b] of DATA.edges) { adj.get(a).add(b); adj.get(b).add(a); }
+
+  const board = document.getElementById("board");
+  const svg = document.getElementById("cables");
+  const panel = document.getElementById("panel");
+  const searchBox = document.getElementById("search");
+
+  // stats
+  document.getElementById("stats").innerHTML =
+    `<span class="stat"><b>${DATA.stats.pages}</b> pages</span>` +
+    `<span class="stat"><b>${DATA.stats.connections}</b> connections</span>` +
+    `<span class="stat"><b>${DATA.stats.categories}</b> rows</span>`;
+
+  // build rows
+  const pillOf = new Map();
+  for (const row of DATA.rows) {
+    const rowEl = document.createElement("div");
+    rowEl.className = "row";
+    rowEl.style.setProperty("--cat", catVar(row.folder));
+    const label = document.createElement("div");
+    label.className = "row-label";
+    label.innerHTML =
+      `<div class="row-name"><span class="chip"></span><span>${row.label}</span></div>` +
+      `<div class="row-count">${row.ids.length} page${row.ids.length === 1 ? "" : "s"}</div>`;
+    const cells = document.createElement("div");
+    cells.className = "cells";
+    for (const id of row.ids) {
+      const n = DATA.nodes[id];
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "node";
+      b.dataset.id = id;
+      b.style.setProperty("--cat", catVar(n.folder));
+      b.title = `${n.title} — ${n.deg} connection${n.deg === 1 ? "" : "s"}`;
+      b.innerHTML = `<span class="port"></span><span class="name"></span><span class="deg">${n.deg}</span>`;
+      b.querySelector(".name").textContent = n.title;
+      b.addEventListener("click", e => { e.stopPropagation(); toggle(id); });
+      b.addEventListener("mouseenter", () => { if (!selected) preview(id, true); });
+      b.addEventListener("mouseleave", () => { if (!selected) preview(id, false); });
+      cells.appendChild(b);
+      pillOf.set(id, b);
+    }
+    rowEl.append(label, cells);
+    board.appendChild(rowEl);
+  }
+
+  // ---------- selection ----------
+  let selected = null;
+
+  function preview(id, on) {
+    pillOf.get(id).classList.toggle("lit", on);
+    for (const nb of adj.get(id)) pillOf.get(nb).classList.toggle("lit", on);
+  }
+
+  function toggle(id) { (selected === id) ? clear() : select(id); }
+
+  function select(id) {
+    selected = id;
+    board.classList.add("has-sel");
+    const neighbors = adj.get(id);
+    for (const [pid, el] of pillOf) {
+      el.classList.toggle("active", pid === id);
+      el.classList.toggle("lit", neighbors.has(pid));
+      el.classList.toggle("off", pid !== id && !neighbors.has(pid));
+    }
+    drawCables(id);
+    renderPanel(id);
+    const el = pillOf.get(id);
+    if (el.scrollIntoView) el.scrollIntoView({ block: "nearest", behavior: "auto" });
+  }
+
+  function clear() {
+    selected = null;
+    board.classList.remove("has-sel");
+    for (const el of pillOf.values()) el.classList.remove("active", "lit", "off");
+    svg.replaceChildren();
+    renderIdlePanel();
+  }
+
+  // ---------- cables ----------
+  function anchor(el, side) {
+    const b = board.getBoundingClientRect();
+    const r = el.getBoundingClientRect();
+    const x = r.left - b.left + r.width / 2;
+    if (side === "top") return [x, r.top - b.top];
+    if (side === "bottom") return [x, r.bottom - b.top];
+    return [r.left - b.left + (side === "left" ? 0 : r.width), r.top - b.top + r.height / 2];
+  }
+
+  function drawCables(id) {
+    svg.replaceChildren();
+    const w = board.clientWidth, h = board.scrollHeight;
+    svg.setAttribute("viewBox", `0 0 ${w} ${h}`);
+    const from = pillOf.get(id);
+    const fromRect = from.getBoundingClientRect();
+    for (const nb of adj.get(id)) {
+      const to = pillOf.get(nb);
+      const toRect = to.getBoundingClientRect();
+      const dy = toRect.top - fromRect.top;
+      let p1, p2;
+      if (Math.abs(dy) < 8) {           // same visual line → arc between sides
+        const leftFirst = fromRect.left < toRect.left;
+        p1 = anchor(from, leftFirst ? "right" : "left");
+        p2 = anchor(to, leftFirst ? "left" : "right");
+      } else if (dy > 0) {              // neighbor below
+        p1 = anchor(from, "bottom");
+        p2 = anchor(to, "top");
+      } else {                          // neighbor above
+        p1 = anchor(from, "top");
+        p2 = anchor(to, "bottom");
+      }
+      const [x1, y1] = p1, [x2, y2] = p2;
+      const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+      let d;
+      if (Math.abs(dy) < 8) {
+        const lift = Math.min(26, 10 + Math.abs(x2 - x1) * 0.06);
+        d = `M ${x1} ${y1} C ${x1} ${y1 - lift}, ${x2} ${y2 - lift}, ${x2} ${y2}`;
+      } else {
+        const sag = (y2 - y1) * 0.5;
+        d = `M ${x1} ${y1} C ${x1} ${y1 + sag}, ${x2} ${y2 - sag}, ${x2} ${y2}`;
+      }
+      path.setAttribute("d", d);
+      path.setAttribute("fill", "none");
+      path.setAttribute("stroke", catVar(DATA.nodes[nb].folder));
+      path.setAttribute("stroke-width", "1.6");
+      path.setAttribute("stroke-opacity", "0.65");
+      path.setAttribute("stroke-linecap", "round");
+      svg.appendChild(path);
+    }
+  }
+
+  // ---------- sidebar ----------
+  function groupLabelOf(id) {
+    for (const row of DATA.rows) if (row.ids.includes(id)) return row.label;
+    return DATA.nodes[id].folder;
+  }
+
+  function connButton(id) {
+    const n = DATA.nodes[id];
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = "conn";
+    b.style.setProperty("--cat", catVar(n.folder));
+    b.innerHTML = `<span class="dot"></span><span></span>`;
+    b.lastElementChild.textContent = n.title;
+    b.addEventListener("click", () => select(id));
+    return b;
+  }
+
+  function renderPanel(id) {
+    const n = DATA.nodes[id];
+    panel.replaceChildren();
+    const kicker = document.createElement("p");
+    kicker.className = "aside-kicker";
+    kicker.style.setProperty("--cat", catVar(n.folder));
+    kicker.innerHTML = `<span class="chip"></span><span></span>`;
+    kicker.lastElementChild.textContent = groupLabelOf(id);
+    const h = document.createElement("h2");
+    h.textContent = n.title;
+    const sub = document.createElement("p");
+    sub.className = "aside-sub";
+    sub.textContent = `${n.deg} connection${n.deg === 1 ? "" : "s"} across the wiki`;
+    panel.append(kicker, h, sub);
+
+    // group neighbors by board row, in row order
+    const neighbors = adj.get(id);
+    for (const row of DATA.rows) {
+      const hits = row.ids.filter(pid => neighbors.has(pid));
+      if (!hits.length) continue;
+      const g = document.createElement("div");
+      g.className = "conn-group";
+      const gh = document.createElement("h3");
+      gh.textContent = `${row.label} · ${hits.length}`;
+      const list = document.createElement("div");
+      list.className = "conn-list";
+      for (const pid of hits) list.appendChild(connButton(pid));
+      g.append(gh, list);
+      panel.appendChild(g);
+    }
+  }
+
+  function renderIdlePanel() {
+    panel.replaceChildren();
+    const kicker = document.createElement("p");
+    kicker.className = "aside-kicker";
+    kicker.textContent = "Nothing selected";
+    const h = document.createElement("h2");
+    h.textContent = "Start with a hub";
+    const sub = document.createElement("p");
+    sub.className = "aside-sub";
+    sub.textContent = "These are the most-connected pages on the board — the pages most of the wiki runs through.";
+    panel.append(kicker, h, sub);
+    const list = document.createElement("div");
+    list.className = "conn-list";
+    const hubs = Object.entries(DATA.nodes)
+      .sort((a, b) => b[1].deg - a[1].deg).slice(0, 12);
+    for (const [id, n] of hubs) {
+      const b = connButton(id);
+      const deg = document.createElement("span");
+      deg.className = "deg mono";
+      deg.style.cssText = "margin-left:auto;font-size:10.5px;color:var(--muted)";
+      deg.textContent = n.deg;
+      b.appendChild(deg);
+      list.appendChild(b);
+    }
+    panel.appendChild(list);
+  }
+
+  // ---------- search ----------
+  searchBox.addEventListener("input", () => {
+    const q = searchBox.value.trim().toLowerCase();
+    board.classList.toggle("searching", q.length > 0);
+    for (const [id, el] of pillOf) {
+      el.classList.toggle("hit", q.length > 0 && DATA.nodes[id].title.toLowerCase().includes(q));
+    }
+  });
+
+  // ---------- global ----------
+  document.getElementById("reset").addEventListener("click", () => {
+    clear();
+    searchBox.value = "";
+    board.classList.remove("searching");
+    for (const el of pillOf.values()) el.classList.remove("hit");
+  });
+  document.addEventListener("keydown", e => {
+    if (e.key === "Escape") {
+      if (searchBox.value) {
+        searchBox.value = "";
+        board.classList.remove("searching");
+        for (const el of pillOf.values()) el.classList.remove("hit");
+      } else clear();
+    }
+  });
+  board.addEventListener("click", e => { if (e.target === board) clear(); });
+  new ResizeObserver(() => { if (selected) drawCables(selected); }).observe(board);
+
+  renderIdlePanel();
+</script>

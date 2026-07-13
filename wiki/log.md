@@ -309,3 +309,8 @@
 - `wiki/log.md` created (this file)
 - `wiki/overview.md` pending — will be written after first ingest
 - Notes: Ready for first source ingest.
+
+## [2026-07-13] map | Interactive Relationship Matrix — switchboard visual of the whole wiki
+- Files created: `tools/build_relationship_matrix.py`, `tools/relationship-matrix.template.html`, `tools/relationship-matrix.html`
+- Pages created: none (tool lives outside `wiki/`; wiki pages untouched)
+- Notes: Built an interactive alternative to Obsidian's graph view. Every wiki page is a button laid out in category rows (mirroring the index sections); clicking one lights up all connected pages and draws colored cables to each, with a sidebar listing connections grouped by category. Data extracted live from `[[wikilinks]]` across all 101 pages (651 unique connections). Re-run `python3 tools/build_relationship_matrix.py` after any ingest to refresh `tools/relationship-matrix.html`. Known data quirk handled: index/pages link `eric-leytem` but the file is `eric-leyten`; the build script aliases it.

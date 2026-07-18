@@ -309,3 +309,10 @@
 - `wiki/log.md` created (this file)
 - `wiki/overview.md` pending — will be written after first ingest
 - Notes: Ready for first source ingest.
+
+## [2026-07-18] edit | TA Navigator built — one-stop company knowledge hub
+- File created: `navigator.html` (repo root, alongside `wiki.html`)
+- A second front-end over the same vault knowledge, organized by question instead of by page: Start Here, My World (per-role dashboards), The Map (interactive relationship graph — 40 nodes, 50 typed directional edges), Get It Done (16 task-first playbooks), Who To See (go-to directory), Lingo (37-term decoder).
+- Data curated from: `roles/lm-dc`, `roles/com`, `processes/plan-conversion-handoffs`, `entities/internal-teams`, `overview`, `index`, plus entity/concept/glossary pages.
+- Self-contained single file; no build step. To extend after future ingests: edit the NODES / EDGES / PATHWAYS / WORLD / LINGO arrays in the data script blocks.
+- Notes: wiki.html remains the page-level reference; navigator.html is the navigation/relationship layer on top of it.

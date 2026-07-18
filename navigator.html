@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TA Navigator — One-Stop Company Knowledge Hub</title>
+<style>
+  :root {
+    color-scheme: light;
+    --bg: #fcfcfb;
+    --bg-2: #f4f4f2;
+    --panel: #ffffff;
+    --border: rgba(0,0,0,0.09);
+    --fg: #0b0b0b;
+    --fg-dim: #52514e;
+    --fg-muted: #8a8983;
+    --accent: #2a78d6;
+    --accent-soft: rgba(42,120,214,0.10);
+    --warn-bg: rgba(236,131,90,0.12);
+    --warn-fg: #a34718;
+    --shadow: 0 4px 24px rgba(0,0,0,0.07);
+    --radius: 12px;
+    /* kind colors — validated categorical palette (light) */
+    --k-role: #2a78d6;
+    --k-team: #008300;
+    --k-person: #e87ba4;
+    --k-system: #eda100;
+    --k-external: #1baf7a;
+    --edge: rgba(0,0,0,0.16);
+    --edge-hot: #2a78d6;
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --bg: #1a1a19;
+    --bg-2: #131312;
+    --panel: #232322;
+    --border: rgba(255,255,255,0.10);
+    --fg: #ffffff;
+    --fg-dim: #c3c2b7;
+    --fg-muted: #8b8a82;
+    --accent: #3987e5;
+    --accent-soft: rgba(57,135,229,0.16);
+    --warn-bg: rgba(236,131,90,0.14);
+    --warn-fg: #f0a179;
+    --shadow: 0 4px 24px rgba(0,0,0,0.4);
+    /* kind colors — validated categorical palette (dark) */
+    --k-role: #3987e5;
+    --k-team: #008300;
+    --k-person: #d55181;
+    --k-system: #c98500;
+    --k-external: #199e70;
+    --edge: rgba(255,255,255,0.16);
+    --edge-hot: #3987e5;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, "Helvetica Neue", sans-serif;
+    background: var(--bg); color: var(--fg);
+    font-size: 15.5px; line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  /* ============ header ============ */
+  header {
+    position: sticky; top: 0; z-index: 50;
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border);
+  }
+  .hd-inner {
+    max-width: 1240px; margin: 0 auto; padding: 10px 20px;
+    display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+  }
+  .brand { display: flex; align-items: baseline; gap: 8px; white-space: nowrap; }
+  .brand b { font-size: 17px; letter-spacing: -0.02em; }
+  .brand span { font-size: 12px; color: var(--fg-muted); }
+  nav.tabs { display: flex; gap: 2px; flex-wrap: wrap; }
+  nav.tabs button {
+    border: none; background: none; color: var(--fg-dim);
+    font: inherit; font-size: 13.5px; font-weight: 500;
+    padding: 7px 12px; border-radius: 8px; cursor: pointer;
+  }
+  nav.tabs button:hover { background: var(--bg-2); color: var(--fg); }
+  nav.tabs button.on { background: var(--accent-soft); color: var(--accent); }
+  .hd-right { margin-left: auto; display: flex; align-items: center; gap: 10px; }
+  .searchwrap { position: relative; }
+  #search {
+    width: 260px; max-width: 46vw;
+    padding: 7px 12px 7px 30px; font: inherit; font-size: 13.5px;
+    border: 1px solid var(--border); border-radius: 9px;
+    background: var(--panel); color: var(--fg); outline: none;
+  }
+  #search:focus { border-color: var(--accent); }
+  .searchwrap::before {
+    content: "⌕"; position: absolute; left: 10px; top: 50%;
+    transform: translateY(-54%); color: var(--fg-muted); font-size: 15px;
+  }
+  #search-results {
+    display: none; position: absolute; top: calc(100% + 6px); right: 0;
+    width: 380px; max-width: 90vw; max-height: 60vh; overflow: auto;
+    background: var(--panel); border: 1px solid var(--border);
+    border-radius: var(--radius); box-shadow: var(--shadow); padding: 6px;
+  }
+  #search-results.open { display: block; }
+  .sr-item { padding: 8px 10px; border-radius: 8px; cursor: pointer; }
+  .sr-item:hover { background: var(--bg-2); }
+  .sr-item .t { font-weight: 600; font-size: 13.5px; }
+  .sr-item .d { font-size: 12.5px; color: var(--fg-dim); }
+  .sr-item .k { font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--fg-muted); }
+  #theme-btn {
+    border: 1px solid var(--border); background: var(--panel); color: var(--fg-dim);
+    width: 32px; height: 32px; border-radius: 9px; cursor: pointer; font-size: 15px;
+  }
+  /* ============ layout ============ */
+  main { max-width: 1240px; margin: 0 auto; padding: 26px 20px 90px; }
+  section.view { display: none; }
+  section.view.on { display: block; animation: fadein 0.25s ease; }
+  @keyframes fadein { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+  h1 { font-size: 26px; letter-spacing: -0.025em; margin-bottom: 6px; }
+  .sub { color: var(--fg-dim); margin-bottom: 24px; max-width: 760px; }
+  h2 { font-size: 18px; letter-spacing: -0.015em; margin: 26px 0 12px; }
+  h3 { font-size: 15px; margin: 16px 0 8px; }
+  .card {
+    background: var(--panel); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 16px 18px;
+  }
+  .grid { display: grid; gap: 14px; }
+  .grid.c2 { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+  .grid.c3 { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+  .pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 11px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase;
+    color: var(--fg-dim); background: var(--bg-2);
+    padding: 3px 9px; border-radius: 999px;
+  }
+  .dot { width: 8px; height: 8px; border-radius: 50%; flex: none; }
+  .k-role .dot, .dot.k-role { background: var(--k-role); }
+  .k-team .dot, .dot.k-team { background: var(--k-team); }
+  .k-person .dot, .dot.k-person { background: var(--k-person); }
+  .k-system .dot, .dot.k-system { background: var(--k-system); }
+  .k-external .dot, .dot.k-external { background: var(--k-external); }
+  a.xref { color: var(--accent); text-decoration: none; cursor: pointer; }
+  a.xref:hover { text-decoration: underline; }
+  .muted { color: var(--fg-muted); font-size: 13px; }
+  .warnbox {
+    background: var(--warn-bg); color: var(--warn-fg);
+    border-radius: 10px; padding: 10px 14px; font-size: 13.5px; margin: 8px 0;
+  }
+  ul.clean { list-style: none; }
+  ul.clean li { padding: 5px 0 5px 18px; position: relative; }
+  ul.clean li::before { content: "–"; position: absolute; left: 2px; color: var(--fg-muted); }
+  /* ============ home ============ */
+  .hero { padding: 34px 0 10px; max-width: 820px; }
+  .hero h1 { font-size: 34px; }
+  .hero p { font-size: 17px; color: var(--fg-dim); margin-top: 10px; }
+  .bigbtns { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 14px; margin: 28px 0 10px; }
+  .bigbtn {
+    text-align: left; border: 1px solid var(--border); background: var(--panel);
+    border-radius: var(--radius); padding: 18px; cursor: pointer; font: inherit; color: var(--fg);
+    transition: border-color 0.15s, transform 0.15s;
+  }
+  .bigbtn:hover { border-color: var(--accent); transform: translateY(-2px); }
+  .bigbtn .q { font-size: 16px; font-weight: 650; letter-spacing: -0.01em; }
+  .bigbtn .a { font-size: 13px; color: var(--fg-dim); margin-top: 6px; }
+  .statrow { display: flex; gap: 26px; flex-wrap: wrap; margin: 26px 0 8px; }
+  .stat .n { font-size: 26px; font-weight: 700; letter-spacing: -0.02em; }
+  .stat .l { font-size: 12px; color: var(--fg-muted); text-transform: uppercase; letter-spacing: 0.06em; }
+  /* ============ my world ============ */
+  .rolepick { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 22px; }
+  .rolepick button {
+    font: inherit; font-size: 13.5px; font-weight: 550; cursor: pointer;
+    padding: 8px 14px; border-radius: 999px;
+    border: 1px solid var(--border); background: var(--panel); color: var(--fg-dim);
+  }
+  .rolepick button.on { border-color: var(--k-role); color: var(--k-role); background: var(--accent-soft); }
+  .handoff-cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 14px; }
+  .hlist li b { font-weight: 600; }
+  .personrow { display: flex; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--border); align-items: baseline; }
+  .personrow:last-child { border-bottom: none; }
+  .personrow .who { min-width: 150px; font-weight: 600; font-size: 14px; flex: none; }
+  .personrow .why { color: var(--fg-dim); font-size: 13.5px; }
+  /* ============ map ============ */
+  .maplayout { display: grid; grid-template-columns: 1fr 320px; gap: 16px; align-items: start; }
+  @media (max-width: 900px) { .maplayout { grid-template-columns: 1fr; } }
+  #mapbox { position: relative; overflow: hidden; border: 1px solid var(--border); border-radius: var(--radius); background: var(--panel); }
+  #mapsvg { display: block; width: 100%; height: auto; cursor: grab; }
+  #mapsvg:active { cursor: grabbing; }
+  .mapfilters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+  .mapfilters button {
+    font: inherit; font-size: 12.5px; font-weight: 600; cursor: pointer;
+    display: inline-flex; align-items: center; gap: 7px;
+    padding: 6px 12px; border-radius: 999px;
+    border: 1px solid var(--border); background: var(--panel); color: var(--fg-dim);
+  }
+  .mapfilters button.off { opacity: 0.38; }
+  #mapdetail { position: sticky; top: 74px; max-height: calc(100vh - 100px); overflow: auto; }
+  #mapdetail h3 { margin-top: 0; font-size: 17px; display: flex; align-items: center; gap: 8px; }
+  .conn { padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 13.5px; }
+  .conn:last-child { border: none; }
+  .conn .lbl { font-weight: 600; }
+  .conn .dir { font-size: 11px; font-weight: 700; letter-spacing: 0.05em; }
+  .dir.in { color: var(--k-external); }
+  .dir.out { color: var(--accent); }
+  .node { cursor: pointer; }
+  .node circle { stroke-width: 2px; transition: r 0.12s; }
+  .node:hover circle { stroke-width: 3.5px; }
+  .node text { font-size: 11.5px; font-weight: 600; fill: var(--fg); pointer-events: none; }
+  .node .sub-t { font-size: 9px; font-weight: 500; fill: var(--fg-muted); }
+  .edgepath { fill: none; stroke: var(--edge); stroke-width: 1.4px; }
+  .edgepath.hot { stroke: var(--edge-hot); stroke-width: 2.4px; }
+  .edgepath.dim { opacity: 0.12; }
+  .node.dim { opacity: 0.18; }
+  #maptip {
+    position: absolute; pointer-events: none; display: none; z-index: 5;
+    background: var(--panel); border: 1px solid var(--border); border-radius: 9px;
+    box-shadow: var(--shadow); padding: 7px 11px; font-size: 12.5px; max-width: 260px;
+  }
+  /* ============ pathways ============ */
+  .pathcard { margin-bottom: 14px; }
+  .pathcard summary {
+    cursor: pointer; list-style: none; display: flex; align-items: baseline; gap: 10px;
+    font-size: 15.5px; font-weight: 650; letter-spacing: -0.01em;
+  }
+  .pathcard summary::-webkit-details-marker { display: none; }
+  .pathcard summary::before { content: "›"; color: var(--fg-muted); transition: transform 0.15s; display: inline-block; }
+  .pathcard[open] summary::before { transform: rotate(90deg); }
+  .pathcard .for { margin-left: auto; flex: none; }
+  .steps { margin: 14px 0 4px; counter-reset: step; }
+  .step { display: flex; gap: 12px; padding: 7px 0; }
+  .step::before {
+    counter-increment: step; content: counter(step);
+    flex: none; width: 22px; height: 22px; border-radius: 50%;
+    background: var(--accent-soft); color: var(--accent);
+    font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center;
+    margin-top: 2px;
+  }
+  .step .who { font-weight: 650; }
+  /* ============ people & lingo ============ */
+  .peoplegrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 14px; }
+  .pcard h3 { margin: 2px 0 2px; display: flex; align-items: center; gap: 8px; }
+  .pcard .tag { font-size: 12px; color: var(--fg-muted); margin-bottom: 8px; }
+  .pcard .goto { font-size: 13.5px; color: var(--fg-dim); }
+  .lingorow { display: flex; gap: 14px; padding: 10px 4px; border-bottom: 1px solid var(--border); align-items: baseline; }
+  .lingorow .term { min-width: 130px; font-weight: 700; flex: none; }
+  .lingorow .full { min-width: 220px; color: var(--fg); font-size: 13.5px; flex: none; }
+  .lingorow .def { color: var(--fg-dim); font-size: 13.5px; }
+  @media (max-width: 700px) { .lingorow { flex-wrap: wrap; gap: 4px 14px; } }
+  #lingo-filter { width: 100%; padding: 9px 14px; font: inherit; border: 1px solid var(--border); border-radius: 9px; background: var(--panel); color: var(--fg); margin-bottom: 8px; outline: none; }
+  #lingo-filter:focus { border-color: var(--accent); }
+  footer { border-top: 1px solid var(--border); color: var(--fg-muted); font-size: 12.5px; padding: 18px 20px; text-align: center; }
+</style>
+</head>
+<body>
+<header>
+  <div class="hd-inner">
+    <div class="brand"><b>TA Navigator</b><span>who does what &amp; how it connects</span></div>
+    <nav class="tabs" id="tabs">
+      <button data-view="home" class="on">Start Here</button>
+      <button data-view="world">My World</button>
+      <button data-view="map">The Map</button>
+      <button data-view="pathways">Get It Done</button>
+      <button data-view="people">Who To See</button>
+      <button data-view="lingo">Lingo</button>
+    </nav>
+    <div class="hd-right">
+      <div class="searchwrap">
+        <input id="search" type="text" placeholder="Search anything…" autocomplete="off">
+        <div id="search-results"></div>
+      </div>
+      <button id="theme-btn" title="Toggle theme">◐</button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <!-- ==================== HOME ==================== -->
+  <section class="view on" id="view-home">
+    <div class="hero">
+      <h1>Find your way around Transamerica.</h1>
+      <p>One place to see where you sit, who you work with, what they do for you, and the path to get anything done. Built from real brain dumps and lived experience — not org charts.</p>
+    </div>
+    <div class="bigbtns">
+      <button class="bigbtn" data-go="world"><div class="q">Where am I?</div><div class="a">Pick your role and see your whole world: your systems, your people, what flows in and out of your desk.</div></button>
+      <button class="bigbtn" data-go="map"><div class="q">How does everyone connect?</div><div class="a">The living map — every role, team, person, and system, with the actual work that moves between them.</div></button>
+      <button class="bigbtn" data-go="pathways"><div class="q">How do I get something done?</div><div class="a">Task-first playbooks: who to see, in what order, and what goes wrong if you skip a step.</div></button>
+      <button class="bigbtn" data-go="people"><div class="q">Who do I see about…?</div><div class="a">The go-to directory. Every named person, what they're the authority on, and how to engage them.</div></button>
+      <button class="bigbtn" data-go="lingo"><div class="q">What does that acronym mean?</div><div class="a">NSA, TOA, TIK, FILESPECRQ — the full decoder ring for TA jargon.</div></button>
+    </div>
+    <div class="statrow" id="statrow"></div>
+    <p class="muted" style="margin-top:18px">Source of truth: the <b>TA Brain</b> wiki (107 pages, 5 ingested sources). Fully documented today: LM Data Consultant and Communications Coordinator, in the plan-conversion world. Every other role gets richer with each new brain dump — this hub scales by addition.</p>
+  </section>
+
+  <!-- ==================== MY WORLD ==================== -->
+  <section class="view" id="view-world">
+    <h1>My World</h1>
+    <p class="sub">Pick a role. Everything below reshapes around it: what the job actually is, the systems you'll live in, the people who matter, and every handoff in and out.</p>
+    <div class="rolepick" id="rolepick"></div>
+    <div id="world-body"></div>
+  </section>
+
+  <!-- ==================== MAP ==================== -->
+  <section class="view" id="view-map">
+    <h1>The Map</h1>
+    <p class="sub">How everybody connects. Arrows show the direction work moves. Click any node to see its relationships in plain language; hover an arrow to see exactly what's handed off. Drag to pan, scroll to zoom.</p>
+    <div class="mapfilters" id="mapfilters"></div>
+    <div class="maplayout">
+      <div id="mapbox">
+        <svg id="mapsvg" viewBox="0 0 1300 880" role="img" aria-label="Relationship map of Transamerica roles, teams, people, systems, and external parties"></svg>
+        <div id="maptip"></div>
+      </div>
+      <div class="card" id="mapdetail"><h3>Pick a node</h3><p class="muted">Click anything on the map to see who they are, what they're the go-to for, and every connection they have — in plain language.</p></div>
+    </div>
+  </section>
+
+  <!-- ==================== PATHWAYS ==================== -->
+  <section class="view" id="view-pathways">
+    <h1>Get It Done</h1>
+    <p class="sub">Start from the thing you need, not the org chart. Each playbook tells you who to see, in what order, with the timing rules and failure modes people learn the hard way.</p>
+    <div id="pathlist"></div>
+  </section>
+
+  <!-- ==================== PEOPLE ==================== -->
+  <section class="view" id="view-people">
+    <h1>Who To See</h1>
+    <p class="sub">The go-to directory. When you need an answer, this is who actually has it.</p>
+    <div class="peoplegrid" id="peoplegrid"></div>
+    <h2>Teams you'll call on</h2>
+    <div class="peoplegrid" id="teamgrid"></div>
+  </section>
+
+  <!-- ==================== LINGO ==================== -->
+  <section class="view" id="view-lingo">
+    <h1>Lingo</h1>
+    <p class="sub">Every acronym, system nickname, and TA-specific term in one list. If someone says it in a meeting and you nod without knowing — it's here.</p>
+    <input id="lingo-filter" type="text" placeholder="Type to filter — try 'TOA' or 'wire'…">
+    <div id="lingolist"></div>
+  </section>
+</main>
+
+<footer>TA Navigator · generated from the TA Brain knowledge vault · knowledge current through 2026-04-16 ingests · add a brain dump to make this page smarter</footer>
+<script>
+/* ================================================================
+   DATA — curated from the TA Brain wiki (wiki/**). To extend:
+   add nodes/edges/pathways here; keep ids stable.
+   ================================================================ */
+const KINDS = {
+  role:     { label: "Roles",    color: "var(--k-role)",     r: 30 },
+  team:     { label: "Teams",    color: "var(--k-team)",     r: 24 },
+  person:   { label: "People",   color: "var(--k-person)",   r: 18 },
+  system:   { label: "Systems",  color: "var(--k-system)",   r: 18 },
+  external: { label: "External", color: "var(--k-external)", r: 24 },
+};
+
+const NODES = [
+  // ---- roles ----
+  { id:"lm-dc", name:"LM Data Consultant", short:"DC", kind:"role", x:450, y:440,
+    tag:"Owns everything that touches data in a plan conversion — census file to final balance posting.",
+    goto:"Base files, payroll templates, mappings, EDS layouts, Informatica runs, liquidation-day execution, balance/deferral/eligibility posting, audit packs." },
+  { id:"com", name:"Communications Coordinator", short:"COM", kind:"role", x:850, y:400,
+    tag:"Project manager for every conversion. Document factory, routing hub, and the client-facing voice.",
+    goto:"Meetings and timeline, all client communication, notices and blackout letters, DocuSign packages, payroll coordination, go-live close-out. If it needs to reach the client, it goes through COM." },
+  { id:"qa", name:"Quality Assurance", short:"QA", kind:"role", x:660, y:250,
+    tag:"Validates plan setup and data. Approves mappings, clears eligibility, audits imported data. (Paul & Danny — Quality Consultants.)",
+    goto:"Fund/source mapping approval, eligibility go-ahead, post-processing checks, loan analysis, the CSR at go-live." },
+  { id:"tc", name:"Transition Consultant", short:"TC", kind:"role", x:680, y:565,
+    tag:"Higher-level systematic back-end work on the conversion — more back-end than COM, more system-side than DC.",
+    goto:"Mapping approvals, subpack maintenance, WX setup, AWD flips, early access activation, QDIA/fee disclosure/enrollment guide." },
+  { id:"doc-ops", name:"Document Operations", short:"Doc Ops", kind:"role", x:865, y:165,
+    tag:"Sets up P3 with new plan details, maintains plan documents, and owns things DCs can't touch.",
+    goto:"Special plan classes in P3 (only they can add them), plan document packages (OBP, AAA, SPD), conversion newsletter." },
+  // ---- teams ----
+  { id:"cashiering", name:"Cashiering", short:"Cashiering", kind:"team", x:255, y:330,
+    tag:"Receives and books every incoming wire; the source of transfer reference numbers.",
+    goto:"Wire receipt, booking, verification, and the ref number the DC can't proceed without on liquidation day." },
+  { id:"ftp-team", name:"FTP Team", short:"FTP Team", kind:"team", x:250, y:690,
+    tag:"Sets up FTP accounts so payroll vendors can upload files. Big caseload — engage early.",
+    goto:"FTP account setup and credentials for payroll vendor file uploads. Led by Jen Curtin; key contact Eric Leytem." },
+  { id:"payroll-support", name:"Payroll Support", short:"Payroll Spt", kind:"team", x:450, y:755,
+    tag:"OnePayroll Team — production-level payroll test validation. The final gate before go-live payroll.",
+    goto:"Live-environment payroll file validation; catches errors EDS can't see." },
+  { id:"prod-support", name:"Prod Support", short:"Prod Spt", kind:"team", x:630, y:760,
+    tag:"Makes direct database table corrections when standard tools can't fix the data.",
+    goto:"DB-level corrections, deletions, and value changes — engaged via AWD ticket with an isolating query." },
+  { id:"fiduciary-services", name:"Fiduciary Services", short:"Fiduciary Svcs", kind:"team", x:800, y:700,
+    tag:"Takes over payroll testing when it's still incomplete at go-live (Inforce Payroll Projects process).",
+    goto:"Post-go-live payroll testing, picked up via the DC's FILESPECRQ ticket. Effective Feb 26, 2026." },
+  { id:"plan-services", name:"Plan Services", short:"Plan Svcs", kind:"team", x:1090, y:165,
+    tag:"Source of prior plan documents and home of the workflow team for trust agreements.",
+    goto:"Prior plan documents requests; Trust Agreement processing." },
+  { id:"sales", name:"Sales / New Business", short:"Sales", kind:"team", x:1050, y:80,
+    tag:"Where every conversion begins — the New Sale Announcement (NSA) kicks off the whole machine.",
+    goto:"The NSA. Once it lands with COM, the conversion clock starts." },
+  // ---- people ----
+  { id:"ellen-miller", name:"Ellen Miller", short:"Ellen Miller", kind:"person", x:1015, y:520,
+    tag:"Central routing contact — the switchboard of the conversion world.",
+    goto:"DC assignment pipeline, prior document routing, participant notice mailing, Salesforce plan setup confirmation, go-live notification.",
+    how:"Email — she routes; she's usually a step in a bigger flow." },
+  { id:"matt-oconnell", name:"Matt O'Connell", short:"Matt O'Connell", kind:"person", x:280, y:530,
+    tag:"Leads TIK re-registration; sets up Fidelity pooled accounts for share transfers.",
+    goto:"Everything transfer-in-kind: re-registration, share transfer coordination, mismatch investigation via his tracker spreadsheet.",
+    how:"Send the completed re-registration form ~10–12 business days before liquidation. Too early is premature; too late blocks liquidation." },
+  { id:"jen-curtin", name:"Jen Curtin", short:"Jen Curtin", kind:"person", x:955, y:640,
+    tag:"Head of the FTP Team; the authority on internal payroll integration.",
+    goto:"360° payroll plan integration questions; FTP escalations.",
+    how:"COM notifies her directly for 360° payroll plans." },
+  { id:"eric-leytem", name:"Eric Leytem", short:"Eric Leytem", kind:"person", x:120, y:620,
+    tag:"FTP Team key contact — handles final account setup and confirmation.",
+    goto:"Day-to-day FTP account setup requests.",
+    how:"Email with plan details and the payroll vendor's upload contact." },
+  { id:"scott-vrba", name:"Scott Vrba", short:"Scott Vrba", kind:"person", x:250, y:120,
+    tag:"Primary eligibility subject-matter expert.",
+    goto:"Complex eligibility rule questions — the go-to when P3 rules and plan provisions don't line up.",
+    how:"Ask before you guess. Eligibility mistakes surface in production." },
+  { id:"earl-sanford", name:"Earl Sanford", short:"Earl Sanford", kind:"person", x:405, y:85,
+    tag:"Lead Data Consultant; 25+ year TA veteran. Primary training resource for new DCs.",
+    goto:"How-do-I-actually-do-this questions across the whole DC workflow.",
+    how:"The first stop for a new DC who is stuck." },
+  { id:"dave-shloat", name:"Dave Shloat", short:"Dave Shloat", kind:"person", x:555, y:100,
+    tag:"Large Market data guru — Alteryx and Informatica authority.",
+    goto:"Informatica workflow problems, Alteryx builds, deep data transformation questions.",
+    how:"Bring him the weird files." },
+  { id:"nick-lister", name:"Nick Lister", short:"Nick Lister", kind:"person", x:395, y:215,
+    tag:"DC's direct manager. Into AI.",
+    goto:"Escalations, AE liquidation requests, priority calls.",
+    how:"Your manager — escalate when a conversion is at risk." },
+  { id:"rich-lippoth", name:"Rich Lippoth", short:"Rich Lippoth", kind:"person", x:110, y:410,
+    tag:"Go-to for incoming shares and regular trades.",
+    goto:"Trade questions, incoming share issues, Vanguard FMC deadline approvals.",
+    how:"Most visible around Fund Management Calendar deadlines." },
+  { id:"stacey-fortune", name:"Stacey Fortune", short:"Stacey Fortune", kind:"person", x:118, y:520,
+    tag:"Cross-department manager in Large Market; broad general knowledge resource.",
+    goto:"AE liquidation, cross-team questions when you don't know who owns something.",
+    how:"A good 'who owns this?' shortcut when this map doesn't have the answer." },
+  // ---- systems ----
+  { id:"nbi", name:"NBI", short:"NBI", kind:"system", x:655, y:415,
+    tag:"New Business Intelligence — plan assignment tracking, the universal per-plan checklist, and the project plan repository.",
+    goto:"Where every plan's status lives. Updated continuously by every role; audit checklist completed here at go-live." },
+  { id:"p3", name:"P3", short:"P3", kind:"system", x:285, y:835,
+    tag:"The main plan administration platform — setup, processing, and queries.",
+    goto:"Plan setup, balance/deferral/eligibility processing, ROC tool, processing modes that control whether trades go out." },
+  { id:"p2", name:"P2", short:"P2", kind:"system", x:370, y:835,
+    tag:"Back-end region for creating and modifying transfer reference numbers. Changes here reflect in P3.",
+    goto:"Transfer ref number creation (YYYYMMDD + 7–8 alphanumeric)." },
+  { id:"eds", name:"EDS", short:"EDS", kind:"system", x:455, y:835,
+    tag:"File layout, validation, and processing. Layouts must exist before test files arrive.",
+    goto:"Every inbound data file. Rule one: always read the EDS output." },
+  { id:"informatica", name:"Informatica", short:"Informatica", kind:"system", x:555, y:835,
+    tag:"ETL tool running the Day of Wire and Participant Balance workflows.",
+    goto:"Liquidation-day processing. Cannot be sandbox-tested end-to-end — triple-check the CONV file before running live." },
+  { id:"aqt", name:"AQT", short:"AQT", kind:"system", x:665, y:835,
+    tag:"Standalone SQL query app. Read-only.",
+    goto:"Source ID lookups and isolating queries for Prod Support tickets." },
+  { id:"awd", name:"AWD", short:"AWD", kind:"system", x:755, y:835,
+    tag:"Automatic Work Distribution — the internal work-ticketing and routing system.",
+    goto:"Tickets to Prod Support, reversals, FILESPECRQ payroll handoffs, contribution monitoring flips." },
+  { id:"docusign", name:"DocuSign", short:"DocuSign", kind:"system", x:1100, y:620,
+    tag:"E-signature platform. COM's tool for OBP, plan documents, and agreements.",
+    goto:"Client signature workflows on PEP packages and plan docs." },
+  { id:"wx", name:"WX", short:"WX", kind:"system", x:1185, y:545,
+    tag:"The Plan Sponsor Site. WX V2 adds payroll functionality. TC sets it up; COM verifies.",
+    goto:"Plan sponsor self-service and payroll submission." },
+  { id:"sf", name:"Salesforce", short:"SF", kind:"system", x:1190, y:700,
+    tag:"Used for plan setup confirmation and VEF L&C tickets.",
+    goto:"Setup confirmations with Ellen; L&C ticket submission." },
+  // ---- external ----
+  { id:"client", name:"Client / Plan Sponsor", short:"Client", kind:"external", x:1120, y:300,
+    tag:"The employer whose retirement plan is converting to TA. Talks to COM, almost never directly to internal teams.",
+    goto:"Signatures (TOA, PRD, OBP), base file data, payroll questionnaires, notice approvals." },
+  { id:"prior-rk", name:"Prior Record Keeper", short:"Prior RK", kind:"external", x:140, y:215,
+    tag:"The outgoing plan administrator — source of test files, final files, and the wire itself.",
+    goto:"Test files, final files, blackout coordination, the liquidation wire." },
+  { id:"payroll-vendor", name:"Payroll Vendor", short:"Payroll Vendor", kind:"external", x:105, y:720,
+    tag:"Third-party payroll processor sending contribution files after go-live.",
+    goto:"Payroll test files; ongoing contribution files via the FTP connection." },
+  { id:"ssbt", name:"State Street (SSBT)", short:"SSBT", kind:"external", x:108, y:318,
+    tag:"External bank where plan wires land. Hard cut-off: 4:00 PM EST.",
+    goto:"Wire receipt; the clock everyone on liquidation day is racing." },
+  { id:"advisor", name:"Advisor Firm", short:"Advisor", kind:"external", x:1215, y:420,
+    tag:"The plan's financial advisor — approves the Vendor Expense Form before the client signs.",
+    goto:"VEF approval; plan relationship context." },
+];
+
+const EDGES = [
+  // conversion trigger
+  { f:"sales", t:"com", label:"NSA", desc:"New Sale Announcement lands with COM — the trigger that starts the entire conversion workflow." },
+  { f:"ellen-miller", t:"lm-dc", label:"plan assignment", desc:"Ellen notifies a manager that a plan slot is open in NBI; the manager assigns a DC." },
+  // DC ↔ COM spine
+  { f:"com", t:"lm-dc", label:"PRD · questionnaires", desc:"COM sends the PRD/onboarding package, forwards the completed payroll questionnaire, routes signed-document notifications, and returns mapping approvals." },
+  { f:"lm-dc", t:"com", label:"mappings · asset confirm", desc:"DC sends fund and source mappings for routing/approval, the early access template, and liquidation-day asset receipt confirmation." },
+  // approvals
+  { f:"com", t:"qa", label:"approvals · loan analysis", desc:"COM routes fund/source mappings for approval and loan analysis requests to the Quality Consultants." },
+  { f:"com", t:"tc", label:"forms · activation asks", desc:"COM routes mapping approvals, Contribution Monitoring Form (AWD flip), RDD form, early access activation, and WX setup requests to TC." },
+  { f:"qa", t:"lm-dc", label:"go-ahead", desc:"QA (with TC) reviews mappings and the eligibility setup, then sends the go-ahead email the DC must have before enabling eligibility." },
+  { f:"tc", t:"com", label:"QDIA · guides · RDD", desc:"TC supplies QDIA notice, fee disclosure, enrollment guide, and originates the RDD form that COM routes to the client." },
+  { f:"qa", t:"com", label:"CSR", desc:"At go-live, the Quality Consultant delivers the Conversion Summary Report; COM forwards it to the client." },
+  // doc ops
+  { f:"lm-dc", t:"doc-ops", label:"special class request", desc:"DC requests new special plan classes — Doc Ops are the only ones who can add them to P3." },
+  { f:"doc-ops", t:"com", label:"OBP · AAA · SPD", desc:"For PEP plans, Doc Ops delivers the onboarding package and plan documents that COM sends for signature." },
+  // liquidation loop
+  { f:"lm-dc", t:"cashiering", label:"heads-up", desc:"DC emails Cashiering the day before liquidation, and again when the vendor confirms the wire is sent with the expected total." },
+  { f:"cashiering", t:"lm-dc", label:"ref number", desc:"Once the wire is booked, Cashiering sends the transfer reference number — the DC cannot run Day of Wire without it." },
+  { f:"prior-rk", t:"ssbt", label:"the wire", desc:"On liquidation day the prior record keeper wires plan assets to State Street. Cut-off 4:00 PM EST." },
+  { f:"ssbt", t:"cashiering", label:"wire lands", desc:"Cashiering books the incoming wire at State Street and verifies the amount." },
+  { f:"lm-dc", t:"prior-rk", label:"wire instructions", desc:"DC sends the questionnaire in the hello email, then wire instructions — early, and again one week before liquidation." },
+  { f:"prior-rk", t:"lm-dc", label:"test + final files", desc:"Test files (which unlock source mapping) and final files (balances, YTD, deferrals, eligibility data) come from the prior RK." },
+  // TIK
+  { f:"lm-dc", t:"matt-oconnell", label:"re-reg form", desc:"For transfer-in-kind funds (TOA column T = Y), DC completes the re-registration form. Target 10–12 business days pre-liquidation." },
+  // payroll chain
+  { f:"lm-dc", t:"ftp-team", label:"FTP setup request", desc:"DC requests an FTP account for the payroll vendor. Engage early — the FTP team's caseload is large." },
+  { f:"ftp-team", t:"payroll-vendor", label:"credentials", desc:"FTP credentials flow to the payroll vendor (via the DC) so contribution files can be uploaded." },
+  { f:"payroll-vendor", t:"lm-dc", label:"payroll test files", desc:"Vendor sends test files; DC validates in EDS first." },
+  { f:"lm-dc", t:"payroll-support", label:"final validation", desc:"EDS-validated payroll test files go to Payroll Support for the production-level check — the final gate." },
+  { f:"lm-dc", t:"fiduciary-services", label:"FILESPECRQ", desc:"If payroll testing is incomplete at go-live, DC submits the FILESPECRQ AWD ticket and Fiduciary Services takes over. (Effective Feb 26, 2026.)" },
+  // corrections
+  { f:"lm-dc", t:"prod-support", label:"AWD ticket", desc:"Data errors beyond P3/ROC-tool reach go to Prod Support as an AWD ticket with an isolating query; DC verifies and closes." },
+  // COM ↔ client world
+  { f:"com", t:"client", label:"everything client-facing", desc:"Notices, blackout letters, DocuSign packages, payroll questionnaires, asset confirmations, the go-live email. COM is the client's single door into TA." },
+  { f:"client", t:"com", label:"signatures · data", desc:"Signed TOA/PRD/OBP, completed questionnaires and forms, notice approvals — all return through COM." },
+  { f:"com", t:"ellen-miller", label:"notices · go-live", desc:"COM routes prior-doc requests, notice mailing files, SPDs, and the final 'plan is LIVE' notification through Ellen." },
+  { f:"plan-services", t:"com", label:"prior plan docs", desc:"COM requests prior plan documents from Plan Services and tracks the review pipeline through Ellen to the docs team." },
+  { f:"com", t:"jen-curtin", label:"360° payroll", desc:"COM notifies Jen directly when a plan uses 360° payroll integration." },
+  { f:"com", t:"prior-rk", label:"carrier letter", desc:"The Prior Carrier Letter formally tells the outgoing record keeper the plan is moving — without it, they won't coordinate documents or blackout." },
+  { f:"advisor", t:"com", label:"VEF approval", desc:"The Vendor Expense Form routes advisor → client signature → L&C ticket in Salesforce." },
+  // team-internal people
+  { f:"jen-curtin", t:"ftp-team", label:"leads", desc:"Jen Curtin heads the FTP Team." },
+  { f:"eric-leytem", t:"ftp-team", label:"key contact", desc:"Eric Leytem handles final FTP account setup and confirmation." },
+  { f:"nick-lister", t:"lm-dc", label:"manages", desc:"Nick Lister is the DC's direct manager and escalation contact." },
+  { f:"earl-sanford", t:"lm-dc", label:"trains", desc:"Earl Sanford is the primary training resource for new DCs." },
+  { f:"dave-shloat", t:"lm-dc", label:"data expertise", desc:"Dave Shloat backs the DC team on Alteryx and Informatica." },
+  { f:"scott-vrba", t:"lm-dc", label:"eligibility SME", desc:"Scott Vrba answers the hard eligibility rule questions." },
+  { f:"rich-lippoth", t:"cashiering", label:"trades", desc:"Rich Lippoth is the go-to for incoming shares, trades, and Vanguard FMC deadline approvals." },
+  { f:"stacey-fortune", t:"lm-dc", label:"resource", desc:"Stacey Fortune — cross-department manager and general knowledge resource; AE liquidation contact." },
+  // systems (uses)
+  { f:"lm-dc", t:"p3", label:"uses", desc:"Plan setup, processing, queries, ROC tool." , sys:true },
+  { f:"lm-dc", t:"p2", label:"uses", desc:"Creates transfer reference numbers.", sys:true },
+  { f:"lm-dc", t:"eds", label:"uses", desc:"File layouts, validation, processing — always read the output.", sys:true },
+  { f:"lm-dc", t:"informatica", label:"uses", desc:"Day of Wire and Participant Balance workflows.", sys:true },
+  { f:"lm-dc", t:"aqt", label:"uses", desc:"Source IDs and isolating queries.", sys:true },
+  { f:"lm-dc", t:"awd", label:"uses", desc:"Tickets: Prod Support, reversals, FILESPECRQ.", sys:true },
+  { f:"lm-dc", t:"nbi", label:"updates", desc:"Continuous milestone updates on every plan.", sys:true },
+  { f:"com", t:"nbi", label:"updates", desc:"Project plan upload, milestone tracking, go-live audit checklist.", sys:true },
+  { f:"com", t:"docusign", label:"uses", desc:"OBP, PEA, plan documents out for client signature.", sys:true },
+  { f:"com", t:"sf", label:"uses", desc:"Plan setup confirmation; VEF L&C tickets.", sys:true },
+  { f:"tc", t:"wx", label:"sets up", desc:"TC sets up the Plan Sponsor Site; COM verifies.", sys:true },
+];
+</script>
+<script>
+/* ---------------- pathways: task-first playbooks ---------------- */
+const PATHWAYS = [
+  { title:"I'm brand new — where do I even start?", tags:["everyone"],
+    steps:[
+      {who:null, text:"Open <b>My World</b> and pick your role (or 'I'm new / no role yet'). That page is your personal map."},
+      {who:"earl-sanford", text:"New DC? Earl Sanford is the designated training resource — 25+ years at TA."},
+      {who:null, text:"Skim <b>The Map</b> once, slowly. You don't need to memorize it — you need to know it exists."},
+      {who:null, text:"Keep <b>Lingo</b> open in your first meetings and look up every acronym you nod at."}],
+    warn:"Nobody expects you to know the flow. They do expect you to ask before liquidation day, not during." },
+  { title:"I need a data error fixed that P3 / ROC tool can't fix", tags:["dc"],
+    steps:[
+      {who:"lm-dc", text:"Confirm it truly can't be corrected through P3, the ROC tool, or standard DC methods."},
+      {who:"lm-dc", text:"Build an <b>isolating query</b> in AQT that returns exactly the bad rows."},
+      {who:"prod-support", text:"Submit an <b>AWD ticket</b> to Prod Support with the query and a thorough description."},
+      {who:"lm-dc", text:"When they finish, verify the correction yourself, then close the ticket."}],
+    warn:"A vague ticket without an isolating query goes to the back of the queue — or fixes the wrong rows." },
+  { title:"I need a reversal", tags:["dc"],
+    steps:[
+      {who:"lm-dc", text:"Complete the <b>Reversal Form</b> and send it to <b>slasrever@transamerica.com</b>."},
+      {who:"lm-dc", text:"When the response comes back, submit the <b>AWD ticket</b> with the response text pasted into comments."}],
+    warn:"The old Plan Correction Checklist is retired as of 03/06/2026 — don't follow it." },
+  { title:"I need a special plan class added to P3", tags:["dc"],
+    steps:[
+      {who:"lm-dc", text:"Check whether the class already exists — you CAN update existing class names and codes yourself."},
+      {who:"doc-ops", text:"If it's new, request it from Doc Ops. Only they can add special classes."},
+      {who:"lm-dc", text:"Build in lead time — you're in their queue, and plan setup waits on it."}],
+    warn:"Trying to add a special class directly in P3 will fail. This one catches every new DC." },
+  { title:"I need FTP set up for a payroll vendor", tags:["dc"],
+    steps:[
+      {who:"lm-dc", text:"Identify the payroll vendor's file-upload contact."},
+      {who:"ftp-team", text:"Email the FTP Team (key contact: Eric Leytem) requesting account setup — each plan gets its own destination folder."},
+      {who:"lm-dc", text:"Pass the login/password to the payroll vendor once it's ready."}],
+    warn:"The FTP team's caseload is large. 'Engage early' is the single most repeated advice in the vault." },
+  { title:"I need to enable eligibility", tags:["dc"],
+    steps:[
+      {who:"lm-dc", text:"Post <b>deferrals first</b>. Always. Eligibility notification cannot go out before deferrals are posted."},
+      {who:"lm-dc", text:"Send the eligibility notification email to QA, TC, and COM."},
+      {who:"qa", text:"QA and TC review the setup and reply with a go-ahead (same-day turnaround is normal)."},
+      {who:"lm-dc", text:"Only after the go-ahead: enable eligibility in P3."}],
+    warn:"Enabling before the go-ahead — or posting eligibility before deferrals — is a named failure mode." },
+  { title:"The wire lands today (liquidation day)", tags:["dc"],
+    steps:[
+      {who:"lm-dc", text:"You already gave Cashiering a heads-up yesterday, and confirmed the dummy participant exists (mapping conversions). Right?"},
+      {who:"cashiering", text:"Prior RK wires to State Street (4:00 PM EST cut-off); Cashiering books it and emails you the <b>transfer ref number</b> (~by 4:45 PM)."},
+      {who:"lm-dc", text:"Triple-check the CONV file — Informatica's Day of Wire <b>cannot be sandbox-tested</b>."},
+      {who:"lm-dc", text:"Run Day of Wire. Book assets: wire at State Street = <b>4 Remit</b> (email NY Recon); AEDA disbursement = <b>3 Rebook</b> + rebook AWD ticket."},
+      {who:"com", text:"Tell COM the moment assets are confirmed — they owe the client a same-day confirmation email."}],
+    warn:"Check the P3 processing mode (Immediate+Batch vs Online+No Hold). Trades go out once per fund — the wrong mode duplicates trades or fails to invest the money. Common remitter plans use 'Verify Batch After Funding' instead of Pre-Process." },
+  { title:"I have transfer-in-kind (TIK) funds", tags:["dc"],
+    steps:[
+      {who:"lm-dc", text:"Spot them on the TOA: column <b>T = Y</b>."},
+      {who:"lm-dc", text:"Fill out the re-registration form (front folder of the DC folder — simple Excel)."},
+      {who:"matt-oconnell", text:"Send it to Matt O'Connell <b>10–12 business days before liquidation</b>. He sets up the Fidelity pooled accounts."},
+      {who:"lm-dc", text:"Track share transfers on Matt's tracker spreadsheet; investigate any mismatches."}],
+    warn:"Too early = premature action. Too late = liquidation can't proceed. This timing is the whole game. (No dummy participant or FMC entries needed for TIK.)" },
+  { title:"I need fund / source mapping approved", tags:["dc"],
+    steps:[
+      {who:"lm-dc", text:"Fund mapping: build it as soon as the client signs the TOA — no test files needed."},
+      {who:"lm-dc", text:"Source mapping: needs test files from the prior RK, and source IDs from AQT."},
+      {who:"com", text:"Send both through COM, who routes to QA and TC for approval."},
+      {who:"qa", text:"QA + TC approve; approval returns to you via COM."}],
+    warn:"A late approval here compresses everything downstream — CONV file prep, liquidation, final files." },
+  { title:"Payroll testing isn't done and go-live is here", tags:["dc","com"],
+    steps:[
+      {who:"lm-dc", text:"Submit the <b>FILESPECRQ</b> AWD ticket: payroll contact, client contact, file layout, testing status summary. All fields required."},
+      {who:"lm-dc", text:"Update NBI."},
+      {who:"fiduciary-services", text:"Fiduciary Services takes over testing under the Inforce Payroll Projects process."},
+      {who:"com", text:"COM notifies the Account Manager."}],
+    warn:"Missing fields on the ticket and Fiduciary Services can't pick it up cleanly — testing stalls with nobody driving. (Effective Feb 26, 2026.)" },
+  { title:"I need something to reach the client", tags:["everyone"],
+    steps:[
+      {who:"com", text:"Go through COM. Full stop. COM is the client's single door into TA — documents, questions, confirmations, all of it."},
+      {who:"com", text:"Client answers and signed documents come back the same way — COM forwards to whichever team needs them."}],
+    warn:"Going around COM creates two versions of the truth and a client with two contacts. Don't." },
+  { title:"I need early access opened for participants", tags:["com","dc"],
+    steps:[
+      {who:"com", text:"COM requests the early access file template from the DC and routes it to the client."},
+      {who:"lm-dc", text:"Client returns the completed file → DC loads it."},
+      {who:"tc", text:"COM notifies TC <b>the day before</b> early access starts; TC activates it."},
+      {who:"com", text:"COM emails the plan when the window is open."}],
+    warn:"If the client returns the file late, TC can't be notified in time and the window is missed. Chase the file." },
+  { title:"I have an eligibility rule question", tags:["dc"],
+    steps:[
+      {who:"scott-vrba", text:"Scott Vrba is the eligibility SME — bring him the weird plan provisions."},
+      {who:null, text:"For LTPT (long-term part-time): 500+ hrs in two consecutive 12-month periods, EDS codes 5 and 6, effective Jan 1 2025. Track hours even for excluded classes."}],
+    warn:"Eligibility mistakes surface in production, in front of participants. Ask first." },
+  { title:"Informatica or a weird data file is fighting me", tags:["dc"],
+    steps:[
+      {who:"dave-shloat", text:"Dave Shloat — Alteryx and Informatica authority for Large Market."},
+      {who:"earl-sanford", text:"Earl Sanford for general 'how do I actually do this' across the DC workflow."},
+      {who:"nick-lister", text:"If a conversion is at risk, escalate to Nick Lister (DC manager)."}],
+    warn:"" },
+  { title:"Trades, incoming shares, or the FMC deadline", tags:["dc"],
+    steps:[
+      {who:"rich-lippoth", text:"Rich Lippoth is the go-to for incoming shares, regular trades, and Vanguard FMC deadline approvals."},
+      {who:"lm-dc", text:"FMC procedure (Feb 2026): update the file AND email the four distribution addresses. Estimates in ≥5 business days before TOA."}],
+    warn:"SSBT cut-off is 4:00 PM EST. Miss it and the trade waits a day — on liquidation day, that's a very bad day." },
+  { title:"Payroll test file needs the final green light", tags:["dc"],
+    steps:[
+      {who:"lm-dc", text:"Validate the file through EDS first — and read the output."},
+      {who:"payroll-support", text:"Send it to Payroll Support (OnePayroll) — their live-environment check catches what EDS can't."},
+      {who:"lm-dc", text:"Issues found? Get a fresh file from the vendor and resubmit. Their green light is the gate."}],
+    warn:"EDS passing ≠ done. Production validation is a different animal." },
+];
+
+/* ---------------- role dashboards ---------------- */
+const WORLD = {
+  "lm-dc": {
+    label:"Data Consultant", status:"fully documented",
+    mission:"You own everything that touches data — from the first census file to the final balance posting. The job alternates between <b>preparation mode</b> (weeks of template-building, mappings, layouts) and <b>execution mode</b> (liquidation day through final files, where everything must go right the first time). You're not client-facing by default — you work internally and with external vendors.",
+    systems:["p3","p2","eds","informatica","nbi","aqt","awd"],
+    people:[
+      ["com","Your project manager and router — meetings, approvals, client contact all flow through them"],
+      ["qa","Approves your mappings; clears your eligibility"],
+      ["tc","CC'd with QA on approvals; owns back-end activation work"],
+      ["doc-ops","The only team that can add special plan classes"],
+      ["cashiering","Your liquidation-day lifeline — heads-up the day before, ref number on the day"],
+      ["ftp-team","Payroll vendor file channel — engage early"],
+      ["payroll-support","Final production gate on payroll files"],
+      ["prod-support","DB corrections via AWD ticket + isolating query"],
+      ["matt-oconnell","TIK re-registration — the 10–12 day timing rule"],
+      ["scott-vrba","Eligibility SME"],
+      ["earl-sanford","Your training resource"],
+      ["dave-shloat","Alteryx / Informatica depth"],
+      ["rich-lippoth","Trades, shares, FMC deadlines"],
+      ["nick-lister","Your manager — escalations"],
+      ["ellen-miller","Where your plan assignments come from"],
+      ["stacey-fortune","Cross-team general resource; AE liquidation"]],
+    incoming:["Plan assignment (Ellen → manager → you, tagged in NBI)","PRD / onboarding package from COM","Signed TOA — starts fund mapping","Test files from the prior record keeper","Payroll test files from the vendor","Wire confirmation + ref number from Cashiering","Final files from the prior record keeper"],
+    outgoing:["Base file template → client (via COM)","Payroll template → client + vendor","Fund & source mappings → COM → QA + TC","Wire instructions → prior RK (early, and again 1 week out)","Re-registration form → Matt O'Connell (TIK)","Test payroll files → Payroll Support","Liquidation heads-up → Cashiering","Eligibility notification → QA, TC, COM (wait for go-ahead)","Audit pack → client folder (QA reviews same-day)","NBI updates → continuous"],
+    watchouts:["Day of Wire in Informatica cannot be sandbox-tested. Triple-check the CONV file.","Deferrals before eligibility. Always.","Dummy participant (SSN 999-00-0000) before Day of Wire on mapping conversions — a nightmare if forgotten.","P3 processing mode controls whether trades go out. Once per fund.","Reversals: Reversal Form to slasrever@ first, then AWD ticket (old checklist retired 03/06/2026).","Front-load everything: FTP, wire instructions, prior RK contact, mappings, EDS layouts. The timeline compresses at the end."],
+    reading:["wiki/onboarding/lm-dc — the ordered reading list","wiki/concepts/dc-onboarding-workflow — the master 7-phase checklist","wiki/concepts/conversion-types — cash vs mapping vs TIK drives everything","wiki/concepts/liquidation-day — the day itself"] },
+  "com": {
+    label:"Communications Coordinator", status:"fully documented",
+    mission:"You are the project manager of every conversion — the <b>document factory, routing hub, and go-live coordinator</b>. The NSA starts your 18-phase clock: kickoffs, prior-carrier coordination, notices, payroll loops, DocuSign packages, and a go-live close-out that touches every team. If it crosses a team line or reaches the client, it runs through you.",
+    systems:["nbi","docusign","wx","sf"],
+    people:[
+      ["lm-dc","Your data counterpart — assigned to the same plan; connect early"],
+      ["tc","Your back-end counterpart — QDIA/fee disclosure/enrollment guide in; AWD flips, WX setup, early access activation out"],
+      ["qa","Loan analysis in; CSR at go-live"],
+      ["doc-ops","OBP, AAA, Secure 2.0, SPD for PEP plans; conversion newsletter"],
+      ["ellen-miller","Your routing partner — prior docs, notice mailing, SF confirmation, go-live notification"],
+      ["jen-curtin","Notify for 360° payroll plans"],
+      ["client","Yours. The single most important relationship in the conversion"]],
+    incoming:["NSA from sales — your trigger","Prior plan documents from Plan Services","QDIA notice, fee disclosure, RDD form, enrollment guide from TC","OBP / AAA / Secure 2.0 / SPD from the docs team (PEP)","Early access template + asset confirmation from DC","CSR from the Quality Consultant at go-live"],
+    outgoing:["Project plan → NBI + conversion team","Prior carrier letter → sponsor + prior RK","Participant notices → sponsor approval → Ellen for mailing","Payroll questionnaire → client → DC","Contribution Monitoring Form → client → TC (confirm the AWD flip!)","RDD form → client → TC","DocuSign packages → client (PEP)","Subpack → internal team → TC maintains (non-PEP)","Go-live email, CSR, survey entry, NBI audit checklist → the close-out"],
+    watchouts:["Blackout notice timing is a legal requirement, not a courtesy. Build the buffer.","You create the subpack but TC maintains it — if that handoff never happens, it's orphaned and everyone flies blind.","Sending the CMF to TC isn't done — confirming the AWD flip happened is done.","PEP and non-PEP run different document tracks. Know which plan you're on.","Go-live close-out misses (NBI audit checklist, Ellen notification) leave the plan half-alive in the system."],
+    reading:["wiki/onboarding/com — the ordered reading list","wiki/sources/com-main-checklist — your full 18-phase checklist","wiki/processes/plan-conversion-handoffs — all 21 handoffs"] },
+  "qa": {
+    label:"Quality Assurance", status:"stub — needs a brain dump",
+    mission:"What we know from the DC and COM side: QA (Quality Consultants Paul & Danny) validates plan setup and imported data, approves fund and source mappings, sends the eligibility go-ahead, runs loan analysis, and delivers the CSR at go-live. The inside view of this role is the wiki's biggest documentation gap.",
+    systems:["p3","nbi"],
+    people:[["lm-dc","Sends you mappings and eligibility notifications"],["com","Routes approvals and loan analysis; receives your CSR"],["tc","Your co-approver on mappings and eligibility"]],
+    incoming:["Fund & source mappings (via COM)","Eligibility notification from DC","Loan analysis requests from COM","Audit packs for same-day review"],
+    outgoing:["Mapping approvals","Eligibility go-ahead email","CSR → COM → client at go-live"],
+    watchouts:["Your go-ahead is a hard gate — the DC is waiting on it, usually same-day."],
+    reading:["Have a QA brain dump session — this page will grow from it"] },
+  "tc": {
+    label:"Transition Consultant", status:"stub — needs a brain dump",
+    mission:"What we know from the outside: TC does the higher-level systematic back-end work — more back-end than COM, more system-side than DC. Approves mappings, maintains the subpack after COM creates it, sets up WX, flips AWD settings, activates early access, and supplies QDIA/fee disclosure/enrollment guide.",
+    systems:["wx","awd","nbi"],
+    people:[["com","Routes forms to you; you supply notices and guides"],["lm-dc","You co-approve their mappings and eligibility"],["qa","Your co-approver"]],
+    incoming:["Subpack from COM (you maintain it after review)","Contribution Monitoring Form via COM (flip the AWD setting)","RDD form back from client via COM","Early access activation request (day before start)"],
+    outgoing:["QDIA notice + fee disclosure → COM","Enrollment guide → COM → client","RDD form (you originate it)","WX setup; early access activation"],
+    watchouts:["The day-before rule on early access — if COM's notice reaches you late, the window is missed."],
+    reading:["Have a TC brain dump session — this page will grow from it"] },
+  "doc-ops": {
+    label:"Document Operations", status:"stub — needs a brain dump",
+    mission:"What we know from the outside: Doc Ops sets up P3 with new plan details, maintains plan documents, adds special plan classes (the thing DCs can't do), delivers the PEP document package (OBP, AAA, Secure 2.0, SPD), and runs the conversion newsletter as the Communication Consultant function.",
+    systems:["p3"],
+    people:[["lm-dc","Requests special plan classes from you"],["com","Receives your document packages and newsletter coordination"]],
+    incoming:["Special class requests from DC","Newsletter coordination + address/email files via COM"],
+    outgoing:["P3 plan setup","OBP / AAA / Secure 2.0 / SPD → COM (PEP plans)","Conversion newsletter"],
+    watchouts:["DCs are waiting on class additions — plan setup timelines depend on your queue."],
+    reading:["Have a Doc Ops brain dump session — this page will grow from it"] },
+  "new": {
+    label:"I'm new — no role yet", status:"welcome",
+    mission:"You've landed in the retirement plan conversion world. The one-paragraph version: <b>Sales announces a new plan (NSA)</b> → a <b>COM</b> project-manages the conversion and talks to the client → a <b>DC</b> moves all the data → <b>QA and TC</b> check and approve → <b>Doc Ops</b> sets up documents and P3 → on <b>liquidation day</b> the money wires in through <b>State Street</b> and <b>Cashiering</b> → final files post → the plan goes <b>live</b>. Every team below exists to make that pipeline work.",
+    systems:["nbi"],
+    people:[["earl-sanford","If you're a new DC, he's your trainer"],["stacey-fortune","When you don't know who owns something"],["ellen-miller","You'll see her name everywhere — she's the router"]],
+    incoming:["A role assignment, eventually. Until then: read."],
+    outgoing:["Questions. Ask them early — every expert on this map was new once."],
+    watchouts:["The two documented onboarding guides (DC and COM) are worth reading whatever your role — they show how the machine actually runs."],
+    reading:["wiki/overview — the big picture in 2 minutes","wiki/processes/plan-conversion-handoffs — how work moves","This hub's Map tab — click around until the names feel familiar"] },
+};
+
+/* ---------------- glossary ---------------- */
+const LINGO = [
+  ["NSA","New Sale Announcement","The trigger. Sales announces a new plan; COM's 18-phase workflow starts."],
+  ["NBI","New Business Intelligence","Web-based plan tracking: assignments, universal checklist, project plans, go-live audit."],
+  ["P3","—","Main plan administration platform. Setup, processing, queries, ROC tool."],
+  ["P2","—","Back-end region for transfer reference numbers; changes reflect in P3."],
+  ["EDS","—","File layout, validation, and processing system. Always read the output."],
+  ["AQT","—","Standalone read-only SQL query app; source IDs and isolating queries."],
+  ["AWD","Automatic Work Distribution","Internal ticketing/routing system — Prod Support, reversals, FILESPECRQ."],
+  ["WX","Plan Sponsor Site","Sponsor self-service portal. WX V2 = payroll functionality."],
+  ["SF","Salesforce","Plan setup confirmation and VEF L&C tickets."],
+  ["TOA","Transfer of Assets","Client-signed fund map. Column T flags transfer-in-kind funds."],
+  ["PRD","Plan Review Document","Plan provisions moving from prior provider to TA; DC reads eligibility/vesting/sources."],
+  ["OBP","On-Boarding Package","All-in-one PRD+TOA alternative used for PEP plans."],
+  ["PEP","Pooled Employer Plan","Plan type with its own document track (OBP, PEA, AAA) vs the non-PEP subpack track."],
+  ["PEA","Plan Enrollment Agreement","PEP enrollment document routed by COM via DocuSign."],
+  ["AAA","Adoption Agreement Addendum","PEP plan document addendum routed by COM."],
+  ["SPD","Summary Plan Description","Plan document; PEP: COM sends to Ellen for participants at go-live."],
+  ["TIK","Transfer in Kind","Assets move as shares, not cash. Matt O'Connell, re-registration, 10–12 day rule."],
+  ["CONV file","Conversion file","Input to Informatica's Day of Wire workflow — one row per fund. Triple-check it."],
+  ["CSR","Conversion Summary Report","Quality Consultant's go-live deliverable; COM forwards to client."],
+  ["VEF","Vendor Expense Form","Routes advisor → client → L&C setup via Salesforce ticket."],
+  ["CMF","Contribution Monitoring Form","TFS plans; client completes; TC must flip the AWD setting — confirm it happened."],
+  ["RDD form","—","TC-originated, client-completed, COM-routed payroll form."],
+  ["Subpack","Submission Package","TA's internal execution plan. COM creates (non-PEP); TC maintains after review."],
+  ["CCCS","Client Conversion Configuration Sheet","Master plan configuration intake form, completed once per plan."],
+  ["FMC","Fund Management Calendar","Daily trade log. SSBT cut-off 4 PM EST; update file + email 4 distribution addresses."],
+  ["SSBT","State Street Bank & Trust","External bank receiving plan wires. The 4:00 PM EST cut-off."],
+  ["FILESPECRQ","—","AWD ticket type handing incomplete payroll testing to Fiduciary Services at go-live."],
+  ["LTPT","Long-Term Part-Time","Secure 2.0 eligibility: 500+ hrs × 2 years; EDS codes 5 & 6; effective Jan 1, 2025."],
+  ["FAA","Fund Asset Allocation","Data requirements for fund/allocation processing."],
+  ["QDIA","Qualified Default Investment Alternative","Default-investment notice; TC supplies, COM mails."],
+  ["ROC","—","P3 tool for corrections; query 'ROC No Reversal' with case number + SSN."],
+  ["TM","Transition Manager","Legacy name for the COM role. If someone says TM, they mean COM."],
+  ["Advanced Employer","—","Temporary P3 holding account for cash conversion wires; released after final files."],
+  ["Dummy participant","SSN 999-00-0000","Required before Day of Wire on mapping conversions. One per plan. Nightmare if forgotten."],
+  ["Blackout notice","—","Legally time-sensitive participant notice of the investment blackout window."],
+  ["Base file","—","Census template the client completes to seed the system with participant data."],
+  ["Common remitter","—","Plan coding that swaps P3 Pre-Process for 'Verify Batch After Funding' on Day of Wire."],
+];
+</script>
+<script>
+/* ================================================================
+   APP LOGIC
+   ================================================================ */
+const $ = (s, el=document) => el.querySelector(s);
+const $$ = (s, el=document) => [...el.querySelectorAll(s)];
+const byId = Object.fromEntries(NODES.map(n => [n.id, n]));
+const esc = s => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+
+/* ---------- tabs ---------- */
+function show(view, push=true) {
+  $$("#tabs button").forEach(b => b.classList.toggle("on", b.dataset.view === view));
+  $$("section.view").forEach(s => s.classList.toggle("on", s.id === "view-" + view));
+  if (push) history.replaceState(null, "", "#" + view);
+  window.scrollTo({top: 0});
+}
+$("#tabs").addEventListener("click", e => { const b = e.target.closest("button"); if (b) show(b.dataset.view); });
+$$(".bigbtn").forEach(b => b.addEventListener("click", () => show(b.dataset.go)));
+
+/* ---------- theme ---------- */
+const savedTheme = localStorage.getItem("nav-theme");
+if (savedTheme) document.documentElement.dataset.theme = savedTheme;
+else if (matchMedia("(prefers-color-scheme: dark)").matches) document.documentElement.dataset.theme = "dark";
+$("#theme-btn").addEventListener("click", () => {
+  const cur = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+  document.documentElement.dataset.theme = cur;
+  localStorage.setItem("nav-theme", cur);
+});
+
+/* ---------- home stats ---------- */
+$("#statrow").innerHTML = [
+  [NODES.filter(n=>n.kind==="role").length, "roles"],
+  [NODES.filter(n=>n.kind==="team").length, "teams"],
+  [NODES.filter(n=>n.kind==="person").length, "named people"],
+  [NODES.filter(n=>n.kind==="system").length, "systems"],
+  [EDGES.length, "connections"],
+  [PATHWAYS.length, "playbooks"],
+  [LINGO.length, "terms decoded"],
+].map(([n,l]) => `<div class="stat"><div class="n">${n}</div><div class="l">${l}</div></div>`).join("");
+
+/* ---------- cross-links: clicking a node name anywhere opens it on the map ---------- */
+function nodeLink(id) {
+  const n = byId[id]; if (!n) return "";
+  return `<a class="xref" data-node="${id}">${esc(n.name)}</a>`;
+}
+document.addEventListener("click", e => {
+  const a = e.target.closest("a.xref[data-node]");
+  if (a) { show("map"); selectNode(a.dataset.node); }
+});
+
+/* ================= MY WORLD ================= */
+const worldOrder = ["lm-dc","com","qa","tc","doc-ops","new"];
+$("#rolepick").innerHTML = worldOrder.map(id =>
+  `<button data-role="${id}">${esc(WORLD[id].label)}</button>`).join("");
+$("#rolepick").addEventListener("click", e => {
+  const b = e.target.closest("button"); if (b) renderWorld(b.dataset.role);
+});
+function renderWorld(id) {
+  $$("#rolepick button").forEach(b => b.classList.toggle("on", b.dataset.role === id));
+  const w = WORLD[id];
+  const sysChips = w.systems.map(s => `<span class="pill"><span class="dot k-system"></span>${nodeLink(s)}</span>`).join(" ");
+  $("#world-body").innerHTML = `
+    <div class="card" style="margin-bottom:14px">
+      <span class="pill">${esc(w.status)}</span>
+      <p style="margin-top:10px">${w.mission}</p>
+    </div>
+    <div class="grid c2">
+      <div class="card"><h3>Systems you'll live in</h3><div style="display:flex;gap:8px;flex-wrap:wrap">${sysChips}</div>
+        <h3>Watch-outs (learned the hard way)</h3>
+        ${w.watchouts.map(x => `<div class="warnbox">${x}</div>`).join("")}
+      </div>
+      <div class="card"><h3>Your people</h3>
+        ${w.people.map(([pid, why]) => `<div class="personrow"><div class="who">${nodeLink(pid)}</div><div class="why">${esc(why)}</div></div>`).join("")}
+      </div>
+    </div>
+    <div class="handoff-cols" style="margin-top:14px">
+      <div class="card"><h3>What comes to you</h3><ul class="clean hlist">${w.incoming.map(x=>`<li>${x}</li>`).join("")}</ul></div>
+      <div class="card"><h3>What you send out</h3><ul class="clean hlist">${w.outgoing.map(x=>`<li>${x}</li>`).join("")}</ul></div>
+    </div>
+    <div class="card" style="margin-top:14px"><h3>Read next</h3><ul class="clean">${w.reading.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>`;
+}
+renderWorld("lm-dc");
+
+/* ================= MAP ================= */
+const SVGNS = "http://www.w3.org/2000/svg";
+const svg = $("#mapsvg");
+const kindOn = Object.fromEntries(Object.keys(KINDS).map(k => [k, true]));
+let selected = null;
+
+$("#mapfilters").innerHTML = Object.entries(KINDS).map(([k, v]) =>
+  `<button data-kind="${k}"><span class="dot k-${k}"></span>${v.label}</button>`).join("");
+$("#mapfilters").addEventListener("click", e => {
+  const b = e.target.closest("button"); if (!b) return;
+  kindOn[b.dataset.kind] = !kindOn[b.dataset.kind];
+  b.classList.toggle("off", !kindOn[b.dataset.kind]);
+  drawMap();
+});
+
+function edgeVisible(e) {
+  return kindOn[byId[e.f].kind] && kindOn[byId[e.t].kind];
+}
+function edgePath(a, b) {
+  const dx = b.x - a.x, dy = b.y - a.y;
+  const mx = a.x + dx/2 - dy * 0.08, my = a.y + dy/2 + dx * 0.08;
+  return `M ${a.x} ${a.y} Q ${mx} ${my} ${b.x} ${b.y}`;
+}
+function drawMap() {
+  svg.innerHTML = `<defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="context-stroke"></path>
+    </marker></defs>`;
+  const g = document.createElementNS(SVGNS, "g"); g.id = "viewport"; svg.appendChild(g);
+  // edges
+  EDGES.forEach((e, i) => {
+    if (!edgeVisible(e)) return;
+    const a = byId[e.f], b = byId[e.t];
+    // trim endpoints to node radius
+    const dx = b.x - a.x, dy = b.y - a.y, len = Math.hypot(dx, dy) || 1;
+    const ra = KINDS[a.kind].r + 4, rb = KINDS[b.kind].r + 8;
+    const A = { x: a.x + dx/len*ra, y: a.y + dy/len*ra };
+    const B = { x: b.x - dx/len*rb, y: b.y - dy/len*rb };
+    const p = document.createElementNS(SVGNS, "path");
+    p.setAttribute("d", edgePath(A, B));
+    p.setAttribute("class", "edgepath");
+    p.setAttribute("marker-end", "url(#arr)");
+    p.dataset.i = i;
+    if (e.sys) p.setAttribute("stroke-dasharray", "4 4");
+    // invisible fat hover target
+    const hit = p.cloneNode();
+    hit.setAttribute("class", "");
+    hit.setAttribute("stroke", "transparent");
+    hit.setAttribute("stroke-width", "14");
+    hit.setAttribute("fill", "none");
+    hit.removeAttribute("marker-end");
+    hit.style.cursor = "pointer";
+    hit.addEventListener("mousemove", ev => showTip(ev, `<b>${esc(byId[e.f].short)} → ${esc(byId[e.t].short)}</b> · ${esc(e.label)}<br><span style="color:var(--fg-dim)">${esc(e.desc)}</span>`));
+    hit.addEventListener("mouseleave", hideTip);
+    g.appendChild(p); g.appendChild(hit);
+  });
+  // nodes
+  NODES.forEach(n => {
+    if (!kindOn[n.kind]) return;
+    const grp = document.createElementNS(SVGNS, "g");
+    grp.setAttribute("class", "node");
+    grp.dataset.id = n.id;
+    const r = KINDS[n.kind].r;
+    const c = document.createElementNS(SVGNS, "circle");
+    c.setAttribute("cx", n.x); c.setAttribute("cy", n.y); c.setAttribute("r", r);
+    c.setAttribute("fill", "var(--panel)");
+    c.setAttribute("stroke", KINDS[n.kind].color);
+    const t = document.createElementNS(SVGNS, "text");
+    t.setAttribute("x", n.x); t.setAttribute("y", n.y + r + 14);
+    t.setAttribute("text-anchor", "middle");
+    t.textContent = n.short;
+    const t2 = document.createElementNS(SVGNS, "text");
+    if (n.kind === "role") {
+      t2.setAttribute("x", n.x); t2.setAttribute("y", n.y + 4);
+      t2.setAttribute("text-anchor", "middle");
+      t2.setAttribute("class", "sub-t");
+      t2.textContent = "ROLE";
+    }
+    grp.append(c, t, t2);
+    grp.addEventListener("click", () => selectNode(n.id));
+    grp.addEventListener("mousemove", ev => showTip(ev, `<b>${esc(n.name)}</b><br><span style="color:var(--fg-dim)">${esc(n.tag)}</span>`));
+    grp.addEventListener("mouseleave", hideTip);
+    g.appendChild(grp);
+  });
+  applySelection();
+  applyTransform();
+}
+function selectNode(id) {
+  selected = id;
+  const n = byId[id];
+  if (!kindOn[n.kind]) { kindOn[n.kind] = true; $(`#mapfilters button[data-kind="${n.kind}"]`).classList.remove("off"); drawMap(); }
+  applySelection();
+  const ins = EDGES.filter(e => e.t === id && edgeVisible(e));
+  const outs = EDGES.filter(e => e.f === id && edgeVisible(e));
+  $("#mapdetail").innerHTML = `
+    <h3><span class="dot k-${n.kind}"></span>${esc(n.name)}</h3>
+    <span class="pill">${esc(KINDS[n.kind].label.replace(/s$/,""))}</span>
+    <p style="margin:10px 0">${esc(n.tag)}</p>
+    ${n.goto ? `<h3 style="font-size:13px">Go-to for</h3><p style="font-size:13.5px;color:var(--fg-dim)">${esc(n.goto)}</p>` : ""}
+    ${n.how ? `<h3 style="font-size:13px">How to engage</h3><p style="font-size:13.5px;color:var(--fg-dim)">${esc(n.how)}</p>` : ""}
+    ${ins.length ? `<h3 style="font-size:13px">Comes in</h3>` + ins.map(e => `<div class="conn"><span class="dir in">FROM</span> <span class="lbl">${nodeLink(e.f)}</span> — ${esc(e.label)}<br><span class="muted">${esc(e.desc)}</span></div>`).join("") : ""}
+    ${outs.length ? `<h3 style="font-size:13px">Goes out</h3>` + outs.map(e => `<div class="conn"><span class="dir out">TO</span> <span class="lbl">${nodeLink(e.t)}</span> — ${esc(e.label)}<br><span class="muted">${esc(e.desc)}</span></div>`).join("") : ""}`;
+}
+function applySelection() {
+  const g = $("#viewport"); if (!g) return;
+  const connected = new Set();
+  if (selected) {
+    connected.add(selected);
+    EDGES.forEach(e => { if (e.f === selected) connected.add(e.t); if (e.t === selected) connected.add(e.f); });
+  }
+  $$(".node", g).forEach(el => el.classList.toggle("dim", selected && !connected.has(el.dataset.id)));
+  $$(".edgepath", g).forEach(el => {
+    const e = EDGES[el.dataset.i];
+    const hot = selected && (e.f === selected || e.t === selected);
+    el.classList.toggle("hot", !!hot);
+    el.classList.toggle("dim", selected && !hot);
+  });
+}
+svg.addEventListener("click", e => {
+  if (!e.target.closest(".node")) { selected = null; applySelection(); }
+});
+/* tooltip */
+const tip = $("#maptip");
+function showTip(ev, html) {
+  tip.innerHTML = html; tip.style.display = "block";
+  const box = $("#mapbox").getBoundingClientRect();
+  let x = ev.clientX - box.left + 14, y = ev.clientY - box.top + 14;
+  if (x + 270 > box.width) x -= 290;
+  if (y + tip.offsetHeight > box.height) y -= tip.offsetHeight + 24;
+  tip.style.left = x + "px"; tip.style.top = y + "px";
+}
+function hideTip() { tip.style.display = "none"; }
+/* pan / zoom */
+let vt = { x: 0, y: 0, k: 1 };
+function applyTransform() {
+  const g = $("#viewport");
+  if (g) g.setAttribute("transform", `translate(${vt.x} ${vt.y}) scale(${vt.k})`);
+}
+let drag = null;
+svg.addEventListener("mousedown", e => { drag = { x: e.clientX, y: e.clientY, vx: vt.x, vy: vt.y }; });
+window.addEventListener("mousemove", e => {
+  if (!drag) return;
+  const scale = 1300 / svg.getBoundingClientRect().width;
+  vt.x = drag.vx + (e.clientX - drag.x) * scale;
+  vt.y = drag.vy + (e.clientY - drag.y) * scale;
+  applyTransform();
+});
+window.addEventListener("mouseup", () => drag = null);
+svg.addEventListener("wheel", e => {
+  e.preventDefault();
+  const box = svg.getBoundingClientRect();
+  const scale = 1300 / box.width;
+  const mx = (e.clientX - box.left) * scale, my = (e.clientY - box.top) * scale;
+  const k2 = Math.min(3, Math.max(0.5, vt.k * (e.deltaY < 0 ? 1.12 : 0.89)));
+  vt.x = mx - (mx - vt.x) * k2 / vt.k;
+  vt.y = my - (my - vt.y) * k2 / vt.k;
+  vt.k = k2;
+  applyTransform();
+}, { passive: false });
+drawMap();
+
+/* ================= PATHWAYS ================= */
+$("#pathlist").innerHTML = PATHWAYS.map((p, i) => `
+  <details class="card pathcard" ${i === 0 ? "open" : ""}>
+    <summary>${esc(p.title)}<span class="pill for">${p.tags.map(esc).join(" · ")}</span></summary>
+    <div class="steps">
+      ${p.steps.map(s => `<div class="step"><div>${s.who ? `<span class="who">${nodeLink(s.who)}</span> — ` : ""}${s.text}</div></div>`).join("")}
+    </div>
+    ${p.warn ? `<div class="warnbox">⚠ ${esc(p.warn)}</div>` : ""}
+  </details>`).join("");
+
+/* ================= PEOPLE ================= */
+$("#peoplegrid").innerHTML = NODES.filter(n => n.kind === "person").map(n => `
+  <div class="card pcard">
+    <h3><span class="dot k-person"></span>${esc(n.name)}</h3>
+    <div class="tag">${esc(n.tag)}</div>
+    <div class="goto"><b>Go to them for:</b> ${esc(n.goto)}</div>
+    ${n.how ? `<div class="goto" style="margin-top:6px"><b>How:</b> ${esc(n.how)}</div>` : ""}
+    <div style="margin-top:10px"><a class="xref" data-node="${n.id}">See on map →</a></div>
+  </div>`).join("");
+$("#teamgrid").innerHTML = NODES.filter(n => n.kind === "team").map(n => `
+  <div class="card pcard">
+    <h3><span class="dot k-team"></span>${esc(n.name)}</h3>
+    <div class="tag">${esc(n.tag)}</div>
+    <div class="goto"><b>Go to them for:</b> ${esc(n.goto)}</div>
+    <div style="margin-top:10px"><a class="xref" data-node="${n.id}">See on map →</a></div>
+  </div>`).join("");
+
+/* ================= LINGO ================= */
+function renderLingo(q = "") {
+  const ql = q.toLowerCase();
+  const rows = LINGO.filter(([t, f, d]) => !ql || (t + " " + f + " " + d).toLowerCase().includes(ql));
+  $("#lingolist").innerHTML = rows.length
+    ? rows.map(([t, f, d]) => `<div class="lingorow"><div class="term">${esc(t)}</div><div class="full">${esc(f)}</div><div class="def">${esc(d)}</div></div>`).join("")
+    : `<p class="muted" style="padding:14px 4px">No match — try the global search, or it may need a brain dump.</p>`;
+}
+$("#lingo-filter").addEventListener("input", e => renderLingo(e.target.value));
+renderLingo();
+
+/* ================= GLOBAL SEARCH ================= */
+const INDEX = [
+  ...NODES.map(n => ({ kind: KINDS[n.kind].label, title: n.name, text: (n.tag + " " + (n.goto||"") + " " + (n.how||"")), go: () => { show("map"); selectNode(n.id); } })),
+  ...PATHWAYS.map(p => ({ kind: "Playbook", title: p.title, text: (p.steps.map(s => s.text).join(" ") + " " + (p.warn||"")).replace(/<[^>]*>/g, ""), go: () => { show("pathways"); } })),
+  ...LINGO.map(([t, f, d]) => ({ kind: "Lingo", title: t + (f !== "—" ? " — " + f : ""), text: d, go: () => { show("lingo"); $("#lingo-filter").value = t; renderLingo(t); } })),
+  ...worldOrder.map(id => ({ kind: "Role guide", title: WORLD[id].label + " — My World", text: WORLD[id].mission.replace(/<[^>]*>/g, ""), go: () => { show("world"); renderWorld(id); } })),
+];
+const sr = $("#search-results");
+$("#search").addEventListener("input", e => {
+  const q = e.target.value.trim().toLowerCase();
+  if (q.length < 2) { sr.classList.remove("open"); return; }
+  const hits = INDEX
+    .map(item => {
+      const inTitle = item.title.toLowerCase().includes(q);
+      const inText = item.text.toLowerCase().includes(q);
+      return { item, score: inTitle ? 2 : inText ? 1 : 0 };
+    })
+    .filter(h => h.score > 0)
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 12);
+  sr.innerHTML = hits.length
+    ? hits.map((h, i) => `<div class="sr-item" data-i="${i}"><div class="k">${esc(h.item.kind)}</div><div class="t">${esc(h.item.title)}</div><div class="d">${esc(h.item.text.slice(0, 110))}…</div></div>`).join("")
+    : `<div class="sr-item"><div class="d">Nothing yet — that might be a knowledge gap worth a brain dump.</div></div>`;
+  sr.classList.add("open");
+  $$(".sr-item", sr).forEach((el, i) => el.addEventListener("click", () => {
+    if (hits[i]) { hits[i].item.go(); sr.classList.remove("open"); $("#search").value = ""; }
+  }));
+});
+document.addEventListener("click", e => { if (!e.target.closest(".searchwrap")) sr.classList.remove("open"); });
+
+/* deep link */
+const hash = location.hash.slice(1);
+if (hash && $("#view-" + hash)) show(hash, false);
+</script>
+</body>
+</html>

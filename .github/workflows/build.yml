@@ -1,4 +1,4 @@
-name: Build wiki
+name: Build and publish TA Wiki
 
 on:
   push:
@@ -8,10 +8,13 @@ on:
       - 'wiki/**'
       - 'build-wiki.py'
       - 'CLAUDE.md'
+      - '.github/workflows/build.yml'
   workflow_dispatch: {}
 
 permissions:
   contents: write
+  pages: write
+  id-token: write
 
 concurrency:
   group: build-wiki
@@ -43,9 +46,26 @@ jobs:
             git push
           fi
 
-      - name: Upload wiki.html as workflow artifact
-        uses: actions/upload-artifact@v4
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Prepare Pages artifact
+        run: |
+          mkdir -p _site
+          cp wiki.html _site/index.html
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          name: wiki-html
-          path: wiki.html
-          retention-days: 30
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
